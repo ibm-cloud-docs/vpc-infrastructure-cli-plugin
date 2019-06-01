@@ -20,16 +20,16 @@ lastupdated: "2019-05-29"
 # IBM Cloud CLI for VPC Reference
 {: #vpc-reference}
 
-This document provides a reference of the command line interface (CLI) commands available for the functionality of the {{site.data.keyword.cloud}} Virtual Private Cloud. The commands are organized into sections according to functionality: first for setting the target version of infrastructure service you'll be using, then for network, compute, regions, VPN, load balancers, and storage. Similar commands to execute these functions also are available as [API commands](https://{DomainName}/apidocs/vpc-on-classic){:new_window}.
+This document provides a reference of the command line interface (CLI) commands available for the functionality of the {{site.data.keyword.cloud}} Virtual Private Cloud. The commands are organized into sections according to functionality: first for setting the target version of Virtual Private Cloud you'll be using, then for network, compute, regions, VPN, load balancers, and storage. Similar commands to execute these functions also are available as [API commands](https://{DomainName}/apidocs/vpc-on-classic){:new_window}.
 
 ## Prerequisites:
 
 Install the [IBM Cloud CLI](/docs/cli?topic=cloud-cli-ibmcloud-cli#overview){: new_window}.
 
-Update the infrastructure-service plugin.
+Install or update the vpc-infrastructure plugin.
 
   ```
-  ibmcloud plugin install infrastructure-service
+  ibmcloud plugin install vpc-infrastructure
   ```
   {: pre}
 
@@ -52,17 +52,15 @@ Update the infrastructure-service plugin.
 ## Target Commands
 {: #target}
 
-This command targets the generation of infrastructure service, GC (Generation Classic), or NG (Next Generation). The plugin will target GC by default.
+This command targets the generation of Virtual Private Cloud, 1 (on Classic), or 2 (Next Generation). 
 
 ### `ibmcloud is target`
 
-**Target CLI for RIAS GC or NG.**
-
-`ibmcloud is target [--gen GC | NG]`
+`ibmcloud is target [--gen 2 | 1]`
 
 **Options**
 
-- `--gen`: Generation of infrastructure service. The default is GC.
+- `--gen`: Generation of Virtual Private Cloud. Default is 2.
 
 
 ## Network Commands
@@ -343,7 +341,7 @@ This section provides a reference to the command line interface (CLI) commands a
 - `DIRECTION`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `SOURCE`: Source IP address or CIDR block.
 - `DESTINATION`: Destination IP address or CIDR block.
-- `PROCOTOL`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
+- `PROTOCOL`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
 - `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to `icmp`. If unspecified, all types are allowed.
 - `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to `icmp`. If unspecified, all codes are allowed.
 - `--destination-port-min`: Minimum destination port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to `tcp` or `udp` (default: 1).
@@ -1082,7 +1080,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Create a server instance.**
 
-`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID PORT_SPEED (--image-id IMAGE_ID) [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] (--key-ids IDS) [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID (--image-id IMAGE_ID) [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] (--key-ids IDS) [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 
 **Options**
@@ -1092,7 +1090,6 @@ This section contains a reference for the CLI commands related to Compute functi
 - `ZONE_NAME`: Name of the zone.
 - `PROFILE_NAME`: Name of the profile.
 - `SUBNET_ID`: The network interface associated subnet ID.
-- `PORT_SPEED`: The network interface port speed in Mbps.
 - `--boot-volume`: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in json or json file.
 - `--volume-attach`: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in json or json file.
 - `--image-id`: ID of the image.
@@ -2049,7 +2046,7 @@ This section gives details about the CLI commands available for working with loa
 **Options**
 
 - `LOAD_BALANCER_ID`: ID of the load balancer.
-- `LISTENER_ID`: ID of the listenser.
+- `LISTENER_ID`: ID of the listener.
 - `--force, -f`: Delete without confirmation.
 
 ---
