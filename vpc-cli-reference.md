@@ -706,7 +706,7 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a rule of a security group.**
 
-`ibmcloud is security-group-rule-update GROUP_ID RULE_ID [--direction DIRECTION] [--protocol PROTOCOL] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--port-max PORT_MAX] [--port-min PORT_MIN] [--json]`
+`ibmcloud is security-group-rule-update GROUP_ID RULE_ID [--direction DIRECTION] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--port-max PORT_MAX] [--port-min PORT_MIN] [--json]`
 
 **Options**
 
@@ -714,7 +714,6 @@ This section provides a reference to the command line interface (CLI) commands a
 - `GROUP_ID`: ID of the security group.
 - `RULE_ID`: ID of the rule.
 - `--direction`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
-- `--protocol`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
 - `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK or SECURITY_GROUP_ID.
 - `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to `icmp`.
 - `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to `icmp`.
@@ -774,15 +773,14 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a VPC.**
 
-`ibmcloud is vpc-create VPC_NAME [--classic-access] [--default-network-acl-id ACL_ID] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is vpc-create VPC_NAME [--classic-access] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 **Options**
 
 - `VPC_NAME`: Name of the VPC
-- `--default-network-acl-id`: ID of the default network ACL.
-- `--classic-access`: This flag indicates whether the VPC should be connected to Classic Infrastructure. The default value is false.
-- `--resource-group-id`: ID of the resource group. This option is exclusive with --resource-group-name.
-- `--resource-group-name`: Name of the resource group. This option is exclusive with --resource-group-id.
+- `--classic-access`: This flag indicates whether the VPC should be connected to Classic Infrastructure. The default  is false.
+- `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
+- `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
 
 ---
@@ -1007,12 +1005,14 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Import an RSA public key.**
 
-`ibmcloud is key-create KEY_NAME (KEY | @KEY_FILE) [--json]`
+`ibmcloud is key-create KEY_NAME (KEY | @KEY_FILE) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 **Options**
 
 - `KEY_NAME`: Name of the key.
 - `KEY`: key|@key-file. The public SSH key to be imported into the system.
+- `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
+- `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
 
 ---
@@ -1204,50 +1204,6 @@ This section contains a reference for the CLI commands related to Compute functi
 - `INSTANCE_ID`: ID of the server instance.
 - `--json`: Format output in JSON.
 - `--force, -f`: Reset without confirmation.
-
----
-
-### `ibmcloud is instance-actions`
-{: #instance-actions}
-
-**List all pending, running, and recent actions on a server instance.**
-
-`ibmcloud is instance-actions INSTANCE_ID [--json]`
-
-**Options**
-
-- `INSTANCE_ID`: ID of the server instance.
-- `--json`: Format output in JSON.
-
----
-
-### `ibmcloud is instance-action`
-{: #instance-action}
-
-**View details of an action on a server instance.**
-
-`ibmcloud is instance-action INSTANCE_ID ACTION_ID [--json]`
-
-**Options**
-
-- `INSTANCE_ID`: ID of the server instance.
-- `ACTION_ID`: ID of the action.
-- `--json`: Format output in JSON.
-
----
-
-### `ibmcloud is instance-action-cancel`
-{: #instance-action-cancel}
-
-**Cancel a pending server instance action.**
-
-`ibmcloud is instance-action-cancel INSTANCE_ID ACTION_ID [-f, --force]`
-
-**Options**
-
-- `INSTANCE_ID`: ID of the server instance.
-- `ACTION_ID`: Action ID.
-- `--force, -f`: Cancel without confirmation.
 
 ---
 
