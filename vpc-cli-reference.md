@@ -24,7 +24,7 @@ This document provides a reference of the command line interface (CLI) commands 
 
 ## Prerequisites:
 
-Install the [IBM Cloud CLI](/docs/cli?topic=cloud-cli-ibmcloud-cli#overview){: new_window}.
+Install the [IBM Cloud CLI](/docs/cli?topic=cloud-cli-install-ibmcloud-cli){: new_window}.
 
 Install or update the vpc-infrastructure plugin.
 
