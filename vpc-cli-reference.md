@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017, 2018, 2019
-lastupdated: "2019-05-29"
+lastupdated: "2019-07-08"
 
 ---
 
@@ -330,18 +330,18 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Add a rule to a network ACL.**
 
-`ibmcloud is network-acl-rule-add RULE_NAME ACL_ID ACTION DIRECTION PROTOCOL SOURCE DESTINATION  [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
+`ibmcloud is network-acl-rule-add ACL_ID ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--name NAME] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
 
 
 **Options**
 
-- `RULE_NAME`: Name of the rule.
 - `ACL_ID`: ID of the network ACL.
 - `ACTION`: Enumeration type: `allow` or `deny`.
 - `DIRECTION`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `SOURCE`: Source IP address or CIDR block.
 - `DESTINATION`: Destination IP address or CIDR block.
 - `PROTOCOL`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
+- `--name`: The name of the ACL rule.
 - `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to `icmp`. If unspecified, all types are allowed.
 - `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to `icmp`. If unspecified, all codes are allowed.
 - `--destination-port-min`: Minimum destination port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to `tcp` or `udp` (default: 1).
@@ -429,17 +429,17 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a subnet.**
 
-`ibmcloud is subnet-create SUBNET_NAME VPC_ID ZONE (--ipv4-cidr-block CIDR_BLOCK | --ipv4-address-count ADDR_COUNT) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY] [--json]`
+`ibmcloud is subnet-create SUBNET_NAME VPC_ID (--ipv4-cidr-block CIDR_BLOCK | --ipv4-address-count ADDR_COUNT --zone ZONE_NAME) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY] [--json]`
 
 **Options**
 
 - `SUBNET_NAME`: Name of the subnet.
 - `VPC_ID`: ID of the VPC.
-- `ZONE`: Name of the zone.
 - `--network-acl-id`: The ID of the network ACL.
 - `--public-gateway-id`: The ID of the public gateway.
-- `--ipv4-cidr-block`: The IPv4 range of the subnet, this is exclusive with `--ipv4-address-count`.
-- `--ipv4-address-count`: The total number of IPv4 addresses required. This option is exclusive with `--ipv4-cidr-block`.
+- `--ipv4-cidr-block`: the IPv4 range of the subnet, this is exclusive with --ipv4-address-count.
+- `--zone`: Name of the zone.
+- `--ipv4-address-count`: The total number of IPv4 addresses required, must be a power of 2 and minimum value is 8. This option is mutually exclusive with --ipv4-cidr-block.
 - `--json`: Format output in JSON.
 
 ---
@@ -1070,7 +1070,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server intance.
+- `INSTANCE_ID`: ID of the server instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1080,7 +1080,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Create a server instance.**
 
-`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID (--image-id IMAGE_ID) [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] (--key-ids IDS) [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] (--key-ids IDS) [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 
 **Options**
@@ -1114,8 +1114,8 @@ This section contains a reference for the CLI commands related to Compute functi
 **Options**
 
 - `INSTANCE_ID`: ID of the server instance.
-- `--name`: New name of the server instance.
 - `--profile`: Name of the profile.
+- `--name`: New name of the server instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1167,13 +1167,12 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Stop a server instance.**
 
-`ibmcloud is instance-stop INSTANCE_ID [-f, --force] [--json]`
+`ibmcloud is instance-stop INSTANCE_ID [--json]`
 
 **Options**
 
 - `INSTANCE_ID`: ID of the server instance.
 - `--json`: Format output in JSON.
-- `--force, -f`: Stop without confirmation.
 
 ---
 
@@ -1381,7 +1380,7 @@ This section gives details about the CLI commands available for working with reg
 
 ## VPC Regions Commands
 
-This section contains commands related to the functionality of geograpical regions and zones.
+This section contains commands related to the functionality of geographical regions and zones.
 
 ### `ibmcloud is regions`
 {: #regions-cli}
@@ -2024,6 +2023,187 @@ This section gives details about the CLI commands available for working with loa
 - `--protocol`: The listener protocol. Enumeration type: `http`, `https`, `tcp`.
 - `--port`: The listener port.
 - `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policies`
+{: #load-balancer-listener-policies}
+
+**List all load balancer policies.**
+
+`ibmcloud is load-balancer-listener-policies LOAD_BALANCER_ID LISTENER_ID [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy`
+{: #load-balancer-listener-policy}
+
+**View details of load balancer listener policy.**
+
+`ibmcloud is load-balancer-listener-policy LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-create`
+{: #load-balancer-listener-policy-create}
+
+**Create a load balancer listener policy.**
+
+`ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY --action ACTION [--name NAME] [--target-id TARGET_ID] [--target-http-status-code TARGET_HTTP_STATUS_CODE] [--target-url TARGET_URL] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `--name`: The new name of the policy.
+- `--target-id`: The unique identifier for this load balancer pool, specified with 'forward' action.
+- `--target-http-status-code`: The http status code in the redirect response, one of [301, 302, 303, 307, 308], specified with 'redirect' action.
+- `--target-url`: The redirect target URL, specified with 'redirect' action.
+- `--priority`: Priority of the policy. Lower value indicates higher priority, e.g. 5, range: [1-10].
+- `--action`: The policy action, one of [forward, redirect, reject].
+- `--rules`: LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE, listener policy rules in json or json file.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-delete`
+{: #load-balancer-listener-policy-delete}
+
+**Delete a policy from a load balancer listener.**
+
+`ibmcloud is load-balancer-listener-policy-delete LOAD_BALANCER_ID LISTENER_ID POLICY_ID [-f, --force]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `--force, -f`: Force the operation without confirmation.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-update`
+{: #load-balancer-listener-policy-update}
+
+**Update a policy of a load balancer listener.**
+
+`ibmcloud is load-balancer-listener-policy-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--name NAME] [--priority PRIORITY] [--target-id TARGET_ID] [--target-http-status-code TARGET_HTTP_STATUS_CODE] [--target-url TARGET_URL] [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `--name`: The user-defined name for this policy. Names must be unique within the load balancer listener the policy resides in.
+- `--priority`: Priority of the policy. Lower value indicates higher priority.
+- `--target-id`: The unique identifier for this load balancer pool, specified with 'forward' action.
+- `--target-http-status-code`: The http status code in the redirect response, one of [301, 302, 303, 307, 308], specified with 'redirect' action.
+- `--target-url`: The redirect target URL, specified with 'redirect' action.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-rules`
+{: #load-balancer-listener-policy-rules}
+
+**List all load balancer policy rules.**
+
+`ibmcloud is load-balancer-listener-policy-rules LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-rule`
+{: #load-balancer-listener-policy-rule}
+
+**List single load balancer policy rule.**
+
+`ibmcloud is load-balancer-listener-policy-rule LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `RULE_ID`: ID of the rule.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-rule-create`
+{: #load-balancer-listener-policy-rule-create}
+
+**Create a load balancer listener policy rule.**
+
+`ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_ID POLICY_ID --condition CONDITION --type TYPE --value VALUE [--field FIELD] [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `--condition`: The condition of the rule, enumeration type: contains, equals, matches_regex.
+- `--type`: The type of the rule, enumeration type: header, hostname, path.
+- `--`: value      Value to be matched for rule condition.
+- `--field`: HTTP header field. This is only applicable to "header" rule type.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-rule-update`
+{: #load-balancer-listener-policy-rule-update}
+
+**Update a rule of a load balancer listener policy.**
+
+`ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [--condition CONDITION] [--type TYPE] [--value VALUE] [--field FIELD] [--json]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `RULE_ID`: ID of the rule.
+- `--condition`: The condition of the rule, enumeration type: contains, equals, matches_regex.
+- `--type`: The type of the rule, enumeration type: header, hostname, path.
+- `--`: value      Value to be matched for rule condition.
+- `--field`: HTTP header field. This is only applicable to "header" rule type.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is load-balancer-listener-policy-rule-delete`
+{: #load-balancer-listener-policy-rule-delete}
+
+**Delete a policy from a load balancer listener.**
+
+`ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [-f, --force]`
+
+**options**
+
+- `LOAD_BALANCER_ID`: ID of the load balancer.
+- `LISTENER_ID`: ID of the listener.
+- `POLICY_ID`: ID of the policy.
+- `RULE_ID`: ID of the rule.
+- `--force, -f`: Force the operation without confirmation.
 
 ---
 
