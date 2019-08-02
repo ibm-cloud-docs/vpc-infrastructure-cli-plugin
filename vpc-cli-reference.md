@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017, 2018, 2019
-lastupdated: "2019-07-08"
+lastupdated: "2019-07-31"
 
 ---
 
@@ -16,15 +16,16 @@ lastupdated: "2019-07-08"
 {:important: .important}
 {:download: .download}
 {:DomainName: data-hd-keyref="DomainName"}
+{:external: target="_blank" .external}
 
 # IBM Cloud CLI for VPC Reference
 {: #vpc-reference}
 
-This document provides a reference of the command line interface (CLI) commands available for the functionality of the {{site.data.keyword.cloud}} Virtual Private Cloud. The commands are organized into sections according to functionality: first for setting the target version of Virtual Private Cloud you'll be using, then for network, compute, regions, VPN, load balancers, and storage. Similar commands to execute these functions also are available as [API commands](https://{DomainName}/apidocs/vpc-on-classic){:new_window}.
+This document provides a reference of the command line interface (CLI) commands available for the functionality of the {{site.data.keyword.cloud}} Virtual Private Cloud. The commands are organized into sections according to functionality: first for setting the target version of Virtual Private Cloud you'll be using, then for network, compute, regions, VPN, load balancers, and storage. Similar commands to execute these functions also are available as [API commands](https://{DomainName}/apidocs/vpc-on-classic){: external}.
 
 ## Prerequisites:
 
-Install the [IBM Cloud CLI](/docs/cli?topic=cloud-cli-ibmcloud-cli#overview){: new_window}.
+Install the [IBM Cloud CLI](/docs/cli?topic=cloud-cli-install-ibmcloud-cli).
 
 Install or update the vpc-infrastructure plugin.
 
@@ -52,7 +53,7 @@ Install or update the vpc-infrastructure plugin.
 ## Target Commands
 {: #target}
 
-This command targets the generation of Virtual Private Cloud, 1 (on Classic), or 2 (Next Generation). 
+This command targets the generation of Virtual Private Cloud, 1 (on Classic), or 2 (Next Generation).
 
 ### `ibmcloud is target`
 
@@ -179,17 +180,15 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a public gateway.**
 
-`ibmcloud is public-gateway-create GATEWAY_NAME VPC_ID ZONE  [--floating-ip-id IP_ID | --floating-ip-address IP_ADDRESS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is public-gateway-create GATEWAY_NAME VPC_ID ZONE_NAME [--floating-ip-id IP_ID | --floating-ip-address IP_ADDRESS] [--json]`
 
 **Options**
 
 - `GATEWAY_NAME`: Name of the public gateway.
 - `VPC_ID`: ID of the VPC.
-- `ZONE`: Name of the zone.
+- `ZONE_NAME`: Name of the zone.
 - `--floating-ip-id`: ID of the floating IP bound to the public gateway.
 - `--floating-ip-address`: IP address of the floating IP bound to the public gateway.
-- `--resource-group-id`: ID of the resource group. This option is exclusive with --resource-group-name.
-- `--resource-group-name`: Name of the resource group. This option is exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
 
 ---
@@ -429,7 +428,7 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a subnet.**
 
-`ibmcloud is subnet-create SUBNET_NAME VPC_ID (--ipv4-cidr-block CIDR_BLOCK | --ipv4-address-count ADDR_COUNT --zone ZONE_NAME) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY] [--json]`
+`ibmcloud is subnet-create SUBNET_NAME VPC_ID (--ipv4-cidr-block CIDR_BLOCK | (--ipv4-address-count ADDR_COUNT --zone ZONE_NAME)) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY] [--json]`
 
 **Options**
 
@@ -480,12 +479,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Detach the public gateway from a subnet.**
 
-`ibmcloud is subnet-public-gateway-detach SUBNET_ID [-f, --force]`
+`ibmcloud is subnet-public-gateway-detach SUBNET_ID`
 
 **Options**
 
 - `SUBNET_ID`: ID of the subnet.
-- `--force, -f`: Detach without confirmation.
 
 ---
 
@@ -501,19 +499,6 @@ This section provides a reference to the command line interface (CLI) commands a
 - `--json`: Format output in JSON.
 
 ---
-
-### `ibmcloud is subnet-network-acl-detach`
-{: #subnet-network-acl-detach}
-
-**Detach the network ACL from a subnet.**
-
-`ibmcloud is subnet-network-acl-detach SUBNET_ID [-f, --force]`
-
-**Options**
-
-- `SUBNET_ID`: ID of the subnet.
-- `--force, -f`: Detach without confirmation.
-
 
 
 ## Security Groups
@@ -909,7 +894,7 @@ This section provides a reference to the command line interface (CLI) commands a
 ## Compute CLI commands
 {: #compute}
 
-This section contains a reference for the CLI commands related to Compute functionality in the IBM Cloud VPC, including profiles, images, keys, and instances. Similar commands to execute these functions also are available as [API commands](/docs/vpc-on-classic?topic=vpc-on-classic-api-reference-for-vpc-on-classic).
+This section contains a reference for the CLI commands related to Compute functionality in the IBM Cloud VPC, including profiles, images, keys, and instances.
 
 
 ## Profiles
@@ -943,6 +928,33 @@ This section contains a reference for the CLI commands related to Compute functi
 
 ## Images
 
+### `ibmcloud is operating-systems`
+{: #operating-systems}
+
+**List all operating systems.**
+
+`ibmcloud is operating-systems [--json]`
+
+**Options**
+
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is operating-system`
+{: #operating-system}
+
+**View details of an operaging system.**
+
+`ibmcloud is operating-system OPERATING_SYSTEM_NAME [--json]`
+
+**Options**
+
+- `OPERATING_SYSTEM_NAME`: Name of the operating system
+- `--json`: Format output in JSON.
+
+---
+
 ### `ibmcloud is images`
 {: #images-cli}
 
@@ -969,6 +981,52 @@ This section contains a reference for the CLI commands related to Compute functi
 - `IMAGE_ID`: ID of the image.
 - `--json`: Format output in JSON.
 
+---
+
+### `ibmcloud is image-create`
+{: #image-create}
+
+**Create an image.**
+
+`ibmcloud is image-create IMAGE_NAME --file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+
+**Options**
+
+- `IMAGE_NAME`: Name of the new image.
+- `--file`: The Cloud Object Store (COS) location of the image file, for example: 'cos://us-south/custom-image-vpc-bucket/customImage-0.vhd'.
+- `--os-name`: The name of the operating system for this image.
+- `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
+- `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is image-update`
+{: #image-update}
+
+**Update an image.**
+
+`ibmcloud is image-delete IMAGE_ID [--name NEW_NAME] [--json]`
+
+**Options**
+
+- `IMAGE_ID`: ID of the image.
+- `--name`: New name of the image.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is image-delete`
+{: #image-delete}
+
+**Delete an image.**
+
+`ibmcloud is image-delete IMAGE_ID [-f, --force]`
+
+**Options**
+
+- `IMAGE_ID`: ID of the image.
+- `--force, -f`: Force the operation without confirmation.
 
 
 ## Keys
@@ -1080,7 +1138,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Create a server instance.**
 
-`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] (--key-ids IDS) [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 
 **Options**
@@ -2494,4 +2552,3 @@ This section gives details about the CLI commands available for working with blo
 - `VOLUME_ID`: ID of the volume.
 - `--name`: New name of the volume.
 - `--json`: Format output in JSON.
-
