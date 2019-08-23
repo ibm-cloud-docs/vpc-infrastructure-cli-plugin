@@ -103,15 +103,13 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Reserve a floating IP.**
 
-`ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE | --nic-id NIC_ID) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE | --nic-id NIC_ID) [--json]`
 
 **Options**
 
 - `FLOATING_IP_NAME`: Name of the floating IP.
 - `--zone`: Name of the target zone. This option is exclusive with `--nic-id`.
 - `--nic-id`: ID of the target network interface. This option is exclusive with `--zone`.
-- `--resource-group-id`: ID of the resource group. This option is exclusive with --resource-group-name.
-- `--resource-group-name`: Name of the resource group. This option is exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
 
 ---
@@ -256,11 +254,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a network ACL.**
 
-`ibmcloud is network-acl-create ACL_NAME [--source-acl-id SOURCE_ACL_ID] [--json]`
+`ibmcloud is network-acl-create ACL_NAME [--rules (RULES_JSON|@RULES_JSON_FILE) | --source-acl-id SOURCE_ACL_ID] [--json]`
 
 **Options**
 
 - `ACL_NAME`: Name of the network acl.
+- `-rules`: RULES_JSON|@RULES_JSON_FILE, rules for the ACL in json or json file.
 - `--source-acl-id`: ID of the network ACL contains rules to be copied.
 - `--json`: Format output in JSON.
 
@@ -889,6 +888,76 @@ This section provides a reference to the command line interface (CLI) commands a
 - `VPC_ID`: ID of the VPC.
 - `--json`: Format output in JSON.
 
+---
+
+### `ibmcloud is vpc-routes`
+{: #vpc-routes}
+
+**List all routes.**
+
+`ibmcloud is vpc-routes VPC_ID [--json]`
+
+**Options**
+
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route`
+{: #vpc-route}
+
+**View details of a VPC route.**
+
+`ibmcloud is vpc-route VPC_ID ROUTE_ID [--json]`
+
+**Options**
+
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route-create`
+{: #vpc-route-create}
+
+**Create a route.**
+
+`ibmcloud is vpc-route-create ROUTE_NAME VPC_ID --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--json]`
+
+**Options**
+
+- `--zone`: Name of the zone.
+- `--destination`: The destination CIDR of the route.
+- `--next-hop-ip`: The IP address of the next hop to which to route packets.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route-update`
+{: #vpc-route-update}
+
+**Update a route.**
+
+`ibmcloud is vpc-route-update VPC_ID ROUTE_ID --name NEW_NAME [--json]`
+
+**Options**
+
+- `--name`: New name of the route.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route-delete`
+{: #vpc-route-delete}
+
+**Delete a vpc route.**
+
+`ibmcloud is vpc-route-delete VPC_ID ROUTE_ID [--force]`
+
+**Options**
+
+- `--force, -f`: Force the operation without confirmation.
+
+---
 
 
 ## Compute CLI commands
@@ -1358,7 +1427,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 ### `ibmcloud is instance-volume-attachment`
 
-**View details of a volume attachment of a server instance.**
+**View details of a volume attachment.**
 
 `ibmcloud is instance-volume-attachment INSTANCE_ID VOLUME_ATTACHMENT_ID [--json]`
 
@@ -1372,7 +1441,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 ### `ibmcloud is instance-volume-attachment-add`
 
-**Create a volume attachment for a server instance in the current resource group.
+**Create a volume attachment, connecting a volume to an instance.
 
 `ibmcloud is instance-volume-attachment-add NAME INSTANCE_ID VOLUME_ID [--auto-delete true | false] [--json]`
 
@@ -1388,7 +1457,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 ### `ibmcloud is instance-volume-attachment-detach`
 
-**Delete a volume attachment from a server instance.**
+**Delete a volume attachment, detaching a volume from an instance.**
 
 `ibmcloud is instance-volume-attachment-detach INSTANCE_ID VOLUME_ATTACHMENT_ID [-f, --force]`
 
@@ -1418,7 +1487,7 @@ This section contains a reference for the CLI commands related to Compute functi
 
 ### `ibmcloud is instance-volume-attachments`
 
-**List all volume attachments of a server instance.**
+**List all volume attachments to an instance.**
 
 `ibmcloud is instance-volume-attachments INSTANCE_ID [--json]`
 
@@ -1543,7 +1612,7 @@ This section gives details about the CLI commands available for working with VPN
 - `DH_GROUP`: The Diffie-Hellman group. Enumeration type: `2`, `5`, `14`.
 - `ENCRYPTION_ALGORITHM`: The encryption algorithm. Enumeration type: `3des`, `aes128`, `aes256`.
 - `IKE_VERSION`: The IKE protocol version. Enumeration type: `1`, `2`.
-- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 300 (default: 28800).
+- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 1800 (default: 28800).
 - `--resource-group-id`: ID of the resource group. This option is exclusive with --resource-group-name.
 - `--resource-group-name`: Name of the resource group. This option is exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
@@ -1578,7 +1647,7 @@ This section gives details about the CLI commands available for working with VPN
 - `--dh-group`: The Diffie-Hellman group. Enumeration type: `2`, `5`, `14`.
 - `--encryption-algorithm`: The encryption algorithm. Enumeration type: `3des`, `aes128`, `aes256`.
 - `--ike-version`: The IKE protocol version. Enumeration type: `1`, `2`.
-- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 300.
+- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 1800.
 - `--json`: Format output in JSON.
 
 ---
@@ -1635,7 +1704,7 @@ This section gives details about the CLI commands available for working with VPN
 - `AUTHENTICATION_ALGORITHM`: The authentication algorithm. Enumeration type: `md5`, `sha1`, `sha256`.
 - `ENCRYPTION_ALGORITHM`: The encryption algorithm. Enumeration type: `3des`, `aes128`, `aes256`.
 - `PFS`: Perfect Forward Secrecy. Enumeration type: disabled, `group_2`, `group_5`, `group_14`.
-- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 300 (default: 3600).
+- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 1800 (default: 3600).
 - `--resource-group-id`: ID of the resource group. This option is exclusive with --resource-group-name.
 - `--resource-group-name`: Name of the resource group. This option is exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
@@ -1669,7 +1738,7 @@ This section gives details about the CLI commands available for working with VPN
 - `--authentication-algorithm`: The authentication algorithm. Enumeration type: `md5`, `sha1`, `sha256`.
 - `--pfs`: Perfect Forward Secrecy. Enumeration type: `disabled`, `group_2`, `group_5`, `group_14`.
 - `--encryption-algorithm`: The encryption algorithm. Enumeration type: `3des`, `aes128`, `aes256`.
-- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 300.
+- `--key-lifetime`: The key lifetime in seconds. Maximum: 86400, Minimum: 1800.
 - `--json`: Format output in JSON.
 
 ---
@@ -2313,7 +2382,7 @@ This section gives details about the CLI commands available for working with loa
 - `HEALTH_TIMEOUT`: The health check timeout in seconds.
 - `HEALTH_TYPE`: The pool protocol. Enumeration type: `http`, `tcp`.
 - `--health-monitor-url`: The health check url. This option is applicable only to `http` type of HEALTH_TYPE.
-- `--session-persistence-type`: The session persistence type, Enumeration type: `source_ip`, `http_cookie`, app_cookie.
+- `--session-persistence-type`: The session persistence type, Enumeration type: source_ip
 - `--health-monitor-port`: The health check port number.
 - `--json`: Format output in JSON.
 
@@ -2345,13 +2414,13 @@ This section gives details about the CLI commands available for working with loa
 - `LOAD_BALANCER_ID`: ID of the load balancer.
 - `POOL_ID`: ID of the pool.
 - `--algorithm`: The load balancing algorithm. Enumeration type: `round_robin`, `weighted_round_robin`, `least_connections`.
-- `--health-delay`: The health check interval in seconds. Interval must be greater than timeout value.
-- `--health-max-retries`: The health check max retries.
+- `--health-delay`: The health check interval in seconds. Interval must be greater than timeout value. Minimum: 2, maximum: 60.
+- `--health-max-retries`: The health check max retries. Minimum: 2, maximum: 60.
 - `--health-monitor-url`: The health check url. This option is applicable only to `http` type of `--health-type`.
-- `--health-timeout`: The health check timeout in seconds.
+- `--health-timeout`: The health check timeout in seconds. Minimum: 1, maximum: 59.
 - `--health-type`: The pool protocol. Enumeration type: `http`, `tcp`.
 - `--health-monitor-port`: The health check port number.
-- `--session-persistence-type`: The session persistence type, Enumeration type: `source_ip`, `http_cookie`, `app_cookie`.
+- `--session-persistence-type`: The session persistence type, Enumeration type: `source_ip`.
 - `--session-persistence-cookie-name`: Session persistence cookie name. This option is applicable only to `--session-persistence-type`.
 - `--protocol`: The pool protocol. Enumeration type: `http`, `tcp`.
 - `--name`: The new name of the pool.
