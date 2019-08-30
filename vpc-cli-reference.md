@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017, 2018, 2019
-lastupdated: "2019-07-31"
+lastupdated: "2019-08-27"
 
 ---
 
@@ -669,18 +669,18 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Add a rule to a security group.**
 
-`ibmcloud is security-group-rule-add GROUP_ID DIRECTION PROTOCOL [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--port-max PORT_MAX] [--port-min PORT_MIN] [--json]`
+`ibmcloud is security-group-rule-add GROUP_ID DIRECTION PROTOCOL [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-max PORT_MAX --port-min PORT_MIN] [--json]`
 
 **Options**
 
 - `GROUP_ID`: ID of the security group.
 - `DIRECTION`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `PROTOCOL`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
-- `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK or SECURITY_GROUP_ID.
+- `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP_ID. If unspecified, traffic will be allowed from any source (or to any source, for outbound rules).
 - `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to `icmp`. If unspecified, all types are allowed.
 - `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to `icmp`. If unspecified, all codes are allowed.
-- `--port-min`: Minimum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to `tcp` or `udp` (default: 1).
-- `--port-max`: Maximum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to `tcp` or `udp` (default: 65535).
+- `--port-min`: Minimum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp. If unspecified, all ports are allowed (default: 1).
+- `--port-max`: Maximum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp. If unspecified, all ports are allowed (default: 65535).
 - `--json`: Format output in JSON.
 
 ---
@@ -690,7 +690,7 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a rule of a security group.**
 
-`ibmcloud is security-group-rule-update GROUP_ID RULE_ID [--direction DIRECTION] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--port-max PORT_MAX] [--port-min PORT_MIN] [--json]`
+`ibmcloud is security-group-rule-update GROUP_ID RULE_ID [--direction DIRECTION] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-max PORT_MAX --port-min PORT_MIN] [--json]`
 
 **Options**
 
@@ -698,11 +698,11 @@ This section provides a reference to the command line interface (CLI) commands a
 - `GROUP_ID`: ID of the security group.
 - `RULE_ID`: ID of the rule.
 - `--direction`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
-- `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK or SECURITY_GROUP_ID.
+- `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP_ID. If unspecified, traffic will be allowed from any source (or to any source, for outbound rules).
 - `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to `icmp`.
 - `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to `icmp`.
-- `--port-min`: Minimum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to `tcp` or `udp`.
-- `--port-max`: Maximum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to `tcp` or `udp`.
+- `--port-min`: Minimum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp. If unspecified, all ports are allowed (default: 1).
+- `--port-max`: Maximum port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp. If unspecified, all ports are allowed (default: 65535).
 - `--json`: Format output in JSON.
 
 ---
@@ -2103,7 +2103,7 @@ This section gives details about the CLI commands available for working with loa
 
 **Create a load balancer listener.**
 
-`ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--certificate-instance CERTIFICATE_INSTANCE_CRN] [--connection-limit LIMIT] [--default-pool DEFAULT_POOL_ID] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--json]`
+`ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--connection-limit LIMIT] [--default-pool DEFAULT_POOL_ID] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--json]`
 
 **Options**
 - `LOAD_BALANCER_NAME`: Name of the load balancer.
