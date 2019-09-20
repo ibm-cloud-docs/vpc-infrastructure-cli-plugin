@@ -89,11 +89,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a floating IP.**
 
-`ibmcloud is floating-ip FLOATING_IP_ID [--json]`
+`ibmcloud is floating-ip FLOATING_IP [--json]`
 
 **Options**
 
-- `FLOATING_IP_ID`: ID of the floating IP.
+- `FLOATING_IP`: ID of the floating IP.
 - `--json`: Format output in JSON.
 
 ---
@@ -103,7 +103,7 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Reserve a floating IP.**
 
-`ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE | --nic-id NIC_ID) [--json]`
+`ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic-id NIC_ID) [--json]`
 
 **Options**
 
@@ -119,11 +119,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Release a floating IP.**
 
-`ibmcloud is floating-ip-release FLOATING_IP_ID [-f, --force]`
+`ibmcloud is floating-ip-release FLOATING_IP [-f, --force]`
 
 **Options**
 
-- `FLOATING_IP_ID`: ID of the floating IP.
+- `FLOATING_IP`: ID of the floating IP.
 - `--force, -f`: Release without confirmation.
 
 ---
@@ -133,11 +133,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a floating IP.**
 
-`ibmcloud is floating-ip-update FLOATING_IP_ID [--name NEW_NAME] [--nic-id NIC_ID] [--json]`
+`ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic-id NIC_ID] [--json]`
+
 
 **Options**
 
-- `FLOATING_IP_ID`: ID of the floating IP.
+- `FLOATING_IP`: ID of the floating IP.
 - `--name`: New name of the floating IP.
 - `--nic-id`: ID of the network interface to associate.
 - `--json`: Format output in JSON.
@@ -164,11 +165,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a public gateway.**
 
-`ibmcloud is public-gateway GATEWAY_ID [--json]`
+`ibmcloud is public-gateway GATEWAY [--json]`
 
 **Options**
 
-- `GATEWAY_ID`: ID of the public gateway.
+- `GATEWAY`: ID of the public gateway.
 - `--json`: Format output in JSON.
 
 ---
@@ -183,7 +184,7 @@ This section provides a reference to the command line interface (CLI) commands a
 **Options**
 
 - `GATEWAY_NAME`: Name of the public gateway.
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `ZONE_NAME`: Name of the zone.
 - `--floating-ip-id`: ID of the floating IP bound to the public gateway.
 - `--floating-ip-address`: IP address of the floating IP bound to the public gateway.
@@ -196,11 +197,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a public gateway.**
 
-`ibmcloud is public-gateway-update GATEWAY_ID --name NEW_NAME [--json]`
+`ibmcloud is public-gateway-update GATEWAY --name NEW_NAME [--json]`
 
 **Options**
 
-- `GATEWAY_ID`: ID of the public gateway.
+- `GATEWAY`: ID of the public gateway.
 - `--name`: New name of the public gateway.
 - `--json`: Format output in JSON.
 
@@ -211,11 +212,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a public gateway.**
 
-`ibmcloud is public-gateway-delete GATEWAY_ID [-f, --force]`
+`ibmcloud is public-gateway-delete GATEWAY [-f, --force]`
 
 **Options**
 
-- `GATEWAY_ID`: ID of the public gateway.
+- `GATEWAY`: ID of the public gateway.
 - `--force, -f`: Delete without confirmation.
 
 
@@ -240,11 +241,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a network ACL.**
 
-`ibmcloud is network-acl ACL_ID [--json]`
+`ibmcloud is network-acl ACL [--json]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
+- `ACL`: ID of the network acl.
 - `--json`: Format output in JSON.
 
 ---
@@ -255,6 +256,7 @@ This section provides a reference to the command line interface (CLI) commands a
 **Create a network ACL.**
 
 `ibmcloud is network-acl-create ACL_NAME [--rules (RULES_JSON|@RULES_JSON_FILE) | --source-acl-id SOURCE_ACL_ID] [--json]`
+
 
 **Options**
 
@@ -270,11 +272,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a network ACL.**
 
-`ibmcloud is network-acl-update ACL_ID --name NEW_NAME [--json]`
+`ibmcloud is network-acl-update ACL --name NEW_NAME [--json]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
+- `ACL`: ID of the network acl.
 - `--name`: New name of the network ACL.
 - `--json`: Format output in JSON.
 
@@ -285,11 +287,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a network ACL.**
 
-`ibmcloud is network-acl-delete ACL_ID [-f, --force]`
+`ibmcloud is network-acl-delete ACL [-f, --force]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL
+- `ACL`: ID of the network acl.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -299,11 +301,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **List all rules of a network ACL.**
 
-`ibmcloud is network-acl-rules ACL_ID [--json]`
+`ibmcloud is network-acl-rules ACL [--json]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
+- `ACL`: ID of the network acl.
 - `--json`: Format output in JSON.
 
 ---
@@ -313,12 +315,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a network ACL rule.**
 
-`ibmcloud is network-acl-rule ACL_ID RULE_ID [--json]`
+`ibmcloud is network-acl-rule ACL RULE [--json]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
-- `RULE_ID`: ID of the rule.
+- `ACL`: ID of the network acl.
+- `RULE`: ID of the rule.
 - `--json`: Format output in JSON.
 
 ---
@@ -328,12 +330,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Add a rule to a network ACL.**
 
-`ibmcloud is network-acl-rule-add ACL_ID ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--name NAME] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
+`ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--name NAME] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
 
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
+- `ACL`: ID of the network acl.
 - `ACTION`: Enumeration type: `allow` or `deny`.
 - `DIRECTION`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `SOURCE`: Source IP address or CIDR block.
@@ -355,12 +357,13 @@ This section provides a reference to the command line interface (CLI) commands a
 {: #network-acl-rule-update}
 
 **Update a rule of a network ACL.**
-`ibmcloud is network-acl-rule-update ACL_ID RULE_ID [--action ACTION] [--direction DIRECTION] [--source SOURCE] [--dest DEST] [--protocol PROTOCOL] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
+
+`ibmcloud is network-acl-rule-update ACL RULE [--name NEW_NAME] [--action ACTION] [--direction DIRECTION] [--source SOURCE] [--dest DEST] [--protocol PROTOCOL] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
-- `RULE_ID`: ID of the rule.
+- `ACL`: ID of the network acl.
+- `RULE`: ID of the rule.
 - `--name`: New name of the rule.
 - `--direction`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `--action`: Enumeration type: `allow` or `deny`.
@@ -383,12 +386,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a rule from a network ACL.**
 
-`ibmcloud is network-acl-rule-delete ACL_ID RULE_ID [-f, --force]`
+`ibmcloud is network-acl-rule-delete ACL RULE [-f, --force]`
 
 **Options**
 
-- `ACL_ID`: ID of the network ACL.
-- `RULE_ID`: ID of the rule.
+- `ACL`: ID of the network acl.
+- `RULE`: ID of the rule.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -413,11 +416,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a subnet.**
 
-`ibmcloud is subnet SUBNET_ID [--json]`
+`ibmcloud is subnet SUBNET [--json]`
 
 **Options**
 
-- `SUBNET_ID`: ID of the subnet.
+- `SUBNET`: ID of the subnet.
 - `--json`: Format output in JSON.
 
 ---
@@ -427,12 +430,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a subnet.**
 
-`ibmcloud is subnet-create SUBNET_NAME VPC_ID (--ipv4-cidr-block CIDR_BLOCK | (--ipv4-address-count ADDR_COUNT --zone ZONE_NAME)) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY] [--json]`
+`ibmcloud is subnet-create SUBNET_NAME VPC (--ipv4-cidr-block CIDR_BLOCK | (--ipv4-address-count ADDR_COUNT --zone ZONE_NAME)) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY_ID] [--json]`
 
 **Options**
 
 - `SUBNET_NAME`: Name of the subnet.
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `--network-acl-id`: The ID of the network ACL.
 - `--public-gateway-id`: The ID of the public gateway.
 - `--ipv4-cidr-block`: the IPv4 range of the subnet, this is exclusive with --ipv4-address-count.
@@ -447,14 +450,14 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a subnet.**
 
-`ibmcloud is subnet-update SUBNET_ID [--name NEW_NAME] [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY_ID] [--json]`
+`ibmcloud is subnet-update SUBNET [--name NEW_NAME] [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY_ID] [--json]`
 
 **Options**
 
-- `SUBNET_ID`: ID of the subnet.
+- `SUBNET`: ID of the subnet.
 - `--name`: New name of the subnet.
-- `--network-acl-id`: ID of the network ACL.
-- `--public-gateway-id`: ID of the public gateway.
+- `--network-acl-id`: The ID of the network ACL.
+- `--public-gateway-id`: The ID of the public gateway.
 - `--json`: Format output in JSON.
 
 ---
@@ -464,11 +467,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a subnet.**
 
-`ibmcloud is subnet-delete SUBNET_ID [-f, --force]`
+`ibmcloud is subnet-delete SUBNET [-f, --force]`
 
 **Options**
 
-- `SUBNET_ID`: ID of the subnet.
+- `SUBNET`: ID of the subnet.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -478,11 +481,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Detach the public gateway from a subnet.**
 
-`ibmcloud is subnet-public-gateway-detach SUBNET_ID`
+`ibmcloud is subnet-public-gateway-detach SUBNET `
 
 **Options**
 
-- `SUBNET_ID`: ID of the subnet.
+- `SUBNET`: ID of the subnet.
 
 ---
 
@@ -490,11 +493,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of public gateway attached to the subnet.**
 
-`ibmcloud is subnet-public-gateway SUBNET_ID [--json]`
+`ibmcloud is subnet-public-gateway SUBNET [--json]`
 
 **options**
 
-- `SUBNET_ID`: ID of the subnet.
+- `SUBNET`: ID of the subnet.
 - `--json`: Format output in JSON.
 
 ---
@@ -521,11 +524,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a security group.**
 
-`ibmcloud is security-group GROUP_ID [--json]`
+`ibmcloud is security-group GROUP [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `--json`: Format output in JSON.
 
 ---
@@ -535,12 +538,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a security group.**
 
-`ibmcloud is security-group-create GROUP_NAME VPC_ID [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is security-group-create GROUP_NAME VPC [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 **Options**
 
 - `GROUP_NAME`: Name of the subnet.
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `--resource-group-id`: ID of the resource group. This option is exclusive with --resource-group-name.
 - `--resource-group-name`: Name of the resource group. This option is exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
@@ -552,11 +555,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a security group.**
 
-`ibmcloud is security-group-update GROUP_ID [--name NEW_NAME] [--json]`
+`ibmcloud is security-group-update GROUP [--name NEW_NAME] [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `--name`: New name of the security group.
 - `--json`: Format output in JSON.
 
@@ -567,11 +570,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a security group.**
 
-`ibmcloud is security-group-delete GROUP_ID [-f, --force]`
+`ibmcloud is security-group-delete GROUP [-f, --force]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -581,11 +584,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **List all network interfaces of a security group.**
 
-`ibmcloud is security-group-network-interfaces GROUP_ID [--json]`
+`ibmcloud is security-group-network-interfaces GROUP [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `--json`: Format output in JSON.
 
 ---
@@ -595,12 +598,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a network interface of a security group.**
 
-`ibmcloud is security-group-network-interface GROUP_ID NIC_ID [--json]`
+`ibmcloud is security-group-network-interface GROUP NIC [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
-- `NIC_ID`: ID of the network interface.
+- `GROUP`: ID of the security group.
+- `NIC`: ID of the network interface.
 - `--json`: Format output in JSON.
 
 ---
@@ -610,12 +613,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Add a network interface to a security group.**
 
-`ibmcloud is security-group-network-interface-add GROUP_ID NIC_ID [--json]`
+`ibmcloud is security-group-network-interface-add GROUP NIC [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
-- `NIC_ID`: ID of the network interface.
+- `GROUP`: ID of the security group.
+- `NIC`: ID of the network interface.
 - `--json`: Format output in JSON.
 
 ---
@@ -625,12 +628,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Remove a network interface from a security group.**
 
-`ibmcloud is security-group-network-interface-remove GROUP_ID NIC_ID [-f, --force]`
+`ibmcloud is security-group-network-interface-remove GROUP NIC [-f, --force]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
-- `NIC_ID`: ID of the network interface.
+- `GROUP`: ID of the security group.
+- `NIC`: ID of the network interface.
 - `--force, -f`: Remove without confirmation.
 
 ---
@@ -640,11 +643,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **List all rules of a security group.**
 
-`ibmcloud is security-group-rules GROUP_ID [--json]`
+`ibmcloud is security-group-rules GROUP [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `--json`: Format output in JSON.
 
 ---
@@ -654,11 +657,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a security group rule.**
 
-`ibmcloud is security-group-rule GROUP_ID RULE_ID [--json]`
+`ibmcloud is security-group-rule GROUP RULE_ID [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `RULE_ID`: ID of the rule.
 - `--json`: Format output in JSON.
 
@@ -669,11 +672,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Add a rule to a security group.**
 
-`ibmcloud is security-group-rule-add GROUP_ID DIRECTION PROTOCOL [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-max PORT_MAX --port-min PORT_MIN] [--json]`
+`ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [(--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID)] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-max PORT_MAX --port-min PORT_MIN] [--json]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `DIRECTION`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `PROTOCOL`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
 - `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP_ID. If unspecified, traffic will be allowed from any source (or to any source, for outbound rules).
@@ -690,12 +693,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a rule of a security group.**
 
-`ibmcloud is security-group-rule-update GROUP_ID RULE_ID [--direction DIRECTION] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-max PORT_MAX --port-min PORT_MIN] [--json]`
+`ibmcloud is security-group-rule-update GROUP RULE_ID [--direction DIRECTION] [(--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID)] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-max PORT_MAX --port-min PORT_MIN] [--json]`
 
 **Options**
 
-- `GROUP_NAME`: Name of the security group.
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `RULE_ID`: ID of the rule.
 - `--direction`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
 - `--remote`: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP_ID. If unspecified, traffic will be allowed from any source (or to any source, for outbound rules).
@@ -712,11 +714,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a rule from a security group.**
 
-`ibmcloud is security-group-rule-delete GROUP_ID RULE_ID [-f, --force]`
+`ibmcloud is security-group-rule-delete GROUP RULE_ID [-f, --force]`
 
 **Options**
 
-- `GROUP_ID`: ID of the security group.
+- `GROUP`: ID of the security group.
 - `RULE_ID`: ID of the rule.
 - `--force, -f`: Delete without confirmation.
 
@@ -743,11 +745,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a VPC.**
 
-`ibmcloud is vpc VPC_ID [--json]`
+`ibmcloud is vpc VPC [--json]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC
+- `VPC`: ID of the vpc.
 - `--json`: Format output in JSON.
 
 ---
@@ -774,11 +776,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a VPC.**
 
-`ibmcloud is vpc-update VPC_ID [--name NEW_NAME] [--json]`
+`ibmcloud is vpc-update VPC [--name NEW_NAME] [--json]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `--name`: New name of the VPC.
 - `--json`: Format output in JSON.
 
@@ -789,11 +791,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a VPC.**
 
-`ibmcloud is vpc-delete VPC_ID [-f, --force]`
+`ibmcloud is vpc-delete VPC [-f, --force]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -803,11 +805,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of the default security group of a VPC.**
 
-`ibmcloud is vpc-default-security-group VPC_ID [--json]`
+`ibmcloud is vpc-default-security-group VPC [--json]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `--json`: Format output in JSON.
 
 ---
@@ -817,12 +819,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a VPC address prefix.**
 
-`ibmcloud is vpc-address-prefix VPC_ID PREFIX_ID [--json]`
+`ibmcloud is vpc-address-prefix VPC PREFIX [--json]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
-- `PREFIX_ID`: ID of the address prefix.
+- `VPC`: ID of the vpc.
+- `PREFIX`: ID of the vpc address prefix.
 - `--json`: Format output in JSON.
 
 ---
@@ -832,12 +834,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create an address prefix.**
 
-`ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC_ID ZONE CIDR [--json]`
+`ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--json]`
 
 **Options**
 
 - `PREFIX_NAME`: Name of the address prefix.
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `ZONE`: Name of the zone.
 - `CIDR`: The CIDR block for this prefix.
 - `--json`: Format output in JSON.
@@ -849,12 +851,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete an address prefix.**
 
-`ibmcloud is vpc-address-prefix-delete VPC_ID PREFIX_ID [--force]`
+`ibmcloud is vpc-address-prefix-delete VPC PREFIX [--force]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
-- `PREFIX_ID`: ID of the address prefix.
+- `VPC`: ID of the vpc.
+- `PREFIX`: ID of the vpc address prefix.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -864,14 +866,13 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update an address prefix.**
 
-`ibmcloud is vpc-address-prefix-update VPC_ID PREFIX_ID [--name NEW_NAME] [--cidr CIDR] [--json]`
+`ibmcloud is vpc-address-prefix-update VPC PREFIX [--name NEW_NAME] [--json]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
-- `PREFIX_ID`: ID of the address prefix.
+- `VPC`: ID of the vpc.
+- `PREFIX`: ID of the vpc address prefix.
 - `--name`: New name of the address prefix.
-- `--cidr`: New CIDR block for the address prefix.
 - `--json`: Format output in JSON.
 
 ---
@@ -881,11 +882,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **List all address prefixes.**
 
-`ibmcloud is vpc-address-prefixes VPC_ID [--json]`
+`ibmcloud is vpc-address-prefixes VPC [--json]`
 
 **Options**
 
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `--json`: Format output in JSON.
 
 ---
@@ -895,10 +896,11 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **List all routes.**
 
-`ibmcloud is vpc-routes VPC_ID [--json]`
+`ibmcloud is vpc-routes VPC [--json]`
 
 **Options**
 
+- `VPC`: ID of the vpc.
 - `--json`: Format output in JSON.
 
 ---
@@ -908,10 +910,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **View details of a VPC route.**
 
-`ibmcloud is vpc-route VPC_ID ROUTE_ID [--json]`
+`ibmcloud is vpc-route VPC ROUTE [--json]`
 
 **Options**
 
+- `VPC`: ID of the vpc.
+- `Route`: ID of the vpc route.
 - `--json`: Format output in JSON.
 
 ---
@@ -921,10 +925,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Create a route.**
 
-`ibmcloud is vpc-route-create ROUTE_NAME VPC_ID --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--json]`
+`ibmcloud is vpc-route-create ROUTE_NAME VPC --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--json]`
 
 **Options**
 
+- `ROUTE_NAME`: Name of the vpc route.
+- `VPC`: ID of the vpc.
 - `--zone`: Name of the zone.
 - `--destination`: The destination CIDR of the route.
 - `--next-hop-ip`: The IP address of the next hop to which to route packets.
@@ -937,10 +943,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Update a route.**
 
-`ibmcloud is vpc-route-update VPC_ID ROUTE_ID --name NEW_NAME [--json]`
+`ibmcloud is vpc-route-update VPC ROUTE --name NEW_NAME [--json]`
 
 **Options**
 
+- `VPC`: ID of the vpc.
+- `Route`: ID of the vpc route.
 - `--name`: New name of the route.
 - `--json`: Format output in JSON.
 
@@ -951,10 +959,12 @@ This section provides a reference to the command line interface (CLI) commands a
 
 **Delete a vpc route.**
 
-`ibmcloud is vpc-route-delete VPC_ID ROUTE_ID [--force]`
+`ibmcloud is vpc-route-delete VPC ROUTE [--force]`
 
 **Options**
 
+- `VPC`: ID of the vpc.
+- `Route`: ID of the vpc route.
 - `--force, -f`: Force the operation without confirmation.
 
 ---
@@ -1043,11 +1053,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View details of an image.**
 
-`ibmcloud is image IMAGE_ID [--json]`
+`ibmcloud is image IMAGE [--json]`
 
 **Options**
 
-- `IMAGE_ID`: ID of the image.
+- `IMAGE`: ID of the image.
 - `--json`: Format output in JSON.
 
 ---
@@ -1075,11 +1085,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Update an image.**
 
-`ibmcloud is image-delete IMAGE_ID [--name NEW_NAME] [--json]`
+`ibmcloud is image-update IMAGE [--name NEW_NAME] [--json]`
 
 **Options**
 
-- `IMAGE_ID`: ID of the image.
+- `IMAGE`: ID of the image.
 - `--name`: New name of the image.
 - `--json`: Format output in JSON.
 
@@ -1090,11 +1100,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Delete an image.**
 
-`ibmcloud is image-delete IMAGE_ID [-f, --force]`
+`ibmcloud is image-delete IMAGE [-f, --force]`
 
 **Options**
 
-- `IMAGE_ID`: ID of the image.
+- `IMAGE`: ID of the image.
 - `--force, -f`: Force the operation without confirmation.
 
 
@@ -1118,11 +1128,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View details of a key.**
 
-`ibmcloud is key KEY_ID [--json]`
+`ibmcloud is key KEY [--json]`
 
 **Options**
 
-- `KEY_ID`: ID of the key.
+- `KEY`: ID of the key.
 - `--json`: Format output in JSON.
 
 ---
@@ -1149,11 +1159,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Update the name of a key.**
 
-`ibmcloud is key-update KEY_ID --name NEW_NAME [--json]`
+`ibmcloud is key-update KEY --name NEW_NAME [--json]`
 
 **Options**
 
-- `KEY_ID`: ID of the key.
+- `KEY`: ID of the key.
 - `--name`: New name for the key.
 - `--json`: Format output in JSON.
 
@@ -1164,11 +1174,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Delete a key.**
 
-`ibmcloud is key-delete KEY_ID [-f, --force]`
+`ibmcloud is key-delete KEY [-f, --force]`
 
 **Options**
 
-- `KEY_ID`: ID of the key.
+- `KEY`: ID of the key.
 - `--force, -f`: Delete without confirmation.
 
 
@@ -1193,11 +1203,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View details of a server instance.
 
-`ibmcloud is instance INSTANCE_ID [--json]`
+`ibmcloud is instance INSTANCE [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1207,21 +1217,21 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Create a server instance.**
 
-`ibmcloud is instance-create INSTANCE_NAME VPC_ID ZONE_NAME PROFILE_NAME SUBNET_ID --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--user-data DATA] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--security-group-ids SECURITY_GROUP_IDS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 
 **Options**
 
 - `INSTANCE_NAME`: Name of the server instance.
-- `VPC_ID`: ID of the VPC.
+- `VPC`: ID of the vpc.
 - `ZONE_NAME`: Name of the zone.
 - `PROFILE_NAME`: Name of the profile.
-- `SUBNET_ID`: The network interface associated subnet ID.
+- `SUBNET`: ID of the subnet.
+- `--image-id`: ID of the image.
 - `--boot-volume`: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in json or json file.
 - `--volume-attach`: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in json or json file.
-- `--image-id`: ID of the image.
-- `--security-group-ids`: Comma-separated security group IDs for primary network interface.
-- `--key-ids`: Comma-separated IDs of SSH keys.
+- `--security-group-ids`: Comma separated security group IDs for primary network interface.
+- `--key-ids`: Comma separated IDs of SSH keys.
 - `--user-data`: data|@data-file. The user data to transfer to the server instance.
 - `--network-interface`: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or as a JSON file.
 - `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
@@ -1236,11 +1246,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Update a server instance.
 
-`ibmcloud is instance-update INSTANCE_ID [--name NEW_NAME] [--profile PROFILE_NAME] [--json]`
+`ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--profile`: Name of the profile.
 - `--name`: New name of the server instance.
 - `--json`: Format output in JSON.
@@ -1252,11 +1262,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Delete a server instance.**
 
-`ibmcloud is instance-delete INSTANCE_ID [-f, --force]`
+`ibmcloud is instance-delete INSTANCE [-f, --force]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--force, -f`: Delete without confirmation.
 
 ---
@@ -1266,11 +1276,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View initialization details of a server instance.**
 
-`ibmcloud is instance-initialization-values INSTANCE_ID [--json]`
+`ibmcloud is instance-initialization-values INSTANCE [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1280,11 +1290,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Start a server instance.**
 
-`ibmcloud is instance-start INSTANCE_ID [--json]`
+`ibmcloud is instance-start INSTANCE [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1294,11 +1304,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Stop a server instance.**
 
-`ibmcloud is instance-stop INSTANCE_ID [--json]`
+`ibmcloud is instance-stop INSTANCE [-f, --force] [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1308,11 +1318,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Reboot a server instance.**
 
-`ibmcloud is instance-reboot INSTANCE_ID [-f, --force] [--json]`
+`ibmcloud is instance-reboot INSTANCE [-f, --force] [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 - `--force, -f`: Reboot without confirmation.
 
@@ -1323,11 +1333,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Reset a server instance.**
 
-`ibmcloud is instance-reset INSTANCE_ID [-f, --force] [--json]`
+`ibmcloud is instance-reset INSTANCE [-f, --force] [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 - `--force, -f`: Reset without confirmation.
 
@@ -1338,11 +1348,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **List all network interfaces of a server instance.**
 
-`ibmcloud is instance-network-interfaces INSTANCE_ID [--json]`
+`ibmcloud is instance-network-interfaces INSTANCE [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 
 ---
@@ -1352,12 +1362,12 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View details of a network interface of a server instance.**
 
-`ibmcloud is instance-network-interface INSTANCE_ID NIC_ID [--json]`
+`ibmcloud is instance-network-interface INSTANCE NIC [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `NIC_ID`: ID of the network interface.
+- `INSTANCE`: ID of the instance.
+- `NIC`: ID of the network interface.
 - `--json`: Format output in JSON.
 
 ---
@@ -1371,8 +1381,8 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `NIC_ID`: ID of the NIC.
+- `INSTANCE`: ID of the instance.
+- `NIC`: ID of the network interface.
 - `--json`: Format output in JSON.
 
 ---
@@ -1382,13 +1392,13 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View details of a floating IP associated with a network interface.**
 
-`ibmcloud is instance-network-interface-floating-ip INSTANCE_ID NIC_ID FLOATING_IP_ID [--json]`
+`ibmcloud is instance-network-interface-floating-ip INSTANCE_ID NIC_ID FLOATING_IP [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `NIC_ID`: ID of the NIC.
-- `FLOATING_IP_ID`: ID of the floating IP.
+- `INSTANCE`: ID of the instance.
+- `NIC`: ID of the network interface.
+- `FLOATING_IP`: ID of the floating IP.
 - `--json`: Format output in JSON.
 
 ---
@@ -1398,13 +1408,13 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Associate a floating IP with a network interface.**
 
-`ibmcloud is instance-network-interface-floating-ip-add INSTANCE_ID NIC_ID FLOATING_IP_ID [--json]`
+`ibmcloud is instance-network-interface-floating-ip-add INSTANCE NIC FLOATING [--json]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `NIC_ID`: ID of the NIC.
-- `FLOATING_IP_ID`: ID of the floating IP.
+- `INSTANCE`: ID of the instance.
+- `NIC`: ID of the network interface.
+- `FLOATING_IP`: ID of the floating IP.
 - `--json`: Format output in JSON.
 
 ---
@@ -1414,13 +1424,13 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Disassociate a floating IP from a network interface.**
 
-`ibmcloud is instance-network-interface-floating-ip-remove INSTANCE_ID NIC_ID FLOATING_IP_ID [-f, --force]`
+`ibmcloud is instance-network-interface-floating-ip-remove INSTANCE NIC FLOATING_IP [-f, --force]`
 
 **Options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `NIC_ID`: ID of the NIC.
-- `FLOATING_IP_ID`: ID of the floating IP.
+- `INSTANCE`: ID of the instance.
+- `NIC`: ID of the network interface.
+- `FLOATING_IP`: ID of the floating IP.
 - `--force, -f`: Remove without confirmation.
 
 ---
@@ -1429,12 +1439,12 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **View details of a volume attachment.**
 
-`ibmcloud is instance-volume-attachment INSTANCE_ID VOLUME_ATTACHMENT_ID [--json]`
+`ibmcloud is instance-volume-attachment INSTANCE VOLUME_ATTACHMENT [--json]`
 
 **options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `VOLUME_ATTACHMENT_ID`: ID of the volume attachment.
+- `INSTANCE`: ID of the instance.
+- `VOLUME_ATTACHMENT`: ID of the volume attachment.
 - `--json`: Format output in JSON.
 
 ---
@@ -1443,13 +1453,13 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Create a volume attachment, connecting a volume to an instance.
 
-`ibmcloud is instance-volume-attachment-add NAME INSTANCE_ID VOLUME_ID [--auto-delete true | false] [--json]`
+`ibmcloud is instance-volume-attachment-add NAME INSTANCE VOLUME [--auto-delete true | false] [--json]`
 
 **options**
 
 - `NAME`: Name of the volume attachment.
-- `INSTANCE_ID`: ID of the server instance.
-- `VOLUME_ID`: ID of the volume.
+- `INSTANCE`: ID of the instance.
+- `VOLUME`: ID of the volume.
 - `--auto-delete`: The attached volume will be deleted when deleting the instance, default is false.
 - `--json`: Format output in JSON.
 
@@ -1459,12 +1469,12 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Delete a volume attachment, detaching a volume from an instance.**
 
-`ibmcloud is instance-volume-attachment-detach INSTANCE_ID VOLUME_ATTACHMENT_ID [-f, --force]`
+`ibmcloud is instance-volume-attachment-detach INSTANCE VOLUME_ATTACHMENT [-f, --force]`
 
 **options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `VOLUME_ATTACHMENT_ID`: ID of the volume attachment.
+- `INSTANCE`: ID of the instance.
+- `VOLUME_ATTACHMENT`: ID of the volume attachment.
 - `--force, -f`: Force the operation without confirmation.
 
 ---
@@ -1473,12 +1483,12 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **Update a volume attachment.**
 
-`ibmcloud is instance-volume-attachment-update INSTANCE_ID VOLUME_ATTACHMENT_ID [--name NEW_NAME] [--auto-delete true | false] [--json]`
+`ibmcloud is instance-volume-attachment-update INSTANCE VOLUME_ATTACHMENT [--name NEW_NAME] [--auto-delete true | false] [--json]`
 
 **options**
 
-- `INSTANCE_ID`: ID of the server instance.
-- `VOLUME_ATTACHMENT_ID`: ID of the volume attachment.
+- `INSTANCE`: ID of the instance.
+- `VOLUME_ATTACHMENT`: ID of the volume attachment.
 - `--name`: New name of the volume.
 - `--auto-delete`: The attached volume will be deleted when deleting the instance, default is false.
 - `--json`: Format output in JSON.
@@ -1489,11 +1499,11 @@ This section contains a reference for the CLI commands related to Compute functi
 
 **List all volume attachments to an instance.**
 
-`ibmcloud is instance-volume-attachments INSTANCE_ID [--json]`
+`ibmcloud is instance-volume-attachments INSTANCE [--json]`
 
 **options**
 
-- `INSTANCE_ID`: ID of the server instance.
+- `INSTANCE`: ID of the instance.
 - `--json`: Format output in JSON.
 
 
@@ -2138,7 +2148,7 @@ This section gives details about the CLI commands available for working with loa
 
 **Update a load balancer listener.**
 
-`ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--certificate-instance CERTIFICATE_INSTANCE_ID] [--connection-limit LIMIT] [--port PORT] [--protocol http | https | tcp] [--default-pool DEFAULT_POOL_ID] [--json]`
+`ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--connection-limit LIMIT] [--port PORT] [--protocol http | https | tcp] [--default-pool DEFAULT_POOL_ID] [--json]`
 
 **Options**
 
@@ -2271,7 +2281,7 @@ This section gives details about the CLI commands available for working with loa
 - `LOAD_BALANCER_ID`: ID of the load balancer.
 - `LISTENER_ID`: ID of the listener.
 - `POLICY_ID`: ID of the policy.
-- `RULE_ID`: ID of the rule.
+- `RULE`: ID of the rule.
 - `--json`: Format output in JSON.
 
 ---
@@ -2308,7 +2318,7 @@ This section gives details about the CLI commands available for working with loa
 - `LOAD_BALANCER_ID`: ID of the load balancer.
 - `LISTENER_ID`: ID of the listener.
 - `POLICY_ID`: ID of the policy.
-- `RULE_ID`: ID of the rule.
+- `RULE`: ID of the rule.
 - `--condition`: The condition of the rule, enumeration type: contains, equals, matches_regex.
 - `--type`: The type of the rule, enumeration type: header, hostname, path.
 - `--`: value      Value to be matched for rule condition.
@@ -2329,7 +2339,7 @@ This section gives details about the CLI commands available for working with loa
 - `LOAD_BALANCER_ID`: ID of the load balancer.
 - `LISTENER_ID`: ID of the listener.
 - `POLICY_ID`: ID of the policy.
-- `RULE_ID`: ID of the rule.
+- `RULE`: ID of the rule.
 - `--force, -f`: Force the operation without confirmation.
 
 ---
@@ -2556,11 +2566,11 @@ This section gives details about the CLI commands available for working with blo
 
 **View details of a volume.**
 
-`ibmcloud is volume VOLUME_ID [--json]`
+`ibmcloud is volume VOLUME [--json]`
 
 **Options**
 
-- `VOLUME_ID`: ID of the volume.
+- `VOLUME`: ID of the volume.
 - `--json`: Format output in JSON.
 
 ---
@@ -2601,11 +2611,11 @@ This section gives details about the CLI commands available for working with blo
 
 **Delete a volume.**
 
-`ibmcloud is volume-delete VOLUME_ID [-f, --force]`
+`ibmcloud is volume-delete VOLUME [-f, --force]`
 
 **Options**
 
-- `VOLUME_ID`: ID of the volume.
+- `VOLUME`: ID of the volume.
 - `--force, -f`: Force the operation without confirmation.
 
 ---
@@ -2614,10 +2624,10 @@ This section gives details about the CLI commands available for working with blo
 
 **Update a volume.
 
-`ibmcloud is volume-update VOLUME_ID [--name NEW_NAME] [--json]`
+`ibmcloud is volume-update VOLUME [--name NEW_NAME] [--json]`
 
 **Options**
 
-- `VOLUME_ID`: ID of the volume.
+- `VOLUME`: ID of the volume.
 - `--name`: New name of the volume.
 - `--json`: Format output in JSON.
