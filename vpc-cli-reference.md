@@ -16,10 +16,10 @@ lastupdated: "2019-10-22"
 {:important: .important}
 {:download: .download}
 
-# CLI reference
+# VPC CLI reference
 {: #vpc-reference}
 
-This document provides a reference of the command-line interface (CLI) commands available in {{site.data.keyword.vpc_full}} (VPC).
+This document provides a reference of the command-line interface (CLI) commands available for {{site.data.keyword.vpc_full}} (VPC).
 {:shortdesc}
 
 This document is organized into the following sections:
