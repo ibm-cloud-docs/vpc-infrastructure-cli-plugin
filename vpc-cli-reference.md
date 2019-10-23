@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2019
-lastupdated: "2019-10-22"
+lastupdated: "2019-10-23"
 
 ---
 
@@ -26,7 +26,7 @@ This document is organized into the following sections:
 * [Network commands](#network)
 * [Compute commands](#compute-clis)
 * [Regions and zones commands](#geography)
-* [Storage CLI commands](#storage)
+* [Storage commands](#storage)
 
 ## Prerequisites
 {: #cli-ref-prereqs}
@@ -1374,7 +1374,7 @@ List all keys.
 ## Regions and zones commands
 {: #geography}
 
-This section provides information about CLI commands for working with [regions](/docs/vpc?topic=vpc-vpc-concepts#region-def) and [zones](/docs/vpc?topic=vpc-vpc-concepts#zone-def).
+This section provides information about CLI commands for working with regions and zones.
 
 ## Regions
 {: #regions}
@@ -1438,7 +1438,7 @@ List all zones in the target region.
 
 ---
 
-## Storage CLI commands
+## Storage commands
 {: #storage}
 
 ### `ibmcloud is volumes`
