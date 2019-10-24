@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2019
-lastupdated: "2019-10-23"
+lastupdated: "2019-10-24"
 
 ---
 
@@ -1178,6 +1178,9 @@ Start a virtual server instance.
 {: #instance-stop}
 
 Stop a virtual server instance.
+
+When you stop an instance and then start it again, a new private IP address is assigned if the instance wasn't created with a static IP address (that is, the primary_ipv4_address attribute wasn't set when the instance was created using the CLI or API). For more information about setting a static IP address, see primary_network_interface in the [API reference](https://{DomainName}/apidocs/vpc#create-an-instance){: new_window}.
+{:tip}
 
 `ibmcloud is instance-stop INSTANCE [--no-wait]  [-f, --force] [--json]`
 
