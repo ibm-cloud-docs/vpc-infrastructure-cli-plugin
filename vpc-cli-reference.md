@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2019
-lastupdated: "2019-10-24"
+lastupdated: "2019-10-29"
 
 ---
 
@@ -603,12 +603,13 @@ Detach the public gateway from a subnet.
 
 View details of a VPC.
 
-`ibmcloud is vpc VPC [--json]`
+`ibmcloud is vpc VPC [--show-attached] [--json]`
 
 #### Command options
 {: #command-options-vpc-details}
 
 - `VPC`: ID of the VPC.
+- `--show-attached`: View details of resources (Subnets,VPC Routes and Address Prefix) attached to this VPC.
 - `--json`: Format output in JSON.
 
 ---
@@ -635,13 +636,14 @@ View details of a VPC address prefix.
 
 Create an address prefix.
 
-`ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--json]`
+`ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--default false | true] [--json]`
 
 #### Command options
 {: #command-options-vpc-address-prefix-create}
 
 - `PREFIX_NAME`: Name of the address prefix.
 - `VPC`: ID of the VPC.
+- `--default`: This flag indicates whether this is the default prefix for this zone in this VPC. Enumeration type: true, false. If unspecified, the default is false.
 - `--json`: Format output in JSON.
 
 ---
@@ -667,13 +669,14 @@ Delete an address prefix.
 
 Update an address prefix.
 
-`ibmcloud is vpc-address-prefix-update VPC PREFIX [--name NEW_NAME] [--json]`
+`ibmcloud is vpc-address-prefix-update VPC PREFIX [--name NEW_NAME] [--default false | true] [--json]`
 
 #### Command options
 {: #command-options-vpc-address-prefix-update}
 
 - `VPC`: ID of the VPC.
 - `PREFIX`: ID of the VPC address prefix.
+- `--default`: This flag indicates whether this is the default prefix for this zone in this VPC. Enumeration type: true, false. If unspecified, the default is false.
 - `--name`: New name of the address prefix.
 - `--json`: Format output in JSON.
 
@@ -699,12 +702,13 @@ List all address prefixes.
 
 Create a VPC.
 
-`ibmcloud is vpc-create VPC_NAME [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is vpc-create VPC_NAME [--address-prefix-management auto | manual] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 #### Command options
 {: #command-options-vpc-create}
 
 - `VPC_NAME`: Name of the VPC
+- `--address-prefix-management`: This flag indicates whether a default address prefix should be automatically created for each zone in this VPC. Enumeration type: auto, manual. If 'manual', this VPC will be created with no default address prefixes. If unspecified, default is 'auto'.
 - `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
 - `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
 - `--json`: Format output in JSON.
