@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2019
-lastupdated: "2019-10-29"
+lastupdated: "2019-10-31"
 
 ---
 
@@ -702,12 +702,13 @@ List all address prefixes.
 
 Create a VPC.
 
-`ibmcloud is vpc-create VPC_NAME [--address-prefix-management auto | manual] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+`ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management auto | manual] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
 
 #### Command options
 {: #command-options-vpc-create}
 
 - `VPC_NAME`: Name of the VPC
+- `--classic-access`: This flag indicates whether the VPC should be connected to classic infrastructure. The default is false.
 - `--address-prefix-management`: This flag indicates whether a default address prefix should be automatically created for each zone in this VPC. Enumeration type: auto, manual. If 'manual', this VPC will be created with no default address prefixes. If unspecified, default is 'auto'.
 - `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
 - `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
@@ -745,6 +746,89 @@ Delete a VPC.
 
 ---
 
+### `ibmcloud is vpc-route`
+{: #vpc-route}
+
+View details of a VPC route.
+
+`ibmcloud is vpc-route VPC ROUTE [--json]`
+
+#### Command options
+{: #command-options-vpc-route}
+
+- `VPC`: ID of the VPC.
+- `Route`: ID of the route.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route-create`
+{: #vpc-route-create}
+
+Create a VPC route.
+
+`ibmcloud is vpc-route-create ROUTE_NAME VPC --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--json]`
+
+#### Command options
+{: #command-options-vpc-route-create}
+
+- `ROUTE_NAME`: Name of the route.
+- `VPC`: ID of the VPC.
+- `--zone`: Name of the zone.
+- `--destination`: The destination CIDR of the route.
+- `--next-hop-ip`: The IP address of the next hop to which to route packets.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route-update`
+{: #vpc-route-update}
+
+Update a VPC route.
+
+`ibmcloud is vpc-route-update VPC ROUTE --name NEW_NAME [--json]`
+
+#### Command options
+{: #command-options-vpc-route-update}
+
+- `VPC`: ID of the VPC.
+- `Route`: ID of the route.
+- `--name`: New name of the route.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is vpc-route-delete`
+{: #vpc-route-delete}
+
+Delete a VPC route.
+
+`ibmcloud is vpc-route-delete VPC ROUTE [--force]`
+
+#### Command options
+{: #command-options-vpc-route-delete}
+
+- `VPC`: ID of the VPC.
+- `Route`: ID of the route.
+- `--force, -f`: Force the operation without confirmation.
+
+---
+
+### `ibmcloud is vpc-routes`
+{: #vpc-routes}
+
+List all VPC routes.
+
+`ibmcloud is vpc-routes VPC [--json]`
+
+#### Command options
+{: #command-options-vpc-routes}
+
+- `VPC`: ID of the VPC.
+- `--json`: Format output in JSON.
+
+---
+
 ### `ibmcloud is vpc-update`
 {: #vpc-update}
 
@@ -766,11 +850,12 @@ Update a VPC.
 
 List all VPCs.
 
-`ibmcloud is vpcs [--json]`
+`ibmcloud is vpcs [--classic-access true | false ] [--json]`
 
 #### Command options
 {: #command-options-vpc-list}
 
+- `--classic-access`: This flag lists VPCs that have classic access enabled. Enumeration type: true, false. If unspecified, it returns all VPCs with and without classic access enabled.
 - `--json`: Format output in JSON.
 
 ---
