@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2019
-lastupdated: "2019-11-07"
+lastupdated: "2019-12-02"
 
 ---
 
@@ -1038,6 +1038,193 @@ List all security groups.
 
 ---
 
+## Network ACLs
+{: #network-acls}
+
+### `ibmcloud is network-acls`
+{: #network-acls-cli}
+
+List all network ACLs.
+
+`ibmcloud is network-acls [--json]`
+
+#### Command options
+{: #command-options-network-acls}
+
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl`
+{: #network-acl}
+
+View details of a network ACL.
+
+`ibmcloud is network-acl ACL [--json]`
+
+#### Command options
+{: #command-options-network-acl}
+
+- `ACL`: ID of the network ACL.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-create`
+{: #network-acl-create}
+
+Create a network ACL.
+
+`ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FILE) | --source-acl-id SOURCE_ACL_ID] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]`
+
+
+#### Command options
+{: #command-options-network-acl-create}
+
+- `ACL_NAME`: Name of the network ACL.
+- `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
+- `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
+- `--source-acl-id`: ID of the network ACL to copy rules from.
+- `--rules`: RULES_JSON|@RULES_JSON_FILE, rules for the ACL in json or json file.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-update`
+{: #network-acl-update}
+
+Update a network ACL
+
+`ibmcloud is network-acl-update ACL --name NEW_NAME [--json]`
+
+#### Command options
+{: #command-options-network-acl-update}
+
+- `ACL`: ID of the network ACL.
+- `--name`: New name of the network ACL.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-delete`
+{: #network-acl-delete}
+
+Delete a network ACL.
+
+`ibmcloud is network-acl-delete ACL [-f, --force]`
+
+#### Command options
+{: #command-options-network-acl-update}
+
+- `ACL`: ID of the network ACL.
+- `--force, -f`: Delete without confirmation.
+
+---
+
+### `ibmcloud is network-acl-rules`
+{: #network-acl-rules}
+
+List all rules of a network ACL.
+
+`ibmcloud is network-acl-rules ACL [--json]`
+
+#### Command options
+{: #command-options-network-acl-rules}
+
+- `ACL`: ID of the network ACL.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-rule`
+{: #network-acl-rule}
+
+View details of a network ACL rule.
+
+`ibmcloud is network-acl-rule ACL RULE [--json]`
+
+#### Command options
+{: #command-options-network-acl-rule}
+
+- `ACL`: ID of the network ACL.
+- `RULE`: ID of the rule.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-rule-add`
+{: #network-acl-rule-add}
+
+Add a rule to a network ACL.
+
+`ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--name NAME] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
+
+
+#### Command options
+{: #command-options-network-acl-rule-add}
+
+- `ACL`: ID of the network ACL.
+- `ACTION`: Enumeration type: `allow` or `deny`.
+- `DIRECTION`: Direction of traffic to enforce. Enumeration type: `inbound` or `outbound`.
+- `SOURCE`: Source IP address or CIDR block.
+- `DESTINATION`: Destination IP address or CIDR block.
+- `PROTOCOL`: Protocol to enforce. Enumeration type: `all`, `icmp`, `tcp` or `udp`.
+- `--name`: The name of the ACL rule.
+- `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to icmp. If unspecified, all types are allowed.
+- `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to icmp. If unspecified, all codes are allowed.
+- `--destination-port-min`: Minimum destination port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 1).
+- `--destination-port-max`: Maximum destination port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 65535).
+- `--source-port-min`: Minimum source port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 1).
+- `--source-port-max`: Maximum source port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 65535).
+- `--before-rule-id`: ID of the rule that this rule is inserted before.
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-rule-update`
+{: #network-acl-rule-update}
+
+Update a rule of a network ACL
+
+`ibmcloud is network-acl-rule-update ACL RULE [--name NEW_NAME] [--action ACTION] [--direction DIRECTION] [--source SOURCE] [--dest DEST] [--icmp-code ICMP_CODE] [--icmp-type ICMP_TYPE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-max PORT_MAX] [---destination-port-min PORT_MIN] [--before-rule-id RULE_ID] [--json]`
+
+#### Command options
+{: #command-options-network-acl-rule-update}
+
+- `ACL`: ID of the network ACL.
+- `RULE`: ID of the rule.
+- `--name`: New name of the rule.
+- `--direction`: Direction of traffic to enforce. Valid values are inbound and outbound.
+- `--action`: allow or deny.
+- `--before-rule-id`: ID of the rule that this rule is inserted before.
+- `--source`: Source IP address or CIDR block.
+- `--dest`: Destination IP address or CIDR block.
+- `--icmp-type`: ICMP traffic type to allow. Valid values from 0 to 254. This option is specified only when protocol is set to icmp. If unspecified, all types are allowed.
+- `--icmp-code`: ICMP traffic code to allow. Valid values from 0 to 255. This option is specified only when protocol is set to icmp. If unspecified, all codes are allowed.
+- `--destination-port-min`: Minimum destination port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 1).
+- `--destination-port-max`: Maximum destination port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 65535).
+- `--source-port-min`: Minimum source port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 1).
+- `--source-port-max`: Maximum source port number. Valid values are from 1 to 65535. This option is specified only when protocol is set to tcp or udp (default: 65535).
+- `--json`: Format output in JSON.
+
+---
+
+### `ibmcloud is network-acl-rule-delete`
+{: #network-acl-rule-delete}
+
+Delete a rule from a network ACL.
+
+`ibmcloud is network-acl-rule-delete ACL RULE [-f, --force]`
+
+#### Command options
+{: #command-options-network-acl-rule-delete}
+
+- `ACL`: ID of the network ACL.
+- `RULE`: ID of the rule.
+- `--force, -f`: Delete without confirmation.
+
+---
+
 ## Subnets
 {: #subnet-cli-ref}
 
@@ -1073,6 +1260,7 @@ Create a subnet.
 - `--ipv4-cidr-block`: the IPv4 range of the subnet. This is exclusive with --ipv4-address-count.
 - `--ipv4-address-count`: The total number of IPv4 addresses required. Must be a power of 2 and minimum value is 8. This option is mutually exclusive with --ipv4-cidr-block.
 - `--zone`: Name of the zone.
+- `--network-acl-id`: The ID of the network ACL.
 - `--public-gateway-id`: The ID of the public gateway.
 - `--resource-group-id`: ID of the resource group. This option is mutually exclusive with --resource-group-name.
 - `--resource-group-name`: Name of the resource group. This option is mutually exclusive with --resource-group-id.
@@ -1100,7 +1288,7 @@ Delete a subnet.
 
 Update a subnet.
 
-`ibmcloud is subnet-update SUBNET [--name NEW_NAME] [--public-gateway-id PUBLIC_GATEWAY_ID] [--json]`
+`ibmcloud is subnet-update SUBNET [--name NEW_NAME] [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY_ID] [--json]`
 
 
 #### Command options
@@ -1108,6 +1296,7 @@ Update a subnet.
 
 - `SUBNET`: ID of the subnet.
 - `--name`: New name of the subnet.
+- `--network-acl-id`: The ID of the network ACL.
 - `--public-gateway-id`: ID of the public gateway.
 - `--json`: Format output in JSON.
 
