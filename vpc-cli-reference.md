@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-01-09"
+lastupdated: "2020-02-18"
 
 ---
 
@@ -2500,7 +2500,7 @@ When you stop an instance and then start it again, a new private IP address is a
 ### `ibmcloud is instance-update`
 {: #instance-update}
 
-Update a virtual server instance.
+Update the name of the virtual server instance.
 
 `ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--json]`
 
