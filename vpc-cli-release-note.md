@@ -36,7 +36,7 @@ Version 0.5.11 was released on 2020-03-05.
 * Added resource tag fields to the `ibmcloud is volumes` command output
 * Updated the `network-acl-rule-add` command example
 * Updated the `network-acl-create` command example
-* Added more command examples to the [VPC CLI reference](/docs/vpc?topic=vpc-release-notes)
+* Added more command examples to the [VPC CLI reference](/docs/vpc?topic=vpc-infrastructure-cli-plugin-vpc-reference)
 * Translation update to the command help
 
 ### Removed commands
