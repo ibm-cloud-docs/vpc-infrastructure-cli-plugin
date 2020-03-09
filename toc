@@ -7,5 +7,6 @@ CLI Plugin for Virtual Private Cloud (VPC)
 
     {: .navgroup id="reference"}
     vpc-cli-reference.md
+    vpc-cli-release-note.md
     {: .navgroup-end}
     
