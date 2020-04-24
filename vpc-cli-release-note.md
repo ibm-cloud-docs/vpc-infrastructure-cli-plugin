@@ -22,6 +22,24 @@ lastupdated: "2020-03-05"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.5.13
+{: #v0.5.13}
+
+Version 0.5.13 was released on 2020-04-13.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added CRN fields to various details commands output
+* Add example for the `key-create` and `key-update` commands
+
+### Removed commands
+
+* N/A
+
 ## v0.5.11
 {: #v0.5.11}
 
