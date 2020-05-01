@@ -182,6 +182,132 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 
 ---
 
+## Flow logs (Beta)
+{: #flow-logs-cli-ref}
+
+### ibmcloud is flow-log
+{: #flow-log-view}
+
+View details of a flow log.
+
+```
+ibmcloud is flow-log FLOW_LOG [--json]
+```
+
+#### Command options
+{: #command-options-flow-log-cli-view}
+
+- **FLOW_LOG**: ID of the flow log.
+- **--json**: Format output in JSON.
+
+#### Command example
+{: #command-example-view}
+
+View details of a flow log in JSON format.
+
+`ibmcloud is flow-log 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --json`
+
+---
+
+### ibmcloud is flow-log-create
+{: #flow-log-create}
+
+Create a flow log.
+
+```
+ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--name NAME] [--active ACTIVE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+```
+
+#### Command options
+{: #command-options-flow-log-cli-create}
+
+- **--bucket**: Name of COS bucket.
+- **--target**: The target for the flow log.
+- **--name**: New name for the flow log.
+- **--active**: Indicates whether this collector is active.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--json**: Format output in JSON.
+
+#### Command example
+{: #command-example-create}
+
+- `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --active false`
+- `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --json`
+
+---
+
+### ibmcloud is flow-log-delete
+{: #flow-log-delete}
+
+Delete a flow log.
+
+```
+ibmcloud is flow-log-delete FLOW_LOG [-f, --force]
+```
+
+#### Command options
+{: #command-options-flow-log-cli-force}
+
+**--force, -f**: Force the operation without confirmation.
+
+#### Command example
+{: #command-example-delete}
+
+Delete a flow log without confirmation.
+
+`ibmcloud is flow-log-delete 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 -f`
+
+---
+
+### ibmcloud is flow-log-update
+{: #flow-log-update}
+
+Update a flow log.
+
+```
+ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active ACTIVE] [--json]
+```
+
+#### Command options
+{: #command-options-flow-log-cli-name}
+
+- **FLOW_LOG**: ID of the flow log.
+- **--name**: New name of the flow log.
+- **--active**: Indicates whether this collector is active. Updating to false deactivates the collector and updating to true activates the collector.
+- **--json**: Format output in JSON.
+
+#### Command example
+{: #command-example-update}
+
+Update the name of a flow log.
+
+- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log`
+- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --active false`
+- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --json`
+
+---
+
+### ibmcloud is flow-logs
+{: #flow-log-list-regions}
+
+List all flow logs in the region.
+
+```
+ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+```
+
+#### Command options
+{: #command-options-flow-log-cli-list-region}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--json**: Format output in JSON.
+
+---
+
 ## Load balancers
 {: #load-balancers-anchor}
 
