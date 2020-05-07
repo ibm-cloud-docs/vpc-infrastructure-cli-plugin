@@ -186,9 +186,6 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 ## Flow logs (Beta)
 {: #flow-logs-cli-ref}
 
-The IBM Cloud Flow Logs Beta is only available to whitelisted users. To expose the flow log commands in the CLI, you must first set the following environment variable:<br />`export IBMCLOUD_IS_FEATURE_FLOW_LOGS_NG=true`
-{: preview}
-
 ### ibmcloud is flow-log
 {: #flow-log-view}
 
