@@ -12,6 +12,7 @@ lastupdated: "2020-03-05"
 {:pre: .pre}
 {:preview: .preview}
 {:screen: .screen}
+{:beta: .beta}
 {:tip: .tip}
 {:note: .note}
 {:important: .important}
@@ -309,8 +310,8 @@ ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 
 ---
 
-## Load balancers
-{: #load-balancers-anchor}
+## Application load balancers
+{: #alb-anchor}
 
 The following section provides information about CLI commands for working with load balancers, listeners, and pools.
 
@@ -413,13 +414,16 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--cert
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
-Priority - Priority of the policy. Lower value indicates higher priority. Range 1 -10. Action Enum - [forward, redirect, reject].
+
+   `priority` is the priority of the policy. A lower value indicates a higher priority. Range 1 -10. Action Enum - [forward, redirect, reject].
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
-When action is forward, Pool Identity is required to specify which pool the load balancer forwards the traffic to.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
-When action is redirect, 'url' is required to specify the url and 'http_status_code' used in the redirect response. 'http_status_code' Enum: [01, 302, 303, 307, 308]. 'url' - The redirect target URL.
+
+   When action is forward, Pool Identity is required to specify which pool the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
+   When action is redirect, 'url' is required to specify the url and 'http_status_code' used in the redirect response. 'http_status_code' Enum: [301, 302, 303, 307, 308]. 'url' - The redirect target URL.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
-'condition' Enum -[ contains, equals, matches_regex ]. 'type' Enum -[ header, hostname, path ]. 'field' - HTTP header field. This is only applicable to 'header' rule type. 'value' - Value to be matched for rule condition.
+
+   `condition` Enum -[ contains, equals, matches_regex ]. `type` Enum -[ header, hostname, path ]. `field` - HTTP header field. This is only applicable to the `header` rule type. `value` is the value to be matched for the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --json`
 
 #### Command options
@@ -427,7 +431,7 @@ When action is redirect, 'url' is required to specify the url and 'http_status_c
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **PORT**: The listener port number. Range 1-65535.
-- **PROTOCOL**: The listener protocol. Enumeration type: **http**, **https**, **tcp**.
+- **PROTOCOL**: The listener protocol. Load balancers in the application family support **tcp**, **http**, and **https**.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is https.
 - **--connection-limit**: The connection limit of the listener.
 - **--default-pool**: ID of the default pool.
@@ -497,21 +501,25 @@ ibmcloud is load-balancer-listener-policy LOAD_BALANCER_ID LISTENER_ID POLICY_ID
 Create a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY --action ACTION [--name NEW_NAME] [--target-id TARGET_ID] [--target-http-status-code TARGET_HTTP_STATUS_CODE] [--target-url TARGET_URL] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--json]
+ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY (--action forward | redirect | reject) [--name NEW_NAME] [--target-id TARGET_ID | (--target-http-status-code TARGET_HTTP_STATUS_CODE --target-url TARGET_URL)] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--json]
 ```
 
 #### Command examples
 {: #command-examples-load-balancer-listener-policy-create}
 
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-policy --priority 5 --action reject`
-Priority - Priority of the policy. Lower value indicates higher priority. Range 1 - 10. Action Enum - [forward, redirect, reject].
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward --target-id 70294e14-4e61-11e8-bcf4-0242ac110004`
-When action is forward, Pool Identity is required to specify which pool the load balancer forwards the traffic to.
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --target-http-status-code 301 --target-url "https://www.redirect.com"`
-When action is redirect, 'url' is required to specify the url and 'http_status_code' used in the redirect response. 'http_status_code' Enum: [01, 302, 303, 307, 308]. 'url' - The redirect target URL.
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject '[{"rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
-'condition' Enum -[ contains, equals, matches_regex ]. 'type' Enum -[ header, hostname, path ]. 'field' - HTTP header field. This is only applicable to 'header' rule type. 'value' - Value to be matched for rule condition.
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-policy --json`
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-policy --action reject --priority 5`
+
+      `priority` is the priority of the policy. A lower value indicates a higher priority. Range 1 - 10. Action Enum - [forward, redirect, reject].
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward --priority 2 --target-id 70294e14-4e61-11e8-bcf4-0242ac110004`
+
+  When `action` is `forward`, Pool Identity is required to specify which pool the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://www.redirect.com"`
+
+   When `action` is `redirect`, `url` is required to specify the URL and `http_status_code` is used in the redirect response. `http_status_code` Enum: [301, 302, 303, 307, 308]. `url` is the redirect target URL.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 4 --rules '[{"rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
+
+   `condition` Enum -[ contains, equals, matches_regex ]. `type` Enum -[ header, hostname, path ]. `field` is the HTTP header field. This is only applicable to the `header` rule type. `value` is the value to be matched for the rule condition.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 3 --name my-policy --json`
 
 #### Command options
 {: #command-options-load-balancer-listener-policy-create}
@@ -574,7 +582,7 @@ ibmcloud is load-balancer-listener-policy-rule LOAD_BALANCER_ID LISTENER_ID POLI
 Create a load balancer listener policy rule.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_ID POLICY_ID --condition CONDITION --type TYPE --value VALUE [--field FIELD] [--json]
+ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_ID POLICY_ID (--condition contains | equals | matches_regex) (--type header | hostname | path) --value VALUE [--field FIELD] [--json]
 ```
 
 #### Command examples
@@ -622,7 +630,7 @@ ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER_ID LISTENER_
 Update a rule of a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [--condition CONDITION] [--type TYPE] [--value VALUE] [--field FIELD] [--json]
+ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [--condition contains | equals | matches_regex] [--type header | hostname | path] [--value VALUE] [--field FIELD] [--json]
 ```
 
 #### Command examples
@@ -677,11 +685,11 @@ ibmcloud is load-balancer-listener-policy-update LOAD_BALANCER_ID LISTENER_ID PO
 {: #command-examples-load-balancer-listener-policy-update}
 
 - `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name my-policy --priority 5`
-- `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --action forward --target-id 70294e14-4e61-11e8-bcf4-0242ac110004`
+- `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --action forward --target-id 70294e14-4e61-11e8-bcf4-0242ac110004`
 When action is forward, Pool Identity is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-http-status-code 301 --target-url "https://www.redirect.com"`
-When action is redirect, 'url' is required to specify the url and 'http_status_code' used in the redirect response. 'http_status_code' Enum: [01, 302, 303, 307, 308]. 'url' - The redirect target URL.
-- `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --json`
+When action is redirect, 'url' is required to specify the url and 'http_status_code' used in the redirect response. 'http_status_code' Enum: [301, 302, 303, 307, 308]. 'url' - The redirect target URL.
+- `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name my-policy --json`
 
 #### Command options
 {: #command-options-load-balancer-listener-policy-update}
@@ -725,7 +733,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--certif
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is https.
 - **--connection-limit**: The connection limit of the listener.
 - **--default-pool**: ID of the default pool.
-- **--protocol**: The listener protocol. Enumeration type: **http**, **https**, **tcp**.
+- **--protocol**: The listener protocol. Load balancers in the application family support **tcp**, **http**, and **https**.
 - **--port**: The listener port number. Range 1 - 65535.
 - **--json**: Format output in JSON.
 
@@ -778,9 +786,9 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 #### Command examples
 {: #command-examples-load-balancer-pool-create}
 
-- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 5 2 20 http`
-- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 5 2 20 http --health-monitor-url / --health-monitor-port 4001`
-- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 5 2 20 http --session-persistence-type source_ip --json`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-url / --health-monitor-port 4001`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type source_ip --json`
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -788,11 +796,11 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - **POOL_NAME**: Name of the pool.
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **ALGORITHM**: The load balancing algorithm. Enumeration type: **round_robin**, **weighted_round_robin**, **least_connections**
-- **PROTOCOL**: The pool protocol. Enumeration type: **http**, **tcp**.
+- **PROTOCOL**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**.
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: 2, maximum: 60.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: 1, maximum: 10.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: 1, maximum: 59.
-- **HEALTH_TYPE**: The pool protocol. Enumeration type: **http**, **tcp**
+- **HEALTH_TYPE**: The pool protocol. Load balancers in the application family support "tcp", "http", "https".
 - **--health-monitor-url**: The health check url. This option is applicable only to http type of HEALTH_TYPE.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type, Enumeration type: **source_ip**.
@@ -843,7 +851,7 @@ ibmcloud is load-balancer-pool-member LOAD_BALANCER_ID POOL_ID MEMBER_ID [--json
 Create a load balancer pool member.
 
 ```
-ibmcloud is load-balancer-pool-member-create LOAD_BALANCER_ID POOL_ID PORT TARGET_ADDRESS [--weight WEIGHT] [--json]
+ibmcloud is load-balancer-pool-member-create LOAD_BALANCER_ID POOL_ID PORT TARGET [--weight WEIGHT] [--json]
 ```
 
 #### Command examples
@@ -858,7 +866,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER_ID POOL_ID PORT TARGE
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
 - **PORT**: The port number of the application running in the server member.
-- **TARGET_ADDRESS**: The IP address of the pool member.
+- **TARGET**: The IP address of the pool member.
 - **--weight**: Weight of the server member. This option takes effect only when the load balancing algorithm of its belonging pool is **weighted_round_robin**.
 - **--json**: Format output in JSON.
 
@@ -877,7 +885,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER_ID POOL_ID MEMBER_ID 
 {: #command-examples-load-balancer-pool-member-update}
 
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001`
-- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --target-address 192.168.100.5 --port 3001 --weight 100 --json`
+- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001 --weight 100 --json`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-update}
@@ -935,7 +943,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--json]
 Update a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type TYPE] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol http | tcp] [--session-persistence-type TYPE] [--name NEW_NAME] [--json]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type TYPE] [--name NEW_NAME] [--json]
 ```
 
 #### Command examples
@@ -957,10 +965,10 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: 2, maximum: 60.
 - **--health-max-retries**: The health check maximum retries. Minimum: 1, maximum: 10.
 - **--health-timeout**: The health check timeout in seconds. Minimum: 1, maximum: 59.
-- **--health-type**: The pool protocol. Enumeration type: **http**, **tcp**.
+- **--health-type**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**.
 - **--health-monitor-url**: The health check url. This option is applicable only to http type of --health-type.
 - **--health-monitor-port**: The health check port number. The health check port number. If specified, the specified ports in the server member resources are overridden.
-- **--protocol**: The pool protocol. Enumeration type: **http**, **tcp**.
+- **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**.
 - **--session-persistence-type**: The session persistence type, Enumeration type: **source_ip**.
 - **--name**: The new name of the pool.
 - **--json**: Format output in JSON.
@@ -1036,6 +1044,553 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 
 #### Command options
 {: #command-options-load-balancers}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--json**: Format output in JSON.
+
+---
+
+## Network load balancers (Beta)
+{: #nlb-anchor}
+
+The beta release of {{site.data.keyword.cloud_notm}} Network Load Balancer for VPC is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering. After this offering is made generally available, you must upgrade to the standard paid plan to continue using instances that you created during the beta. Upgrade instructions will be provided to beta participants. Any instance that continues to use the beta plan for this service beyond 30 days after general availability is subject to deletion.
+{: beta}
+
+### ibmcloud is load-balancer-profiles
+{: #load-balancer-profiles}
+
+List all load balancer profiles in the region.
+
+```
+ibmcloud is load-balancer-profiles [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-profiles}
+
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-profile
+{: #load-balancer-profile}
+
+View details of a load balancer profile.
+
+```
+ibmcloud is load-balancer-profile PROFILE_NAME [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-profile}
+
+- **PROFILE_NAME**: Name of the profile.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancers
+{: #load-balancers}
+
+List all load balancers.
+
+```
+ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+```
+
+#### Command options
+{: #command-options-load-balancers}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer
+{: #load-balancer-nlb}
+
+View details of a load balancer.
+
+```
+ibmcloud is load-balancer LOAD_BALANCER_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-create
+{: #load-balancer-create-nlb}
+
+Create a load balancer.
+
+```
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--profile PROFILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-create-nlb}
+
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --profile network-medium`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-name Default`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --json`
+
+#### Command options
+{: #command-options-load-balancer-create-nlb}
+
+- **LOAD_BALANCER_NAME**: Name of the load balancer.
+- **LOAD_BALANCER_TYPE**: Type of the load balancer, public or private.
+- **--subnet**: ID of the subnets to provision this load balancer. This parameter can be specified multiple times to provision multiple subnets.
+- **--profile**: The profile to use for the load balancer.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-delete
+{: #load-balancer-delete-nlb}
+
+Delete a load balancer.
+
+```
+ibmcloud is load-balancer-delete LOAD_BALANCER_ID [-f, --force]
+```
+
+#### Command options
+{: #command-options-load-balancer-delete-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **--force, -f**: Force the operation without confirmation.
+
+---
+
+### ibmcloud is load-balancer-listener
+{: #load-balancer-listener-nlb}
+
+View details of a load balancer listener.
+
+```
+ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-listener-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **LISTENER_ID**: ID of the listener.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-listener-create
+{: #load-balancer-listener-create-nlb}
+
+Create a load balancer listener.
+
+```
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-listener-create-nlb}
+
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
+Priority - Priority of the policy. Lower value indicates higher priority. Range 1 -10. Action Enum - [forward, redirect, reject].
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
+When action is forward, Pool Identity is required to specify which pool the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
+When action is redirect, 'url' is required to specify the url and 'http_status_code' used in the redirect response. 'http_status_code' Enum: [301, 302, 303, 307, 308]. 'url' - The redirect target URL.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
+'condition' Enum -[ contains, equals, matches_regex ]. 'type' Enum -[ header, hostname, path ]. 'field' - HTTP header field. This is only applicable to 'header' rule type. 'value' - Value to be matched for rule condition.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --json`
+
+#### Command options
+{: #command-options-load-balancer-listener-create-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **PORT**: The listener port number. Range 1-65535.
+- **PROTOCOL**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--default-pool**: ID of the default pool.
+- **--connection-limit**: The connections limit of the listener. This is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is https. This is not applicable for the load balancers in the network family.
+- **--policies**: LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE, listener policies in JSON or JSON file. This is not applicable for the load balancers in the network family.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-listener-delete
+{: #load-balancer-listener-delete-nlb}
+
+Delete a load balancer listener.
+
+```
+ibmcloud is load-balancer-listener-delete LOAD_BALANCER_ID LISTENER_ID [-f, --force]
+```
+
+#### Command options
+{: #command-options-load-balancer-listener-delete-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **LISTENER_ID**: ID of the listener.
+- **--force, -f**: Force the operation without confirmation.
+
+---
+
+### ibmcloud is load-balancer-listener-update
+{: #load-balancer-listener-update-nlb}
+
+Update a load balancer listener.
+
+```
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-listener-update-nlb}
+
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --connection-limit 2000`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol https`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --json`
+
+#### Command options
+{: #command-options-load-balancer-listener-update-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **LISTENER_ID**: ID of the listener.
+- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--port**: The listener port number. Range 1-65535.
+- **--default-pool**: ID of the default pool.
+- **--connection-limit**: The connections limit of the listener. This is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is https. This is not applicable for the load balancers in the network family.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-listeners
+{: #load-balancer-listeners-nlb}
+
+List all load balancer listeners.
+
+```
+ibmcloud is load-balancer-listeners LOAD_BALANCER_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-listeners-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool
+{: #load-balancer-pool-nlb}
+
+View details of a load balancer pool.
+
+```
+ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-pool-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool-create
+{: #load-balancer-pool-create-nlb}
+
+Create a load balancer pool.
+
+```
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-pool-create-nlb}
+
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-url / --health-monitor-port 4001`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type source_ip --json`
+
+#### Command options
+{: #command-options-load-balancer-pool-create-nlb}
+
+- **POOL_NAME**: Name of the pool.
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **ALGORITHM**: The load balancing algorithm. Enumeration type: **round_robin**, **weighted_round_robin**, **least_connections**.
+- **PROTOCOL**: The pool protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp.
+- **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value.. Minimum: 2, maximum: 60.
+- **HEALTH_RETRIES**: The health check max retries. Minimum: 1, maximum: 10.
+- **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: 1, maximum: 59.
+- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
+- **--health-monitor-url**: The health check url. This option is applicable only to http type of HEALTH_TYPE.
+- **--health-monitor-port**: The health check port number. If specified, this overrides the ports specified in the server member resources.
+- **--session-persistence-type**: The session persistence type, Enumeration type: **source_ip**.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool-delete
+{: #load-balancer-pool-delete-nlb}
+
+Delete a pool from a load balancer.
+
+```
+ibmcloud is load-balancer-pool-delete LOAD_BALANCER_ID POOL_ID [-f, --force]
+```
+
+#### Command options
+{: #command-options-load-balancer-pool-delete-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **--force, -f**: Force the operation without confirmation.
+
+---
+
+### ibmcloud is load-balancer-pool-member
+{: #load-balancer-pool-member-nlb}
+
+View details of load balancer pool member.
+
+```
+ibmcloud is load-balancer-pool-member LOAD_BALANCER_ID POOL_ID MEMBER_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-pool-member-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **MEMBER_ID**: ID of the member.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool-member-create
+{: #load-balancer-pool-member-create-nlb}
+
+Create a load balancer pool member.
+
+```
+ibmcloud is load-balancer-pool-member-create LOAD_BALANCER_ID POOL_ID PORT TARGET [--weight WEIGHT] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-pool-member-create-nlb}
+
+- `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 192.168.100.5`
+- `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 9e692608-3b3a-4cfb-9f46-efb6b711876d`
+- `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 192.168.100.5 --weight 100 --json`
+
+#### Command options
+{: #command-options-load-balancer-pool-member-create-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **PORT**: The port number of the application running in the server member.
+- **TARGET**: The IP address of the pool member for load balancers in the application family, or the instance ID of the pool member for load balancers in the network family.
+- **--weight**: Weight of the server member. This option takes effect only when the load balancing algorithm of its belonging pool is weighted_round_robin.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool-member-update
+{: #load-balancer-pool-member-update-nlb}
+
+Update a member of a load balancer pool.
+
+```
+ibmcloud is load-balancer-pool-member-update LOAD_BALANCER_ID POOL_ID MEMBER_ID [--target-address TARGET_ADDRESS | --target TARGET] [--port PORT] [--weight WEIGHT] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-pool-member-update-nlb}
+
+- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target 192.168.100.5 --port 3001`
+- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target 9e692608-3b3a-4cfb-9f46-efb6b711876d --port 3001`
+- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001`
+- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001 --weight 100 --json`
+
+#### Command options
+{: #command-options-load-balancer-pool-member-update-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **MEMBER_ID**: ID of the member.
+- **--target-address**: The IP address of the pool member.
+- **--target**: The IP address of the pool member for load balancers in the application family, or the instance ID of the pool member for load balancers in the network family.
+- **--port**: The port number of the application running in the server member.
+- **--weight**: Weight of the server member. This option takes effect only when the load balancing algorithm of its belonging pool is weighted_round_robin.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool-member-delete
+{: #load-balancer-pool-member-delete-nlb}
+
+Delete a member from a load balancer pool.
+
+```
+ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER_ID POOL_ID MEMBER_ID [-f, --force]
+```
+
+#### Command options
+{: #command-options-load-balancer-pool-member-delete-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **MEMBER_ID**: ID of the member.
+- **--force, -f**: Force the operation without confirmation.
+
+---
+
+### ibmcloud is load-balancer-pool-members
+{: #load-balancer-pool-members-nlb}
+
+List all the members of a load balancer pool.
+
+```
+ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-pool-members-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pool-update
+{: #load-balancer-pool-update-nlb}
+
+Update a pool of a load balancer.
+
+```
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip] [--name NEW_NAME] [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-pool-update-nlb}
+
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --algorithm round_robin`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-delay 20 --health-max-retries 2 --health-timeout 5 --health-type http`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-url / --health-monitor-port 4001`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --session-persistence-type source_ip`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol http`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name lb-rule-name --json`
+
+#### Command options
+{: #command-options-load-balancer-pool-update-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **POOL_ID**: ID of the pool.
+- **--algorithm**: The load balancing algorithm. Enumeration type: **round_robin**, **weighted_round_robin**, **least_connections**.
+- **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: 2, maximum: 60.
+- **--health-max-retries**: The health check max retries. Minimum: 1, maximum: 10.
+- **--health-timeout**: The health check timeout in seconds. Minimum: 1, maximum: 59.
+- **--health-type**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
+- **--health-monitor-url**: The health check url. This option is applicable only to http type of --health-type.
+- **--health-monitor-port**: The health check port number. If specified, this overrides the ports specified in the server member resources.
+- **--protocol**: The pool protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp.
+- **--session-persistence-type**: The session persistence type, Enumeration type: **source_ip**.
+- **--name**: The new name of the pool.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-pools
+{: #load-balancer-pools-nlb}
+
+List all pools of a load balancer.
+
+```
+ibmcloud is load-balancer-pools LOAD_BALANCER_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-pools-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-statistics
+{: #load-balancer-statistics-nlb}
+
+List all statistics of a load balancer.
+
+```
+ibmcloud is load-balancer-statistics LOAD_BALANCER_ID [--json]
+```
+
+#### Command options
+{: #command-options-load-balancer-statistics-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancer-update
+{: #load-balancer-update-nlb}
+
+Update a load balancer.
+
+```
+ibmcloud is load-balancer-update LOAD_BALANCER_ID --name NEW_NAME [--json]
+```
+
+#### Command examples
+{: #command-examples-load-balancer-update-nlb}
+
+- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-loadBalancer`
+- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-loadBalancer --json`
+
+#### Command options
+{: #command-options-load-balancer-update-nlb}
+
+- **LOAD_BALANCER_ID**: ID of the load balancer.
+- **--name**: New name of the Load balancer.
+- **--json**: Format output in JSON.
+
+---
+
+### ibmcloud is load-balancers
+{: #load-balancers-nlb}
+
+List all load balancers.
+
+```
+ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+```
+
+#### Command options
+{: #command-options-load-balancers-nlb}
 
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
