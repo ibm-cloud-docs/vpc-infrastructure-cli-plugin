@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-04-30"
+lastupdated: "2020-06-30"
 
 ---
 
@@ -22,6 +22,24 @@ lastupdated: "2020-04-30"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.6.0
+{: #v0.6.0}
+
+Version 0.6.0 was released on 2020-06-30.
+
+### New commands
+
+* Added Creating instance from instance-template support for 'instance-create-from-template' command.
+* (Beta) Added commands to support dedicated host.
+
+### Updated commands
+
+* Updated all commands with VPC API version to '2020-05-19'.
+
+### Removed commands
+
+* N/A
+
 ## v0.5.14
 {: #v0.5.14}
 
@@ -33,13 +51,14 @@ Version 0.5.14 was released on 2020-04-30.
 
 ### Updated commands
 
-* Added https protocol and https health-type support for 'load-balancer-pool-create' command.
-* Added https protocol and https health-type support for 'load-balancer-pool-update' command.
-* Added floating ip data to 'instance' command json output.
+* Added HTTPS protocol and HTTPS health-type support for 'load-balancer-pool-create' command.
+* Added HTTPS protocol and HTTPS health-type support for 'load-balancer-pool-update' command.
+* Added floating IP data to 'instance' command JSON output.
 
 ### Removed commands
 
 * N/A
+
 
 ## v0.5.13
 {: #v0.5.13}
