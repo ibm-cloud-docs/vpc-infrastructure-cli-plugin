@@ -186,32 +186,8 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 
 ---
 
-## Flow logs (Beta)
+## Flow logs
 {: #flow-logs-cli-ref}
-
-### ibmcloud is flow-log
-{: #flow-log-view}
-
-View details of a flow log.
-
-```
-ibmcloud is flow-log FLOW_LOG [--json]
-```
-
-#### Command options
-{: #command-options-flow-log-cli-view}
-
-- **FLOW_LOG**: ID of the flow log.
-- **--json**: Format output in JSON.
-
-#### Command example
-{: #command-example-view}
-
-View details of a flow log in JSON format.
-
-`ibmcloud is flow-log 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --json`
-
----
 
 ### ibmcloud is flow-log-create
 {: #flow-log-create}
@@ -219,27 +195,28 @@ View details of a flow log in JSON format.
 Create a flow log.
 
 ```
-ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--name NAME] [--active ACTIVE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--name NAME] [--active TRUE | FALSE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
-#### Command options
-{: #command-options-flow-log-cli-create}
-
-- **--bucket**: Name of COS bucket.
-- **--target**: The target for the flow log.
-- **--name**: New name for the flow log.
-- **--active**: Indicates whether this collector is active.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
-- **--json**: Format output in JSON.
-
-#### Command example
-{: #command-example-create}
+#### Command examples
+{: #command-examples-flow-log-create}
 
 - `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log`
 - `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --active false`
-- `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --json`
+- `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --output JSON`
+
+#### Command options
+{: #command-options-flow-log-create}
+
+- **--bucket**: Name of COS bucket.
+- **--target**: The target for flow log.
+- **--name**: New name for the flow log.
+- **--active**: Indicates whether this collector is active. Enumeration type: **TRUE**, **FALSE**.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported now. Enumeration type: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
 
 ---
 
@@ -249,20 +226,15 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--n
 Delete a flow log.
 
 ```
-ibmcloud is flow-log-delete FLOW_LOG [-f, --force]
+ibmcloud is flow-log-delete FLOW_LOG [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
-{: #command-options-flow-log-cli-force}
+{: #command-options-flow-log-delete}
 
-**--force, -f**: Force the operation without confirmation.
-
-#### Command example
-{: #command-example-delete}
-
-Delete a flow log without confirmation.
-
-`ibmcloud is flow-log-delete 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 -f`
+- **FLOW_LOG**: ID of the flow log.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
 
 ---
 
@@ -272,43 +244,61 @@ Delete a flow log without confirmation.
 Update a flow log.
 
 ```
-ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active ACTIVE] [--json]
+ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [--output JSON] [-q, --quiet]
 ```
 
-#### Command options
-{: #command-options-flow-log-cli-name}
-
-- **FLOW_LOG**: ID of the flow log.
-- **--name**: New name of the flow log.
-- **--active**: Indicates whether this collector is active. Updating to false deactivates the collector and updating to true activates the collector.
-- **--json**: Format output in JSON.
-
-#### Command example
-{: #command-example-update}
-
-Update the name of a flow log.
+#### Command examples
+{: #command-examples-flow-log-update}
 
 - `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log`
 - `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --active false`
-- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --json`
+- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --output JSON`
+
+#### Command options
+{: #command-options-flow-log-update}
+
+- **FLOW_LOG**: ID of the flow log.
+- **--name**: New name of the flow log.
+- **--active**: Indicates whether this collector is active. Updating to false deactivates the collector and updating to true activates the collector. Enumeration type: **TRUE**, **FALSE**.
+- **--output**: Specify output format, only JSON is supported now. Enumeration type: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is flow-log
+{: #flow-log}
+
+View details of a flow log.
+
+```
+ibmcloud is flow-log FLOW_LOG [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-flow-log}
+
+- **FLOW_LOG**: ID of the flow log.
+- **--output**: Specify output format, only JSON is supported now. Enumeration type: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
 
 ---
 
 ### ibmcloud is flow-logs
-{: #flow-log-list-regions}
+{: #flow-logs}
 
 List all flow logs in the region.
 
 ```
-ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--json]
+ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
-{: #command-options-flow-log-cli-list-region}
+{: #command-options-flow-logs}
 
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
-- **--json**: Format output in JSON.
+- **--output**: Specify output format, only JSON is supported now. Enumeration type: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
 
 ---
 
