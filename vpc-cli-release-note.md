@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-06-30"
+lastupdated: "2020-07-30"
 
 ---
 
@@ -21,6 +21,45 @@ lastupdated: "2020-06-30"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+
+## v0.6.2
+{: #v0.6.2}
+
+Version 0.6.2 was released on 2020-07-29.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Enable expandable volume feature with 'volume-update' command.
+* (Beta) Large volume capacity size support (larger than 2 TB) in volume create and update commands.
+* Add '--add-resource-groups' flag to list commands that list resources in all resource groups regardless of target resource group in 'ibmcloud target'.
+
+### Removed commands
+
+* N/A
+
+## v0.6.1
+{: #v0.6.1}
+
+Version 0.6.1 was released on 2020-07-17.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* (Beta) Update 'image-create' and 'image' command for encrypted image support.
+* Add '--output JSON' flag to replace the old '--json' flag. '--json' flag is planned for deprecation and removal in next major release.
+* Add '-q, --quiet' flag to suppress the verbose output.
+
+### Removed commands
+
+* N/A
 
 ## v0.6.0
 {: #v0.6.0}
