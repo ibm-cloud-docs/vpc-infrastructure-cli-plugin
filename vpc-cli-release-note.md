@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-07-30"
+lastupdated: "2020-08-24"
 
 ---
 
@@ -22,6 +22,27 @@ lastupdated: "2020-07-30"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.6.3
+{: #v0.6.3}
+
+Version 0.6.3 was released on 2020-08-24.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update VPC API version to 2020-08-11
+* Update network load balancer create command with '--family network' instead of the --profile option.
+* Update load-balancer-pool-update command to reset the session-persistence to null with '--session-persistence-type none'.
+* Update ‘target’ command to support only the accounts that have generation 1 access.
+
+### Removed commands
+
+* Hide 'load-balancer-profiles' command and it will be removed in next major release.
+* Hide 'load-balancer-profile' command and it will be removed in next major release.
+* Hide the 'target' command for the account that doesn't have generation 1 access.
 
 ## v0.6.2
 {: #v0.6.2}
