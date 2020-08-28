@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-07-30"
+lastupdated: "2020-08-24"
 
 ---
 
@@ -78,13 +78,275 @@ This document is organized into the following sections:
 
 The following section provides information about CLI commands for network services.
 
+## Custom routes
+{: #custom-routes-section}
+
+The following section gives details about the CLI commands that are available for working with VPC routes and routing tables.
+
+### ibmcloud is vpc-default-routing-table
+{: #vpc-default-routing-table}
+
+View details of the default routing table of a VPC.
+
+```
+ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-default-routing-table}
+
+- **VPC**: ID of the VPC.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-tables
+{: #vpc-routing-tables}
+
+List all routing tables for a VPC.
+
+```
+ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-tables}
+
+- **VPC**: ID of the VPC.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table
+{: #vpc-routing-table}
+
+View details of a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-create
+{: #vpc-routing-table-create}
+
+Create a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpc-routing-table-create}
+
+- `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-create}
+
+- **VPC**: ID of the VPC.
+- **--name**: Name of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-update
+{: #vpc-routing-table-update}
+
+Update a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpc-routing-table-update}
+
+- `ibmcloud is vpc-routing-table-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-routing-table --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-update}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--name**: New name of the routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-delete
+{: #vpc-routing-table-delete}
+
+Delete a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-delete VPC ROUTING_TABLE [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-delete}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-routes
+{: #vpc-routing-table-routes}
+
+List all the routes of a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-routes VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-routes}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route
+{: #vpc-routing-table-route}
+
+View details of a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-route}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **ROUTE**: ID of the VPC route.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route-create
+{: #vpc-routing-table-route-create}
+
+Create a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop NEXT_HOP [--action delegate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpc-routing-table-route-create}
+
+- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action deliver --zone us-south-1 --destination  10.2.2.0/24 --next-hop 10.0.0.2 --output JSON`
+- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action delegate --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
+- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action drop --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-route-create}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--zone**: Name of the zone.
+- **--action**: The action to perform with a packet that matches the route. One of: **delegate**, **deliver**, **drop**.
+- **--destination**: The destination CIDR of the route. At most two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
+- **--next-hop**: If the action is **deliver**, the IP address or VPN connection ID of the next hop to which to route packets.
+- **--name**: Name of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route-update
+{: #vpc-routing-table-route-update}
+
+Update a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpc-routing-table-route-update}
+
+- `ibmcloud is vpc-routing-table-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 72b27b5c-f4b0-48bb-b954-5becc7c1d4ef --name my-vpc-route --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-route-update}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **ROUTE**: ID of the VPC route.
+- **--name**: New name of the route.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route-delete
+{: #vpc-routing-table-route-delete}
+
+Delete a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE ROUTE [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-route-delete}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **ROUTE**: ID of the VPC route.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is subnet-routing-table
+{: #subnet-routing-table}
+
+View details of routing table that is attached to the subnet.
+
+```
+ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-subnet-routing-table}
+
+- **SUBNET**: ID of the subnet.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Endpoint gateways (Beta)
 {: #vpe-clis}
 
 The following section gives details about the CLI commands that are available for working with endpoint gateways.
 
-The beta release of {{site.data.keyword.cloud_notm}} Virtual Private Endpoints (VPE) is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering.
-{: beta}
+The beta release of {{site.data.keyword.cloud_notm}} Virtual Private Endpoints (VPE) is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering. 
+{: beta} 
 
 ### ibmcloud is endpoint-gateway-targets
 {: #endpoint-gateway-targets}
@@ -158,7 +420,7 @@ Create endpoint gateway without binding reserved IP.
 - `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"}}'`
 Create endpoint gateway with binding new reserved IP configuration that has only required subnet ID data.
 - `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"},"name":"my-reserved-ip1","auto_delete":false}'`
-Create endpoint gateway with binding new reserved IP configuration with subnet ID, reserved ip name, reserved IP auto_delete configuration.
+Create endpoint gateway with binding new reserved IP configuration with subnet ID, reserved IP name, reserved IP auto_delete configuration.
 - `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target ibm-ntp-server --name myegw3`
 Create endpoint gateway with the provider infrastructure service 'ibm-ntp-server'.
 - `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target my-key-protect-inst1 --name myegw1 --reserved-ip-id 062d13f9-d46d-483d-bdc9-42c0326e73f0 --reserved-ip-id 6fcfb762-b9aa-41fa-9332-d228e76ee39b`
@@ -516,14 +778,14 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--profile PROFILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-load-balancer-create}
 
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e`
-- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --profile network-medium`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-name Default`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --output JSON`
@@ -533,8 +795,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 
 - **LOAD_BALANCER_NAME**: Name of the load balancer.
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
-- **--subnet**: ID of the subnets to provision this load balancer. This parameter can be specified multiple times to provision multiple subnets.
-- **--profile**: The profile to use for the load balancer.
+- **--subnet**: ID of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
+- **--family**: The load balancer family type. One of: **application**, **network**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
@@ -600,9 +862,9 @@ The priority of the policy can have a range of 1 to 10, where a lower value indi
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
 When the action is _forward_, the pool identity is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
-When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The _url_ is the redirect target URL.
+When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
-Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". "field" is an http header field that is applicable only to the "header" rule type. The "value" parameter is the value to match the rule condition.
+Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --output JSON`
 
 #### Command options
@@ -697,7 +959,7 @@ When the action is _forward_, the pool identity is required to specify which poo
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://www.redirect.com"`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 4 --rules '[{"rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
-Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an http header field which is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
+Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 3 --name my-policy --output JSON`
 
 #### Command options
@@ -709,7 +971,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--action**: The policy action. One of: **forward**, **redirect**, **reject**.
 - **--name**: The new name of the policy.
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
-- **--target-http-status-code**: The http status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
+- **--target-http-status-code**: The HTTP status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
 - **--target-url**: The redirect target URL, specified with **redirect** action.
 - **--rules**: **LISTENER_POLICY_RULES_JSON** | **@LISTENER_POLICY_RULES_JSON_FILE**, listener policy rules in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
@@ -781,7 +1043,7 @@ ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
 - **--type**: The type of the rule. One of: **header**, **hostname**, **path**.
 - **--value**: Value to match the rule condition.
-- **--field**: http header field. This is applicable only to **header** rule type.
+- **--field**: HTTP header field. This is applicable only to **header** rule type.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -832,7 +1094,7 @@ ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
 - **--type**: The type of the rule. One of: **header**, **hostname**, **path**.
 - **--value**: Value to match the rule condition.
-- **--field**: http header field. This is applicable only to **header** rule type.
+- **--field**: HTTP header field. This is applicable only to **header** rule type.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -883,10 +1145,10 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **POLICY_ID**: ID of the policy.
-- **--name**: The user-defined name for this policy. Names must be unique within the load balancer listener that the policy resides in.
+- **--name**: The user-defined name for this policy. Policy names must be unique within the load balancer listener.
 - **--priority**: Priority of the policy. Lower value indicates higher priority, for example: **5**, range: [**1-10**].
-- **--target-id**: The unique identifier for this load balancer pool, which is specified with **forward** action.
-- **--target-http-status-code**: The http status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
+- **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
+- **--target-http-status-code**: The HTTP status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
 - **--target-url**: The redirect target URL, specified with **redirect** action.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -991,7 +1253,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
-- **--health-monitor-url**: The health check URL. This option is applicable only to http type of **HEALTH_TYPE**.
+- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
@@ -1144,7 +1406,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--output JSON] 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1167,10 +1429,10 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **--health-type**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
-- **--health-monitor-url**: The health check URL. This option is applicable only to http type of **--health-type**.
+- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
-- **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **none**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1262,42 +1524,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 {: #nlb-anchor}
 
 The beta release of {{site.data.keyword.cloud_notm}} Network Load Balancer for VPC is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering. After this offering is made generally available, you must upgrade to the standard paid plan to continue using instances that you created during the beta. Upgrade instructions are provided to beta participants. Any instance that continues to use the beta plan for this service beyond 30 days after general availability is subject to deletion.
-				{: beta}
-
-### ibmcloud is load-balancer-profiles
-{: #load-balancer-profiles}
-
-List all load balancer profiles in the region.
-
-```
-ibmcloud is load-balancer-profiles [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-load-balancer-profiles}
-
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is load-balancer-profile
-{: #load-balancer-profile}
-
-View details of a load balancer profile.
-
-```
-ibmcloud is load-balancer-profile PROFILE_NAME [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-load-balancer-profile}
-
-- **PROFILE_NAME**: Name of the profile.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
+				{: beta} 
 
 ### ibmcloud is load-balancers
 {: #load-balancers}
@@ -1343,14 +1570,14 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--profile PROFILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-load-balancer-create}
 
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e`
-- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --profile network-medium`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-name Default`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --output JSON`
@@ -1360,8 +1587,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 
 - **LOAD_BALANCER_NAME**: Name of the load balancer.
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
-- **--subnet**: ID of the subnets to provision this load balancer. This parameter can be specified multiple times to provision multiple subnets.
-- **--profile**: The profile to use for the load balancer.
+- **--subnet**: ID of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
+- **--family**: The load balancer family type. One of: **application**, **network**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
@@ -1466,13 +1693,13 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--defa
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
-The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for action are forward, redirect, or reject.
+The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", or "reject".
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
-When the action is "forward", the pool identity is required to specify which pool the load balancer forwards the traffic to.
+When the action is _forward_, the pool identity is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
-When the action is "redirect", the "url" and "http_status_code" are required. Possible values for "http_status_code" are 301, 302, 303, 307, or 308. The "url" is the redirect target URL.
+When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
-Possible values for "condition" are contains, equals, or matches_regex. Possible values for "type" are header, hostname, or path. The "field" is an http header field which is only applicable to "header" rule type. The "value" parameter is the value to match the rule condition.
+Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --output JSON`
 
 #### Command options
@@ -1607,7 +1834,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
-- **--health-monitor-url**: The health check URL. This option is applicable only to http type of **HEALTH_TYPE**.
+- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
@@ -1640,7 +1867,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER_ID POOL_ID [-f, --force] [-q
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1663,10 +1890,10 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **--health-type**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
-- **--health-monitor-url**: The health check URL. This option is applicable only to http type of **--health-type**.
+- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
-- **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **none**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2514,7 +2741,7 @@ ibmcloud is subnet SUBNET [--show-attached] [--output JSON] [-q, --quiet]
 {: #command-options-subnet}
 
 - **SUBNET**: ID of the subnet.
-- **--show-attached**: View details of resources (instances,load balancers,VPN gateways) attached to the subnet.
+- **--show-attached**: View details of resources (instances, load balancers, VPN gateways) attached to the subnet.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2790,7 +3017,7 @@ ibmcloud is vpc VPC [--show-attached] [--output JSON] [-q, --quiet]
 {: #command-options-vpc}
 
 - **VPC**: ID of the VPC.
-- **--show-attached**: View details of resources (subnets, VPC routes, and address prefix) attached to this VPC.
+- **--show-attached**: View details of resources (subnets, VPC routes and address prefix) attached to this VPC.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3836,7 +4063,7 @@ ibmcloud is image-create IMAGE_NAME --file IMAGE_FILE_LOCATION --os-name OPERATI
 - **--file**: The Cloud Object Store (COS) location of the image file, for example: **cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2**.
 - **--os-name**: The name of the operating system for this image.
 - **--encrypted-data-key**: A base64-encoded, encrypted representation of the key that was used to encrypt the data for this image.
-- **--encryption-key**: encrypted_data_key  The CRN of the root key that was used to wrap the data key (which is ultimately represented as encrypted_data_key). Additionally,the root key will be used to encrypt volumes created from this image (unless an alternate `encryption_key` is provided at volume creation).
+- **--encryption-key**: The CRN of the root key that was used to wrap the data key (which is ultimately represented as **encrypted_data_key**). Additionally, the root key is used to encrypt volumes created from this image (unless an alternate **encryption_key** is provided at volume creation).
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
@@ -4353,7 +4580,7 @@ Stop a virtual server instance.
 
 - When you stop an instance and restart it, a new private IP address is assigned if the instance wasn't created with a static IP address. The primary_ipv4_address attribute wasn't set when the instance was created by using the CLI or API). For more information about setting a static IP address, see primary_network_interface in the [API reference](https://{DomainName}/apidocs/vpc#create-an-instance){: new_window}.
 -{:tip}
-
+		
 ```
 ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q, --quiet]
 ```
@@ -5292,7 +5519,7 @@ ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBE
 Update a manager for instance group.
 
 ```
-ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--max-members MAX_MEMBERS] [--min-members MIN_MEMBERS] [--management-enabled true | false] [--output JSON] [-q, --quiet]
+ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--max-members MAX_MEMBERS] [--min-members MIN_MEMBERS] [--management-enabled true | false] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5304,6 +5531,7 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 - `ibmcloud is instance-group-manager-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --min-members 2`
 - `ibmcloud is instance-group-manager-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --aggregation-window false --output JSON`
 - `ibmcloud is instance-group-manager-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --management-enabled false`
+- `ibmcloud is instance-group-manager-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name new_name`
 
 #### Command options
 {: #command-options-instance-group-manager-update}
@@ -5315,6 +5543,7 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 - **--max-members**: The maximum number of members in a managed instance group. Range 1-100.
 - **--min-members**: The minimum number of members in a managed instance group. Range 1-100.
 - **--management-enabled**: If set to false, the manager will not manipulate the instance group. One of: **true**, **false**.
+- **--name**: New name of the instance group manager.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5433,7 +5662,7 @@ ibmcloud is instance-group-manager-policy-delete INSTANCE_GROUP MANAGER POLICY [
 Update an instance group manager policy.
 
 ```
-ibmcloud is instance-group-manager-policy-update INSTANCE_GROUP MANAGER POLICY [--metric-type cpu | memory | network_in | network_out] [--metric-value METRIC_VALUE] [--output JSON] [-q, --quiet]
+ibmcloud is instance-group-manager-policy-update INSTANCE_GROUP MANAGER POLICY [--metric-type cpu | memory | network_in | network_out] [--metric-value METRIC_VALUE] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5452,6 +5681,7 @@ ibmcloud is instance-group-manager-policy-update INSTANCE_GROUP MANAGER POLICY [
 - **POLICY**: ID of the policy.
 - **--metric-type**: The type of metric to be evaluated: cpu (utilization percent), memory (utilization percent), network_in (Mbps), network_out (Mbps).
 - **--metric-value**: The metric value to be evaluated.
+- **--name**: New name of the instance group manager policy.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5683,7 +5913,7 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - **PROFILE_NAME**: Name of the profile.
 - **ZONE_NAME**: Name of the zone.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes, (default: **100**).
-- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, please refer: https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
+- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -5765,7 +5995,7 @@ ibmcloud is volume-update VOLUME --name NEW_NAME [--capacity CAPACITY] [--output
 
 - **VOLUME**: ID of the volume.
 - **--name**: New name of the volume.
-- **--capacity**: The capacity of the volume in gigabytes. It can only be expanded up to 250 for volumes less than 250 GB. Volumes greater than 250 GB can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for 5iops-tier profile volumes and 4800 for 10iops-tier profile volumes. It is only applicable for attached data volume (not boot volume). Size can only be increased, not decreased.
+- **--capacity**: The capacity of the volume in gigabytes. It can be expanded only up to 250 for volumes less than 250 GB. Volumes greater than 250 GB can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for 5iops-tier profile volumes and 4800 for 10iops-tier profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
