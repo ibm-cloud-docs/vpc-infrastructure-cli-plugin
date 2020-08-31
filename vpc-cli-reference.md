@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-08-24"
+lastupdated: "2020-08-31"
 
 ---
 
@@ -345,8 +345,8 @@ ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
 
 The following section gives details about the CLI commands that are available for working with endpoint gateways.
 
-The beta release of {{site.data.keyword.cloud_notm}} Virtual Private Endpoints (VPE) is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering. 
-{: beta} 
+The beta release of {{site.data.keyword.cloud_notm}} Virtual Private Endpoints (VPE) is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering.
+{: beta}
 
 ### ibmcloud is endpoint-gateway-targets
 {: #endpoint-gateway-targets}
@@ -752,7 +752,7 @@ ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 ## Application load balancers
 {: #alb-anchor}
 
-The following section provides information about CLI commands for working with load balancers, listeners, and pools.
+The following section provides information about CLI commands for working with application load balancers, listeners, and pools.
 
 ### ibmcloud is load-balancer
 {: #load-balancer}
@@ -1520,11 +1520,10 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 
 ---
 
-## Network load balancers (Beta)
+## Network load balancers
 {: #nlb-anchor}
 
-The beta release of {{site.data.keyword.cloud_notm}} Network Load Balancer for VPC is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering. After this offering is made generally available, you must upgrade to the standard paid plan to continue using instances that you created during the beta. Upgrade instructions are provided to beta participants. Any instance that continues to use the beta plan for this service beyond 30 days after general availability is subject to deletion.
-				{: beta} 
+The following section provides information about CLI commands for working with network load balancers, listeners, and pools.
 
 ### ibmcloud is load-balancers
 {: #load-balancers}
@@ -4580,7 +4579,7 @@ Stop a virtual server instance.
 
 - When you stop an instance and restart it, a new private IP address is assigned if the instance wasn't created with a static IP address. The primary_ipv4_address attribute wasn't set when the instance was created by using the CLI or API). For more information about setting a static IP address, see primary_network_interface in the [API reference](https://{DomainName}/apidocs/vpc#create-an-instance){: new_window}.
 -{:tip}
-		
+
 ```
 ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q, --quiet]
 ```
