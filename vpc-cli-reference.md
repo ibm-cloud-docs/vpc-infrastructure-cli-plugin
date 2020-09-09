@@ -4577,7 +4577,8 @@ ibmcloud is instance-start INSTANCE [--output JSON] [-q, --quiet]
 
 Stop a virtual server instance.
 
-- When you stop an instance and restart it, a new private IP address is assigned if the instance wasn't created with a static IP address. The primary_ipv4_address attribute wasn't set when the instance was created by using the CLI or API). For more information about setting a static IP address, see primary_network_interface in the [API reference](https://{DomainName}/apidocs/vpc#create-an-instance){: new_window}.
+- When you stop an instance and restart it, the IP is persistent through the stop and start processes. <!--The primary_ipv4_address attribute wasn't set when the instance was created by using the CLI or API.-->
+For more information about setting a static IP address, see primary_network_interface in the [API reference](https://{DomainName}/apidocs/vpc#create-an-instance){: new_window}.
 -{:tip}
 
 ```
