@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-08-24"
+lastupdated: "2020-09-16"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2020-08-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v0.6.4
+{: #v0.6.4}
+
+Version 0.6.4 was released on 2020-09-16.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update all deletion commands to support batch deletion.
+* Update vpc-routing-table-create and vpc-routing-table-update to support ingress custom routing feature.
+
+### Removed commands
+
+* N/A
 
 ## v0.6.3
 {: #v0.6.3}
