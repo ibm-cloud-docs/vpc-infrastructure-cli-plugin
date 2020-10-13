@@ -2129,10 +2129,6 @@ ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FIL
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --source-acl-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --rules '[{ "action": "allow", "destination": "192.168.0.0/24", "direction": "inbound", "source": "10.0.0.0/24",  "protocol": "tcp" }]'`
-'action' Eum [ allow, deny ].
-'destination', 'source': IP or CIDR. The CIDR block 0.0.0.0/0 applies to all addresses.
-'direction' - Enum [ inbound, outbound ].
-'protocol' Enum [ tcp, udp, icmp, all ].
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --output JSON`
 
 #### Command options
