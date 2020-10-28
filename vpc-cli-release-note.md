@@ -22,6 +22,24 @@ lastupdated: "2020-09-16"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.6.6
+{: #v0.6.6}
+
+Version 0.6.6 was released on 2020-10-23.
+
+### New commands
+
+* Add load-balancer-pool-members-update command to replace the entire pool members
+
+### Updated commands
+
+* Remove the DNS service from endpoint-gateway-targets command output
+* Add --members flag to load-balancer-pool-create command to support creating pool with members
+
+### Removed commands
+
+* N/A
+
 ## v0.6.4
 {: #v0.6.4}
 
