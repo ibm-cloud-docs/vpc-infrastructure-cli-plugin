@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-09-16"
+lastupdated: "2020-10-20"
 
 ---
 
@@ -350,13 +350,10 @@ ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
 
 ---
 
-## Endpoint gateways (Beta)
+## Endpoint gateways
 {: #vpe-clis}
 
 The following section gives details about the CLI commands that are available for working with endpoint gateways.
-
-The beta release of {{site.data.keyword.cloud_notm}} Virtual Private Endpoints (VPE) is only available to allowlisted users. Contact your {{site.data.keyword.cloud_notm}} Sales representative if you are interested in getting early access to this beta offering.
-{: beta}
 
 ### ibmcloud is endpoint-gateway-targets
 {: #endpoint-gateway-targets}
@@ -1256,7 +1253,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1265,6 +1262,10 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http`
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-url / --health-monitor-port 4001`
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type source_ip --output JSON`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "address": "10.10.1.4"}, "weight": 20 }, {"port": 80, "target": { "address": "10.240.0.6"}, "weight": 30 }]'`
+Create application load balancer pool with members
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
+Create network load balancer pool with members
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -1280,6 +1281,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1844,7 +1846,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1853,6 +1855,10 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http`
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-url / --health-monitor-port 4001`
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type source_ip --output JSON`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "address": "10.10.1.4"}, "weight": 20 }, {"port": 80, "target": { "address": "10.240.0.6"}, "weight": 30 }]'`
+Create application load balancer pool with members
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
+Create network load balancer pool with members
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -1868,6 +1874,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5930,6 +5937,10 @@ ibmcloud is zones [--output JSON] [-q, --quiet]
 
 
 
+## Volumes
+{: #volume-cli}
+
+The following section provides information about CLI commands for volumes.
 
 ### ibmcloud is volumes
 {: #volumes}
