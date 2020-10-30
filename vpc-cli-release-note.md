@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-09-16"
+lastupdated: "2020-10-30"
 
 ---
 
@@ -22,6 +22,23 @@ lastupdated: "2020-09-16"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.7.0
+{: #v0.7.0}
+
+Version 0.7.0 was released on 2020-10-30.
+
+### New commands
+
+* Add 'create', 'update', 'list', 'get', 'delete' commands for VPC routing-table and routes (custom routes) feature
+
+### Updated commands
+
+* Add 'allow-ip-spoofing' flag for network-interface in instance create and network-interface create/update commands
+
+### Removed commands
+
+* N/A
+
 ## v0.6.6
 {: #v0.6.6}
 
@@ -40,6 +57,7 @@ Version 0.6.6 was released on 2020-10-23.
 
 * N/A
 
+
 ## v0.6.4
 {: #v0.6.4}
 
@@ -57,6 +75,7 @@ Version 0.6.4 was released on 2020-09-16.
 ### Removed commands
 
 * N/A
+
 
 ## v0.6.3
 {: #v0.6.3}
@@ -79,6 +98,7 @@ Version 0.6.3 was released on 2020-08-24.
 * Hide 'load-balancer-profiles' command and it will be removed in next major release.
 * Hide 'load-balancer-profile' command and it will be removed in next major release.
 * Hide the 'target' command for the account that doesn't have generation 1 access.
+
 
 ## v0.6.2
 {: #v0.6.2}
