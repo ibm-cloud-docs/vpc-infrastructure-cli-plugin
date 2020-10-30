@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-10-20"
+lastupdated: "2020-10-30"
 
 ---
 
@@ -144,7 +144,7 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 Create a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link false | true] [--transit-gateway false | true] [--vpc-zone false | true] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -157,9 +157,6 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link false | tr
 
 - **VPC**: ID of the VPC.
 - **--name**: Name of the VPC routing table.
-- **--direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -171,7 +168,7 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link false | tr
 Update a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link false | true] [--transit-gateway false | true] [--vpc-zone false | true] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -185,9 +182,6 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **VPC**: ID of the VPC.
 - **ROUTING_TABLE**: ID of the VPC routing table.
 - **--name**: New name of the routing table.
-- **--direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -346,182 +340,6 @@ ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
 
 - **SUBNET**: ID of the subnet.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-## Endpoint gateways
-{: #vpe-clis}
-
-The following section gives details about the CLI commands that are available for working with endpoint gateways.
-
-### ibmcloud is endpoint-gateway-targets
-{: #endpoint-gateway-targets}
-
-List all resources can be set as target for endpoint gateway in all regions.
-
-```
-ibmcloud is endpoint-gateway-targets [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateway-targets}
-
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateway
-{: #endpoint-gateway}
-
-View details of an endpoint gateway.
-
-```
-ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateway}
-
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateways
-{: #endpoint-gateways}
-
-List all endpoint gateways in the region.
-
-```
-ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateways}
-
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
-- **--all-resource-groups**: Query all resource groups.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateway-create
-{: #endpoint-gateway-create}
-
-Create an endpoint gateway.
-
-```
-ibmcloud is endpoint-gateway-create --vpc-id VPC_ID --target TARGET [--name NAME] [(--reserved-ip-id RESERVED_IP_ID1 --reserved-ip-id RESERVED_IP_ID2 ...) | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-endpoint-gateway-create}
-
-- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1`
-Create endpoint gateway without binding reserved IP.
-- `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"}}'`
-Create endpoint gateway with binding new reserved IP configuration that has only required subnet ID data.
-- `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"},"name":"my-reserved-ip1","auto_delete":false}'`
-Create endpoint gateway with binding new reserved IP configuration with subnet ID, reserved IP name, reserved IP auto_delete configuration.
-- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target ibm-ntp-server --name myegw3`
-Create endpoint gateway with the provider infrastructure service 'ibm-ntp-server'.
-- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target my-key-protect-inst1 --name myegw1 --reserved-ip-id 062d13f9-d46d-483d-bdc9-42c0326e73f0 --reserved-ip-id 6fcfb762-b9aa-41fa-9332-d228e76ee39b`
-Create endpoint gateway with binding existing reserved IPs.
-
-#### Command options
-{: #command-options-endpoint-gateway-create}
-
-- **--vpc-id**: ID of the VPC.
-- **--target**: The name of the provider infrastructure service or the CRN for a provider cloud service instance. You can use command **ibmcloud is endpoint-gateway-targets** to list the provider cloud and infrastructure services that are qualified to be set as endpoint gateway target.
-- **--name**: New name of the endpoint gateway.
-- **--reserved-ip-id**: ID of the reserved IP to be bound to the endpoint gateway.
-- **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved ip configuration in JSON or JSON file.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateway-update
-{: #endpoint-gateway-update}
-
-Update an endpoint gateway.
-
-```
-ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY --name NEW_NAME [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateway-update}
-
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
-- **--name**: New name of the endpoint gateway.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateway-reserved-ip-bind
-{: #endpoint-gateway-reserved-ip-bind}
-
-Bind a reserved IP to an endpoint gateway.
-
-```
-ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY --reserved-ip-id RESERVED_IP_ID [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateway-reserved-ip-bind}
-
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
-- **--reserved-ip-id**: Reserved IP identity to be used as the primary IP for the network interface. If not specified, an available address on the subnet will be automatically selected and reserved.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateway-reserved-ip-unbind
-{: #endpoint-gateway-reserved-ip-unbind}
-
-Unbind a reserved IP to an endpoint gateway.
-
-```
-ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY (--address ADDRESS | --reserved-ip-id RESERVED_IP_ID) [-f, --force] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateway-reserved-ip-unbind}
-
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
-- **--address**: The reserved IP address to be unbound.
-- **--reserved-ip-id**: Reserved IP identity to be used as the primary IP for the network interface. If not specified, an available address on the subnet will be automatically selected and reserved.
-- **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is endpoint-gateway-delete
-{: #endpoint-gateway-delete}
-
-Delete endpoint gateways.
-
-```
-ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-endpoint-gateway-delete}
-
-- **ENDPOINT_GATEWAY1**: ID of the endpoint gateway.
-- **ENDPOINT_GATEWAY2**: ID of the endpoint gateway.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -3054,7 +2872,7 @@ ibmcloud is subnet-reserved-ip-delete SUBNET (RESERVED_IP1 RESERVED_IP2 ...) [-f
 
 ---
 
-## VPCs
+## Virtual private clouds
 {: #vpcs-cli-ref}
 
 ### ibmcloud is vpc
@@ -3410,7 +3228,183 @@ ibmcloud is vpcs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name 
 
 ---
 
-## VPNs
+## Virtual private endpoint gateways
+{: #vpe-clis}
+
+The following section gives details about the CLI commands that are available for working with endpoint gateways.
+
+### ibmcloud is endpoint-gateway-targets
+{: #endpoint-gateway-targets}
+
+List all resources can be set as target for endpoint gateway in all regions.
+
+```
+ibmcloud is endpoint-gateway-targets [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-targets}
+
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway
+{: #endpoint-gateway}
+
+View details of an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway}
+
+- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateways
+{: #endpoint-gateways}
+
+List all endpoint gateways in the region.
+
+```
+ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateways}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-create
+{: #endpoint-gateway-create}
+
+Create an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-create --vpc-id VPC_ID --target TARGET [--name NAME] [(--reserved-ip-id RESERVED_IP_ID1 --reserved-ip-id RESERVED_IP_ID2 ...) | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-endpoint-gateway-create}
+
+- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1`
+Create endpoint gateway without binding reserved IP.
+- `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"}}'`
+Create endpoint gateway with binding new reserved IP configuration that has only required subnet ID data.
+- `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"},"name":"my-reserved-ip1","auto_delete":false}'`
+Create endpoint gateway with binding new reserved IP configuration with subnet ID, reserved IP name, reserved IP auto_delete configuration.
+- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target ibm-ntp-server --name myegw3`
+Create endpoint gateway with the provider infrastructure service 'ibm-ntp-server'.
+- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target my-key-protect-inst1 --name myegw1 --reserved-ip-id 062d13f9-d46d-483d-bdc9-42c0326e73f0 --reserved-ip-id 6fcfb762-b9aa-41fa-9332-d228e76ee39b`
+Create endpoint gateway with binding existing reserved IPs.
+
+#### Command options
+{: #command-options-endpoint-gateway-create}
+
+- **--vpc-id**: ID of the VPC.
+- **--target**: The name of the provider infrastructure service or the CRN for a provider cloud service instance. You can use command **ibmcloud is endpoint-gateway-targets** to list the provider cloud and infrastructure services that are qualified to be set as endpoint gateway target.
+- **--name**: New name of the endpoint gateway.
+- **--reserved-ip-id**: ID of the reserved IP to be bound to the endpoint gateway.
+- **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved ip configuration in JSON or JSON file.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-update
+{: #endpoint-gateway-update}
+
+Update an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-update}
+
+- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **--name**: New name of the endpoint gateway.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-reserved-ip-bind
+{: #endpoint-gateway-reserved-ip-bind}
+
+Bind a reserved IP to an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY --reserved-ip-id RESERVED_IP_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-reserved-ip-bind}
+
+- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **--reserved-ip-id**: Reserved IP identity to be used as the primary IP for the network interface. If not specified, an available address on the subnet will be automatically selected and reserved.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-reserved-ip-unbind
+{: #endpoint-gateway-reserved-ip-unbind}
+
+Unbind a reserved IP to an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY (--address ADDRESS | --reserved-ip-id RESERVED_IP_ID) [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-reserved-ip-unbind}
+
+- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **--address**: The reserved IP address to be unbound.
+- **--reserved-ip-id**: ID of the reserved IP address to be unbound.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-delete
+{: #endpoint-gateway-delete}
+
+Delete endpoint gateways.
+
+```
+ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-delete}
+
+- **ENDPOINT_GATEWAY1**: ID of the endpoint gateway.
+- **ENDPOINT_GATEWAY2**: ID of the endpoint gateway.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Virtual private networks
 {: #vpn-clis}
 
 This section gives details about the CLI commands available for working with VPN, including IKE and IPsec policies.
@@ -4091,7 +4085,7 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 List all images in the region.
 
 ```
-ibmcloud is images [--visibility public | private] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is images [--visibility all | public | private] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -4249,7 +4243,7 @@ ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4264,12 +4258,12 @@ Create instance with existing volume in volume attachment.
 Create instance with multiple SSH keys.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance with encrypted boot volume.
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create instance that is attached to secondary network interface.
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.10", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.10", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
 Create instance with primary network interface configuration in JSON.
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --security-group-ids 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4 10.240.129.10`
-Create instance with primary network interface configuration that includes security groups and primary IPv4 address
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --security-group-ids 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4 10.240.129.10 --allow-ip-spoofing true`
+Create instance with primary network interface configuration that includes security groups, primary IPv4 address, source IP spoofing setting.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host c019b1f7-c4d6-430c-aaa4-e0cc25d47277`
 Create instance to be placed to the desired dedicated host.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host-group a4738ceb-5e59-4601-849a-61d7895740ee`
@@ -4294,6 +4288,7 @@ Create instance interactively.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--ipv4**: Primary IPv4 address for the primary network interface.
+- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -4310,7 +4305,7 @@ Create instance interactively.
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4320,11 +4315,11 @@ ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --resource-group-id 7494aacb866142fba11a88d75cb37bd8 --output JSON`
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --boot-volume '{"delete_volume_on_instance_delete": false, "name": "my-volume-attachment", "volume": {"name": "myvol2", "profile": {"name": "general-purpose"}}}'`
 Create instance from instance template with the boot volume configuration
-- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet-id 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --ipv4 10.240.1.100 --security-group-ids r006-19c2ce0d-d35d-47bc-8147-120edddd3de5`
+- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet-id 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --ipv4 10.240.1.100 --security-group-ids r006-19c2ce0d-d35d-47bc-8147-120edddd3de5 --allow-ip-spoofing true`
 Create instance from instance template with the primary network interface configuration
-- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "subnet": {"id":"0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac"}, "primary_ipv4_address": "10.240.1.100", "security_groups": [{"id": "r006-19c2ce0d-d35d-47bc-8147-120edddd3de5"}]}'`
+- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac"}, "primary_ipv4_address": "10.240.1.100", "security_groups": [{"id": "r006-19c2ce0d-d35d-47bc-8147-120edddd3de5"}]}'`
 Create instance from instance template with the primary network interface configuration in json format
-- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --network-interface '[{"name": "secondary-nic", "subnet": {"id":"0737-f6b5a638-1fda-476b-9e2f-7a550fbb62b8"}, "primary_ipv4_address": "10.240.128.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}, {"name": "third-nic", "subnet": {"id":"0737-6b939577-4839-47b0-b42f-a4b29a94c7d9"}, "primary_ipv4_address": "10.240.129.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}]'`
+- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0737-f6b5a638-1fda-476b-9e2f-7a550fbb62b8"}, "primary_ipv4_address": "10.240.128.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}, {"name": "third-nic", "allow_ip_spoofing": true, "subnet": {"id":"0737-6b939577-4839-47b0-b42f-a4b29a94c7d9"}, "primary_ipv4_address": "10.240.129.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}]'`
 Create instance from instance template with the second network interfaces configuration
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --volume-attach '[{"delete_volume_on_instance_delete": false, "name": "my-volume-attachment1", "volume": {"name": "myvol2", "capacity": 200, "profile": {"name": "general-purpose"}}}, {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment2", "volume": {"name": "myvol3", "capacity": 300, "iops": 1000, "profile": {"name": "custom"}}}]'`
 Create instance from instance template with the data volumes configuration
@@ -4353,6 +4348,7 @@ Create instance from instance template with the desired dedicated host group
 - **--subnet-id**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address for the primary network interface.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
+- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -4407,7 +4403,7 @@ ibmcloud is instance-network-interface INSTANCE NIC [--output JSON] [-q, --quiet
 Create a network interface for a virtual server instance.
 
 ```
-ibmcloud is instance-network-interface-create NIC_NAME INSTANCE SUBNET [--ipv4 IPV4_ADDRESS] [(--security-group-id SECURITY_GROUP_ID1 --security-group-id SECURITY_GROUP_ID2 ...)] [--output JSON] [-q, --quiet]
+ibmcloud is instance-network-interface-create NIC_NAME INSTANCE SUBNET [--ipv4 IPV4_ADDRESS] [(--security-group-id SECURITY_GROUP_ID1 --security-group-id SECURITY_GROUP_ID2 ...)] [--allow-ip-spoofing false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4425,6 +4421,7 @@ ibmcloud is instance-network-interface-create NIC_NAME INSTANCE SUBNET [--ipv4 I
 - **SUBNET**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address.
 - **--security-group-id**: ID of the security group.
+- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4542,7 +4539,7 @@ ibmcloud is instance-network-interface-floating-ips INSTANCE NIC [--output JSON]
 Update a network interface of a virtual server instance.
 
 ```
-ibmcloud is instance-network-interface-update INSTANCE NIC --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is instance-network-interface-update INSTANCE NIC --name NEW_NAME [--allow-ip-spoofing false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -4551,6 +4548,7 @@ ibmcloud is instance-network-interface-update INSTANCE NIC --name NEW_NAME [--ou
 - **INSTANCE**: ID of the instance.
 - **NIC**: ID of the network interface.
 - **--name**: New name of NIC.
+- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5237,7 +5235,7 @@ ibmcloud is instance-template TEMPLATE_ID [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5252,12 +5250,12 @@ Create instance template with existing volume in volume attachment.
 Create instance template with multiple SSH keys.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance template with encrypted boot volume.
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create instance template that is attached to secondary network interface.
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.10", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.10", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
 Create instance template with primary network interface configuration in JSON.
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --security-group-ids 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4 10.240.129.10`
-Create instance template with primary network interface configuration that includes security groups and primary IPv4 address.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --security-group-ids 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4 10.240.129.10 --allow-ip-spoofing true`
+Create instance template with primary network interface configuration that includes security groups, primary IPv4 address, source IP spoofing setting.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host c019b1f7-c4d6-430c-aaa4-e0cc25d47277`
 Create instance template to be placed to the desired dedicated host.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host-group a4738ceb-5e59-4601-849a-61d7895740ee`
@@ -5282,6 +5280,7 @@ Create instance template interactively.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--ipv4**: Primary IPv4 address for the primary network interface.
+- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -5298,7 +5297,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template-id SOURCE_TEMPLATE_ID [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template-id SOURCE_TEMPLATE_ID [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5327,6 +5326,7 @@ Create instance template by overriding a source template and providing overridin
 - **--subnet-id**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address for the primary network interface.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
+- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
