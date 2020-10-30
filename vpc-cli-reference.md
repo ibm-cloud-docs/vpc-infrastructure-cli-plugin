@@ -78,272 +78,6 @@ This document is organized into the following sections:
 
 The following section provides information about CLI commands for network services.
 
-## Custom routes
-{: #custom-routes-section}
-
-The following section gives details about the CLI commands that are available for working with VPC routes and routing tables.
-
-### ibmcloud is vpc-default-routing-table
-{: #vpc-default-routing-table}
-
-View details of the default routing table of a VPC.
-
-```
-ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-default-routing-table}
-
-- **VPC**: ID of the VPC.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-tables
-{: #vpc-routing-tables}
-
-List all routing tables for a VPC.
-
-```
-ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routing-tables}
-
-- **VPC**: ID of the VPC.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table
-{: #vpc-routing-table}
-
-View details of a VPC routing table.
-
-```
-ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routing-table}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-create
-{: #vpc-routing-table-create}
-
-Create a VPC routing table.
-
-```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command example
-{: #command-example-vpc-routing-table-create}
-
-- `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --output JSON`
-
-#### Command options
-{: #command-options-vpc-routing-table-create}
-
-- **VPC**: ID of the VPC.
-- **--name**: Name of the VPC routing table.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-update
-{: #vpc-routing-table-update}
-
-Update a VPC routing table.
-
-```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command example
-{: #command-example-vpc-routing-table-update}
-
-- `ibmcloud is vpc-routing-table-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-routing-table --output JSON`
-
-#### Command options
-{: #command-options-vpc-routing-table-update}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **--name**: New name of the routing table.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-delete
-{: #vpc-routing-table-delete}
-
-Delete VPC routing tables.
-
-```
-ibmcloud is vpc-routing-table-delete VPC (ROUTING_TABLE1 ROUTING_TABLE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routing-table-delete}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE1**: ID of the VPC routing table.
-- **ROUTING_TABLE2**: ID of the VPC routing table.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-routes
-{: #vpc-routing-table-routes}
-
-List all the routes of a VPC routing table.
-
-```
-ibmcloud is vpc-routing-table-routes VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routing-table-routes}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-route
-{: #vpc-routing-table-route}
-
-View details of a VPC route.
-
-```
-ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routing-table-route}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **ROUTE**: ID of the VPC route.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-route-create
-{: #vpc-routing-table-route-create}
-
-Create a VPC route.
-
-```
-ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop NEXT_HOP [--action delegate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-vpc-routing-table-route-create}
-
-- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action deliver --zone us-south-1 --destination  10.2.2.0/24 --next-hop 10.0.0.2 --output JSON`
-- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action delegate --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
-- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action drop --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
-
-#### Command options
-{: #command-options-vpc-routing-table-route-create}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **--zone**: Name of the zone.
-- **--action**: The action to perform with a packet that matches the route. One of: **delegate**, **deliver**, **drop**.
-- **--destination**: The destination CIDR of the route. At most two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
-- **--next-hop**: If the action is **deliver**, the IP address or VPN connection ID of the next hop to which to route packets.
-- **--name**: Name of the VPC routing table.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-route-update
-{: #vpc-routing-table-route-update}
-
-Update a VPC route.
-
-```
-ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
-```
-
-#### Command example
-{: #command-example-vpc-routing-table-route-update}
-
-- `ibmcloud is vpc-routing-table-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 72b27b5c-f4b0-48bb-b954-5becc7c1d4ef --name my-vpc-route --output JSON`
-
-#### Command options
-{: #command-options-vpc-routing-table-route-update}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **ROUTE**: ID of the VPC route.
-- **--name**: New name of the route.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routing-table-route-delete
-{: #vpc-routing-table-route-delete}
-
-Delete VPC routes.
-
-```
-ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routing-table-route-delete}
-
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **ROUTE1**: ID of the VPC route.
-- **ROUTE2**: ID of the VPC route.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is subnet-routing-table
-{: #subnet-routing-table}
-
-View details of routing table that is attached to the subnet.
-
-```
-ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-subnet-routing-table}
-
-- **SUBNET**: ID of the subnet.
-- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
 ## Floating IPs
 {: #floating-ips-cli-ref}
 
@@ -2267,6 +2001,272 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Routing tables and routes 
+{: #custom-routes-section}
+
+The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
+
+### ibmcloud is vpc-default-routing-table
+{: #vpc-default-routing-table}
+
+View details of the default routing table of a VPC.
+
+```
+ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-default-routing-table}
+
+- **VPC**: ID of the VPC.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-tables
+{: #vpc-routing-tables}
+
+List all routing tables for a VPC.
+
+```
+ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-tables}
+
+- **VPC**: ID of the VPC.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table
+{: #vpc-routing-table}
+
+View details of a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-create
+{: #vpc-routing-table-create}
+
+Create a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpc-routing-table-create}
+
+- `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-create}
+
+- **VPC**: ID of the VPC.
+- **--name**: Name of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-update
+{: #vpc-routing-table-update}
+
+Update a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpc-routing-table-update}
+
+- `ibmcloud is vpc-routing-table-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-routing-table --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-update}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--name**: New name of the routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-delete
+{: #vpc-routing-table-delete}
+
+Delete VPC routing tables.
+
+```
+ibmcloud is vpc-routing-table-delete VPC (ROUTING_TABLE1 ROUTING_TABLE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-delete}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE1**: ID of the VPC routing table.
+- **ROUTING_TABLE2**: ID of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-routes
+{: #vpc-routing-table-routes}
+
+List all the routes of a VPC routing table.
+
+```
+ibmcloud is vpc-routing-table-routes VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-routes}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route
+{: #vpc-routing-table-route}
+
+View details of a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-route}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **ROUTE**: ID of the VPC route.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route-create
+{: #vpc-routing-table-route-create}
+
+Create a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop NEXT_HOP [--action delegate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpc-routing-table-route-create}
+
+- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action deliver --zone us-south-1 --destination  10.2.2.0/24 --next-hop 10.0.0.2 --output JSON`
+- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action delegate --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
+- `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action drop --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-route-create}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **--zone**: Name of the zone.
+- **--action**: The action to perform with a packet that matches the route. One of: **delegate**, **deliver**, **drop**.
+- **--destination**: The destination CIDR of the route. At most two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
+- **--next-hop**: If the action is **deliver**, the IP address or VPN connection ID of the next hop to which to route packets.
+- **--name**: Name of the VPC routing table.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route-update
+{: #vpc-routing-table-route-update}
+
+Update a VPC route.
+
+```
+ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpc-routing-table-route-update}
+
+- `ibmcloud is vpc-routing-table-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 72b27b5c-f4b0-48bb-b954-5becc7c1d4ef --name my-vpc-route --output JSON`
+
+#### Command options
+{: #command-options-vpc-routing-table-route-update}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **ROUTE**: ID of the VPC route.
+- **--name**: New name of the route.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpc-routing-table-route-delete
+{: #vpc-routing-table-route-delete}
+
+Delete VPC routes.
+
+```
+ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpc-routing-table-route-delete}
+
+- **VPC**: ID of the VPC.
+- **ROUTING_TABLE**: ID of the VPC routing table.
+- **ROUTE1**: ID of the VPC route.
+- **ROUTE2**: ID of the VPC route.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is subnet-routing-table
+{: #subnet-routing-table}
+
+View details of routing table that is attached to the subnet.
+
+```
+ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-subnet-routing-table}
+
+- **SUBNET**: ID of the subnet.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
