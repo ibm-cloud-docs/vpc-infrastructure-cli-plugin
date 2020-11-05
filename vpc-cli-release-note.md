@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-10-30"
+lastupdated: "2020-11-05"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2020-10-30"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v0.7.1
+{: #v0.7.1}
+
+Version 0.7.1 was released on 2020-11-05.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Add proxy-protocol feature support for load balancer listener/pool create and update commands.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.0
 {: #v0.7.0}
