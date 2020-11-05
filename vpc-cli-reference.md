@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-10-30"
+lastupdated: "2020-11-05"
 
 ---
 
@@ -414,7 +414,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -433,6 +433,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --output JSON`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --accept-proxy-protocol true`
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
@@ -444,6 +445,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
+- **--accept-proxy-protocol**: If set to true, proxy protocol will be enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -734,7 +736,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -746,6 +748,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol https`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
 
 #### Command options
 {: #command-options-load-balancer-listener-update}
@@ -757,6 +760,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--accept-proxy-protocol**: If set to true, proxy protocol will be enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -805,7 +809,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--proxy-protocol disabled | v1 | v2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -818,6 +822,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 Create application load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
 Create network load balancer pool with members
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -833,6 +838,7 @@ Create network load balancer pool with members
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -988,7 +994,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--output JSON] 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1000,6 +1006,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --session-persistence-type source_ip`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol http`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name lb-rule-name --output JSON`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --proxy-protocol v2`
 
 #### Command options
 {: #command-options-load-balancer-pool-update}
@@ -1015,6 +1022,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **none**.
+- **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1265,7 +1273,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1284,6 +1292,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --output JSON`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --accept-proxy-protocol true`
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
@@ -1295,6 +1304,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
+- **--accept-proxy-protocol**: If set to true, proxy protocol will be enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1327,7 +1337,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER_ID (LISTENER_ID1 LISTENE
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1339,6 +1349,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol https`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
 
 #### Command options
 {: #command-options-load-balancer-listener-update}
@@ -1350,6 +1361,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--accept-proxy-protocol**: If set to true, proxy protocol will be enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1398,7 +1410,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--proxy-protocol disabled | v1 | v2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1411,6 +1423,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 Create application load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
 Create network load balancer pool with members
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -1426,6 +1439,7 @@ Create network load balancer pool with members
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1459,7 +1473,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER_ID (POOL_ID1 POOL_ID2 ...) [
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1471,6 +1485,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --session-persistence-type source_ip`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol http`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name lb-rule-name --output JSON`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --proxy-protocol v2`
 
 #### Command options
 {: #command-options-load-balancer-pool-update}
@@ -1486,6 +1501,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **none**.
+- **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3358,7 +3374,7 @@ ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY --reserved-ip-id 
 {: #command-options-endpoint-gateway-reserved-ip-bind}
 
 - **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
-- **--reserved-ip-id**: Reserved IP identity to be used as the primary IP for the network interface. If not specified, an available address on the subnet will be automatically selected and reserved.
+- **--reserved-ip-id**: ID of the reserved IP address to be unbound.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5571,7 +5587,7 @@ ibmcloud is instance-group-manager INSTANCE_GROUP MANAGER [--output JSON] [-q, -
 Create a manager for in instance group.
 
 ```
-ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBERS [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--min-members MIN_MEMBERS] [--management-enabled true | false] [--output JSON] [-q, --quiet]
+ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBERS [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--min-members MIN_MEMBERS] [--name NAME] [--management-enabled true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5593,6 +5609,7 @@ ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBE
 - **--cooldown**: The duration of time in seconds to pause further scale actions after scaling has taken place. Range 120-3600. (default: **300**).
 - **--max-members**: The maximum number of members in a managed instance group. Range 1-100.
 - **--min-members**: The minimum number of members in a managed instance group. Range 1-100. (default: **1**).
+- **--name**: Name of the manager.
 - **--management-enabled**: If set to false, the manager will not manipulate the instance group. One of: **true**, **false**. (default: **true**).
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
