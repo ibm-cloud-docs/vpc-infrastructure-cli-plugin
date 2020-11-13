@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-11-05"
+lastupdated: "2020-11-13"
 
 ---
 
@@ -22,6 +22,24 @@ lastupdated: "2020-11-05"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.7.2
+{: #v0.7.2}
+
+Version 0.7.2 was released on 2020-11-12.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Add static, route-based mode support for creating a VPN gateway and connection.
+
+### Removed commands
+
+* N/A
+
+
 ## v0.7.1
 {: #v0.7.1}
 
@@ -38,6 +56,7 @@ Version 0.7.1 was released on 2020-11-05.
 ### Removed commands
 
 * N/A
+
 
 ## v0.7.0
 {: #v0.7.0}
