@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-11-05"
+lastupdated: "2020-11-13"
 
 ---
 
@@ -2022,7 +2022,7 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 
 ---
 
-## Routing tables and routes 
+## Routing tables and routes
 {: #custom-routes-section}
 
 The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
@@ -3420,7 +3420,7 @@ ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [-
 
 ---
 
-## Virtual private networks
+## Virtual private network (VPN) gateways
 {: #vpn-clis}
 
 This section gives details about the CLI commands available for working with VPN, including IKE and IPsec policies.
@@ -3759,6 +3759,12 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY_ID PEER_AD
 #### Command examples
 {: #command-examples-vpn-gateway-connection-create}
 
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --admin-state-up true`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --output JSON`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --admin-state-up true`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100`
@@ -3948,21 +3954,23 @@ ibmcloud is vpn-gateway-connections VPN_GATEWAY_ID [--output JSON] [-q, --quiet]
 Create a VPN gateway.
 
 ```
-ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-vpn-gateway-create}
 
-- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345`
-- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345 --resource-group-name Default`
-- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route`
+- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode policy`
+- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --resource-group-name Default`
+- `ibmcloud is vpn-gateway-create my-vpc-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-create}
 
 - **VPN_GATEWAY_NAME**: Name of the VPN gateway.
 - **SUBNET**: ID of the subnet.
+- **--mode**: The mode of the VPN gateway. One of: **policy**, **route**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
