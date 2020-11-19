@@ -2088,7 +2088,7 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 Create a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link false | true] [--transit-gateway false | true] [--vpc-zone false | true] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -2101,9 +2101,9 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link false | tr
 
 - **VPC**: ID of the VPC.
 - **--name**: Name of the VPC routing table.
-- **--direct-link**: (Ingress traffic type only) If set to "true", this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Direct Link to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--transit-gateway**: (Ingress traffic type only) If set to "true", this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--vpc-zone**: (Ingress traffic type only) If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--direct-link-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Direct Link 2.0 to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
+- **--transit-gateway-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
+- **--vpc-zone-ingress**: If set to **true**, this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2115,7 +2115,7 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link false | tr
 Update a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link false | true] [--transit-gateway false | true] [--vpc-zone false | true] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -2129,9 +2129,9 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **VPC**: ID of the VPC.
 - **ROUTING_TABLE**: ID of the VPC routing table.
 - **--name**: New name of the routing table.
-- **--direct-link**: (Ingress traffic type only) If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--transit-gateway**: (Ingress traffic type only) If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
-- **--vpc-zone**: (Ingress traffic type only) If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--direct-link-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Direct Link 2.0 to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
+- **--transit-gateway-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
+- **--vpc-zone-ingress**: If set to **true**, this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
