@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-11-13"
+lastupdated: "2020-11-16"
 
 ---
 
@@ -21,6 +21,25 @@ lastupdated: "2020-11-13"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v0.7.3
+{: #v0.7.3}
+
+Version 0.7.3 was released on 2020-11-19.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Add datapath logging support for load balancer `create` and `update` commands
+* Add ingress routing support for VPC routing table `create` and `update` commands
+* Add required family/class flags for dedicated host group `create` command.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.2
 {: #v0.7.2}
@@ -252,4 +271,3 @@ Version 0.5.11 was released on 2020-03-05.
 * N/A
 
 ### Other
-
