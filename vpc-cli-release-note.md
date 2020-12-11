@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020
-lastupdated: "2020-11-16"
+lastupdated: "2020-12-11"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2020-11-16"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v0.7.4
+{: #v0.7.4}
+
+Version 0.7.4 was released on 2020-12-10.
+
+### New commands
+
+* Add instance storage disk `get`, `list`, and `update` commands.
+
+### Updated commands
+
+* Add flag aliases for routing table `create` and `update` commands.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.3
 {: #v0.7.3}
