@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2020
-lastupdated: "2020-11-20"
+lastupdated: "2020-12-11"
 
 ---
 
@@ -2030,7 +2030,7 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 
 ---
 
-## Routing tables and routes
+## Routing tables and routes 
 {: #custom-routes-section}
 
 The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
@@ -2109,9 +2109,9 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 
 - **VPC**: ID of the VPC.
 - **--name**: Name of the VPC routing table.
-- **--direct-link-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Direct Link 2.0 to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
-- **--transit-gateway-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
-- **--vpc-zone-ingress**: If set to **true**, this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
+- **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2137,9 +2137,9 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **VPC**: ID of the VPC.
 - **ROUTING_TABLE**: ID of the VPC routing table.
 - **--name**: New name of the routing table.
-- **--direct-link-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Direct Link 2.0 to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
-- **--transit-gateway-ingress**: If set to **true**, this routing table is used to route traffic that originates from {{site.data.keyword.cloud_notm}} Transit Gateway to this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
-- **--vpc-zone-ingress**: If set to **true**, this routing table is used to route traffic that originates from subnets in other zones in this VPC. For this route to succeed, the VPC must not already have a routing table with this property set to **true**. One of: **false**, **true**.
+- **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2963,7 +2963,7 @@ ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--default 
 - **PREFIX_NAME**: Name of the VPC address prefix.
 - **VPC**: ID of the VPC.
 - **ZONE_NAME**: Name of the zone.
-- **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/8`(16,777,216 addresses) and `/29` (eight addresses).
+- **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (eight addresses).
 - **--default**: This flag indicates whether this is the default prefix for this zone in this VPC. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4412,6 +4412,63 @@ ibmcloud is instance-delete (INSTANCE1 INSTANCE2 ...) [--output JSON] [-f, --for
 - **INSTANCE2**: ID of the instance.
 - **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-disk
+{: #instance-disk}
+
+View details of a virtual server instance disk.
+
+```
+ibmcloud is instance-disk INSTANCE INSTANCE_DISK [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-disk}
+
+- **INSTANCE**: ID of the instance.
+- **INSTANCE_DISK**: ID of the instance disk.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-disk-update
+{: #instance-disk-update}
+
+Update a virtual server instance disk.
+
+```
+ibmcloud is instance-disk-update INSTANCE INSTANCE_DISK --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-disk-update}
+
+- **INSTANCE**: ID of the instance.
+- **INSTANCE_DISK**: ID of the instance disk.
+- **--name**: New name of instance disk.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-disks
+{: #instance-disks}
+
+List all disks of a virtual server instance.
+
+```
+ibmcloud is instance-disks INSTANCE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-disks}
+
+- **INSTANCE**: ID of the instance.
+- **--output**: Specify output format, only JSON is supported now. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
