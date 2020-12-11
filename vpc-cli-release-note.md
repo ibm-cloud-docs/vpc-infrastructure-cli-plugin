@@ -34,6 +34,7 @@ Version 0.7.4 was released on 2020-12-10.
 ### Updated commands
 
 * Add flag aliases for routing table `create` and `update` commands.
+* Updated usage for `ibmcloud is vpc-address-prefix-create` command.
 
 ### Removed commands
 
