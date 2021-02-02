@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2020
-lastupdated: "2020-12-11"
+  years: 2020, 2021
+lastupdated: "2021-01-28"
 
 ---
 
@@ -21,6 +21,26 @@ lastupdated: "2020-12-11"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+
+## v0.7.7
+{: #v0.7.7}
+
+Version 0.7.7 was released on 2021-01-28.
+
+### New commands
+
+* Add generic security group target `add`, `get`, `remove` commands for private region
+
+### Updated commands
+
+* Add custom security groups support in load balancer `create` command for private region.
+* Show custom security groups in load balancer `get` command for private region.
+* Remove the restriction for Generation 1 target switching.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.4
 {: #v0.7.4}
