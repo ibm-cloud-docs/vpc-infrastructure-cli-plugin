@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-02-05"
+lastupdated: "2021-02-24"
 
 ---
 
@@ -21,6 +21,25 @@ lastupdated: "2021-02-05"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v0.7.8
+{: #v0.7.8}
+
+Version 0.7.8 was released on 2021-02-25.
+
+### New commands
+
+* Added security group target list/get/add/remove commands so you can list/attach/detach a security group with all applicable target resources, such as network interfaces and load balancers.
+
+### Updated commands
+
+* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana). 
+* Added a `--security-group` flag to the `load-balancer-create` command so you can bind security groups when you create a load balancer.
+* Added a security groups field to the `load-balancer` command to show the security groups that are bound to a load balancer.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.7
 {: #v0.7.7}

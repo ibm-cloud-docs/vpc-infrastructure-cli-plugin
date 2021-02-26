@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2020-02-05"
+lastupdated: "2021-02-24"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -345,7 +345,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -356,6 +356,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-name Default`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --output JSON`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --security-group 3428abaa-788b-439b-9404-ca386f2f3f79 --security-group f0e26f91-851a-4fc9-b32b-da24ad218b4e`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
 
 #### Command options
@@ -365,6 +366,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
 - **--subnet**: ID of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
 - **--family**: The load balancer family type. One of: **application**, **network**.
+- **--security-group**: ID of the security group.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. This is applicable only for application load balancer. One of: **false**, **true**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -1165,7 +1167,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1176,6 +1178,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --resource-group-name Default`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --output JSON`
+- `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --security-group 3428abaa-788b-439b-9404-ca386f2f3f79 --security-group f0e26f91-851a-4fc9-b32b-da24ad218b4e`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
 
 #### Command options
@@ -1185,6 +1188,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
 - **--subnet**: ID of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
 - **--family**: The load balancer family type. One of: **application**, **network**.
+- **--security-group**: ID of the security group.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. This is applicable only for application load balancer. One of: **false**, **true**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -2213,7 +2217,7 @@ ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q,
 Create a VPC route.
 
 ```
-ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop NEXT_HOP [--action delegate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop NEXT_HOP [--action delegate_vpc | delegate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2229,7 +2233,7 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 - **VPC**: ID of the VPC.
 - **ROUTING_TABLE**: ID of the VPC routing table.
 - **--zone**: Name of the zone.
-- **--action**: The action to perform with a packet that matches the route. One of: **delegate**, **deliver**, **drop**.
+- **--action**: The action to perform with a packet that matches the route. One of: **delegate_vpc**, **delegate**, **deliver**, **drop**.
 - **--destination**: The destination CIDR of the route. At most two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
 - **--next-hop**: If the action is **deliver**, the IP address or VPN connection ID of the next hop to which to route packets.
 - **--name**: Name of the VPC routing table.
@@ -2620,6 +2624,88 @@ ibmcloud is security-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is security-group-target
+{: #security-group-target}
+
+View details of a target of a security group.
+
+```
+ibmcloud is security-group-target GROUP TARGET [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-security-group-target}
+
+- **GROUP**: ID of the security group.
+- **TARGET**: ID of the target.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is security-group-target-add
+{: #security-group-target-add}
+
+Add a target to a security group.
+
+```
+ibmcloud is security-group-target-add GROUP TARGET [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-security-group-target-add}
+
+- `ibmcloud is security-group-target-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --output JSON`
+
+#### Command options
+{: #command-options-security-group-target-add}
+
+- **GROUP**: ID of the security group.
+- **TARGET**: ID of the target.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is security-group-target-remove
+{: #security-group-target-remove}
+
+Remove targets from a security group.
+
+```
+ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-security-group-target-remove}
+
+- **GROUP**: ID of the security group.
+- **TARGET1**: ID of the target.
+- **TARGET2**: ID of the target.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is security-group-targets
+{: #security-group-targets}
+
+List all targets of a security group.
+
+```
+ibmcloud is security-group-targets GROUP [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-security-group-targets}
+
+- **GROUP**: ID of the security group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
