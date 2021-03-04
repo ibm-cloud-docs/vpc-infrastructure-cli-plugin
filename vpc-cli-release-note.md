@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-02-24"
+lastupdated: "2021-03-04"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2021-02-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+
+## v0.7.9
+{: #v0.7.9}
+
+Version 0.7.9 was released on 2021-03-04.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Add new cipher suite DH19 and SHA512 option for VPN IPSec and IKE policy creation/updating commands.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.8
 {: #v0.7.8}
