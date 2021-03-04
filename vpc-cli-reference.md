@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-02-24"
+lastupdated: "2021-03-04"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -3605,8 +3605,8 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 {: #command-options-ike-policy-create}
 
 - **IKE_POLICY_NAME**: Name of the IKE policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**.
-- **DH_GROUP**: The Diffie-Hellman group. One of: **2**, **5**, **14**.
+- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
+- **DH_GROUP**: The Diffie-Hellman group. One of: **2**, **5**, **14**, **19**.
 - **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
 - **IKE_VERSION**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **28800**).
@@ -3643,7 +3643,7 @@ ibmcloud is ike-policy-delete (IKE_POLICY_ID1 IKE_POLICY_ID2 ...) [--output JSON
 Update an IKE policy.
 
 ```
-ibmcloud is ike-policy-update IKE_POLICY_ID [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256] [--dh-group 2 | 5 | 14] [--encryption-algorithm triple_des | aes128 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ike-policy-update IKE_POLICY_ID [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256 | sha512] [--dh-group 2 | 5 | 14 | 19] [--encryption-algorithm triple_des | aes128 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3661,8 +3661,8 @@ ibmcloud is ike-policy-update IKE_POLICY_ID [--name NEW_NAME] [--authentication-
 
 - **IKE_POLICY_ID**: ID of the IKE policy.
 - **--name**: New name of the IKE policy.
-- **--authentication-algorithm**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**.
-- **--dh-group**: The Diffie-Hellman group. One of: **2**, **5**, **14**.
+- **--authentication-algorithm**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
+- **--dh-group**: The Diffie-Hellman group. One of: **2**, **5**, **14**, **19**.
 - **--encryption-algorithm**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
 - **--ike-version**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
@@ -3748,9 +3748,9 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 {: #command-options-ipsec-policy-create}
 
 - **IPSEC_POLICY_NAME**: Name of the IPsec policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**.
+- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
 - **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
-- **PFS**: The Diffie-Hellman group. One of: **disabled**, **group_2**, **group_5**, **group_14**.
+- **PFS**: The Diffie-Hellman group. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_19**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **3600**).
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -3785,7 +3785,7 @@ ibmcloud is ipsec-policy-delete (IPSEC_POLICY_ID1 IPSEC_POLICY_ID2 ...) [--outpu
 Update an IPsec policy.
 
 ```
-ibmcloud is ipsec-policy-update IPSEC_POLICY_ID [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256] [--pfs disabled | group_2 | group_5 | group_14] [--encryption-algorithm triple_des | aes128 | aes256] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ipsec-policy-update IPSEC_POLICY_ID [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256 | sha512] [--pfs disabled | group_2 | group_5 | group_14 | group_19] [--encryption-algorithm triple_des | aes128 | aes256] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3802,8 +3802,8 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY_ID [--name NEW_NAME] [--authenticat
 
 - **IPSEC_POLICY_ID**: ID of the IPsec policy.
 - **--name**: New name of the IPsec policy.
-- **--authentication-algorithm**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**.
-- **--pfs**: Perfect Forward Secrecy. One of: **disabled**, **group_2**, **group_5**, **group_14**.
+- **--authentication-algorithm**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
+- **--pfs**: Perfect Forward Secrecy. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_19**.
 - **--encryption-algorithm**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
