@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-03-04"
+lastupdated: "2021-03-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4857,7 +4857,7 @@ ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q
 Update a virtual server instance.
 
 ```
-ibmcloud is instance-update INSTANCE --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4871,6 +4871,7 @@ ibmcloud is instance-update INSTANCE --name NEW_NAME [--output JSON] [-q, --quie
 
 - **INSTANCE**: ID of the instance.
 - **--name**: New name of the virtual server instance.
+- **--profile**: status  The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. Additionally, the requested profile must meet the following criteria: 1. Must match the current profile's instance disk support. (Note: If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Must be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5763,12 +5764,8 @@ ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBE
 {: #command-examples-instance-group-manager-create}
 
 - `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20`
-- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --aggregation-window 120`
-- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --cooldown 400`
-- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --min-members 2`
 - `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --output JSON`
-- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --management-enabled false`
-- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --name ig-manager`
+- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --min-members 2 --cooldown 400 --aggregation-window 120 --name my--autoscale-manager --management-enabled false`
 
 #### Command options
 {: #command-options-instance-group-manager-create}
@@ -5776,8 +5773,8 @@ ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBE
 - **INSTANCE_GROUP**: ID of the instance group.
 - **--aggregation-window**: The time window in seconds to aggregate metrics prior to evaluation. Range 90-600. Divisible by 30. (default: **90**).
 - **--cooldown**: The duration of time in seconds to pause further scale actions after scaling has taken place. Range 120-3600. (default: **300**).
-- **--max-members**: The maximum number of members in a managed instance group. Range 1-100.
-- **--min-members**: The minimum number of members in a managed instance group. Range 1-100. (default: **1**).
+- **--max-members**: The maximum number of members in a managed instance group. Range 1-1000.
+- **--min-members**: The minimum number of members in a managed instance group. Range 1-1000.
 - **--name**: Name of the manager.
 - **--management-enabled**: If set to false, the manager will not manipulate the instance group. One of: **true**, **false**. (default: **true**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5812,8 +5809,8 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 - **MANAGER**: ID of the manager.
 - **--aggregation-window**: The time window in seconds to aggregate metrics prior to evaluation. Range 90-600. Divisible by 30.
 - **--cooldown**: The duration of time in seconds to pause further scale actions after scaling has taken place. Range 120-3600.
-- **--max-members**: The maximum number of members in a managed instance group. Range 1-100.
-- **--min-members**: The minimum number of members in a managed instance group. Range 1-100.
+- **--max-members**: The maximum number of members in a managed instance group. Range 1-1000.
+- **--min-members**: The minimum number of members in a managed instance group. Range 1-1000.
 - **--management-enabled**: If set to false, the manager will not manipulate the instance group. One of: **true**, **false**.
 - **--name**: New name of the instance group manager.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5997,6 +5994,32 @@ ibmcloud is instance-group-membership-delete INSTANCE_GROUP (MEMBER1 MEMBER2 ...
 - **MEMBER2**: ID of the membership.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-group-membership-update
+{: #instance-group-membership-update}
+
+Update an instance group membership.
+
+```
+ibmcloud is instance-group-membership-update INSTANCE_GROUP MEMBER [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-group-membership-update}
+
+- `ibmcloud is instance-group-membership-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name membership-name`
+- `ibmcloud is instance-group-membership-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name membership-name --output JSON`
+
+#### Command options
+{: #command-options-instance-group-membership-update}
+
+- **INSTANCE_GROUP**: ID of the instance group.
+- **MEMBER**: ID of the membership.
+- **--name**: New name of the instance group membership.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
