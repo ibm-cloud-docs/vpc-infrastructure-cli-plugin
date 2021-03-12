@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-03-04"
+lastupdated: "2021-03-12"
 
 ---
 
@@ -22,6 +22,24 @@ lastupdated: "2021-03-04"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.8.0
+{: #v0.8,0}
+
+Version 0.8.0 was released on 2021-03-11.
+
+### New commands
+
+* Add `instance-group-membership-update` command.
+
+### Updated commands
+
+* Add dedicated_host_only property to the operating system object in `operating-systems`, `operating-system` and `image` command output.
+* Update `--max-members`, `--min-members` options value's range to 1-1000 in the `instance-group-manager-create` and `instance-group-manager-update` commands.
+* Add API private endpoint support, only `us-south` and `us-east` regions are supported.
+
+### Removed commands
+
+* N/A
 
 ## v0.7.9
 {: #v0.7.9}
@@ -39,6 +57,7 @@ Version 0.7.9 was released on 2021-03-04.
 ### Removed commands
 
 * N/A
+
 
 ## v0.7.8
 {: #v0.7.8}
