@@ -22,6 +22,23 @@ lastupdated: "2021-03-12"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.8.1
+{: #v0.8.1}
+
+Version 0.8.1 was released on 2021-03-18.
+
+### New commands
+
+* Add command `instance-console` to open an interactive serial console to a virtual server instance.
+
+### Updated commands
+
+* Update `load-balancer-listener-policy-rule-create` and `load-balancer-listener-policy-rule-update` commands to add new `body` and `query` rule types.
+
+### Removed commands
+
+* N/A
+
 ## v0.8.0
 {: #v0.8,0}
 
