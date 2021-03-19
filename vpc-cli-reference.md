@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-03-12"
+lastupdated: "2021-03-18"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -605,7 +605,7 @@ ibmcloud is load-balancer-listener-policy-rule LOAD_BALANCER_ID LISTENER_ID POLI
 Create a load balancer listener policy rule.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_ID POLICY_ID (--condition contains | equals | matches_regex) (--type header | hostname | path) --value VALUE [--field FIELD] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_ID POLICY_ID (--condition contains | equals | matches_regex) (--type header | hostname | path | query | body) --value VALUE [--field FIELD] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -620,9 +620,9 @@ ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER_ID LISTENER_
 - **LISTENER_ID**: ID of the listener.
 - **POLICY_ID**: ID of the policy.
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
-- **--type**: The type of the rule. One of: **header**, **hostname**, **path**.
+- **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**.
 - **--value**: Value to match the rule condition.
-- **--field**: HTTP header field. This is applicable only to **header** rule type.
+- **--field**: The HTTP field. This field is applicable to "header", "query", and "body" rule types. For rule type "header", this field is required. For rule types "query" or "body", this field is optional.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -657,7 +657,7 @@ ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER_ID LISTENER_
 Update a rule of a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [--condition contains | equals | matches_regex] [--type header | hostname | path] [--value VALUE] [--field FIELD] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID RULE_ID [--condition contains | equals | matches_regex] [--type header | hostname | path | query | body] [--value VALUE] [--field FIELD] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -673,9 +673,9 @@ ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER_ID LISTENER_
 - **POLICY_ID**: ID of the policy.
 - **RULE_ID**: ID of the rule.
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
-- **--type**: The type of the rule. One of: **header**, **hostname**, **path**.
+- **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**.
 - **--value**: Value to match the rule condition.
-- **--field**: HTTP header field. This is applicable only to **header** rule type.
+- **--field**: The HTTP field. This field is applicable to "header", "query", and "body" rule types. For rule type "header", this field is required. For rule types "query" or "body", this field is optional.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4363,6 +4363,24 @@ ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 
 ---
 
+### ibmcloud is instance-console
+{: #instance-console}
+
+Open an interactive console to the virtual server instance. This command opens an interactive serial console by default.
+
+```
+ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-console}
+
+- **INSTANCE**: ID of the instance.
+- **--vnc**: Get the WebSocket URI for the VNC console, it doesn't open the VNC console.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ### ibmcloud is instance-create
 {: #instance-create}
 
@@ -4871,7 +4889,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--ou
 
 - **INSTANCE**: ID of the instance.
 - **--name**: New name of the virtual server instance.
-- **--profile**: status  The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. Additionally, the requested profile must meet the following criteria: 1. Must match the current profile's instance disk support. (Note: If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Must be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
+- **--profile**: status  The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Match the current profile's **instance disk support**. (**Note:** If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
