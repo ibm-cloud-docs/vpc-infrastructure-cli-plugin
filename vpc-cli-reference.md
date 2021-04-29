@@ -1124,7 +1124,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 The following section provides information about CLI commands for working with network load balancers, listeners, and pools.
 
 ### ibmcloud is load-balancers
-{: #load-balancers}
+{: #network-load-balancers}
 
 List all load balancers.
 
@@ -1133,7 +1133,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 ```
 
 #### Command options
-{: #command-options-load-balancers}
+{: #command-options-network-load-balancers}
 
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -1144,7 +1144,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 ---
 
 ### ibmcloud is load-balancer
-{: #load-balancer}
+{: #network-load-balancer}
 
 View details of a load balancer.
 
@@ -1153,7 +1153,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
-{: #command-options-load-balancer}
+{: #network-command-options-load-balancer}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1162,7 +1162,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is load-balancer-create
-{: #load-balancer-create}
+{: #network-load-balancer-create}
 
 Create a load balancer.
 
@@ -1171,7 +1171,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-create}
+{: #network-command-examples-load-balancer-create}
 
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
@@ -1182,7 +1182,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
 
 #### Command options
-{: #command-options-load-balancer-create}
+{: #network-command-options-load-balancer-create}
 
 - **LOAD_BALANCER_NAME**: Name of the load balancer.
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
@@ -1198,7 +1198,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 ---
 
 ### ibmcloud is load-balancer-delete
-{: #load-balancer-delete}
+{: #network-load-balancer-delete}
 
 Delete load balancers.
 
@@ -1207,7 +1207,7 @@ ibmcloud is load-balancer-delete (LOAD_BALANCER_ID1 LOAD_BALANCER_ID2 ...) [--ou
 ```
 
 #### Command options
-{: #command-options-load-balancer-delete}
+{: #command-options-network-load-balancer-delete}
 
 - **LOAD_BALANCER_ID1**: ID of the load balancer.
 - **LOAD_BALANCER_ID2**: ID of the load balancer.
@@ -1218,7 +1218,7 @@ ibmcloud is load-balancer-delete (LOAD_BALANCER_ID1 LOAD_BALANCER_ID2 ...) [--ou
 ---
 
 ### ibmcloud is load-balancer-update
-{: #load-balancer-update}
+{: #network-load-balancer-update}
 
 Update a load balancer.
 
@@ -1227,7 +1227,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER_ID [--name NEW_NAME] [--logging-d
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-update}
+{: #command-examples-network-load-balancer-update}
 
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-loadBalancer`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-loadBalancer --output JSON`
@@ -1245,7 +1245,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER_ID [--name NEW_NAME] [--logging-d
 ---
 
 ### ibmcloud is load-balancer-listeners
-{: #load-balancer-listeners}
+{: #network-load-balancer-listeners}
 
 List all load balancer listeners.
 
@@ -1254,7 +1254,7 @@ ibmcloud is load-balancer-listeners LOAD_BALANCER_ID [--output JSON] [-q, --quie
 ```
 
 #### Command options
-{: #command-options-load-balancer-listeners}
+{: #command-options-network-load-balancer-listeners}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1263,7 +1263,7 @@ ibmcloud is load-balancer-listeners LOAD_BALANCER_ID [--output JSON] [-q, --quie
 ---
 
 ### ibmcloud is load-balancer-listener
-{: #load-balancer-listener}
+{: #network-load-balancer-listener}
 
 View details of a load balancer listener.
 
@@ -1272,7 +1272,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 ```
 
 #### Command options
-{: #command-options-load-balancer-listener}
+{: #command-options-network-load-balancer-listener}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **LISTENER_ID**: ID of the listener.
@@ -1282,7 +1282,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 ---
 
 ### ibmcloud is load-balancer-listener-create
-{: #load-balancer-listener-create}
+{: #network-load-balancer-listener-create}
 
 Create a load balancer listener.
 
@@ -1291,7 +1291,7 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--defa
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-listener-create}
+{: #command-examples-network-load-balancer-listener-create}
 
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
@@ -1309,7 +1309,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --accept-proxy-protocol true`
 
 #### Command options
-{: #command-options-load-balancer-listener-create}
+{: #command-options-network-load-balancer-listener-create}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **PORT**: The listener port number. Range 1-65535.
@@ -1325,7 +1325,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 ---
 
 ### ibmcloud is load-balancer-listener-delete
-{: #load-balancer-listener-delete}
+{: #network-load-balancer-listener-delete}
 
 Delete load balancer listeners.
 
@@ -1334,7 +1334,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER_ID (LISTENER_ID1 LISTENE
 ```
 
 #### Command options
-{: #command-options-load-balancer-listener-delete}
+{: #command-options-network-load-balancer-listener-delete}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **LISTENER_ID1**: ID of the listener.
@@ -1346,7 +1346,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER_ID (LISTENER_ID1 LISTENE
 ---
 
 ### ibmcloud is load-balancer-listener-update
-{: #load-balancer-listener-update}
+{: #network-load-balancer-listener-update}
 
 Update a load balancer listener.
 
@@ -1355,7 +1355,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-listener-update}
+{: #command-examples-network-load-balancer-listener-update}
 
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --connection-limit 2000`
@@ -1366,7 +1366,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
 
 #### Command options
-{: #command-options-load-balancer-listener-update}
+{: #command-options-network-load-balancer-listener-update}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **LISTENER_ID**: ID of the listener.
@@ -1382,7 +1382,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 ---
 
 ### ibmcloud is load-balancer-pools
-{: #load-balancer-pools}
+{: #network-load-balancer-pools}
 
 List all pools of a load balancer.
 
@@ -1391,7 +1391,7 @@ ibmcloud is load-balancer-pools LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
-{: #command-options-load-balancer-pools}
+{: #command-options-network-load-balancer-pools}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1400,7 +1400,7 @@ ibmcloud is load-balancer-pools LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is load-balancer-pool
-{: #load-balancer-pool}
+{: #network-load-balancer-pool}
 
 View details of a load balancer pool.
 
@@ -1409,7 +1409,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 ```
 
 #### Command options
-{: #command-options-load-balancer-pool}
+{: #command-options-network-load-balancer-pool}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1419,7 +1419,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 ---
 
 ### ibmcloud is load-balancer-pool-create
-{: #load-balancer-pool-create}
+{: #network-load-balancer-pool-create}
 
 Create a load balancer pool.
 
@@ -1428,7 +1428,7 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTO
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-pool-create}
+{: #command-examples-network-load-balancer-pool-create}
 
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http`
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-url / --health-monitor-port 4001`
@@ -1440,7 +1440,7 @@ Create network load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 
 #### Command options
-{: #command-options-load-balancer-pool-create}
+{: #command-options-network-load-balancer-pool-create}
 
 - **POOL_NAME**: Name of the pool.
 - **LOAD_BALANCER_ID**: ID of the load balancer.
@@ -1461,7 +1461,7 @@ Create network load balancer pool with members
 ---
 
 ### ibmcloud is load-balancer-pool-delete
-{: #load-balancer-pool-delete}
+{: #network-load-balancer-pool-delete}
 
 Delete pools from a load balancer.
 
@@ -1470,7 +1470,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER_ID (POOL_ID1 POOL_ID2 ...) [
 ```
 
 #### Command options
-{: #command-options-load-balancer-pool-delete}
+{: #command-options-network-load-balancer-pool-delete}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID1**: ID of the pool.
@@ -1482,7 +1482,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER_ID (POOL_ID1 POOL_ID2 ...) [
 ---
 
 ### ibmcloud is load-balancer-pool-update
-{: #load-balancer-pool-update}
+{: #network-load-balancer-pool-update}
 
 Update a pool of a load balancer.
 
@@ -1491,7 +1491,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-pool-update}
+{: #command-examples-network-load-balancer-pool-update}
 
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --algorithm round_robin`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-delay 20 --health-max-retries 2 --health-timeout 5 --health-type http`
@@ -1502,7 +1502,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --proxy-protocol v2`
 
 #### Command options
-{: #command-options-load-balancer-pool-update}
+{: #command-options-network-load-balancer-pool-update}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1523,7 +1523,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 ---
 
 ### ibmcloud is load-balancer-pool-members
-{: #load-balancer-pool-members}
+{: #network-load-balancer-pool-members}
 
 List all the members of a load balancer pool.
 
@@ -1532,7 +1532,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--output JSON] 
 ```
 
 #### Command options
-{: #command-options-load-balancer-pool-members}
+{: #command-options-network-load-balancer-pool-members}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1542,7 +1542,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--output JSON] 
 ---
 
 ### ibmcloud is load-balancer-pool-member
-{: #load-balancer-pool-member}
+{: #network-load-balancer-pool-member}
 
 View details of load balancer pool member.
 
@@ -1551,7 +1551,7 @@ ibmcloud is load-balancer-pool-member LOAD_BALANCER_ID POOL_ID MEMBER_ID [--outp
 ```
 
 #### Command options
-{: #command-options-load-balancer-pool-member}
+{: #command-options-network-load-balancer-pool-member}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1562,7 +1562,7 @@ ibmcloud is load-balancer-pool-member LOAD_BALANCER_ID POOL_ID MEMBER_ID [--outp
 ---
 
 ### ibmcloud is load-balancer-pool-member-create
-{: #load-balancer-pool-member-create}
+{: #network-load-balancer-pool-member-create}
 
 Create a load balancer pool member.
 
@@ -1571,14 +1571,14 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER_ID POOL_ID PORT TARGE
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-pool-member-create}
+{: #command-examples-network-load-balancer-pool-member-create}
 
 - `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 192.168.100.5`
 - `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 9e692608-3b3a-4cfb-9f46-efb6b711876d`
 - `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 192.168.100.5 --weight 100 --output JSON`
 
 #### Command options
-{: #command-options-load-balancer-pool-member-create}
+{: #command-options-network-load-balancer-pool-member-create}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1591,7 +1591,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER_ID POOL_ID PORT TARGE
 ---
 
 ### ibmcloud is load-balancer-pool-member-update
-{: #load-balancer-pool-member-update}
+{: #network-load-balancer-pool-member-update}
 
 Update a member of a load balancer pool.
 
@@ -1600,7 +1600,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER_ID POOL_ID MEMBER_ID 
 ```
 
 #### Command examples
-{: #command-examples-load-balancer-pool-member-update}
+{: #command-examples-network-load-balancer-pool-member-update}
 
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target 192.168.100.5 --port 3001`
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target 9e692608-3b3a-4cfb-9f46-efb6b711876d --port 3001`
@@ -1608,7 +1608,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER_ID POOL_ID MEMBER_ID 
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001 --weight 100 --output JSON`
 
 #### Command options
-{: #command-options-load-balancer-pool-member-update}
+{: #command-options-network-load-balancer-pool-member-update}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1623,7 +1623,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER_ID POOL_ID MEMBER_ID 
 ---
 
 ### ibmcloud is load-balancer-pool-member-delete
-{: #load-balancer-pool-member-delete}
+{: #network-load-balancer-pool-member-delete}
 
 Delete members from a load balancer pool.
 
@@ -1632,7 +1632,7 @@ ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER_ID POOL_ID (MEMBER_ID
 ```
 
 #### Command options
-{: #command-options-load-balancer-pool-member-delete}
+{: #command-options-network-load-balancer-pool-member-delete}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **POOL_ID**: ID of the pool.
@@ -1645,7 +1645,7 @@ ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER_ID POOL_ID (MEMBER_ID
 ---
 
 ### ibmcloud is load-balancer-statistics
-{: #load-balancer-statistics}
+{: #network-load-balancer-statistics}
 
 List all statistics of a load balancer.
 
@@ -1654,7 +1654,7 @@ ibmcloud is load-balancer-statistics LOAD_BALANCER_ID [--output JSON] [-q, --qui
 ```
 
 #### Command options
-{: #command-options-load-balancer-statistics}
+{: #command-options-network-load-balancer-statistics}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2036,7 +2036,7 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 
 ---
 
-## Routing tables and routes 
+## Routing tables and routes
 {: #custom-routes-section}
 
 The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
