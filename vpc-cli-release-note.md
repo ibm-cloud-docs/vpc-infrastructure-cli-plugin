@@ -22,6 +22,20 @@ lastupdated: "2021-03-12"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.8.3
+{: #v0.8.3}
+
+Version 0.8.3 was released on 2021-05-14.
+
+### New commands
+
+* Add commands `instance-group-manager-actions`, `instance-group-manager-action`, `instance-group-manager-action-create`, `instance-group-manager-action-delete`, `instance-group-manager-action-update` for scheduled scaling feature.
+
+### Updated commands
+
+* Add `--owner-type` option for `images list` command to filter images by _owner_type_ property.
+* Update `instance-group-manager-create` command for scheduled scaling feature.
+
 ## v0.8.1
 {: #v0.8.1}
 
