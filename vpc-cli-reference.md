@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-03-18"
+lastupdated: "2021-05-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1153,7 +1153,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
-{: #network-command-options-load-balancer}
+{: #command-options-network-load-balancer}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1171,7 +1171,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 ```
 
 #### Command examples
-{: #network-command-examples-load-balancer-create}
+{: #command-examples-network-load-balancer-create}
 
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
@@ -1182,7 +1182,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
 
 #### Command options
-{: #network-command-options-load-balancer-create}
+{: #command-options-network-load-balancer-create}
 
 - **LOAD_BALANCER_NAME**: Name of the load balancer.
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
@@ -1234,7 +1234,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER_ID [--name NEW_NAME] [--logging-d
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --logging-datapath-active false`
 
 #### Command options
-{: #command-options-load-balancer-update}
+{: #command-options-network-load-balancer-update}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **--name**: New name of the Load balancer.
@@ -2036,7 +2036,7 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 
 ---
 
-## Routing tables and routes
+## Routing tables and routes 
 {: #custom-routes-section}
 
 The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
@@ -3525,7 +3525,7 @@ ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [-
 ## Virtual private network (VPN) gateways
 {: #vpn-clis}
 
-This section gives details about the CLI commands available for working with VPN, including IKE and IPsec policies.
+This section gives details about the CLI commands that are available for working with VPN gateways, including IKE and IPsec policies.
 
 
 ### ibmcloud is ike-policies
@@ -4211,13 +4211,14 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 List all images in the region.
 
 ```
-ibmcloud is images [--visibility all | public | private] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is images [--visibility all | public | private] [--owner-type all | provider | user] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-images}
 
 - **--visibility**: List images with given visibility. Valid visibility is: **public** or **private**.
+- **--owner-type**: Filters images with given owner type. Default is `all`. One of: **all**, **provider**, **user**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -4424,8 +4425,8 @@ Create instance interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -4483,8 +4484,8 @@ Create instance from instance template with the desired dedicated host group
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -4889,7 +4890,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--ou
 
 - **INSTANCE**: ID of the instance.
 - **--name**: New name of the virtual server instance.
-- **--profile**: status  The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Match the current profile's **instance disk support**. (**Note:** If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
+- **--profile**: The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Match the current profile's instance disk support. (**Note:** If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5123,7 +5124,7 @@ ibmcloud is keys [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name 
 
 ---
 
-## Dedicated hosts (Beta)
+## Dedicated hosts
 {: #dedicated-hosts}
 
 ### ibmcloud is dedicated-host-profiles
@@ -5387,6 +5388,63 @@ ibmcloud is dedicated-host-delete (HOST1 HOST2 ...) [--output JSON] [-f, --force
 
 ---
 
+### ibmcloud is dedicated-host-disks
+{: #dedicated-host-disks}
+
+List all disks of a dedicated host.
+
+```
+ibmcloud is dedicated-host-disks HOST [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-dedicated-host-disks}
+
+- **HOST**: ID of the host.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is dedicated-host-disk
+{: #dedicated-host-disk}
+
+View details of a dedicated host disk.
+
+```
+ibmcloud is dedicated-host-disk HOST DISK [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-dedicated-host-disk}
+
+- **HOST**: ID of the host.
+- **DISK**: ID of the dedicated host disk.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is dedicated-host-disk-update
+{: #dedicated-host-disk-update}
+
+Update a dedicated host disk.
+
+```
+ibmcloud is dedicated-host-disk-update HOST DISK --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-dedicated-host-disk-update}
+
+- **HOST**: ID of the host.
+- **DISK**: ID of the dedicated host disk.
+- **--name**: New name of the disk.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Auto Scaling COMMANDS
 {: #autoscaling-clis}
 
@@ -5476,8 +5534,8 @@ Create instance template interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -5521,8 +5579,8 @@ Create instance template by overriding a source template and providing overridin
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -5775,7 +5833,7 @@ ibmcloud is instance-group-manager INSTANCE_GROUP MANAGER [--output JSON] [-q, -
 Create a manager for in instance group.
 
 ```
-ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBERS [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--min-members MIN_MEMBERS] [--name NAME] [--management-enabled true | false] [--output JSON] [-q, --quiet]
+ibmcloud is instance-group-manager-create INSTANCE_GROUP [--manager-type autoscale | scheduled] [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--max-members MAX_MEMBERS] [--min-members MIN_MEMBERS] [--name NAME] [--management-enabled true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5784,11 +5842,13 @@ ibmcloud is instance-group-manager-create INSTANCE_GROUP --max-members MAX_MEMBE
 - `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20`
 - `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --output JSON`
 - `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --max-members 20 --min-members 2 --cooldown 400 --aggregation-window 120 --name my--autoscale-manager --management-enabled false`
+- `ibmcloud is instance-group-manager-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-scheduled-manager --manager-type scheduled`
 
 #### Command options
 {: #command-options-instance-group-manager-create}
 
 - **INSTANCE_GROUP**: ID of the instance group.
+- **--manager-type**: The type of instance group manager. One of: **autoscale**, **scheduled**. (default: **autoscale**).
 - **--aggregation-window**: The time window in seconds to aggregate metrics prior to evaluation. Range 90-600. Divisible by 30. (default: **90**).
 - **--cooldown**: The duration of time in seconds to pause further scale actions after scaling has taken place. Range 120-3600. (default: **300**).
 - **--max-members**: The maximum number of members in a managed instance group. Range 1-1000.
@@ -5850,6 +5910,138 @@ ibmcloud is instance-group-manager-delete INSTANCE_GROUP MANAGER [-f, --force] [
 
 - **INSTANCE_GROUP**: ID of the instance group.
 - **MANAGER**: ID of the manager.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-group-manager-actions
+{: #instance-group-manager-actions}
+
+List actions for instance group manager.
+
+```
+ibmcloud is instance-group-manager-actions INSTANCE_GROUP MANAGER [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-group-manager-actions}
+
+- **INSTANCE_GROUP**: ID of the instance group.
+- **MANAGER**: ID of the manager.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-group-manager-action
+{: #instance-group-manager-action}
+
+View details of an instance group manager action.
+
+```
+ibmcloud is instance-group-manager-action INSTANCE_GROUP MANAGER ACTION [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-group-manager-action}
+
+- **INSTANCE_GROUP**: ID of the instance group.
+- **MANAGER**: ID of the manager.
+- **ACTION**: ID of the action.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-group-manager-action-create
+{: #instance-group-manager-action-create}
+
+Create an instance group manager action.
+
+```
+ibmcloud is instance-group-manager-action-create INSTANCE_GROUP MANAGER [--run-at RUN_AT | --cron CRON] [--membership-count MEMBERSHIP_COUNT | (--max-members MAX_MEMBERS --min-members MIN_MEMBERS)] [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-group-manager-action-create}
+
+- `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --run-at '2024-10-28T21:13:32+08:00' --max-members 20 --min-members 10`
+Create a one-time scheduled action to update the instance group autoscale manager.
+- `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --run-at '2024-10-28T21:13:32+08:00' --membership-count 10 --name my-action`
+Create a one-time scheduled action to update instance group.
+- `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --cron '*/5 1,2,3 * * *' --max-members 20 --min-members 5 --output JSON`
+Create a recurring scheduled action with cron specification to update the instance group autoscale manager.
+- `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --cron '*/5 1,2,3 * * *' --membership-count 10 --name my-action`
+Create a recurring scheduled action with cron specification to update the instance group.
+
+#### Command options
+{: #command-options-instance-group-manager-action-create}
+
+- **INSTANCE_GROUP**: ID of the instance group.
+- **MANAGER**: ID of the manager.
+- **--run-at**: The date and time specified for the scheduled action. It should be in ISO 8601 format like **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--cron**: The cron specification for a recurring scheduled action.
+- **--membership-count**: The number of members the instance group should have at the scheduled time.
+- **--max-members**: The maximum number of members in a managed instance group. Range 1-1000.
+- **--min-members**: The minimum number of members in a managed instance group. Range 1-1000.
+- **--name**: Name of the action.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-group-manager-action-update
+{: #instance-group-manager-action-update}
+
+Update an instance group manager action.
+
+```
+ibmcloud is instance-group-manager-action-update INSTANCE_GROUP MANAGER ACTION (--run-at RUN_AT | --cron CRON) [--membership-count MEMBERSHIP_COUNT | (--min-members MIN_MEMBERS --max-members MAX_MEMBERS)] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-group-manager-action-update}
+
+- `ibmcloud is instance-group-manager-action-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name updatedName`
+- `ibmcloud is instance-group-manager-action-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --max-members 20 --min-members 5`
+- `ibmcloud is instance-group-manager-action-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --membership-count 10 --output JSON`
+- `ibmcloud is instance-group-manager-action-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --run-at 2020-10-28T21:13:32+08:00`
+- `ibmcloud is instance-group-manager-action-update 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cron '*/5 1,2,3 * * *'`
+
+#### Command options
+{: #command-options-instance-group-manager-action-update}
+
+- **INSTANCE_GROUP**: ID of the instance group.
+- **MANAGER**: ID of the manager.
+- **ACTION**: ID of the action.
+- **--run-at**: The date and time specified for the scheduled action. It should be in ISO 8601 format like **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--cron**: The cron specification for a recurring scheduled action.
+- **--membership-count**: The number of members the instance group should have at the scheduled time.
+- **--min-members**: The minimum number of members the instance group should have at the scheduled time. Range 1-1000.
+- **--max-members**: The maximum number of members the instance group should have at the scheduled time. Range 1-1000.
+- **--name**: New name of the instance group manager action.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-group-manager-action-delete
+{: #instance-group-manager-action-delete}
+
+Delete instance group manager action.
+
+```
+ibmcloud is instance-group-manager-action-delete INSTANCE_GROUP MANAGER ACTION [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-group-manager-action-delete}
+
+- **INSTANCE_GROUP**: ID of the instance group.
+- **MANAGER**: ID of the manager.
+- **ACTION**: ID of the action.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
