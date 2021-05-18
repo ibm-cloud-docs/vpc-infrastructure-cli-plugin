@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-03-12"
+lastupdated: "2021-05-18"
 
 ---
 
@@ -22,10 +22,10 @@ lastupdated: "2021-03-12"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
-## v0.8.3
-{: #v0.8.3}
+## v0.8.4
+{: #v0.8.4}
 
-Version 0.8.3 was released on 2021-05-14.
+Version 0.8.4 was released on 2021-05-18.
 
 ### New commands
 
