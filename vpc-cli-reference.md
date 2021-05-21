@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-05-14"
+lastupdated: "2021-05-20"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4233,7 +4233,7 @@ ibmcloud is images [--visibility all | public | private] [--owner-type all | pro
 Create an image.
 
 ```
-ibmcloud is image-create IMAGE_NAME --file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4244,6 +4244,8 @@ ibmcloud is image-create IMAGE_NAME --file IMAGE_FILE_LOCATION --os-name OPERATI
 - `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --resource-group-name Default`
 - `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --output JSON`
 - `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --encrypted-data-key eyJjaXBoZXJ0ZXh0IjoiSFVBS1VxTFFzUVhVRytTdElxTENDS3BjQjZ5Qm9HWlMxOVU9IiwiaXYiOiIxVXdNeTFTNG9odHVOWmJPIiwidmVyc2lvbiI6IjQuMC4wIiwiaGFuZGxlIjoiMWU5MzNkY2QtYjczMi00MDY3LWEyNTUtZDg5MzMxMTdmZGZmIn0= --encryption-key crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
+- `ibmcloud is image-create My-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e`
+- `ibmcloud is image-create My-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --encryption-key-volume crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
 
 #### Command options
 {: #command-options-image-create}
@@ -4253,6 +4255,8 @@ ibmcloud is image-create IMAGE_NAME --file IMAGE_FILE_LOCATION --os-name OPERATI
 - **--os-name**: Name of the operating system for this image.
 - **--encrypted-data-key**: A base64-encoded, encrypted representation of the key that was used to encrypt the data for this image.
 - **--encryption-key**: The CRN of the root key that was used to wrap the data key (which is ultimately represented as **encrypted_data_key**). Additionally, the root key is used to encrypt volumes created from this image (unless an alternate **encryption_key** is provided at volume creation).
+- **--source-volume**: The volume from which to create the image. The specified volume must originate from image.
+- **--encryption-key-volume**: A reference to the root key to be used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4388,7 +4392,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4415,6 +4419,10 @@ Create instance to be placed to the desired dedicated host.
 Create instance to be placed to the desired dedicated host group.
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
+Create instance with boot volume attachment from volume snapshot.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}]'`
+Create instance with volume attachment from volume snapshot.
 
 #### Command options
 {: #command-options-instance-create}
@@ -4425,8 +4433,8 @@ Create instance interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -4484,8 +4492,8 @@ Create instance from instance template with the desired dedicated host group
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -4939,7 +4947,7 @@ ibmcloud is instance-volume-attachments INSTANCE [--output JSON] [-q, --quiet]
 Create a volume attachment, connecting a volume to an instance.
 
 ```
-ibmcloud is instance-volume-attachment-add NAME INSTANCE VOLUME [--auto-delete false | true] [--output JSON] [-q, --quiet]
+ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PROFILE --new-volume-name NEW_VOLUME_NAME --iops IOPS --encryption-key ENCRYPTION_KEY --capacity CAPACITY --source-snapshot SOURCE_SNAPSHOT) [--auto-delete false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4948,6 +4956,7 @@ ibmcloud is instance-volume-attachment-add NAME INSTANCE VOLUME [--auto-delete f
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 1a6b7274-678d-4dfb-8981-c71dd9d4daa5`
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 1a6b7274-678d-4dfb-8981-c71dd9d4daa5 --auto-delete true`
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 1a6b7274-678d-4dfb-8981-c71dd9d4daa5 --auto-delete true --output JSON`
+- `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --profile general-purpose --source-snapshot eaf9d6ca-35bf-4ac7-bc45-d0f2507f2830 --auto-delete true --output JSON`
 
 #### Command options
 {: #command-options-instance-volume-attachment-add}
@@ -4955,6 +4964,12 @@ ibmcloud is instance-volume-attachment-add NAME INSTANCE VOLUME [--auto-delete f
 - **NAME**: Name of the volume attachment.
 - **INSTANCE**: ID of the instance.
 - **VOLUME**: ID of the volume.
+- **--new-volume-name**: The name of new volume.
+- **--profile**: Name of the profile.
+- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
+- **--encryption-key**: The CRN of the Key Management Service root key.
+- **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes.
+- **--source-snapshot**: The ID of the snapshot to clone volume.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -5534,8 +5549,8 @@ Create instance template interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -5579,8 +5594,8 @@ Create instance template by overriding a source template and providing overridin
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check the **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check the **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
@@ -5969,7 +5984,7 @@ ibmcloud is instance-group-manager-action-create INSTANCE_GROUP MANAGER [--run-a
 - `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --run-at '2024-10-28T21:13:32+08:00' --max-members 20 --min-members 10`
 Create a one-time scheduled action to update the instance group autoscale manager.
 - `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --run-at '2024-10-28T21:13:32+08:00' --membership-count 10 --name my-action`
-Create a one-time scheduled action to update instance group.
+Create a one-time scheduled action to update the instance group.
 - `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --cron '*/5 1,2,3 * * *' --max-members 20 --min-members 5 --output JSON`
 Create a recurring scheduled action with cron specification to update the instance group autoscale manager.
 - `ibmcloud is instance-group-manager-action-create 2251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --cron '*/5 1,2,3 * * *' --membership-count 10 --name my-action`
@@ -6511,6 +6526,123 @@ ibmcloud is volume-update VOLUME --name NEW_NAME [--capacity CAPACITY] [--output
 - **VOLUME**: ID of the volume.
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. It can be expanded only up to 250 for volumes less than 250 GB. Volumes greater than 250 GB can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for 5iops-tier profile volumes and 4800 for 10iops-tier profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Snapshots
+{: #snapshots-cli}
+
+The following section provides information about CLI commands for snapshots.
+
+### ibmcloud is snapshots
+{: #snapshots}
+
+List all snapshots.
+
+```
+ibmcloud is snapshots [--volume VOLUME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-snapshots}
+
+- **--volume**: ID of the volume to snapshot.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot
+{: #snapshot}
+
+View details of a snapshot.
+
+```
+ibmcloud is snapshot SNAPSHOT [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-snapshot}
+
+- **SNAPSHOT**: ID of the snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-create
+{: #snapshot-create}
+
+Create a snapshot from a volume.
+
+```
+ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-create}
+
+- `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48`
+- `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-name Default`
+- `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --output JSON`
+
+#### Command options
+{: #command-options-snapshot-create}
+
+- **--volume**: ID of the volume to snapshot.
+- **--name**: New name for the snapshot.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-delete
+{: #snapshot-delete}
+
+Delete snapshots.
+
+```
+ibmcloud is snapshot-delete (SNAPSHOT1 SNAPSHOT2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-snapshot-delete}
+
+- **SNAPSHOT1**: ID of the snapshot.
+- **SNAPSHOT2**: ID of the snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-update
+{: #snapshot-update}
+
+Update a snapshot.
+
+```
+ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-snapshot-update}
+
+- `ibmcloud is snapshot-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --name my-snapshot --output JSON`
+
+#### Command options
+{: #command-options-snapshot-update}
+
+- **SNAPSHOT**: ID of the snapshot.
+- **--name**: New name of the snapshot.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
