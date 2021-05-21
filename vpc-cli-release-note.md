@@ -22,6 +22,20 @@ lastupdated: "2021-05-18"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v0.8.5
+{: #v0.8.5}
+
+Version 0.8.5 was released on 2021-05-20.
+
+### New commands
+
+* Add commands `snapshots`, `snapshot`, `snapshot-create`, `snapshot-update`, `snapshot-delete-from-source`, `snapshot-delete` for the snapshot feature.
+
+### Updated commands
+
+* Add `--source-volume` option of the `image-create` command for the image from volume feature.
+* Update `--boot-volume`, `--volume-attach` options of the `instance-create` command to support JSON format with `source_snapshot` property setting that supports restoring volume from source snapshot.
+
 ## v0.8.4
 {: #v0.8.4}
 
