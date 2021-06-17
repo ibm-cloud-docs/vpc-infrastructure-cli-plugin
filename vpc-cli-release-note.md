@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-05-18"
+lastupdated: "2021-06-17"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2021-05-18"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v0.8.6
+{: #v0.8.6}
+
+Version 0.8.6 was released on 2021-06-17.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands. 
+
+### Removed commands
+
+* N/A
 
 ## v0.8.5
 {: #v0.8.5}
