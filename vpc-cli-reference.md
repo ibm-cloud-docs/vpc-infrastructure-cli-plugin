@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-05-20"
+lastupdated: "2021-06-17"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -815,7 +815,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--proxy-protocol disabled | v1 | v2] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip | http_cookie | app_cookie [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -829,6 +829,7 @@ Create application load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
 Create network load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -843,7 +844,8 @@ Create network load balancer pool with members
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
-- **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
+- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1000,7 +1002,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER_ID POOL_ID [--output JSON] 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1013,6 +1015,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol http`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name lb-rule-name --output JSON`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --proxy-protocol v2`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 
 #### Command options
 {: #command-options-load-balancer-pool-update}
@@ -1027,7 +1030,8 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
-- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **none**.
+- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
+- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1424,7 +1428,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER_ID POOL_ID [--output JSON] [-q, --q
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip] [--proxy-protocol disabled | v1 | v2] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER_ID ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip | http_cookie | app_cookie [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1438,6 +1442,7 @@ Create application load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
 Create network load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
+- `ibmcloud is load-balancer-pool-create my-lb-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 
 #### Command options
 {: #command-options-network-load-balancer-pool-create}
@@ -1452,7 +1457,8 @@ Create network load balancer pool with members
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
-- **--session-persistence-type**: The session persistence type. One of: **source_ip**.
+- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
+- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1487,7 +1493,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER_ID (POOL_ID1 POOL_ID2 ...) [
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [--session-persistence-type source_ip | none] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1500,6 +1506,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol http`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name lb-rule-name --output JSON`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --proxy-protocol v2`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 
 #### Command options
 {: #command-options-network-load-balancer-pool-update}
@@ -1514,7 +1521,8 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
-- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **none**.
+- **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
+- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4255,7 +4263,7 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - **--os-name**: Name of the operating system for this image.
 - **--encrypted-data-key**: A base64-encoded, encrypted representation of the key that was used to encrypt the data for this image.
 - **--encryption-key**: The CRN of the root key that was used to wrap the data key (which is ultimately represented as **encrypted_data_key**). Additionally, the root key is used to encrypt volumes created from this image (unless an alternate **encryption_key** is provided at volume creation).
-- **--source-volume**: The volume from which to create the image. The specified volume must originate from image.
+- **--source-volume**: The volume from which to create the image. The specified volume must originate from image. The volume's active and busy property value must be **false**, and the volume attached instance must be in stopped status.
 - **--encryption-key-volume**: A reference to the root key to be used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -4440,7 +4448,7 @@ Create instance with volume attachment from volume snapshot.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
-- **--ipv4**: Primary IPv4 address for the primary network interface.
+- **--ipv4**: Primary IPv4 address.
 - **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
@@ -4468,11 +4476,11 @@ ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --resource-group-id 7494aacb866142fba11a88d75cb37bd8 --output JSON`
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --boot-volume '{"delete_volume_on_instance_delete": false, "name": "my-volume-attachment", "volume": {"name": "myvol2", "profile": {"name": "general-purpose"}}}'`
 Create instance from instance template with the boot volume configuration
-- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet-id 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --ipv4 10.240.1.100 --security-group-ids r006-19c2ce0d-d35d-47bc-8147-120edddd3de5 --allow-ip-spoofing true`
+- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet-id 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --ipv4 10.240.129.10 --security-group-ids r006-19c2ce0d-d35d-47bc-8147-120edddd3de5 --allow-ip-spoofing true`
 Create instance from instance template with the primary network interface configuration
-- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac"}, "primary_ipv4_address": "10.240.1.100", "security_groups": [{"id": "r006-19c2ce0d-d35d-47bc-8147-120edddd3de5"}]}'`
+- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc-id r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac"}, "primary_ipv4_address": "10.240.129.10", "security_groups": [{"id": "r006-19c2ce0d-d35d-47bc-8147-120edddd3de5"}]}'`
 Create instance from instance template with the primary network interface configuration in json format
-- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0737-f6b5a638-1fda-476b-9e2f-7a550fbb62b8"}, "primary_ipv4_address": "10.240.128.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}, {"name": "third-nic", "allow_ip_spoofing": true, "subnet": {"id":"0737-6b939577-4839-47b0-b42f-a4b29a94c7d9"}, "primary_ipv4_address": "10.240.129.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}]'`
+- `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0737-f6b5a638-1fda-476b-9e2f-7a550fbb62b8"}, "primary_ipv4_address": "10.240.129.10", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}, {"name": "third-nic", "allow_ip_spoofing": true, "subnet": {"id":"0737-6b939577-4839-47b0-b42f-a4b29a94c7d9"}, "primary_ipv4_address": "10.240.129.100", "security_groups": [{"id": "r006-caba3deb-136b-42c8-831a-1dbcc0f1912e"}]}]'`
 Create instance from instance template with the second network interfaces configuration
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --volume-attach '[{"delete_volume_on_instance_delete": false, "name": "my-volume-attachment1", "volume": {"name": "myvol2", "capacity": 200, "profile": {"name": "general-purpose"}}}, {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment2", "volume": {"name": "myvol3", "capacity": 300, "iops": 1000, "profile": {"name": "custom"}}}]'`
 Create instance from instance template with the data volumes configuration
@@ -4499,7 +4507,7 @@ Create instance from instance template with the desired dedicated host group
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
-- **--ipv4**: Primary IPv4 address for the primary network interface.
+- **--ipv4**: Primary IPv4 address.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
@@ -5556,7 +5564,7 @@ Create instance template interactively.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
-- **--ipv4**: Primary IPv4 address for the primary network interface.
+- **--ipv4**: Primary IPv4 address.
 - **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
@@ -5601,7 +5609,7 @@ Create instance template by overriding a source template and providing overridin
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
-- **--ipv4**: Primary IPv4 address for the primary network interface.
+- **--ipv4**: Primary IPv4 address.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
@@ -6440,7 +6448,7 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - **VOLUME_NAME**: Name of the volume.
 - **PROFILE_NAME**: Name of the profile.
 - **ZONE_NAME**: Name of the zone.
-- **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes, (default: **100**).
+- **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes. (default: **100**).
 - **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -6511,7 +6519,7 @@ ibmcloud is volume-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 Update a volume.
 
 ```
-ibmcloud is volume-update VOLUME --name NEW_NAME [--capacity CAPACITY] [--output JSON] [-q, --quiet]
+ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
