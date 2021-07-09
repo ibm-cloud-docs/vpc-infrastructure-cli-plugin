@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-06-17"
+lastupdated: "2021-07-09"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2021-06-17"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v1.0.0
+{: #v1.0.0}
+
+Version 1.0.0 was released on 2021-07-08.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Hide the `ibmcloud is target` command.
+
+### Removed commands
+
+* Remove generation 1 support from commands.
+* Remove the target generation switching in `ibmcloud is target` command.
 
 ## v0.8.6
 {: #v0.8.6}
