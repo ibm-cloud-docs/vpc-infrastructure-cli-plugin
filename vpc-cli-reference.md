@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-06-17"
+lastupdated: "2021-07-09"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -57,21 +57,6 @@ This document is organized into the following sections:
   ibmcloud plugin list
   ```
   {: pre}
-
-4. Make sure the CLI plug-in targets generation 2 of the VPC infrastructure service. To view the current target generation, run the following command:
-
-  ```
-  ibmcloud is target
-  ```
-  {: pre}
-
-  If the plug-in is not currently targeting generation 2, run the following command:
-
-  ```
-  ibmcloud is target --gen 2
-  ```
-  {: pre}
-
 
 ---
 
@@ -845,7 +830,7 @@ Create network load balancer pool with members
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
-- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
+- **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1031,7 +1016,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
-- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
+- **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1458,7 +1443,7 @@ Create network load balancer pool with members
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
-- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
+- **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1522,7 +1507,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
-- **--session-persistence-cookie-name**: Session persistence cookie name. Session persistence is applicable only to **app_cookie** type.
+- **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Only supported for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4241,19 +4226,19 @@ ibmcloud is images [--visibility all | public | private] [--owner-type all | pro
 Create an image.
 
 ```
-ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--required-image-flag REQUIRED_IMAGE_FLAG1 --required-image-flag REQUIRED_IMAGE_FLAG2 ...] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-image-create}
 
-- `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64`
-- `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
-- `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --resource-group-name Default`
-- `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --output JSON`
-- `ibmcloud is image-create My-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --encrypted-data-key eyJjaXBoZXJ0ZXh0IjoiSFVBS1VxTFFzUVhVRytTdElxTENDS3BjQjZ5Qm9HWlMxOVU9IiwiaXYiOiIxVXdNeTFTNG9odHVOWmJPIiwidmVyc2lvbiI6IjQuMC4wIiwiaGFuZGxlIjoiMWU5MzNkY2QtYjczMi00MDY3LWEyNTUtZDg5MzMxMTdmZGZmIn0= --encryption-key crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
-- `ibmcloud is image-create My-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e`
-- `ibmcloud is image-create My-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --encryption-key-volume crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
+- `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64`
+- `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+- `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --resource-group-name Default`
+- `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --output JSON`
+- `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --encrypted-data-key eyJjaXBoZXJ0ZXh0IjoiSFVBS1VxTFFzUVhVRytTdElxTENDS3BjQjZ5Qm9HWlMxOVU9IiwiaXYiOiIxVXdNeTFTNG9odHVOWmJPIiwidmVyc2lvbiI6IjQuMC4wIiwiaGFuZGxlIjoiMWU5MzNkY2QtYjczMi00MDY3LWEyNTUtZDg5MzMxMTdmZGZmIn0= --encryption-key crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
+- `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e`
+- `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --encryption-key-volume crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
 
 #### Command options
 {: #command-options-image-create}
@@ -4400,7 +4385,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4422,9 +4407,11 @@ Create instance with primary network interface configuration in JSON.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --security-group-ids 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4 10.240.129.10 --allow-ip-spoofing true`
 Create instance with primary network interface configuration that includes security groups, primary IPv4 address, source IP spoofing setting.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host c019b1f7-c4d6-430c-aaa4-e0cc25d47277`
-Create instance to be placed to the desired dedicated host.
+Create instance to be placed in the wanted dedicated host.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host-group a4738ceb-5e59-4601-849a-61d7895740ee`
-Create instance to be placed to the desired dedicated host group.
+Create instance to be placed in the wanted dedicated host group.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --placement-group 1d2afa0f-b9f2-4d85-ae35-a08885269644`
+Create instance to be placed in the wanted placement group.
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -4441,17 +4428,18 @@ Create instance with volume attachment from volume snapshot.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--ipv4**: Primary IPv4 address.
-- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
+- **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4466,7 +4454,7 @@ Create instance with volume attachment from volume snapshot.
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4487,9 +4475,9 @@ Create instance from instance template with the data volumes configuration
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --image-id r006-ed3f775f-ad7e-4e37-ae62-7199b4988b00 --profile cx2-2x4 --key-ids r006-02a07b78-6e5f-40a2-86a2-99e01916128c,r006-29e19fb1-e2b9-49d0-ab6e-9702e99f5021 --user-data @/tmp/userdata.sh`
 Create instance from instance template with image/profile/key/user data configuration
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --dedicated-host 0737-4ab6b37d-4695-4efb-9439-0528b5550dfe --profile mx2-2x16`
-Create instance from instance template with the desired dedicated host
+Create instance from instance template with the wanted dedicated host
 - `ibmcloud is instance-create-from-template --template-id 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --dedicated-host-group 0737-7290ea56-7543-4590-8558-ca8cd51b12c4 --profile mx2-2x16`
-Create instance from instance template with the desired dedicated host group
+Create instance from instance template with the wanted dedicated host group
 
 #### Command options
 {: #command-options-instance-create-from-template}
@@ -4500,18 +4488,19 @@ Create instance from instance template with the desired dedicated host group
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
-- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
+- **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4639,7 +4628,7 @@ ibmcloud is instance-network-interface-create NIC_NAME INSTANCE SUBNET [--ipv4 I
 - **SUBNET**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address.
 - **--security-group-id**: ID of the security group.
-- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
+- **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4669,7 +4658,7 @@ ibmcloud is instance-network-interface-delete INSTANCE (NIC1 NIC2 ...) [--output
 ### ibmcloud is instance-network-interface-floating-ip
 {: #instance-network-interface-floating-ip}
 
-View details of a floating IP associated with a network interface.
+View details of a floating IP that is associated with a network interface.
 
 ```
 ibmcloud is instance-network-interface-floating-ip INSTANCE NIC FLOATING_IP [--output JSON] [-q, --quiet]
@@ -4735,7 +4724,7 @@ ibmcloud is instance-network-interface-floating-ip-remove INSTANCE NIC FLOATING_
 ### ibmcloud is instance-network-interface-floating-ips
 {: #instance-network-interface-floating-ips}
 
-List all floating IPs associated with a network interface.
+List all floating IPs that are associated with a network interface.
 
 ```
 ibmcloud is instance-network-interface-floating-ips INSTANCE NIC [--output JSON] [-q, --quiet]
@@ -4766,7 +4755,7 @@ ibmcloud is instance-network-interface-update INSTANCE NIC --name NEW_NAME [--al
 - **INSTANCE**: ID of the instance.
 - **NIC**: ID of the network interface.
 - **--name**: New name of NIC.
-- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
+- **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5468,6 +5457,645 @@ ibmcloud is dedicated-host-disk-update HOST DISK --name NEW_NAME [--output JSON]
 
 ---
 
+## Bare metal servers (Beta)
+{: #bare-metal-servers}
+
+### ibmcloud is bare-metal-server
+{: #bare-metal-server}
+
+[Beta] View details of a bare metal server.
+
+```
+ibmcloud is bare-metal-server SERVER [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server}
+
+- **SERVER**: ID of the server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-console
+{: #bare-metal-server-console}
+
+[Beta] Open an interactive console to the bare metal server. This command opens an interactive serial console by default.
+
+```
+ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-console}
+
+- **SERVER**: ID of the server.
+- **--vnc**: Get the WebSocket URI for the VNC console, it doesn't open the VNC console.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-create
+{: #bare-metal-server-create}
+
+[Beta] Create a bare metal server.
+
+```
+ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (--pnic-subnet PRIMARY_NIC_SUBNET [--pnic-name PRIMARY_NIC_NAME] [--pnic-ip PRIMARY_NIC_IPV4_ADDRESS] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true]) [--name NAME] [--user-data DATA] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-create}
+
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f`
+- `ibmcloud is bare-metal-server-create --name my-server-name2 --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-name eth0 --pnic-ip 46.9.49.11 --pnic-sgs c791f26f-4cf1-4bbf-be0e-72d7cb87133e,fefc8362-93c2-4f3d-90d4-82c56cce787e --pnic-allowed-vlans 1,2,3,4 --pnic-ein true --pnic-ais true`
+Create a bare metal server with specified primary network interface configuration.
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --resource-group-name Finance --output JSON`
+Create a bare metal server in the `Finance` resource group.
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --network-interfaces '[{"name": "eth2", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.11", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}, {"name": "eth3", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "vlan", "vlan": 4, "allow_interface_to_float": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.12", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
+Create a bare metal server with a PCI secondary network interface and a VLAN secondary network interface. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+
+#### Command options
+{: #command-options-bare-metal-server-create}
+
+- **--name**: Name of the server.
+- **--zone**: Name of the zone.
+- **--profile**: Name of the bare metal server profile.
+- **--image**: ID of the image.
+- **--keys**: Comma-separated IDs of ssh keys.
+- **--user-data**: data|@data-file. User data to transfer to the bare metal server.
+- **--pnic-name**: Name of the primary network interface.
+- **--pnic-subnet**: Subnet ID for the primary network interface.
+- **--pnic-ip**: Primary IPv4 address for the primary network interface.
+- **--pnic-sgs**: Comma-separated security group IDs for primary network interface.
+- **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface.
+- **--pnic-ein**: Enable infrastructure NAT. If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the VM associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--pnic-ais**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
+- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc-beta#create-bare-metal-server**.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--interactive, -i**: Supply the parameters under interactive mode. This option is mutually exclusive with all other arguments and options.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-delete
+{: #bare-metal-server-delete}
+
+[Beta] Delete bare metal servers.
+
+```
+ibmcloud is bare-metal-server-delete (SERVER1 SERVER2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-delete}
+
+- **SERVER1**: ID of the server.
+- **SERVER2**: ID of the server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-disk
+{: #bare-metal-server-disk}
+
+[Beta] View details of a bare metal server disk.
+
+```
+ibmcloud is bare-metal-server-disk SERVER SERVER_DISK [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-disk}
+
+- **SERVER**: ID of the server.
+- **SERVER_DISK**: ID of the server disk.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-disk-update
+{: #bare-metal-server-disk-update}
+
+[Beta] Update a bare metal server disk.
+
+```
+ibmcloud is bare-metal-server-disk-update SERVER SERVER_DISK --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-disk-update}
+
+- **SERVER**: ID of the server.
+- **SERVER_DISK**: ID of the server disk.
+- **--name**: New name of local disk.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-disks
+{: #bare-metal-server-disks}
+
+[Beta] List all disks of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-disks SERVER [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-disks}
+
+- **SERVER**: ID of the server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-initialization-values
+{: #bare-metal-server-initialization-values}
+
+[Beta] Retrieve configuration variables that are used to initialize the bare metal server.
+
+```
+ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY | @KEY_FILE)] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-initialization-values}
+
+- **SERVER**: ID of the server.
+- **--private-key**: **key**|**@key-file**. The private key in PEM format to decrypt password.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface
+{: #bare-metal-server-network-interface}
+
+[Beta] View details of a network interface of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interface SERVER NIC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface}
+
+- **SERVER**: ID of the server.
+- **NIC**: ID of the network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-create
+{: #bare-metal-server-network-interface-create}
+
+[Beta] Create a network interface for a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interface-create SERVER --subnet SUBNET [--name NAME] [--interface-type pci | vlan] [--ip IPV4_ADDRESS] [--security-groups SECURITY_GROUPS] [--allowed-vlans ALLOWED_VLANS | --vlan VLAN --allow-interface-to-float false | true] [--allow-ip-spoofing false | true] [--enable-infrastructure-nat true | false] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-network-interface-create}
+
+- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0`
+Create a PCI network interface.
+- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type pci --name eth1 --ip 10.0.0.11 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
+Create a PCI network interface with specified configuration.
+- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type vlan --name eth2 --ip 10.0.0.12 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --vlan 1 -allow-interface-to-float true -allow-ip-spoofing true --enable-infrastructure-nat true`
+Create a VLAN network interface with specified configuration.
+- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --output JSON`
+Create a PCI network interface and specify JSON as the output format.
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-create}
+
+- **SERVER**: ID of the server.
+- **--name**: Name of the network interface.
+- **--interface-type**: Type of the network interface. One of: **pci**, **vlan**. (default: **pci**).
+- **--subnet**: Subnet ID for the network interface.
+- **--ip**: Primary IPv4 address for the network interface.
+- **--security-groups**: Comma-separated security group IDs for the network interface.
+- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface.
+- **--vlan**: Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this interface.
+- **--allow-interface-to-float**: Indicates if the interface can float to any other server within the same **resource_group**. The interface floats automatically if the network detects a GARP or RARP on another bare metal server in the resource group. Applies only to VLAN interfaces. One of: **false**, **true**. (default: **false**).
+- **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
+- **--enable-infrastructure-nat**: If true, the VPC infrastructure performs any needed NAT operations. If false, the packet is passed unmodified to or from the network interface, allowing the workload to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-delete
+{: #bare-metal-server-network-interface-delete}
+
+[Beta] Remove network interfaces from a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interface-delete SERVER (NIC1 NIC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-delete}
+
+- **SERVER**: ID of the server.
+- **NIC1**: ID of the network interface.
+- **NIC2**: ID of the network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-floating-ip
+{: #bare-metal-server-network-interface-floating-ip}
+
+[Beta] View details of a floating IP that is associated with a network interface.
+
+```
+ibmcloud is bare-metal-server-network-interface-floating-ip SERVER NIC FLOATING_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-floating-ip}
+
+- **SERVER**: ID of the server.
+- **NIC**: ID of the network interface.
+- **FLOATING_IP**: ID of the floating IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-floating-ip-add
+{: #bare-metal-server-network-interface-floating-ip-add}
+
+[Beta] Associate a floating IP with a network interface.
+
+```
+ibmcloud is bare-metal-server-network-interface-floating-ip-add SERVER NIC FLOATING_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-network-interface-floating-ip-add}
+
+- `ibmcloud is bare-metal-server-network-interface-floating-ip-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 1a6b7274-678d-4dfb-8981-c71dd9d4daa5 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is bare-metal-server-network-interface-floating-ip-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 1a6b7274-678d-4dfb-8981-c71dd9d4daa5 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+Associate a floating IP with a network interface on a bare metal server and specify JSON as the output format.
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-floating-ip-add}
+
+- **SERVER**: ID of the server.
+- **NIC**: ID of the network interface.
+- **FLOATING_IP**: ID of the floating IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-floating-ip-remove
+{: #bare-metal-server-network-interface-floating-ip-remove}
+
+[Beta] Disassociate a floating IP from a network interface.
+
+```
+ibmcloud is bare-metal-server-network-interface-floating-ip-remove SERVER NIC FLOATING_IP [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-floating-ip-remove}
+
+- **SERVER**: ID of the server.
+- **NIC**: ID of the network interface.
+- **FLOATING_IP**: ID of the floating IP.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-floating-ips
+{: #bare-metal-server-network-interface-floating-ips}
+
+[Beta] List all floating IPs that are associated with a network interface.
+
+```
+ibmcloud is bare-metal-server-network-interface-floating-ips SERVER NIC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-floating-ips}
+
+- **SERVER**: ID of the server.
+- **NIC**: ID of the network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-update
+{: #bare-metal-server-network-interface-update}
+
+[Beta] Update a network interface of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAME [--allow-ip-spoofing false | true] [--enable-infrastructure-nat true | false] [--allowed-vlans ALLOWED_VLANS] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-network-interface-update}
+
+- `ic is bm-nicu 7d317c32-71f8-4060-9bdc-6c971b0317d4 784e2e4c-0540-4e1a-aba7-a51f9b35ba52 --name eth0 --allow-ip-spoofing true --enable-infrastructure-nat true -allowed-vlans 1,3,5`
+- `ic is bm-nicu 7d317c32-71f8-4060-9bdc-6c971b0317d4 784e2e4c-0540-4e1a-aba7-a51f9b35ba52 --name ethvlan1 --allow-ip-spoofing true --enable-infrastructure-nat true --output JSON`
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-update}
+
+- **SERVER**: ID of the server.
+- **NIC**: ID of the network interface.
+- **--name**: New name of the network interface.
+- **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
+- **--enable-infrastructure-nat**: If true, the VPC infrastructure performs any needed NAT operations. If false, the packet is passed unmodified to or from the network interface, allowing the workload to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interfaces
+{: #bare-metal-server-network-interfaces}
+
+[Beta] List all network interfaces of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interfaces SERVER [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interfaces}
+
+- **SERVER**: ID of the server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-profile
+{: #bare-metal-server-profile}
+
+[Beta] View details of a bare metal server profile.
+
+```
+ibmcloud is bare-metal-server-profile PROFILE_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-profile}
+
+- **PROFILE_NAME**: Name of the profile.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-profiles
+{: #bare-metal-server-profiles}
+
+[Beta] List all bare metal server profiles in the region.
+
+```
+ibmcloud is bare-metal-server-profiles [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-profiles}
+
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-restart
+{: #bare-metal-server-restart}
+
+[Beta] Restart a bare metal server.
+
+```
+ibmcloud is bare-metal-server-restart SERVER [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-restart}
+
+- **SERVER**: ID of the server.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-start
+{: #bare-metal-server-start}
+
+[Beta] Start a bare metal server.
+
+```
+ibmcloud is bare-metal-server-start SERVER [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-start}
+
+- **SERVER**: ID of the server.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-stop
+{: #bare-metal-server-stop}
+
+[Beta] Stop a bare metal server.
+
+```
+ibmcloud is bare-metal-server-stop SERVER [--type soft | hard] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-stop}
+
+- **SERVER**: ID of the server.
+- **--type**: Indicates the type of the stop operation. **soft**: Signal the running operating system to quiesce and shut down cleanly. **hard**: Immediately stop the server. One of: **soft**, **hard**. (default: **soft**).
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-update
+{: #bare-metal-server-update}
+
+[Beta] Update a bare metal server.
+
+```
+ibmcloud is bare-metal-server-update SERVER --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-bare-metal-server-update}
+
+- `ibmcloud is bare-metal-server-update 7d317c32-71f8-4060-9bdc-6c971b0317d4 --name my-server --output JSON`
+
+#### Command options
+{: #command-options-bare-metal-server-update}
+
+- **SERVER**: ID of the server.
+- **--name**: New name of the bare metal server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-servers
+{: #bare-metal-servers}
+
+[Beta] List all bare metal servers.
+
+```
+ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-servers}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Placement group (Beta)
+{: #placement-group}
+
+### ibmcloud is placement-group
+{: #placement-group}
+
+[Beta] View details of a placement group.
+
+```
+ibmcloud is placement-group PLACEMENT_GROUP [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-placement-group}
+
+- **PLACEMENT_GROUP**: ID of the placement group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is placement-group-create
+{: #placement-group-create}
+
+[Beta] Create a placement group.
+
+```
+ibmcloud is placement-group-create (--strategy host_spread | power_spread) [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-placement-group-create}
+
+- `ibmcloud is placement-group-create --strategy host_spread`
+- `ibmcloud is placement-group-create --strategy host_spread --output JSON`
+
+#### Command options
+{: #command-options-placement-group-create}
+
+- **--strategy**: The strategy for this placement group. One of: **host_spread**, **power_spread**.
+- **--name**: Name for the placement group.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is placement-group-delete
+{: #placement-group-delete}
+
+[Beta] Delete placement groups.
+
+```
+ibmcloud is placement-group-delete (PLACEMENT_GROUP1 PLACEMENT_GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-placement-group-delete}
+
+- **PLACEMENT_GROUP1**: ID of the placement group.
+- **PLACEMENT_GROUP2**: ID of the placement group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is placement-group-update
+{: #placement-group-update}
+
+[Beta] Update a placement group.
+
+```
+ibmcloud is placement-group-update PLACEMENT_GROUP --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-placement-group-update}
+
+- `ibmcloud is placement-group-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name`
+- `ibmcloud is placement-group-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name --output JSON`
+
+#### Command options
+{: #command-options-placement-group-update}
+
+- **PLACEMENT_GROUP**: ID of the placement group.
+- **--name**: New name of the placement group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is placement-groups
+{: #placement-groups}
+
+[Beta] List all placement groups.
+
+```
+ibmcloud is placement-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-placement-groups}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Auto Scaling COMMANDS
 {: #autoscaling-clis}
 
@@ -5520,7 +6148,7 @@ ibmcloud is instance-template TEMPLATE_ID [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5542,9 +6170,11 @@ Create instance template with primary network interface configuration in JSON.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --security-group-ids 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4 10.240.129.10 --allow-ip-spoofing true`
 Create instance template with primary network interface configuration that includes security groups, primary IPv4 address, source IP spoofing setting.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host c019b1f7-c4d6-430c-aaa4-e0cc25d47277`
-Create instance template to be placed to the desired dedicated host.
+Create instance template to be placed in the wanted dedicated host.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host-group a4738ceb-5e59-4601-849a-61d7895740ee`
-Create instance template to be placed to the desired dedicated host group.
+Create instance template to be placed in the wanted dedicated host group.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --placement-group 1d2afa0f-b9f2-4d85-ae35-a08885269644`
+Create instance to be placed in the wanted placement group.
 - `ibmcloud is instance-template-create --interactive`
 Create instance template interactively.
 
@@ -5557,17 +6187,18 @@ Create instance template interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--ipv4**: Primary IPv4 address.
-- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
+- **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5582,7 +6213,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template-id SOURCE_TEMPLATE_ID [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template-id SOURCE_TEMPLATE_ID [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5602,18 +6233,19 @@ Create instance template by overriding a source template and providing overridin
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
-- **--allow-ip-spoofing**: Disables the source/destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file.
+- **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5798,7 +6430,7 @@ ibmcloud is instance-group-delete (INSTANCE_GROUP1 INSTANCE_GROUP2 ...) [--outpu
 ### ibmcloud is instance-group-load-balancer-delete
 {: #instance-group-load-balancer-delete}
 
-Delete instance group load balancer.
+Delete an instance group load balancer.
 
 ```
 ibmcloud is instance-group-load-balancer-delete INSTANCE_GROUP [-f, --force] [-q, --quiet]
@@ -5853,7 +6485,7 @@ ibmcloud is instance-group-manager INSTANCE_GROUP MANAGER [--output JSON] [-q, -
 ### ibmcloud is instance-group-manager-create
 {: #instance-group-manager-create}
 
-Create a manager for in instance group.
+Create a manager for an instance group.
 
 ```
 ibmcloud is instance-group-manager-create INSTANCE_GROUP [--manager-type autoscale | scheduled] [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--max-members MAX_MEMBERS] [--min-members MIN_MEMBERS] [--name NAME] [--management-enabled true | false] [--output JSON] [-q, --quiet]
@@ -5886,7 +6518,7 @@ ibmcloud is instance-group-manager-create INSTANCE_GROUP [--manager-type autosca
 ### ibmcloud is instance-group-manager-update
 {: #instance-group-manager-update}
 
-Update a manager for instance group.
+Update a manager for an instance group.
 
 ```
 ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-window AGGREGATION_WINDOW] [--cooldown COOLDOWN] [--max-members MAX_MEMBERS] [--min-members MIN_MEMBERS] [--management-enabled true | false] [--name NEW_NAME] [--output JSON] [-q, --quiet]
@@ -5908,8 +6540,8 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 
 - **INSTANCE_GROUP**: ID of the instance group.
 - **MANAGER**: ID of the manager.
-- **--aggregation-window**: The time window in seconds to aggregate metrics prior to evaluation. Range 90-600. Divisible by 30.
-- **--cooldown**: The duration of time in seconds to pause further scale actions after scaling has taken place. Range 120-3600.
+- **--aggregation-window**: The time window, in seconds, to aggregate metrics prior to evaluation. Range 90-600. Divisible by 30.
+- **--cooldown**: The duration of time, in seconds, to pause further scale actions after scaling has taken place. Range 120-3600.
 - **--max-members**: The maximum number of members in a managed instance group. Range 1-1000.
 - **--min-members**: The minimum number of members in a managed instance group. Range 1-1000.
 - **--management-enabled**: If set to false, the manager will not manipulate the instance group. One of: **true**, **false**.
@@ -5941,7 +6573,7 @@ ibmcloud is instance-group-manager-delete INSTANCE_GROUP MANAGER [-f, --force] [
 ### ibmcloud is instance-group-manager-actions
 {: #instance-group-manager-actions}
 
-List actions for instance group manager.
+List actions for an instance group manager.
 
 ```
 ibmcloud is instance-group-manager-actions INSTANCE_GROUP MANAGER [--output JSON] [-q, --quiet]
@@ -6073,7 +6705,7 @@ ibmcloud is instance-group-manager-action-delete INSTANCE_GROUP MANAGER ACTION [
 ### ibmcloud is instance-group-manager-policies
 {: #instance-group-manager-policies}
 
-List policies for instance group manager.
+List policies for an instance group manager.
 
 ```
 ibmcloud is instance-group-manager-policies INSTANCE_GROUP MANAGER [--output JSON] [-q, --quiet]
@@ -6092,7 +6724,7 @@ ibmcloud is instance-group-manager-policies INSTANCE_GROUP MANAGER [--output JSO
 ### ibmcloud is instance-group-manager-policy
 {: #instance-group-manager-policy}
 
-View details of  an instance group manager policy.
+View details of an instance group manager policy.
 
 ```
 ibmcloud is instance-group-manager-policy INSTANCE_GROUP MANAGER POLICY [--output JSON] [-q, --quiet]
@@ -6260,7 +6892,7 @@ ibmcloud is instance-group-membership-update INSTANCE_GROUP MEMBER [--name NEW_N
 ### ibmcloud is instance-group-memberships
 {: #instance-group-memberships}
 
-List all members for an instance group.
+List all members of an instance group.
 
 ```
 ibmcloud is instance-group-memberships INSTANCE_GROUP [--output JSON] [-q, --quiet]
@@ -6278,7 +6910,7 @@ ibmcloud is instance-group-memberships INSTANCE_GROUP [--output JSON] [-q, --qui
 ### ibmcloud is instance-group-memberships-delete
 {: #instance-group-memberships-delete}
 
-Delete all memberships for an instance group.
+Delete all memberships of an instance group.
 
 ```
 ibmcloud is instance-group-memberships-delete INSTANCE_GROUP [-f, --force] [-q, --quiet]
