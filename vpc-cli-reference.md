@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-07-09"
+lastupdated: "2021-07-20"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -7165,7 +7165,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY] [--output J
 
 - **VOLUME**: ID of the volume.
 - **--name**: New name of the volume.
-- **--capacity**: The capacity of the volume in gigabytes. It can be expanded only up to 250 for volumes less than 250 GB. Volumes greater than 250 GB can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for 5iops-tier profile volumes and 4800 for 10iops-tier profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
+- **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for 5 IOPS-tier profile volumes and 4800 for 10 IOPS-tier profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
