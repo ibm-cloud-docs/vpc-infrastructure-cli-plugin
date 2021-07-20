@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-07-09"
+lastupdated: "2021-07-20"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2021-07-09"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v1.1.0
+{: #v1.1.0}
+
+Version 1.0.0 was released on 2021-07-20.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `ibmcloud is volume-update` command to expand all volume sizes up to 16 TB.
+
+### Removed commands
+
+* N/A
 
 ## v1.0.0
 {: #v1.0.0}
