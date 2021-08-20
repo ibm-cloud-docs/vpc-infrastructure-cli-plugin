@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-07-20"
+lastupdated: "2021-08-20"
 
 ---
 
@@ -22,10 +22,50 @@ lastupdated: "2021-07-20"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v1.3.0
+{: #v1.3.0}
+
+Version 1.3.0 was released on 2021-08-19.
+
+### New commands
+
+N/A
+### Updated commands
+
+* Update `ibmcloud is load-balancer-listener-create`, `ibmcloud is load-balancer-listener-update`, `ibmcloud is load-balancer-listener-policy-create`, `ibmcloud is load-balancer-listener-policy-update` commands for load balancer https redirect support.
+* Update `ibmcloud is volume-update` for volume adjustable IOPS feature.
+
+
+### Removed commands
+
+* N/A
+
+## v1.2.0
+{: #v1.2.0}
+
+Version 1.2.0 was released on 2021-07-27.
+
+### New commands
+
+* `ibmcloud is placement-groups` command to list placement groups.
+* `ibmcloud is placement-group` command to get placement group.
+* `ibmcloud is placement-group-create` command to create placement group.
+* `ibmcloud is placement-group-update` command to update placement group.
+* `ibmcloud is placement-group-delete` command to delete placement group.
+
+### Updated commands
+
+* Update `ibmcloud is instance-create` command with new `--placement-group` option, user can select the instance placement target with the specified placement group.
+* Update `ibmcloud is instance` command to show the placement group as the placement target if the instance is created with the specific placement group.
+
+### Removed commands
+
+* N/A
+
 ## v1.1.0
 {: #v1.1.0}
 
-Version 1.0.0 was released on 2021-07-20.
+Version 1.0.0 was released on 2021-07-16.
 
 ### New commands
 
