@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-07-20"
+lastupdated: "2021-08-20"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -405,7 +405,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -415,8 +415,8 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--defa
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
-The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", or "reject".
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http  --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
+The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", "reject", or "https_redirect".
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
 When the action is _forward_, the pool identity is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
@@ -437,6 +437,9 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
+- **--http-redirect-listener-id**: ID of the listener that is set as http redirect target.
+- **--http-redirect-status-code**: The HTTP status code to is returned in the redirect response, one of [301, 302, 303, 307, 308].
+- **--http-redirect-target-uri**: Target URI where traffic is redirected.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -508,7 +511,7 @@ ibmcloud is load-balancer-listener-policy LOAD_BALANCER_ID LISTENER_ID POLICY_ID
 Create a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY (--action forward | redirect | reject) [--name NEW_NAME] [(--target-http-status-code TARGET_HTTP_STATUS_CODE --target-url TARGET_URL) | --target-id TARGET_ID] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY (--action forward | redirect | reject | https_redirect) [--name NEW_NAME] [(--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code [301, 302, 303, 307, 308] [--target-uri TARGET_URI]) | (--target-http-status-code TARGET_HTTP_STATUS_CODE --target-url TARGET_URL) | --target-id TARGET_ID] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -523,6 +526,10 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 4 --rules '[{"rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 3 --name my-policy --output JSON`
+- `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 303`
+When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required.Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
+- `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 307 --target-uri /example`
+When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required. The "uri" is the redirect target URI, it's an optional field.Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
 
 #### Command options
 {: #command-options-load-balancer-listener-policy-create}
@@ -530,9 +537,12 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **LOAD_BALANCER_ID**: ID of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **--priority**: Priority of the policy. Lower value indicates higher priority, for example: **5**, range: [**1-10**].
-- **--action**: The policy action. One of: **forward**, **redirect**, **reject**.
+- **--action**: The policy action. One of: **forward**, **redirect**, **reject**, **https_redirect**.
 - **--name**: The new name of the policy.
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
+- **--target-listener-id**: ID of the listener that you want to implement http-redirect on, specified with **https_redirect** action.
+- **--target-listener-http-status-code**: The HTTP status code to be returned in the redirect response that is specified with **https_redirect** action. One of: **[301**, **302**, **303**, **307**, **308]**.
+- **--target-uri**: Target URI where traffic will be redirected, specified with **https_redirect** action.
 - **--target-http-status-code**: The HTTP status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
 - **--target-url**: The redirect target URL, specified with **redirect** action.
 - **--rules**: **LISTENER_POLICY_RULES_JSON** | **@LISTENER_POLICY_RULES_JSON_FILE**, listener policy rules in JSON or JSON file.
@@ -692,7 +702,7 @@ ibmcloud is load-balancer-listener-policy-rules LOAD_BALANCER_ID LISTENER_ID POL
 Update a policy of a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-policy-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--name NEW_NAME] [--priority PRIORITY] [--target-id TARGET_ID] [--target-http-status-code TARGET_HTTP_STATUS_CODE] [--target-url TARGET_URL] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--name NEW_NAME] [--priority PRIORITY] [--target-id TARGET_ID] [--target-http-status-code TARGET_HTTP_STATUS_CODE] [--target-url TARGET_URL] [--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code [301, 302, 303, 307, 308] [--target-uri TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -704,6 +714,8 @@ When the action is _forward_, the pool identity is required to specify which poo
 - `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-http-status-code 301 --target-url "https://www.redirect.com"`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name my-policy --output JSON`
+- `ibmcloud is lb-lpu f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 c7d2c434-9202-48aa-837b-0661c4299c28 --name demo-policy --priority 2 --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 301`
+- `ibmcloud is lb-lpu f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 c7d2c434-9202-48aa-837b-0661c4299c28 --priority 2 --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 301 --target-uri /example2`
 
 #### Command options
 {: #command-options-load-balancer-listener-policy-update}
@@ -716,6 +728,9 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
 - **--target-http-status-code**: The HTTP status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
 - **--target-url**: The redirect target URL, specified with **redirect** action.
+- **--target-listener-id**: ID of the listener that you want to implement http-redirect on, specified with **https_redirect** action.
+- **--target-listener-http-status-code**: The HTTP status code to be returned in the redirect response, specified with **https_redirect** action. One of: **[301**, **302**, **303**, **307**, **308]**.
+- **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -727,7 +742,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -740,6 +755,9 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 303`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
 
 #### Command options
 {: #command-options-load-balancer-listener-update}
@@ -752,6 +770,10 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
+- **--disable-http-redirect**: Enable or disable http redirect on a listener.
+- **--http-redirect-listener-id**: ID of the listener that is set as http redirect target.
+- **--http-redirect-status-code**: The HTTP status code to be returned in the redirect response, one of [301, 302, 303, 307, 308].
+- **--http-redirect-target-uri**: Target URI where traffic is redirected.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1276,7 +1298,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1286,8 +1308,8 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--defa
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
-The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", or "reject".
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http  --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
+The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", "reject", or "https_redirect".
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
 When the action is _forward_, the pool identity is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
@@ -1308,6 +1330,9 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
+- **--http-redirect-listener-id**: ID of the listener that will be set as http redirect target.
+- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response, one of [301, 302, 303, 307, 308].
+- **--http-redirect-target-uri**: Target URI where traffic is redirected.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1340,7 +1365,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER_ID (LISTENER_ID1 LISTENE
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1353,6 +1378,9 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 303`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
 
 #### Command options
 {: #command-options-network-load-balancer-listener-update}
@@ -1365,6 +1393,10 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
+- **--disable-http-redirect**: Enable or disable http redirect on a listener.
+- **--http-redirect-listener-id**: ID of the listener that will be set as http redirect target.
+- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response, one of [301, 302, 303, 307, 308].
+- **--http-redirect-target-uri**: Target URI where traffic is redirected.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4433,7 +4465,7 @@ Create instance with volume attachment from volume snapshot.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
-- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
+- **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--ipv4**: Primary IPv4 address.
@@ -4493,7 +4525,7 @@ Create instance from instance template with the wanted dedicated host group
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
-- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
+- **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address.
@@ -5687,7 +5719,7 @@ Create a PCI network interface and specify JSON as the output format.
 - **--ip**: Primary IPv4 address for the network interface.
 - **--security-groups**: Comma-separated security group IDs for the network interface.
 - **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface.
-- **--vlan**: Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this interface.
+- **--vlan**: Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this VLAN interface.
 - **--allow-interface-to-float**: Indicates if the interface can float to any other server within the same **resource_group**. The interface floats automatically if the network detects a GARP or RARP on another bare metal server in the resource group. Applies only to VLAN interfaces. One of: **false**, **true**. (default: **false**).
 - **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
 - **--enable-infrastructure-nat**: If true, the VPC infrastructure performs any needed NAT operations. If false, the packet is passed unmodified to or from the network interface, allowing the workload to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
@@ -5983,13 +6015,13 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 
 ---
 
-## Placement group (Beta)
+## Placement group
 {: #placement-group}
 
 ### ibmcloud is placement-group
 {: #placement-group}
 
-[Beta] View details of a placement group.
+View details of a placement group.
 
 ```
 ibmcloud is placement-group PLACEMENT_GROUP [--output JSON] [-q, --quiet]
@@ -6007,7 +6039,7 @@ ibmcloud is placement-group PLACEMENT_GROUP [--output JSON] [-q, --quiet]
 ### ibmcloud is placement-group-create
 {: #placement-group-create}
 
-[Beta] Create a placement group.
+Create a placement group.
 
 ```
 ibmcloud is placement-group-create (--strategy host_spread | power_spread) [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
@@ -6034,7 +6066,7 @@ ibmcloud is placement-group-create (--strategy host_spread | power_spread) [--na
 ### ibmcloud is placement-group-delete
 {: #placement-group-delete}
 
-[Beta] Delete placement groups.
+Delete placement groups.
 
 ```
 ibmcloud is placement-group-delete (PLACEMENT_GROUP1 PLACEMENT_GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6054,7 +6086,7 @@ ibmcloud is placement-group-delete (PLACEMENT_GROUP1 PLACEMENT_GROUP2 ...) [--ou
 ### ibmcloud is placement-group-update
 {: #placement-group-update}
 
-[Beta] Update a placement group.
+Update a placement group.
 
 ```
 ibmcloud is placement-group-update PLACEMENT_GROUP --name NEW_NAME [--output JSON] [-q, --quiet]
@@ -6079,7 +6111,7 @@ ibmcloud is placement-group-update PLACEMENT_GROUP --name NEW_NAME [--output JSO
 ### ibmcloud is placement-groups
 {: #placement-groups}
 
-[Beta] List all placement groups.
+List all placement groups.
 
 ```
 ibmcloud is placement-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
@@ -6192,7 +6224,7 @@ Create instance template interactively.
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
-- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
+- **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
 - **--ipv4**: Primary IPv4 address.
@@ -6238,7 +6270,7 @@ Create instance template by overriding a source template and providing overridin
 - **--key-ids**: Comma-separated IDs of SSH keys.
 - **--dedicated-host**: The host destination where the instance will be placed.
 - **--dedicated-host-group**: The host group destination where the instance will be placed.
-- **--placement-group**: [Beta] The placement group restrictions for the virtual server instance.
+- **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
 - **--ipv4**: Primary IPv4 address.
@@ -7151,7 +7183,7 @@ ibmcloud is volume-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 Update a volume.
 
 ```
-ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY] [--output JSON] [-q, --quiet]
+ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile PROFILE | --iops IOPS] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7159,13 +7191,17 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY] [--output J
 
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --name my-volume --output JSON`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --capacity 250 --output JSON`
+- `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --profile 10iops-tier`
+- `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --iops 5000`
 
 #### Command options
 {: #command-options-volume-update}
 
 - **VOLUME**: ID of the volume.
 - **--name**: New name of the volume.
-- **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for 5 IOPS-tier profile volumes and 4800 for 10 IOPS-tier profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
+- **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
+- **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
+- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom. The volume must be attached as data volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
