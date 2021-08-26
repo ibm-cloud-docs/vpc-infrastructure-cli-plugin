@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-08-20"
+lastupdated: "2021-08-26"
 
 ---
 
@@ -21,6 +21,25 @@ lastupdated: "2021-08-20"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
+
+## v1.4.0
+{: #v1.4.0}
+
+Version 1.4.0 was released on 2021-08-26.
+
+### New commands
+
+* Add client-to-site VPN server commands (Beta).
+
+### Updated commands
+
+* Update `vpc/address-prefix/routing-table/route` commands with "by name" support. These commands can now use an ID or name for the command option values.
+ 
+* Update network ACL and network ACL rule commands with "by name" support. These commands can now use an ID or name for the command option values.
+
+### Removed commands
+
+* N/A
 
 ## v1.3.0
 {: #v1.3.0}
