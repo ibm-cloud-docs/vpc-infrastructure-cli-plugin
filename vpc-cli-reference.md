@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-08-20"
+lastupdated: "2021-08-27"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -405,7 +405,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -437,9 +437,9 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
-- **--http-redirect-listener-id**: ID of the listener that is set as http redirect target.
-- **--http-redirect-status-code**: The HTTP status code to is returned in the redirect response, one of [301, 302, 303, 307, 308].
-- **--http-redirect-target-uri**: Target URI where traffic is redirected.
+- **--http-redirect-listener-id**: ID of the listener that gets set as the HTTP redirect target.
+- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
+- **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -511,7 +511,7 @@ ibmcloud is load-balancer-listener-policy LOAD_BALANCER_ID LISTENER_ID POLICY_ID
 Create a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY (--action forward | redirect | reject | https_redirect) [--name NEW_NAME] [(--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code [301, 302, 303, 307, 308] [--target-uri TARGET_URI]) | (--target-http-status-code TARGET_HTTP_STATUS_CODE --target-url TARGET_URL) | --target-id TARGET_ID] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER_ID LISTENER_ID --priority PRIORITY (--action forward | redirect | reject | https_redirect) [--name NEW_NAME] [(--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code 301 | 302 | 303 | 307 | 308 [--target-uri TARGET_URI]) | (--target-http-status-code 301 | 302 | 303 | 307 | 308 --target-url TARGET_URL) | --target-id TARGET_ID] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -527,7 +527,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 3 --name my-policy --output JSON`
 - `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 303`
-When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required.Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
+When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required. Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
 - `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 307 --target-uri /example`
 When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required. The "uri" is the redirect target URI, it's an optional field.Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
 
@@ -540,11 +540,11 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 - **--action**: The policy action. One of: **forward**, **redirect**, **reject**, **https_redirect**.
 - **--name**: The new name of the policy.
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
-- **--target-listener-id**: ID of the listener that you want to implement http-redirect on, specified with **https_redirect** action.
-- **--target-listener-http-status-code**: The HTTP status code to be returned in the redirect response that is specified with **https_redirect** action. One of: **[301**, **302**, **303**, **307**, **308]**.
-- **--target-uri**: Target URI where traffic will be redirected, specified with **https_redirect** action.
-- **--target-http-status-code**: The HTTP status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
-- **--target-url**: The redirect target URL, specified with **redirect** action.
+- **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
+- **--target-listener-http-status-code**: The HTTP status code that is returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
+- **--target-uri**: Target URI where traffic gets redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
+- **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
+- **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set this option.
 - **--rules**: **LISTENER_POLICY_RULES_JSON** | **@LISTENER_POLICY_RULES_JSON_FILE**, listener policy rules in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -702,7 +702,7 @@ ibmcloud is load-balancer-listener-policy-rules LOAD_BALANCER_ID LISTENER_ID POL
 Update a policy of a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-policy-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--name NEW_NAME] [--priority PRIORITY] [--target-id TARGET_ID] [--target-http-status-code TARGET_HTTP_STATUS_CODE] [--target-url TARGET_URL] [--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code [301, 302, 303, 307, 308] [--target-uri TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-update LOAD_BALANCER_ID LISTENER_ID POLICY_ID [--name NEW_NAME] [--priority PRIORITY] [--target-id TARGET_ID] [--target-http-status-code 301 | 302 | 303 | 307 | 308] [--target-url TARGET_URL] [--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code 301 | 302 | 303 | 307 | 308 [--target-uri TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -726,11 +726,11 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **--name**: The user-defined name for this policy. Policy names must be unique within the load balancer listener.
 - **--priority**: Priority of the policy. Lower value indicates higher priority, for example: **5**, range: [**1-10**].
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
-- **--target-http-status-code**: The HTTP status code in the redirect response, one of [**301**, **302**, **303**, **307**, **308**], specified with **redirect** action.
-- **--target-url**: The redirect target URL, specified with **redirect** action.
-- **--target-listener-id**: ID of the listener that you want to implement http-redirect on, specified with **https_redirect** action.
-- **--target-listener-http-status-code**: The HTTP status code to be returned in the redirect response, specified with **https_redirect** action. One of: **[301**, **302**, **303**, **307**, **308]**.
-- **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action.
+- **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
+- **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set.
+- **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
+- **--target-listener-http-status-code**: The HTTP status code that gets returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
+- **--target-uri**: Target URI where traffic redirects, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -742,7 +742,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -770,10 +770,10 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
-- **--disable-http-redirect**: Enable or disable http redirect on a listener.
-- **--http-redirect-listener-id**: ID of the listener that is set as http redirect target.
-- **--http-redirect-status-code**: The HTTP status code to be returned in the redirect response, one of [301, 302, 303, 307, 308].
-- **--http-redirect-target-uri**: Target URI where traffic is redirected.
+- **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
+- **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
+- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
+- **--http-redirect-target-uri**: Target URI where traffic will redirect. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1033,7 +1033,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **--health-type**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
+- **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
@@ -1298,7 +1298,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1330,9 +1330,9 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
-- **--http-redirect-listener-id**: ID of the listener that will be set as http redirect target.
-- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response, one of [301, 302, 303, 307, 308].
-- **--http-redirect-target-uri**: Target URI where traffic is redirected.
+- **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
+- **--http-redirect-status-code**: The HTTP status code that gets returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
+- **--http-redirect-target-uri**: Target URI where traffic will redirect. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1365,7 +1365,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER_ID (LISTENER_ID1 LISTENE
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code HTTP_REDIRECT_STATUS_CODE [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1393,10 +1393,10 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
-- **--disable-http-redirect**: Enable or disable http redirect on a listener.
-- **--http-redirect-listener-id**: ID of the listener that will be set as http redirect target.
-- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response, one of [301, 302, 303, 307, 308].
-- **--http-redirect-target-uri**: Target URI where traffic is redirected.
+- **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
+- **--http-redirect-listener-id**: ID of the listener that gets set as the HTTP redirect target.
+- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
+- **--http-redirect-target-uri**: Target URI where traffic gets redirected. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1716,13 +1716,14 @@ ibmcloud is network-acls [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 View details of a network ACL.
 
 ```
-ibmcloud is network-acl ACL [--output JSON] [-q, --quiet]
+ibmcloud is network-acl ACL [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-network-acl}
 
-- **ACL**: ID of the network ACL.
+- **ACL**: ID or name of the network ACL.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1741,6 +1742,7 @@ ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FIL
 {: #command-examples-network-acl-create}
 
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is network-acl-create my-acl my-vpc`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --source-acl-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --rules '[{ "action": "allow", "destination": "192.168.0.0/24", "direction": "inbound", "source": "10.0.0.0/24",  "protocol": "tcp" }]'`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --output JSON`
@@ -1749,7 +1751,7 @@ ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FIL
 {: #command-options-network-acl-create}
 
 - **ACL_NAME**: Name of the network ACL.
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--rules**: RULES_JSON|@RULES_JSON_FILE, rules for the ACL in JSON or JSON file.
 - **--source-acl-id**: ID of the network ACL to copy rules from.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -1765,19 +1767,22 @@ ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FIL
 Update a network ACL.
 
 ```
-ibmcloud is network-acl-update ACL --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-update ACL --name NEW_NAME [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-network-acl-update}
 
-- `ibmcloud is network-acl-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-acl`
-- `ibmcloud is network-acl-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-acl --output JSON`
+- `ibmcloud is network-acl-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-renamed-acl`
+- `ibmcloud is network-acl-update my-acl --name my-renamed-acl`
+- `ibmcloud is network-acl-update my-acl --vpc my-vpc --name my-renamed-acl`
+- `ibmcloud is network-acl-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-renamed-acl --output JSON`
 
 #### Command options
 {: #command-options-network-acl-update}
 
-- **ACL**: ID of the network ACL.
+- **ACL**: ID or name of the network ACL.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the network ACL.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1790,14 +1795,15 @@ ibmcloud is network-acl-update ACL --name NEW_NAME [--output JSON] [-q, --quiet]
 Delete network ACLs.
 
 ```
-ibmcloud is network-acl-delete (ACL1 ACL2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is network-acl-delete (ACL1 ACL2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-network-acl-delete}
 
-- **ACL1**: ID of the network ACL.
-- **ACL2**: ID of the network ACL.
+- **ACL1**: ID or name of the network ACL.
+- **ACL2**: ID or name of the network ACL.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -1810,13 +1816,14 @@ ibmcloud is network-acl-delete (ACL1 ACL2 ...) [--output JSON] [-f, --force] [-q
 List all rules of a network ACL.
 
 ```
-ibmcloud is network-acl-rules ACL [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-rules ACL [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-network-acl-rules}
 
-- **ACL**: ID of the network ACL.
+- **ACL**: ID or name of the network ACL.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1828,14 +1835,15 @@ ibmcloud is network-acl-rules ACL [--output JSON] [-q, --quiet]
 View details of a network ACL rule.
 
 ```
-ibmcloud is network-acl-rule ACL RULE [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-rule ACL RULE [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-network-acl-rule}
 
-- **ACL**: ID of the network ACL.
-- **RULE**: ID of the rule.
+- **ACL**: ID or name of the network ACL.
+- **RULE**: ID or name of the rule.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1847,14 +1855,16 @@ ibmcloud is network-acl-rule ACL RULE [--output JSON] [-q, --quiet]
 Add a rule to a network ACL.
 
 ```
-ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--name NAME] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--before-rule-id RULE_ID] [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--vpc VPC] [--name NAME] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--before-rule-id RULE_ID] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-network-acl-rule-add}
 
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3 --name my-acl`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound all 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound all 10.2.2.2 10.2.2.3 --vpc my-vpc`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3 --name my-acl-rule`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp 10.2.2.2 10.2.2.3 --icmp-type 8 --icmp-code 0`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --source-port-min 555  --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
@@ -1863,12 +1873,13 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 #### Command options
 {: #command-options-network-acl-rule-add}
 
-- **ACL**: ID of the network ACL.
+- **ACL**: ID or name of the network ACL.
 - **ACTION**: One of: **allow**, **deny**.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **PROTOCOL**: Protocol to enforce. One of: **all**, **icmp**, **tcp**, **udp**.
 - **SOURCE**: Source IP address or CIDR block.
 - **DESTINATION**: Destination IP address or CIDR block.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--name**: The name of the ACL rule.
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
 - **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
@@ -1888,13 +1899,15 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 Update a rule of a network ACL.
 
 ```
-ibmcloud is network-acl-rule-update ACL RULE [--name NEW_NAME] [--direction inbound | outbound] [--action allow | deny] [--before-rule-id RULE_ID] [--source SOURCE] [--dest DEST] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--direction inbound | outbound] [--action allow | deny] [--before-rule-id RULE_ID] [--source SOURCE] [--dest DEST] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-network-acl-rule-update}
 
 - `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3`
+- `ibmcloud is network-acl-rule-update my-acl my-acl-rule --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3`
+- `ibmcloud is network-acl-rule-update my-acl my-acl-rule --vpc my-vpc --name my-acl-renamed-rule`
 - `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3 --name my-acl`
 - `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol icmp --source 10.2.2.2 --dest 10.2.2.3 --icmp-type 8 --icmp-code 0`
 - `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol tcp --source 10.2.2.2 --dest 10.2.2.3 --source-port-min 555 --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
@@ -1904,8 +1917,9 @@ ibmcloud is network-acl-rule-update ACL RULE [--name NEW_NAME] [--direction inbo
 #### Command options
 {: #command-options-network-acl-rule-update}
 
-- **ACL**: ID of the network ACL.
-- **RULE**: ID of the rule.
+- **ACL**: ID or name of the network ACL.
+- **RULE**: ID or name of the rule.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the rule.
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **--action**: One of: **allow**, **deny**.
@@ -1929,15 +1943,16 @@ ibmcloud is network-acl-rule-update ACL RULE [--name NEW_NAME] [--direction inbo
 Delete rules from a network ACL.
 
 ```
-ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-network-acl-rule-delete}
 
-- **ACL**: ID of the network ACL.
-- **RULE1**: ID of the rule.
-- **RULE2**: ID of the rule.
+- **ACL**: ID or name of the network ACL.
+- **RULE1**: ID or name of the rule.
+- **RULE2**: ID or name of the rule.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2078,7 +2093,7 @@ ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-default-routing-table}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2096,7 +2111,7 @@ ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-routing-tables}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2114,8 +2129,8 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-routing-table}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2130,15 +2145,16 @@ Create a VPC routing table.
 ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-routing-table-create}
+#### Command examples
+{: #command-examples-vpc-routing-table-create}
 
 - `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --output JSON`
+- `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --output JSON`
 
 #### Command options
 {: #command-options-vpc-routing-table-create}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--name**: Name of the VPC routing table.
 - **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
@@ -2157,16 +2173,17 @@ Update a VPC routing table.
 ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-routing-table-update}
+#### Command examples
+{: #command-examples-vpc-routing-table-update}
 
-- `ibmcloud is vpc-routing-table-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-routing-table --output JSON`
+- `ibmcloud is vpc-routing-table-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-renamed-vpc-routing-table --output JSON`
+- `ibmcloud is vpc-routing-table-update my-vpc my-vpc-routing-table --name my-renamed-vpc-routing-table --output JSON`
 
 #### Command options
 {: #command-options-vpc-routing-table-update}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **--name**: New name of the routing table.
 - **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
@@ -2188,9 +2205,9 @@ ibmcloud is vpc-routing-table-delete VPC (ROUTING_TABLE1 ROUTING_TABLE2 ...) [--
 #### Command options
 {: #command-options-vpc-routing-table-delete}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE1**: ID of the VPC routing table.
-- **ROUTING_TABLE2**: ID of the VPC routing table.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE1**: ID or name of the VPC routing table.
+- **ROUTING_TABLE2**: ID or name of the VPC routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2209,8 +2226,8 @@ ibmcloud is vpc-routing-table-routes VPC ROUTING_TABLE [--output JSON] [-q, --qu
 #### Command options
 {: #command-options-vpc-routing-table-routes}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2228,9 +2245,9 @@ ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q,
 #### Command options
 {: #command-options-vpc-routing-table-route}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **ROUTE**: ID of the VPC route.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
+- **ROUTE**: ID or name of the VPC route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2249,14 +2266,15 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 {: #command-examples-vpc-routing-table-route-create}
 
 - `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action deliver --zone us-south-1 --destination  10.2.2.0/24 --next-hop 10.0.0.2 --output JSON`
+- `ibmcloud is vpc-routing-table-route-create my-vpc my-routing-table --name my-vpc-route --action deliver --zone us-south-1 --destination  10.2.2.0/24 --next-hop 10.0.0.2 --output JSON`
 - `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action delegate --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
 - `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action drop --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
 
 #### Command options
 {: #command-options-vpc-routing-table-route-create}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **--zone**: Name of the zone.
 - **--action**: The action to perform with a packet that matches the route. One of: **delegate_vpc**, **delegate**, **deliver**, **drop**.
 - **--destination**: The destination CIDR of the route. At most two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
@@ -2284,9 +2302,9 @@ ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NA
 #### Command options
 {: #command-options-vpc-routing-table-route-update}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **ROUTE**: ID of the VPC route.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
+- **ROUTE**: ID or name of the VPC route.
 - **--name**: New name of the route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2305,10 +2323,10 @@ ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE (ROUTE1 ROUTE2 ...)
 #### Command options
 {: #command-options-vpc-routing-table-route-delete}
 
-- **VPC**: ID of the VPC.
-- **ROUTING_TABLE**: ID of the VPC routing table.
-- **ROUTE1**: ID of the VPC route.
-- **ROUTE2**: ID of the VPC route.
+- **VPC**: ID or name of the VPC.
+- **ROUTING_TABLE**: ID or name of the VPC routing table.
+- **ROUTE1**: ID or name of the VPC route.
+- **ROUTE2**: ID or name of the VPC route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2785,9 +2803,9 @@ ibmcloud is subnet-create SUBNET_NAME VPC ((--zone ZONE_NAME --ipv4-address-coun
 - **--ipv4-cidr-block**: the IPv4 range of the subnet. This option is mutually exclusive with **--ipv4-address-count**.
 - **--ipv4-address-count**: The total number of IPv4 addresses required, must be a power of 2 and minimum value is **8**. This option is mutually exclusive with **--ipv4-cidr-block**.
 - **--zone**: Name of the zone.
-- **--network-acl-id**: The ID of the network ACL.
-- **--public-gateway-id**: The ID of the public gateway.
-- **--routing-table-id**: The ID of the routing table.
+- **--network-acl-id**: ID of the network ACL.
+- **--public-gateway-id**: ID of the public gateway.
+- **--routing-table-id**: ID of the routing table.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2838,9 +2856,9 @@ ibmcloud is subnet-update SUBNET [--name NEW_NAME] [--network-acl-id NETWORK_ACL
 
 - **SUBNET**: ID of the subnet.
 - **--name**: New name of the subnet.
-- **--network-acl-id**: The ID of the network ACL.
-- **--public-gateway-id**: The ID of the public gateway.
-- **--routing-table-id**: The ID of the routing table.
+- **--network-acl-id**: ID of the network ACL.
+- **--public-gateway-id**: ID of the public gateway.
+- **--routing-table-id**: ID of the routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3030,7 +3048,7 @@ ibmcloud is vpc VPC [--show-attached] [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--show-attached**: View details of resources (subnets, VPC routes and address prefix) attached to this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3049,8 +3067,8 @@ ibmcloud is vpc-address-prefix VPC PREFIX [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-address-prefix}
 
-- **VPC**: ID of the VPC.
-- **PREFIX**: ID of the VPC address prefix.
+- **VPC**: ID or name of the VPC.
+- **PREFIX**: ID or name of the VPC address prefix.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3065,16 +3083,17 @@ Create an address prefix.
 ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--default false | true] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-address-prefix-create}
+#### Command examples
+{: #command-examples-vpc-address-prefix-create}
 
 - `ibmcloud is vpc-address-prefix-create my-prefix 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 us-south-2 10.0.0.0/24 --default true --output JSON`
+- `ibmcloud is vpc-address-prefix-create my-prefix my-vpc us-south-2 10.0.0.0/24 --default true --output JSON`
 
 #### Command options
 {: #command-options-vpc-address-prefix-create}
 
 - **PREFIX_NAME**: Name of the VPC address prefix.
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **ZONE_NAME**: Name of the zone.
 - **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (eight addresses).
 - **--default**: This flag indicates whether this is the default prefix for this zone in this VPC. One of: **false**, **true**. (default: **false**).
@@ -3095,9 +3114,9 @@ ibmcloud is vpc-address-prefix-delete VPC (PREFIX1 PREFIX2 ...) [--output JSON] 
 #### Command options
 {: #command-options-vpc-address-prefix-delete}
 
-- **VPC**: ID of the VPC.
-- **PREFIX1**: ID of the VPC address prefix.
-- **PREFIX2**: ID of the VPC address prefix.
+- **VPC**: ID or name of the VPC.
+- **PREFIX1**: ID or name of the VPC address prefix.
+- **PREFIX2**: ID or name of the VPC address prefix.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -3113,16 +3132,17 @@ Update an address prefix.
 ibmcloud is vpc-address-prefix-update VPC PREFIX [--name NEW_NAME] [--default false | true] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-address-prefix-update}
+#### Command examples
+{: #command-examples-vpc-address-prefix-update}
 
-- `ibmcloud is vpc-address-prefix-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 fee82deba12e4c0fb69c3b09d1f12345 --name my-prefix --default false --output JSON`
+- `ibmcloud is vpc-address-prefix-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 fee82deba12e4c0fb69c3b09d1f12345 --name my-renamed-prefix --default false --output JSON`
+- `ibmcloud is vpc-address-prefix-update my-vpc my-prefix --name my-renamed-prefix --default false --output JSON`
 
 #### Command options
 {: #command-options-vpc-address-prefix-update}
 
-- **VPC**: ID of the VPC.
-- **PREFIX**: ID of the VPC address prefix.
+- **VPC**: ID or name of the VPC.
+- **PREFIX**: ID or name of the VPC address prefix.
 - **--name**: New name of the address prefix.
 - **--default**: This flag indicates whether this is the default prefix for this zone in this VPC. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3142,7 +3162,7 @@ ibmcloud is vpc-address-prefixes VPC [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-address-prefixes}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3190,7 +3210,7 @@ ibmcloud is vpc-default-security-group VPC [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-default-security-group}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3208,8 +3228,8 @@ ibmcloud is vpc-delete (VPC1 VPC2 ...) [--output JSON] [-f, --force] [-q, --quie
 #### Command options
 {: #command-options-vpc-delete}
 
-- **VPC1**: ID of the VPC.
-- **VPC2**: ID of the VPC.
+- **VPC1**: ID or name of the VPC.
+- **VPC2**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -3228,8 +3248,8 @@ ibmcloud is vpc-route VPC ROUTE [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-route}
 
-- **VPC**: ID of the VPC.
-- **ROUTE**: ID of the VPC route.
+- **VPC**: ID or name of the VPC.
+- **ROUTE**: ID or name of the VPC route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3244,16 +3264,17 @@ Create a route.
 ibmcloud is vpc-route-create ROUTE_NAME VPC --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-route-create}
+#### Command examples
+{: #command-examples-vpc-route-create}
 
 - `ibmcloud is vpc-route-create my-vpc-route 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --zone us-south-1 --destination  10.2.2.0/24 --next-hop-ip 10.0.0.2 --output JSON`
+- `ibmcloud is vpc-route-create my-vpc-route my-vpc --zone us-south-1 --destination  10.2.2.0/24 --next-hop-ip 10.0.0.2 --output JSON`
 
 #### Command options
 {: #command-options-vpc-route-create}
 
 - **ROUTE_NAME**: Name of the VPC route.
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--zone**: Name of the zone.
 - **--destination**: The destination CIDR of the route.
 - **--next-hop-ip**: The IP address of the next hop to which to route packets.
@@ -3271,16 +3292,17 @@ Update a route.
 ibmcloud is vpc-route-update VPC ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-route-update}
+#### Command examples
+{: #command-examples-vpc-route-update}
 
-- `ibmcloud is vpc-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --output JSON`
+- `ibmcloud is vpc-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-renamed-vpc-route --output JSON`
+- `ibmcloud is vpc-route-update my-vpc my-vpc-route --name my-renamed-vpc-route --output JSON`
 
 #### Command options
 {: #command-options-vpc-route-update}
 
-- **VPC**: ID of the VPC.
-- **ROUTE**: ID of the VPC route.
+- **VPC**: ID or name of the VPC.
+- **ROUTE**: ID or name of the VPC route.
 - **--name**: New name of the route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3299,9 +3321,9 @@ ibmcloud is vpc-route-delete VPC (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --forc
 #### Command options
 {: #command-options-vpc-route-delete}
 
-- **VPC**: ID of the VPC.
-- **ROUTE1**: ID of the VPC route.
-- **ROUTE2**: ID of the VPC route.
+- **VPC**: ID or name of the VPC.
+- **ROUTE1**: ID or name of the VPC route.
+- **ROUTE2**: ID or name of the VPC route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -3320,7 +3342,7 @@ ibmcloud is vpc-routes VPC [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-vpc-routes}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3335,15 +3357,16 @@ Update a VPC.
 ibmcloud is vpc-update VPC --name NEW_NAME [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-update}
+#### Command examples
+{: #command-examples-vpc-update}
 
-- `ibmcloud is vpc-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-vpc`
+- `ibmcloud is vpc-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-renamed-vpc`
+- `ibmcloud is vpc-update my-vpc --name my-renamed-vpc`
 
 #### Command options
 {: #command-options-vpc-update}
 
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--name**: New name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4169,6 +4192,358 @@ ibmcloud is vpn-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 
 ---
 
+## Virtual private network (VPN) servers (Beta)
+{: #vpn-server-clis}
+
+This section gives details about the CLI commands available for working with VPN servers.
+
+
+### ibmcloud is vpn-servers
+{: #vpn-servers}
+
+[Beta] List all VPN servers.
+
+```
+ibmcloud is vpn-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-servers}
+
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server
+{: #vpn-server}
+
+[Beta] View details of a VPN server.
+
+```
+ibmcloud is vpn-server VPN_SERVER_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-create
+{: #vpn-server-create}
+
+[Beta] Create a VPN server.
+
+```
+ibmcloud is vpn-server-create --subnets SUBNETS --client-ip-pool CLIENT_IP_POOL --cert CERT (--client-auth-methods certificate | username | certificate,username | username,certificate) [--client-ca CLIENT_CA] [--client-crl CLIENT_CRL] [--client-dns CLIENT_DNS] [--client-idle-timeout CLIENT_IDLE_TIMEOUT] [--enable-split-tunnel false | true] [--port PORT] [--protocol udp | tcp] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-server-create}
+
+- `ibmcloud is vpn-server-create --subnets 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods certificate --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:c81627a1bf6f766379cc4b98fd21ccd6`
+- `ibmcloud is vpn-server-create --name myvpnserver --subnets 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username`
+- `ibmcloud is vpn-server-create --name myvpnserver2 --subnets 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username --client-dns 9.9.9.9,8.8.8.8 --protocol tcp --port 8888 --enable-split-tunnel true --client-idle-timeout 1200`
+- `ibmcloud is vpn-server-create --name myvpnserver3 --subnets 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username --security-group r134-e32f671c-463d-4f93-88e3-2dd0413476b4 --security-group r134-3af7a9db-d9bc-43d4-bced-93e0a33fee25`
+- `ibmcloud is vpn-server-create  --subnets 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-dns 172.34.1.100  --client-auth-methods certificate,username --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:c81627a1bf6f766379cc4b98fd21ccd6 --client-crl @./openvpn/crl.pem --name vpnswithcrl --security-group r134-5744b689-e5c4-461d-9f9b-ce5e7e8dbed6`
+
+#### Command options
+{: #command-options-vpn-server-create}
+
+- **--subnets**: Comma-separated IDs of the subnets to provision this VPN server in. Use subnets in different zones for high availability, two subnets can be set at most.
+- **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool**s CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
+- **--cert**: The certificate instance CRN for this VPN server.
+- **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
+- **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
+- **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
+- **--client-dns**: Comma-separated of DNS server addresses that will be provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
+- **--client-idle-timeout**: The seconds a VPN client can be idle before this VPN server will disconnect it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
+- **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
+- **--port**: The port number to use for this VPN server. (default: **443**).
+- **--protocol**: The transport protocol to use for this VPN server. One of: **udp**, **tcp**. (default: **udp**).
+- **--security-group**: ID of the security group.
+- **--name**: New name for the vpn server.
+- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-update
+{: #vpn-server-update}
+
+[Beta] Update a VPN server.
+
+```
+ibmcloud is vpn-server-update VPN_SERVER_ID [--client-ip-pool CLIENT_IP_POOL] [--cert CERT] [--client-auth-methods certificate | username | certificate,username | username,certificate] [--client-ca CLIENT_CA] [--client-crl CLIENT_CRL] [--client-dns CLIENT_DNS] [--client-idle-timeout CLIENT_IDLE_TIMEOUT] [--enable-split-tunnel false | true] [--port PORT] [--protocol udp | tcp] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-server-update}
+
+- `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --name my-server`
+- `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-auth-methods certificate --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc`
+- `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --client-ip-pool 192.168.0.0/20 --client-dns 9.9.9.9 --client-idle-timeout 120 --port 9090 --protocol tcp --enable-split-tunnel true --output JSON`
+
+#### Command options
+{: #command-options-vpn-server-update}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool**s CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
+- **--cert**: The certificate instance CRN for this VPN server.
+- **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
+- **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
+- **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
+- **--client-dns**: Comma-separated of DNS server addresses that will be provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
+- **--client-idle-timeout**: The seconds a VPN client can be idle before this VPN server will disconnect it. Specify 0 to prevent the server from disconnecting idle clients.
+- **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
+- **--port**: The port number to use for this VPN server.
+- **--protocol**: The transport protocol to use for this VPN server. One of: **udp**, **tcp**.
+- **--name**: New name of the VPN server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-delete
+{: #vpn-server-delete}
+
+[Beta] Delete VPN servers.
+
+```
+ibmcloud is vpn-server-delete (VPN_SERVER_ID1 VPN_SERVER_ID2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-delete}
+
+- **VPN_SERVER_ID1**: ID of the VPN server.
+- **VPN_SERVER_ID2**: ID of the VPN server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-client-configuration
+{: #vpn-server-client-configuration}
+
+[Beta] Retrieve OpenVPN client configuration.
+
+```
+ibmcloud is vpn-server-client-configuration VPN_SERVER_ID [--file FILE] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-server-client-configuration}
+
+- `ibmcloud is vpn-server-client-configuration r134-d0671da5-1646-449b-8390-6bd7d6abea01`
+- `ibmcloud is vpn-server-client-configuration r134-d0671da5-1646-449b-8390-6bd7d6abea01 --file ./my_vpn.conf`
+
+#### Command options
+{: #command-options-vpn-server-client-configuration}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **--file**: Save the client configuration to the specified file path name.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-clients
+{: #vpn-server-clients}
+
+[Beta] List all VPN clients for a VPN server.
+
+```
+ibmcloud is vpn-server-clients VPN_SERVER_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-clients}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-client
+{: #vpn-server-client}
+
+[Beta] View details of a VPN client.
+
+```
+ibmcloud is vpn-server-client VPN_SERVER_ID CLIENT_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-client}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **CLIENT_ID**: ID of the VPN route.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-client-delete
+{: #vpn-server-client-delete}
+
+[Beta] Delete VPN client for a VPN server.
+
+```
+ibmcloud is vpn-server-client-delete VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-client-delete}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **CLIENT_ID1**: ID of the VPN route.
+- **CLIENT_ID2**: ID of the VPN route.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-client-disconnect
+{: #vpn-server-client-disconnect}
+
+[Beta] Disconnect VPN client.
+
+```
+ibmcloud is vpn-server-client-disconnect VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-client-disconnect}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **CLIENT_ID1**: ID of the VPN route.
+- **CLIENT_ID2**: ID of the VPN route.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-routes
+{: #vpn-server-routes}
+
+[Beta] List all VPN routes for vpn server.
+
+```
+ibmcloud is vpn-server-routes VPN_SERVER_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-routes}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-route
+{: #vpn-server-route}
+
+[Beta] View details of a VPN route.
+
+```
+ibmcloud is vpn-server-route VPN_SERVER_ID ROUTE_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-route}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **ROUTE_ID**: ID of the VPN route.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-route-create
+{: #vpn-server-route-create}
+
+[Beta] Create a VPN route.
+
+```
+ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR [--action translate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-server-route-create}
+
+- `ibmcloud is vpn-server-route-create r134-77e21079-7291-44c2-866a-8f1848bc10f0 --name myroute --action deliver --destination 10.0.0.0/24`
+- `ibmcloud is vpn-server-route-create r134-77e21079-7291-44c2-866a-8f1848bc10f0 --name myroute --action drop --destination 10.0.0.0/24`
+
+#### Command options
+{: #command-options-vpn-server-route-create}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **--action**: The action to perform with a packet that matches the route. One of: **translate**, **deliver**, **drop**. (default: **deliver**).
+- **--destination**: The destination to use for this VPN route in the VPN server. Must be unique within the VPN server. If an incoming packet does not match any destination, it will be dropped.
+- **--name**: Name of the VPN route.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-route-update
+{: #vpn-server-route-update}
+
+[Beta] Update a VPN route.
+
+```
+ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-vpn-server-route-update}
+
+- `ibmcloud is vpn-server-route-update r134-77e21079-7291-44c2-866a-8f1848bc10f0 1233a60b-fc95-4dbc-96ab-a976b723bfb0 --name myroute`
+
+#### Command options
+{: #command-options-vpn-server-route-update}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **ROUTE_ID**: ID of the VPN route.
+- **--name**: New name of the VPN route.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-server-route-delete
+{: #vpn-server-route-delete}
+
+[Beta] Delete a VPN route.
+
+```
+ibmcloud is vpn-server-route-delete VPN_SERVER_ID (ROUTE_ID1 ROUTE_ID2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-vpn-server-route-delete}
+
+- **VPN_SERVER_ID**: ID of the VPN server.
+- **ROUTE_ID1**: ID of the VPN route.
+- **ROUTE_ID2**: ID of the VPN route.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## COMPUTE COMMANDS
 {: #compute-clis}
 
@@ -4417,7 +4792,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image-id IMAGE_ID] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4444,6 +4819,8 @@ Create instance to be placed in the wanted dedicated host.
 Create instance to be placed in the wanted dedicated host group.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --placement-group 1d2afa0f-b9f2-4d85-ae35-a08885269644`
 Create instance to be placed in the wanted placement group.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
+Create instance with specific total volumes bandwidth
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -4460,6 +4837,7 @@ Create instance with volume attachment from volume snapshot.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
@@ -4486,7 +4864,7 @@ Create instance with volume attachment from volume snapshot.
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template-id TEMPLATE_ID [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4520,6 +4898,7 @@ Create instance from instance template with the wanted dedicated host group
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
@@ -4913,7 +5292,7 @@ ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q
 Update a virtual server instance.
 
 ```
-ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--output JSON] [-q, --quiet]
+ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4921,6 +5300,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--ou
 
 - `ibmcloud is instance-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-instance`
 - `ibmcloud is instance-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-instance --output JSON`
+- `ibmcloud is instance-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --total-volume-bandwidth 4000`
 
 #### Command options
 {: #command-options-instance-update}
@@ -4928,6 +5308,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--ou
 - **INSTANCE**: ID of the instance.
 - **--name**: New name of the virtual server instance.
 - **--profile**: The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Match the current profile's instance disk support. (**Note:** If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4998,7 +5379,7 @@ ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PRO
 - **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes.
-- **--source-snapshot**: The ID of the snapshot to clone volume.
+- **--source-snapshot**: ID of the snapshot to clone volume.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6180,7 +6561,7 @@ ibmcloud is instance-template TEMPLATE_ID [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image-id IMAGE_ID [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [([--security-group-ids SECURITY_GROUP_IDS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6207,6 +6588,8 @@ Create instance template to be placed in the wanted dedicated host.
 Create instance template to be placed in the wanted dedicated host group.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --placement-group 1d2afa0f-b9f2-4d85-ae35-a08885269644`
 Create instance to be placed in the wanted placement group.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image-id r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
+Create instance template with specific total volumes bandwidth
 - `ibmcloud is instance-template-create --interactive`
 Create instance template interactively.
 
@@ -6219,6 +6602,7 @@ Create instance template interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
@@ -6245,7 +6629,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template-id SOURCE_TEMPLATE_ID [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template-id SOURCE_TEMPLATE_ID [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc-id VPC_ID] [--image-id IMAGE_ID] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--key-ids IDS] [--dedicated-host HOST_ID | --dedicated-host-group HOST_GROUP_ID | --placement-group PLACEMENT_GROUP_ID] [--user-data DATA] [(--subnet-id SUBNET_ID [--ipv4 IPV4_ADDRESS] [--security-group-ids SECURITY_GROUP_IDS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6265,6 +6649,7 @@ Create instance template by overriding a source template and providing overridin
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
