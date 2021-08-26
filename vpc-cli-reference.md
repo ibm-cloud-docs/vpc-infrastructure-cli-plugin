@@ -726,7 +726,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **--name**: The user-defined name for this policy. Policy names must be unique within the load balancer listener.
 - **--priority**: Priority of the policy. Lower value indicates higher priority, for example: **5**, range: [**1-10**].
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
-- - **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
+- **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
 - **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set.
 - **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
 - **--target-listener-http-status-code**: The HTTP status code that gets returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
@@ -770,7 +770,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
-- - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
+- **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
 - **--http-redirect-target-uri**: Target URI where traffic will redirect. This setting is optional and must start with "/" if you set.
@@ -1033,7 +1033,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- - **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
+- **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
