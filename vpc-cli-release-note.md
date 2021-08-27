@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-08-26"
+lastupdated: "2021-08-27"
 
 ---
 
@@ -22,6 +22,23 @@ lastupdated: "2021-08-26"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {:shortdesc}
 
+## v1.5.0
+{: #v1.5.0}
+
+Version 1.5.0 was released on 2021-08-27.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `instance-create/instance-update/instance-template-create` commands to support the instance attached block storage bandwidth setting.
+
+### Removed commands
+
+* N/A
+
 ## v1.4.0
 {: #v1.4.0}
 
@@ -34,7 +51,7 @@ Version 1.4.0 was released on 2021-08-26.
 ### Updated commands
 
 * Update `vpc/address-prefix/routing-table/route` commands with "by name" support. These commands can now use an ID or name for the command option values.
- 
+
 * Update network ACL and network ACL rule commands with "by name" support. These commands can now use an ID or name for the command option values.
 
 ### Removed commands
@@ -127,7 +144,7 @@ Version 0.8.6 was released on 2021-06-17.
 
 ### Updated commands
 
-* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands. 
+* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands.
 
 ### Removed commands
 
@@ -226,7 +243,7 @@ Version 0.7.8 was released on 2021-02-25.
 
 ### Updated commands
 
-* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana). 
+* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana).
 * Added a `--security-group` flag to the `load-balancer-create` command so you can bind security groups when you create a load balancer.
 * Added a security groups field to the `load-balancer` command to show the security groups that are bound to a load balancer.
 
