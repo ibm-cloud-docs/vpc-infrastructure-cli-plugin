@@ -24,7 +24,7 @@ subcollection: vpc-infrastructure-cli-plugin
 {: #vpc-reference}
 
 Use the following information as a reference of the command-line interface (CLI) commands that are available for {{site.data.keyword.vpc_full}} (VPC).
-{:shortdesc}
+{: shortdesc}
 
 This document is organized into the following sections:
 * [Network commands](#network)
@@ -39,24 +39,24 @@ This document is organized into the following sections:
 
 2. Install or update the VPC infrastructure service plug-in.
 
-  ```
-  ibmcloud plugin install vpc-infrastructure
-  ```
-  {: pre}
+   ```
+   ibmcloud plugin install vpc-infrastructure
+   ```
+   {: pre}
 
-  To update:
+   To update:
 
-  ```
-  ibmcloud plugin update
-  ```
-  {: pre}
+   ```
+   ibmcloud plugin update
+   ```
+   {: pre}
 
-  To view installed plug-ins and versions:
+   To view installed plug-ins and versions:
 
-  ```
-  ibmcloud plugin list
-  ```
-  {: pre}
+   ```
+   ibmcloud plugin list
+   ```
+   {: pre}
 
 ---
 

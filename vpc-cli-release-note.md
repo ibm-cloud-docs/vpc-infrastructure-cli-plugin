@@ -20,7 +20,7 @@ lastupdated: "2021-08-27"
 {: #vpc-cli-rn}
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
-{:shortdesc}
+{: shortdesc}
 
 ## v1.5.0
 {: #v1.5.0}
