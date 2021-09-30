@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2021
-lastupdated: "2021-08-27"
+lastupdated: "2021-09-24"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -112,22 +112,26 @@ ibmcloud is floating-ip-release (FLOATING_IP1 FLOATING_IP2 ...) [--output JSON] 
 Reserve a floating IP.
 
 ```
-ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic-id NIC_ID) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-floating-ip-reserve}
 
 - `ibmcloud is floating-ip-reserve my-ip --zone us-south-1`
-- `ibmcloud is floating-ip-reserve my-ip --nic-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is floating-ip-reserve my-ip --nic-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is floating-ip-reserve my-ip --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is floating-ip-reserve my-ip --nic eth0 --in my-instance`
+- `ibmcloud is floating-ip-reserve my-ip --nic eth0 --bm my-bm`
+- `ibmcloud is floating-ip-reserve my-ip --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 
 #### Command options
 {: #command-options-floating-ip-reserve}
 
 - **FLOATING_IP_NAME**: Name of the floating IP.
-- **--zone**: Name of the target zone. This option is mutually exclusive with **--nic-id**.
-- **--nic-id**: ID of the target network interface. This option is mutually exclusive with **--zone**.
+- **--zone**: Name of the target zone.
+- **--nic**: The ID or name of the network interface to be bound.
+- **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -141,22 +145,26 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic-id NI
 Update a floating IP.
 
 ```
-ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic-id NIC_ID] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-floating-ip-update}
 
 - `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-ip`
-- `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --nic-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --nic-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is floating-ip-update my-ip --nic eth0 --in my-instance`
+- `ibmcloud is floating-ip-update my-ip --nic eth0 --bm my-bm`
+- `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 
 #### Command options
 {: #command-options-floating-ip-update}
 
 - **FLOATING_IP**: ID of the floating IP.
 - **--name**: New name of the floating IP.
-- **--nic-id**: ID of the network interface to bind.
+- **--nic**: The ID or name of the network interface to be bound.
+- **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -191,7 +199,7 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 Create a flow log.
 
 ```
-ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--name NAME] [--active TRUE | FALSE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrName [--target-type vpc | subnet | instance | nic] [--vpc VPC] [--in IN] [--name NAME] [--active TRUE | FALSE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -201,16 +209,32 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--n
 - `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log`
 - `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --active false`
 - `ibmcloud is flow-log-create --bucket bucket-name --target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-flow-log --output JSON`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-vpc --target-type vpc --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-vpc --target-type vpc --name my-flow-log --active false`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-vpc --target-type vpc --name my-flow-log --output JSON`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-subnet --target-type subnet`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-subnet --target-type subnet --vpc my-vpc`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-subnet --target-type subnet --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-subnet --target-type subnet --vpc my-vpc --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-instance --target-type instance`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-instance --target-type instance --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic --in my-instance`
+- `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic --in my-instance --name my-flow-log`
 
 #### Command options
 {: #command-options-flow-log-create}
 
 - **--bucket**: Name of COS bucket.
-- **--target**: The target for flow log.
+- **--target**: Target ID or name for flow log.
+- **--target-type**: Target type for flow log. This option is only required if target is passed as name of the resource. One of: **vpc**, **subnet**, **instance**, **nic**.
+- **--vpc**: ID or name of the VPC. This ID is only required to specify the unique resource by name inside this VPC.
+- **--in**: ID or name of the INSTANCE. This ID is only required to specify the unique resource by name inside this INSTANCE.
 - **--name**: New name for the flow log.
 - **--active**: Indicates whether this collector is active. One of: **TRUE**, **FALSE**.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -222,14 +246,15 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_ID [--n
 Delete flow logs.
 
 ```
-ibmcloud is flow-log-delete (FLOW_LOG1 FLOW_LOG2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is flow-log-delete (FLOW_LOG1 FLOW_LOG2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-flow-log-delete}
 
-- **FLOW_LOG1**: ID of the flow log.
-- **FLOW_LOG2**: ID of the flow log.
+- **FLOW_LOG1**: ID or name of the flow log.
+- **FLOW_LOG2**: ID or name of the flow log.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name that's inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -249,13 +274,16 @@ ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [
 {: #command-examples-flow-log-update}
 
 - `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log`
-- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --active false`
-- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-name-flow-log --output JSON`
+- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name renamed-flow-log --active false`
+- `ibmcloud is flow-log-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name renamed-flow-log --output JSON`
+- `ibmcloud is flow-log-update my-flow-log --name new-name-flow-log`
+- `ibmcloud is flow-log-update my-flowlog --name new-name-flow-log --active false`
+- `ibmcloud is flow-log-update my-flowlog --name new-name-flow-log --output JSON`
 
 #### Command options
 {: #command-options-flow-log-update}
 
-- **FLOW_LOG**: ID of the flow log.
+- **FLOW_LOG**: ID or name of the flow log.
 - **--name**: New name of the flow log.
 - **--active**: Indicates whether this collector is active. Updating to false deactivates the collector and updating to true activates the collector. One of: **TRUE**, **FALSE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -275,7 +303,7 @@ ibmcloud is flow-log FLOW_LOG [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-flow-log}
 
-- **FLOW_LOG**: ID of the flow log.
+- **FLOW_LOG**: ID or name of the flow log.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -330,7 +358,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--route-mode false | true] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -343,6 +371,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --output JSON`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --security-group 3428abaa-788b-439b-9404-ca386f2f3f79 --security-group f0e26f91-851a-4fc9-b32b-da24ad218b4e`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
+- `ibmcloud is load-balancer-create lb-name private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
+Create a load balancer with route mode enabled
 
 #### Command options
 {: #command-options-load-balancer-create}
@@ -351,6 +381,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
 - **--subnet**: ID of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
 - **--family**: The load balancer family type. One of: **application**, **network**.
+- **--route-mode**: Enable or disable route mode for the load balancer. If unspecified, route mode is disabled. Currently, route mode can be enabled for only private network load balancer. One of: **false**, **true**.
 - **--security-group**: ID of the security group.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. This is applicable only for application load balancer. One of: **false**, **true**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -405,39 +436,41 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID (--protocol http | https | tcp) [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-load-balancer-listener-create}
 
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http  --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --connection-limit 2000`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http  --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
 The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", "reject", or "https_redirect".
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
 When the action is _forward_, the pool identity is required to specify which pool the load balancer forwards the traffic to.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --output JSON`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --output JSON`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
+To create a load balancer listener when route mode is enabled in the load balancer
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
-- **PORT**: The listener port number. Range 1-65535.
-- **PROTOCOL**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--port**: The listener port number. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
-- **--http-redirect-listener-id**: ID of the listener that gets set as the HTTP redirect target.
+- **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
 - **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -529,7 +562,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 303`
 When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required. Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
 - `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 307 --target-uri /example`
-When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required. The "uri" is the redirect target URI, it's an optional field.Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
+When the action is "https_redirect", the "target-listener-id" and "http_status_code" are required. The "uri" is the redirect target URI, it's an optional field. Possible values for "http_status_code" are "301", "302", "303", "307", or "308".
 
 #### Command options
 {: #command-options-load-balancer-listener-policy-create}
@@ -542,7 +575,7 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
 - **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
 - **--target-listener-http-status-code**: The HTTP status code that is returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
-- **--target-uri**: Target URI where traffic gets redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
+- **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
 - **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
 - **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set this option.
 - **--rules**: **LISTENER_POLICY_RULES_JSON** | **@LISTENER_POLICY_RULES_JSON_FILE**, listener policy rules in JSON or JSON file.
@@ -727,10 +760,10 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **--priority**: Priority of the policy. Lower value indicates higher priority, for example: **5**, range: [**1-10**].
 - **--target-id**: The unique identifier for this load balancer pool that is specified with **forward** action.
 - **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
-- **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set.
+- **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set this option.
 - **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
-- **--target-listener-http-status-code**: The HTTP status code that gets returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
-- **--target-uri**: Target URI where traffic redirects, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
+- **--target-listener-http-status-code**: The HTTP status code that is returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
+- **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -773,7 +806,7 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
-- **--http-redirect-target-uri**: Target URI where traffic will redirect. This setting is optional and must start with "/" if you set.
+- **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -848,7 +881,7 @@ Create network load balancer pool with members
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
+- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
@@ -1178,7 +1211,7 @@ ibmcloud is load-balancer LOAD_BALANCER_ID [--output JSON] [-q, --quiet]
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET_ID1 --subnet SUBNET_ID2 ...) [--family application | network] [--route-mode false | true] [--security-group SECURITY_GROUP1 --security-group SECURITY_GROUP2 ...] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1191,6 +1224,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --output JSON`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --security-group 3428abaa-788b-439b-9404-ca386f2f3f79 --security-group f0e26f91-851a-4fc9-b32b-da24ad218b4e`
 - `ibmcloud is load-balancer-create lb-name public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
+- `ibmcloud is load-balancer-create lb-name private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
+Create a load balancer with route mode enabled
 
 #### Command options
 {: #command-options-network-load-balancer-create}
@@ -1199,6 +1234,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet
 - **LOAD_BALANCER_TYPE**: Type of the load balancer, **public** or **private**.
 - **--subnet**: ID of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
 - **--family**: The load balancer family type. One of: **application**, **network**.
+- **--route-mode**: Enable or disable route mode for the load balancer. If unspecified, route mode is disabled. Currently, route mode can be enabled for only private network load balancer. One of: **false**, **true**.
 - **--security-group**: ID of the security group.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. This is applicable only for application load balancer. One of: **false**, **true**.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -1298,41 +1334,43 @@ ibmcloud is load-balancer-listener LOAD_BALANCER_ID LISTENER_ID [--output JSON] 
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID PORT PROTOCOL [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER_ID (--protocol http | https | tcp) [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-network-load-balancer-listener-create}
 
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --connection-limit 2000`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http  --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --connection-limit 2000`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http  --policies '[{"name": "my-policy", "priority": 5, "action": "reject" }]'`
 The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", "reject", or "https_redirect".
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --policies '[{"priority": 5, "action": "forward", "target": { "id": 70294e14-4e61-11e8-bcf4-0242ac110004 }}]'`
 When the action is _forward_, the pool identity is required to specify which pool the load balancer forwards the traffic to.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --policies '[{"priority": 5, "action": "redirect", "target": { "http_status_code": 301, "url": "https://www.redirect.com"}}]'`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --policies '[{"priority": 5, "action": "reject", "rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --output JSON`
-- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 443 http --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --output JSON`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
+To create a load balancer listener when route mode is enabled in the load balancer
 
 #### Command options
 {: #command-options-network-load-balancer-listener-create}
 
 - **LOAD_BALANCER_ID**: ID of the load balancer.
-- **PORT**: The listener port number. Range 1-65535.
-- **PROTOCOL**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--protocol**: The listener protocol. Load balancers that are in the application family support tcp, http, and https. Load balancers that are in the network family support tcp.
+- **--port**: The listener port number. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
-- **--http-redirect-status-code**: The HTTP status code that gets returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
-- **--http-redirect-target-uri**: Target URI where traffic will redirect. This setting is optional and must start with "/" if you set.
+- **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
+- **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1394,9 +1432,9 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER_ID LISTENER_ID [--protoc
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
-- **--http-redirect-listener-id**: ID of the listener that gets set as the HTTP redirect target.
+- **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
-- **--http-redirect-target-uri**: Target URI where traffic gets redirected. This setting is optional and must start with "/" if you set.
+- **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1471,7 +1509,7 @@ Create network load balancer pool with members
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
+- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
@@ -1534,7 +1572,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER_ID POOL_ID [--algorithm roun
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **--health-type**: The health check protocol. Load balancers in the application family support tcp, http, https. Load balancers in the network family support tcp, http.
+- **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
@@ -1735,7 +1773,7 @@ ibmcloud is network-acl ACL [--vpc VPC] [--output JSON] [-q, --quiet]
 Create a network ACL.
 
 ```
-ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FILE) | --source-acl-id SOURCE_ACL_ID] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FILE) | (--source-acl SOURCE_ACL [--source-acl-vpc SOURCE_ACL_VPC])] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1743,7 +1781,9 @@ ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FIL
 
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is network-acl-create my-acl my-vpc`
-- `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --source-acl-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --source-acl 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is network-acl-create my-new-acl my-vpc --source-acl my-acl`
+- `ibmcloud is network-acl-create my-new-acl my-vpc --source-acl my-acl --source-acl-vpc my-vpc2`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --rules '[{ "action": "allow", "destination": "192.168.0.0/24", "direction": "inbound", "source": "10.0.0.0/24",  "protocol": "tcp" }]'`
 - `ibmcloud is network-acl-create my-acl 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --output JSON`
 
@@ -1753,7 +1793,8 @@ ibmcloud is network-acl-create ACL_NAME VPC [--rules (RULES_JSON|@RULES_JSON_FIL
 - **ACL_NAME**: Name of the network ACL.
 - **VPC**: ID or name of the VPC.
 - **--rules**: RULES_JSON|@RULES_JSON_FILE, rules for the ACL in JSON or JSON file.
-- **--source-acl-id**: ID of the network ACL to copy rules from.
+- **--source-acl**: The ID or name of the network ACL to copy rules from.
+- **--source-acl-vpc**: The ID or name of the source network ACL's VPC. This is only required to specify the unique source network ACL by name inside this VPC.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1968,13 +2009,14 @@ ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output 
 View details of a public gateway.
 
 ```
-ibmcloud is public-gateway GATEWAY [--output JSON] [-q, --quiet]
+ibmcloud is public-gateway GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-public-gateway}
 
-- **GATEWAY**: ID of the public gateway.
+- **GATEWAY**: ID or name of the public gateway.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1986,25 +2028,26 @@ ibmcloud is public-gateway GATEWAY [--output JSON] [-q, --quiet]
 Create a public gateway.
 
 ```
-ibmcloud is public-gateway-create GATEWAY_NAME VPC ZONE_NAME [--floating-ip-id IP_ID | --floating-ip-address IP_ADDRESS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is public-gateway-create GATEWAY_NAME VPC ZONE_NAME [--ip ID | NAME | ADDRESS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-public-gateway-create}
 
 - `ibmcloud is public-gateway-create my-public-gateway 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1`
-- `ibmcloud is public-gateway-create my-public-gateway 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 --floating-ip-id 39300233-9995-4806-89a5-3c1b6eb88689`
-- `ibmcloud is public-gateway-create my-public-gateway 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 --floating-ip-address 203.0.113.1`
+- `ibmcloud is public-gateway-create my-public-gateway my-vpc us-south-1`
+- `ibmcloud is public-gateway-create my-public-gateway 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 --ip 39300233-9995-4806-89a5-3c1b6eb88689`
+- `ibmcloud is public-gateway-create my-public-gateway my-vpc us-south-1 --ip my-ip`
+- `ibmcloud is public-gateway-create my-public-gateway 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 --ip 203.0.113.1`
 - `ibmcloud is public-gateway-create my-public-gateway 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 --output JSON`
 
 #### Command options
 {: #command-options-public-gateway-create}
 
 - **GATEWAY_NAME**: Name of the public gateway.
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **ZONE_NAME**: Name of the zone.
-- **--floating-ip-id**: ID of the floating IP bound to the public gateway.
-- **--floating-ip-address**: IP address of the floating IP bound to the public gateway.
+- **--ip**: ID, name, or existing IP address of the floating IP bound to the public gateway.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2018,14 +2061,15 @@ ibmcloud is public-gateway-create GATEWAY_NAME VPC ZONE_NAME [--floating-ip-id I
 Delete public gateways.
 
 ```
-ibmcloud is public-gateway-delete (GATEWAY1 GATEWAY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is public-gateway-delete (GATEWAY1 GATEWAY2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-public-gateway-delete}
 
-- **GATEWAY1**: ID of the public gateway.
-- **GATEWAY2**: ID of the public gateway.
+- **GATEWAY1**: ID or name of the public gateway.
+- **GATEWAY2**: ID or name of the public gateway.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2038,18 +2082,20 @@ ibmcloud is public-gateway-delete (GATEWAY1 GATEWAY2 ...) [--output JSON] [-f, -
 Update a public gateway.
 
 ```
-ibmcloud is public-gateway-update GATEWAY --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is public-gateway-update GATEWAY --name NEW_NAME [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-public-gateway-update}
+#### Command examples
+{: #command-examples-public-gateway-update}
 
-- `ibmcloud is public-gateway-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name my-gateway --output JSON`
+- `ibmcloud is public-gateway-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name my-renamed-gateway --output JSON`
+- `ibmcloud is public-gateway-update my-gateway --name my-renamed-gateway --output JSON`
 
 #### Command options
 {: #command-options-public-gateway-update}
 
-- **GATEWAY**: ID of the public gateway.
+- **GATEWAY**: ID or name of the public gateway.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the public gateway.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2339,13 +2385,14 @@ ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE (ROUTE1 ROUTE2 ...)
 View details of routing table that is attached to the subnet.
 
 ```
-ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
+ibmcloud is subnet-routing-table SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-routing-table}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2360,13 +2407,14 @@ ibmcloud is subnet-routing-table SUBNET [--output JSON] [-q, --quiet]
 View details of a security group.
 
 ```
-ibmcloud is security-group GROUP [--output JSON] [-q, --quiet]
+ibmcloud is security-group GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2384,16 +2432,17 @@ ibmcloud is security-group-create GROUP_NAME VPC [--resource-group-id RESOURCE_G
 #### Command examples
 {: #command-examples-security-group-create}
 
-- `ibmcloud is security-group-create my-security-group 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is security-group-create my-security-group 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
-- `ibmcloud is security-group-create my-security-group 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --resource-group-name Default`
-- `ibmcloud is security-group-create my-security-group 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is security-group-create my-sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is security-group-create my-sg my-vpc`
+- `ibmcloud is security-group-create my-sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+- `ibmcloud is security-group-create my-sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --resource-group-name Default`
+- `ibmcloud is security-group-create my-sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 
 #### Command options
 {: #command-options-security-group-create}
 
 - **GROUP_NAME**: Name of the security group.
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2407,14 +2456,15 @@ ibmcloud is security-group-create GROUP_NAME VPC [--resource-group-id RESOURCE_G
 Delete security groups.
 
 ```
-ibmcloud is security-group-delete (GROUP1 GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-delete (GROUP1 GROUP2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-delete}
 
-- **GROUP1**: ID of the security group.
-- **GROUP2**: ID of the security group.
+- **GROUP1**: ID or name of the security group.
+- **GROUP2**: ID or name of the security group.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2427,14 +2477,16 @@ ibmcloud is security-group-delete (GROUP1 GROUP2 ...) [--output JSON] [-f, --for
 View details of a network interface of a security group.
 
 ```
-ibmcloud is security-group-network-interface GROUP NIC [--output JSON] [-q, --quiet]
+ibmcloud is security-group-network-interface GROUP NIC [--vpc VPC] [--in INSTANCE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-network-interface}
 
-- **GROUP**: ID of the security group.
-- **NIC**: ID of the network interface.
+- **GROUP**: ID or name of the security group.
+- **NIC**: ID or name of the network interface.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
+- **--in**: The ID or name of the instance to be bound, this is only required while using the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2446,7 +2498,7 @@ ibmcloud is security-group-network-interface GROUP NIC [--output JSON] [-q, --qu
 Add a network interface to a security group.
 
 ```
-ibmcloud is security-group-network-interface-add GROUP NIC [--output JSON] [-q, --quiet]
+ibmcloud is security-group-network-interface-add GROUP NIC [--vpc VPC] [--in INSTANCE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command example
@@ -2457,8 +2509,10 @@ ibmcloud is security-group-network-interface-add GROUP NIC [--output JSON] [-q, 
 #### Command options
 {: #command-options-security-group-network-interface-add}
 
-- **GROUP**: ID of the security group.
-- **NIC**: ID of the network interface.
+- **GROUP**: ID or name of the security group.
+- **NIC**: ID or name of the network interface.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
+- **--in**: The ID or name of the instance to be bound, this is only required while using the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2470,15 +2524,17 @@ ibmcloud is security-group-network-interface-add GROUP NIC [--output JSON] [-q, 
 Remove network interfaces from a security group.
 
 ```
-ibmcloud is security-group-network-interface-remove GROUP (NIC1 NIC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-network-interface-remove GROUP (NIC1 NIC2 ...) [--vpc VPC] [--in INSTANCE] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-network-interface-remove}
 
-- **GROUP**: ID of the security group.
-- **NIC1**: ID of the network interface.
-- **NIC2**: ID of the network interface.
+- **GROUP**: ID or name of the security group.
+- **NIC1**: ID or name of the network interface. If using name format, only the network interfaces under the same instance are allowed.
+- **NIC2**: ID or name of the network interface. If using name format, only the network interfaces under the same instance are allowed.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
+- **--in**: The ID or name of the instance to be bound, this is only required if you use the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2491,13 +2547,14 @@ ibmcloud is security-group-network-interface-remove GROUP (NIC1 NIC2 ...) [--out
 List all network interfaces of a security group.
 
 ```
-ibmcloud is security-group-network-interfaces GROUP [--output JSON] [-q, --quiet]
+ibmcloud is security-group-network-interfaces GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-network-interfaces}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2509,14 +2566,15 @@ ibmcloud is security-group-network-interfaces GROUP [--output JSON] [-q, --quiet
 View details of a security group rule.
 
 ```
-ibmcloud is security-group-rule GROUP RULE_ID [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule GROUP RULE_ID [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-rule}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
 - **RULE_ID**: ID of the security group rule.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2528,24 +2586,29 @@ ibmcloud is security-group-rule GROUP RULE_ID [--output JSON] [-q, --quiet]
 Add a rule to a security group.
 
 ```
-ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-security-group-rule-add}
 
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all`
+- `ibmcloud is security-group-rule-add my-sg inbound all`
+- `ibmcloud is security-group-rule-add my-sg inbound all --vpc my-vpc`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp --icmp-type 8 --icmp-code 0`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all --remote 12.2.2.3`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is security-group-rule-add my-sg inbound all --remote my-sg`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
 
 #### Command options
 {: #command-options-security-group-rule-add}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **PROTOCOL**: Protocol to enforce. One of: **all**, **icmp**, **tcp**, **udp**.
-- **--remote**: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP_ID. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
+- **--remote**: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
 - **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
 - **--port-min**: Minimum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **1**).
@@ -2561,15 +2624,25 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--remote REMOTE_AD
 Delete rules from a security group.
 
 ```
-ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-security-group-rule-delete}
+
+- `ibmcloud is security-group-target-remove 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 -f`
+- `ibmcloud is security-group-target-remove my-sg my-lb --trt load_balancer --vpc my-vpc`
+- `ibmcloud is security-group-target-remove my-sg eth0 --in my-instnace --vpc my-vpc`
+- `ibmcloud is security-group-target-remove my-sg eth0 --in my-instnace`
+- `ibmcloud is security-group-target-remove my-sg my-egw --trt endpoint-gateway`
 
 #### Command options
 {: #command-options-security-group-rule-delete}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
 - **RULE_ID1**: ID of the security group rule.
 - **RULE_ID2**: ID of the security group rule.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2582,25 +2655,26 @@ ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--output J
 Update a rule of a security group.
 
 ```
-ibmcloud is security-group-rule-update GROUP RULE_ID [--direction inbound | outbound] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP_ID] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-security-group-rule-update}
 
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound`
-- `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --icmp-type 8 --icmp-code 0`
+- `ibmcloud is security-group-rule-update my-sg 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --icmp-type 8 --icmp-code 0`
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --port-min 4 --port-max 22`
-- `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --remote 12.2.2.3`
+- `ibmcloud is security-group-rule-update my-sg 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --remote 12.2.2.3`
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --output JSON`
 
 #### Command options
 {: #command-options-security-group-rule-update}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
 - **RULE_ID**: ID of the security group rule.
+- **--vpc**: ID or name of the VPC. This name only required to specify the unique resource by name inside this VPC.
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **--remote**: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP_ID. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
+- **--remote**: The set of network interfaces from which this rule allows traffic, Can be specified as either an REMOTE_ADDRESS, CIDR_BLOCK and SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
 - **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
 - **--port-min**: Minimum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **1**).
@@ -2616,13 +2690,14 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--direction inbound | outb
 List all rules of a security group.
 
 ```
-ibmcloud is security-group-rules GROUP [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rules GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-rules}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2634,18 +2709,21 @@ ibmcloud is security-group-rules GROUP [--output JSON] [-q, --quiet]
 Update a security group.
 
 ```
-ibmcloud is security-group-update GROUP [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-update GROUP [--vpc VPC] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-security-group-update}
+#### Command examples
+{: #command-examples-security-group-update}
 
-- `ibmcloud is security-group-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-security-group-name --output JSON`
+- `ibmcloud is security-group-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-sg-renamed --output JSON`
+- `ibmcloud is security-group-update my-sg --name my-sg-renamed --output JSON`
+- `ibmcloud is security-group-update my-sg --vpc my-vpc --name my-sg-renamed --output JSON`
 
 #### Command options
 {: #command-options-security-group-update}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the security group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2678,14 +2756,25 @@ ibmcloud is security-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 View details of a target of a security group.
 
 ```
-ibmcloud is security-group-target GROUP TARGET [--output JSON] [-q, --quiet]
+ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer) | --in INSTANCE] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-security-group-target}
+
+- `ibmcloud is security-group-target 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is security-group-target my-sg my-nic --in my-in`
+- `ibmcloud is security-group-target my-sg my-nic --bm my-bm`
+- `ibmcloud is security-group-target my-sg my-lb --trt load_balancer`
 
 #### Command options
 {: #command-options-security-group-target}
 
-- **GROUP**: ID of the security group.
-- **TARGET**: ID of the target.
+- **GROUP**: ID or name of the security group.
+- **TARGET**: ID or name of the bound target resource for security group. Supported target resource types are: network_interface,load_balancer.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**.
+- **--in**: The ID or name of the instance to be bound, this name is only required while using the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2697,19 +2786,26 @@ ibmcloud is security-group-target GROUP TARGET [--output JSON] [-q, --quiet]
 Add a target to a security group.
 
 ```
-ibmcloud is security-group-target-add GROUP TARGET [--output JSON] [-q, --quiet]
+ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_balancer) | --in INSTANCE] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-security-group-target-add}
+#### Command examples
+{: #command-examples-security-group-target-add}
 
 - `ibmcloud is security-group-target-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --output JSON`
+- `ibmcloud is security-group-target-add my-sg my-lb --trt load_balancer --vpc my-vpc --output JSON`
+- `ibmcloud is security-group-target-add my-sg eth0 --in my-instnace --vpc my-vpc  --output JSON`
+- `ibmcloud is security-group-target-add my-sg eth0 --in my-instnace`
+- `ibmcloud is security-group-target-add my-sg my-egw --trt endpoint-gateway --vpc my-vpc --output JSON`
 
 #### Command options
 {: #command-options-security-group-target-add}
 
-- **GROUP**: ID of the security group.
-- **TARGET**: ID of the target.
+- **GROUP**: ID or name of the security group.
+- **TARGET**: ID or name of the bound target resource for security group. Supported target resource types are: network_interface,load_balancer.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**.
+- **--in**: The ID or name of the instance to be bound, this name is only required if you use the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2721,15 +2817,18 @@ ibmcloud is security-group-target-add GROUP TARGET [--output JSON] [-q, --quiet]
 Remove targets from a security group.
 
 ```
-ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer) | --in INSTANCE] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-target-remove}
 
-- **GROUP**: ID of the security group.
-- **TARGET1**: ID of the target.
-- **TARGET2**: ID of the target.
+- **GROUP**: ID or name of the security group.
+- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resouces under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. Supported target resource types are: network_interface,load_balancer.
+- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resouces that are under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. Supported target resource types are: network_interface,load_balancer.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**.
+- **--in**: The ID or name of the instance to be bound. This name is only required if you use the network interface name instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2742,13 +2841,14 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--output J
 List all targets of a security group.
 
 ```
-ibmcloud is security-group-targets GROUP [--output JSON] [-q, --quiet]
+ibmcloud is security-group-targets GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-group-targets}
 
-- **GROUP**: ID of the security group.
+- **GROUP**: ID or name of the security group.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2763,13 +2863,14 @@ ibmcloud is security-group-targets GROUP [--output JSON] [-q, --quiet]
 View details of a subnet.
 
 ```
-ibmcloud is subnet SUBNET [--show-attached] [--output JSON] [-q, --quiet]
+ibmcloud is subnet SUBNET [--vpc VPC] [--show-attached] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--show-attached**: View details of resources (instances, load balancers, VPN gateways) attached to the subnet.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2782,30 +2883,33 @@ ibmcloud is subnet SUBNET [--show-attached] [--output JSON] [-q, --quiet]
 Create a subnet.
 
 ```
-ibmcloud is subnet-create SUBNET_NAME VPC ((--zone ZONE_NAME --ipv4-address-count ADDR_COUNT) | --ipv4-cidr-block CIDR_BLOCK) [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY_ID] [--routing-table-id ROUTING_TABLE_ID] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-create SUBNET_NAME VPC ((--zone ZONE_NAME --ipv4-address-count ADDR_COUNT) | --ipv4-cidr-block CIDR_BLOCK) [--acl ACL] [--pgw PGW] [--rt RT] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-subnet-create}
 
 - `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-cidr-block 10.10.10.0/24`
+- `ibmcloud is subnet-create my-subnet my-vpc --ipv4-cidr-block 10.10.10.0/24`
 - `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2`
-- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --network-acl-id 8daca77a-4980-4d33-8f3e-7038797be8f9`
-- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --public-gateway-id 8daca77a-4980-4d33-8f3e-7038797be8f9`
-- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --public-gateway-id 8daca77a-4980-4d33-8f3e-7038797be8f9 --output JSON`
-- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --routing-table-id 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-create my-subnet my-vpc --ipv4-address-count 256 --zone us-south-2`
+- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --acl 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --pgw 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-create my-subnet my-vpc --ipv4-address-count 256 --zone us-south-2 --acl my-acl --pgw --my-pgw --rt my-vpc-rt`
+- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --pgw 8daca77a-4980-4d33-8f3e-7038797be8f9 --output JSON`
+- `ibmcloud is subnet-create my-subnet 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --ipv4-address-count 256 --zone us-south-2 --rt 8daca77a-4980-4d33-8f3e-7038797be8f9`
 
 #### Command options
 {: #command-options-subnet-create}
 
 - **SUBNET_NAME**: Name of the subnet.
-- **VPC**: ID of the VPC.
+- **VPC**: ID or name of the VPC.
 - **--ipv4-cidr-block**: the IPv4 range of the subnet. This option is mutually exclusive with **--ipv4-address-count**.
 - **--ipv4-address-count**: The total number of IPv4 addresses required, must be a power of 2 and minimum value is **8**. This option is mutually exclusive with **--ipv4-cidr-block**.
 - **--zone**: Name of the zone.
-- **--network-acl-id**: ID of the network ACL.
-- **--public-gateway-id**: ID of the public gateway.
-- **--routing-table-id**: ID of the routing table.
+- **--acl**: The ID or name of the network ACL.
+- **--pgw**: The ID or name of the public gateway.
+- **--rt**: The ID or name of the routing table.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2819,14 +2923,15 @@ ibmcloud is subnet-create SUBNET_NAME VPC ((--zone ZONE_NAME --ipv4-address-coun
 Delete subnets.
 
 ```
-ibmcloud is subnet-delete (SUBNET1 SUBNET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is subnet-delete (SUBNET1 SUBNET2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-delete}
 
-- **SUBNET1**: ID of the subnet.
-- **SUBNET2**: ID of the subnet.
+- **SUBNET1**: ID or name of the subnet.
+- **SUBNET2**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2839,26 +2944,30 @@ ibmcloud is subnet-delete (SUBNET1 SUBNET2 ...) [--output JSON] [-f, --force] [-
 Update a subnet.
 
 ```
-ibmcloud is subnet-update SUBNET [--name NEW_NAME] [--network-acl-id NETWORK_ACL_ID] [--public-gateway-id PUBLIC_GATEWAY_ID] [--routing-table-id ROUTING_TABLE_ID] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-update SUBNET [--vpc VPC] [--name NEW_NAME] [--acl ACL] [--pgw PGW] [--rt RT] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-subnet-update}
 
-- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --name my-subnet`
-- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --network-acl-id 8daca77a-4980-4d33-8f3e-7038797be8f9`
-- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --public-gateway-id 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --name my-renamed-subnet`
+- `ibmcloud is subnet-update my-subnet --name my-renamed-subnet`
+- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --acl 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-update my-subnet --acl my-acl`
+- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --pgw 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-update my-subnet --pgw my-pgw`
 - `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --name my-subnet --output JSON`
-- `ibmcloud is subnet-update ec8bb350-d802-4f1b-b362-b848abd5bb65 --routing-table-id 8daca77a-4980-4d33-8f3e-7038797be8f9`
+- `ibmcloud is subnet-update my-subnet --rt my-vpc-rt`
 
 #### Command options
 {: #command-options-subnet-update}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the subnet.
-- **--network-acl-id**: ID of the network ACL.
-- **--public-gateway-id**: ID of the public gateway.
-- **--routing-table-id**: ID of the routing table.
+- **--acl**: The ID or name of the network ACL.
+- **--pgw**: The ID or name of the public gateway.
+- **--rt**: The ID or name of the routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2890,13 +2999,14 @@ ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-na
 View details of public gateway attached to the subnet.
 
 ```
-ibmcloud is subnet-public-gateway SUBNET [--output JSON] [-q, --quiet]
+ibmcloud is subnet-public-gateway SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-public-gateway}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2908,13 +3018,15 @@ ibmcloud is subnet-public-gateway SUBNET [--output JSON] [-q, --quiet]
 Detach the public gateway from a subnet.
 
 ```
-ibmcloud is subnet-public-gateway-detach SUBNET [-q, --quiet]
+ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-public-gateway-detach}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
+- **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -2925,13 +3037,14 @@ ibmcloud is subnet-public-gateway-detach SUBNET [-q, --quiet]
 List all reserved IPs in the subnet.
 
 ```
-ibmcloud is subnet-reserved-ips SUBNET [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-reserved-ips}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2943,14 +3056,15 @@ ibmcloud is subnet-reserved-ips SUBNET [--output JSON] [-q, --quiet]
 View details of reserved ip.
 
 ```
-ibmcloud is subnet-reserved-ip SUBNET RESERVED_IP [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ip SUBNET RESERVED_IP [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-reserved-ip}
 
-- **SUBNET**: ID of the subnet.
-- **RESERVED_IP**: ID of the reserved IP.
+- **SUBNET**: ID or name of the subnet.
+- **RESERVED_IP**: ID or name of the reserved IP.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2962,23 +3076,26 @@ ibmcloud is subnet-reserved-ip SUBNET RESERVED_IP [--output JSON] [-q, --quiet]
 Reserve an IP in a subnet.
 
 ```
-ibmcloud is subnet-reserved-ip-create SUBNET [--name NAME] [--auto-delete true | false] [--target TARGET] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--auto-delete true | false] [--target TARGET] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-subnet-reserved-ip-create}
 
 - `ibmcloud is subnet-reserved-ip-create 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --name my-reserved-ip --auto-delete true`
+- `ibmcloud is subnet-reserved-ip-create my-subnet --name my-reserved-ip --auto-delete true`
 - `ibmcloud is subnet-reserved-ip-create 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --name my-reserved-ip --auto-delete true --target r134-5be98168-017a-459c-959f-7a6c1f7b813b`
+- `ibmcloud is subnet-reserved-ip-create my-subnet --name my-reserved-ip --auto-delete true --target my-vpe`
 - `ibmcloud is subnet-reserved-ip-create 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --name my-reserved-ip --output JSON`
 
 #### Command options
 {: #command-options-subnet-reserved-ip-create}
 
-- **SUBNET**: ID of the subnet.
+- **SUBNET**: ID or name of the subnet.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
-- **--target**: The target of the reserved IP.
+- **--target**: The target ID or name of the reserved IP. Supported target resource types: endpoint_gateway.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2990,21 +3107,23 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--name NAME] [--auto-delete true |
 Update a reserved ip.
 
 ```
-ibmcloud is subnet-reserved-ip-update SUBNET RESERVED_IP [--name NEW_NAME] [--auto-delete true | false] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ip-update SUBNET RESERVED_IP [--vpc VPC] [--name NEW_NAME] [--auto-delete true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-subnet-reserved-ip-update}
 
 - `ibmcloud is subnet-reserved-ip-update 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 2201-7fc11925-47ff-4080-a314-be64c662c302 --name my-reserved-ip2`
+- `ibmcloud is subnet-reserved-ip-update my-subnet my-reserved-ip --name my-reserved-ip2`
 - `ibmcloud is subnet-reserved-ip-update 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 2201-7fc11925-47ff-4080-a314-be64c662c302 --auto-delete false`
 - `ibmcloud is subnet-reserved-ip-update 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 2201-7fc11925-47ff-4080-a314-be64c662c302 --name my-reserved-ip2 --output JSON`
 
 #### Command options
 {: #command-options-subnet-reserved-ip-update}
 
-- **SUBNET**: ID of the subnet.
-- **RESERVED_IP**: ID of the reserved IP.
+- **SUBNET**: ID or name of the subnet.
+- **RESERVED_IP**: ID or name of the reserved IP.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--name**: The new name of the reserved IP.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3018,15 +3137,16 @@ ibmcloud is subnet-reserved-ip-update SUBNET RESERVED_IP [--name NEW_NAME] [--au
 Release reserved IPs.
 
 ```
-ibmcloud is subnet-reserved-ip-delete SUBNET (RESERVED_IP1 RESERVED_IP2 ...) [-f, --force] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ip-delete SUBNET (RESERVED_IP1 RESERVED_IP2 ...) [--vpc VPC] [-f, --force] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-reserved-ip-delete}
 
-- **SUBNET**: ID of the subnet.
-- **RESERVED_IP1**: ID of the reserved IP.
-- **RESERVED_IP2**: ID of the reserved IP.
+- **SUBNET**: ID or name of the subnet.
+- **RESERVED_IP1**: ID or name of the reserved IP.
+- **RESERVED_IP2**: ID or name of the reserved IP.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3189,7 +3309,7 @@ ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management 
 {: #command-options-vpc-create}
 
 - **VPC_NAME**: Name of the VPC.
-- **--classic-access**: This flag indicates whether the VPC should be connected to Classic Infrastructure. The default value is false.
+- **--classic-access**: This flag indicates whether the VPC must be connected to Classic Infrastructure. The default value is false.
 - **--address-prefix-management**: This flag indicates if a default address prefix is automatically created for each zone in this VPC. If **manual**, this VPC is created with no default address prefixes. One of: **auto**, **manual**. (default: **auto**).
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -3422,13 +3542,14 @@ ibmcloud is endpoint-gateway-targets [--output JSON] [-q, --quiet]
 View details of an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-endpoint-gateway}
 
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. This is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3460,33 +3581,42 @@ ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resourc
 Create an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-create --vpc-id VPC_ID --target TARGET [--name NAME] [(--reserved-ip-id RESERVED_IP_ID1 --reserved-ip-id RESERVED_IP_ID2 ...) | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-create --target TARGET [--vpc VPC] [--name NAME] [--rip RIP --subnet SUBNET | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-endpoint-gateway-create}
 
-- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1`
+- `ibmcloud is endpoint-gateway-create --vpc 417f1275-b11a-4077-8755-84e795bc3172 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1`
 Create endpoint gateway without binding reserved IP.
-- `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"}}'`
+- `ibmcloud is endpoint-gateway-create --vpc my-vpc --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1`
+Create endpoint gateway with vpc name without binding reserved IP.
+- `ibmcloud is endpoint-gateway-create --vpc 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"}}'`
 Create endpoint gateway with binding new reserved IP configuration that has only required subnet ID data.
-- `ibmcloud is endpoint-gateway-create --vpc-id 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"},"name":"my-reserved-ip1","auto_delete":false}'`
+- `ibmcloud is endpoint-gateway-create --vpc my-vpc --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"name": "my-subnet"}}'`
+Create endpoint gateway with binding new reserved IP configuration that has only required subnet name data.
+- `ibmcloud is endpoint-gateway-create --vpc 4215db60-4515-4a5f-9822-341d8bea5985 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"id": "a529e1b9-d4cf-48a0-a1bb-e9a1d32cb6e7"},"name":"my-reserved-ip1","auto_delete":false}'`
 Create endpoint gateway with binding new reserved IP configuration with subnet ID, reserved IP name, reserved IP auto_delete configuration.
-- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target ibm-ntp-server --name myegw3`
+- `ibmcloud is endpoint-gateway-create --vpc my-vpc --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw2 --new-reserved-ip '{"subnet": {"name": "my-subnet"},"name":"my-reserved-ip1","auto_delete":false}'`
+Create endpoint gateway with binding new reserved IP configuration with subnet name, reserved IP name, reserved IP auto_delete configuration.
+- `ibmcloud is endpoint-gateway-create --vpc 417f1275-b11a-4077-8755-84e795bc3172 --target ibm-ntp-server --name myegw3`
 Create endpoint gateway with the provider infrastructure service 'ibm-ntp-server'.
-- `ibmcloud is endpoint-gateway-create --vpc-id 417f1275-b11a-4077-8755-84e795bc3172 --target my-key-protect-inst1 --name myegw1 --reserved-ip-id 062d13f9-d46d-483d-bdc9-42c0326e73f0 --reserved-ip-id 6fcfb762-b9aa-41fa-9332-d228e76ee39b`
-Create endpoint gateway with binding existing reserved IPs.
+- `ibmcloud is endpoint-gateway-create --vpc 417f1275-b11a-4077-8755-84e795bc3172 --target ibm-ntp-server --name my-egw --rip 0757-aabb6555-7de5-4a53-aac1-03dd3a50e377,0767-799bd24a-7d85-4ffa-9920-6e51c4001d02`
+Create endpoint gateway with binding existing reserved IP IDs.
+- `ibmcloud is endpoint-gateway-create --vpc my-vpc --target ibm-ntp-server --name my-egw --rip my-rip --subnet my-subnet`
+Create endpoint gateway with binding existing reserved IP name.
 
 #### Command options
 {: #command-options-endpoint-gateway-create}
 
-- **--vpc-id**: ID of the VPC.
+- **--vpc**: ID or name of the VPC.
 - **--target**: The name of the provider infrastructure service or the CRN for a provider cloud service instance. You can use command **ibmcloud is endpoint-gateway-targets** to list the provider cloud and infrastructure services that are qualified to be set as endpoint gateway target.
 - **--name**: New name of the endpoint gateway.
-- **--reserved-ip-id**: ID of the reserved IP to be bound to the endpoint gateway.
+- **--rip**: Comma-separated IDs of the reserved IP to be bound to the endpoint gateway. At most, one reserved IP per zone is allowed. It can also be reserved IP name, but only one reserved IP name is allowed and subnet option for this reserved IP name also must be supplied.
+- **--subnet**: ID or Name of the subnet. This name is only required if the supplied reserved IP is in name format.
 - **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved ip configuration in JSON or JSON file.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3498,13 +3628,14 @@ Create endpoint gateway with binding existing reserved IPs.
 Update an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY --name NEW_NAME [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-endpoint-gateway-update}
 
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the endpoint gateway.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3517,14 +3648,16 @@ ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY --name NEW_NAME [--output J
 Bind a reserved IP to an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY --reserved-ip-id RESERVED_IP_ID [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY (--rip RIP [--subnet SUBNET]) [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-endpoint-gateway-reserved-ip-bind}
 
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
-- **--reserved-ip-id**: ID of the reserved IP address to be unbound.
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
+- **--rip**: ID or Name of the reserved IP address to be unbound.
+- **--subnet**: ID or Name of the subnet, this name is only required if the supplied reserved IP is in name format.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3536,15 +3669,17 @@ ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY --reserved-ip-id 
 Unbind a reserved IP to an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY (--reserved-ip-id RESERVED_IP_ID | --address ADDRESS) [-f, --force] [-q, --quiet]
+ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY ((--rip RIP [--subnet SUBNET]) | --address ADDRESS) [--vpc VPC] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-endpoint-gateway-reserved-ip-unbind}
 
-- **ENDPOINT_GATEWAY**: ID of the endpoint gateway.
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--address**: The reserved IP address to be unbound.
-- **--reserved-ip-id**: ID of the reserved IP address to be unbound.
+- **--rip**: ID or Name of the reserved IP address to be unbound.
+- **--subnet**: ID or Name of the subnet. This name is only required if the supplied reserved IP is in name format.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3556,14 +3691,15 @@ ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY (--reserved-ip-
 Delete endpoint gateways.
 
 ```
-ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-endpoint-gateway-delete}
 
-- **ENDPOINT_GATEWAY1**: ID of the endpoint gateway.
-- **ENDPOINT_GATEWAY2**: ID of the endpoint gateway.
+- **ENDPOINT_GATEWAY1**: ID or name of the endpoint gateway.
+- **ENDPOINT_GATEWAY2**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. This name is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -3573,7 +3709,7 @@ ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [-
 ## Virtual private network (VPN) gateways
 {: #vpn-clis}
 
-This section gives details about the CLI commands that are available for working with VPN gateways, including IKE and IPsec policies.
+The following section gives details about the CLI commands that are available for working with VPN gateways, including IKE and IPsec policies.
 
 
 ### ibmcloud is ike-policies
@@ -4263,7 +4399,7 @@ ibmcloud is vpn-server-create --subnets SUBNETS --client-ip-pool CLIENT_IP_POOL 
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
 - **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
-- **--client-dns**: Comma-separated of DNS server addresses that will be provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
+- **--client-dns**: Comma-separated of DNS server addresses that is provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
 - **--client-idle-timeout**: The seconds a VPN client can be idle before this VPN server will disconnect it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
 - **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
 - **--port**: The port number to use for this VPN server. (default: **443**).
@@ -4302,7 +4438,7 @@ ibmcloud is vpn-server-update VPN_SERVER_ID [--client-ip-pool CLIENT_IP_POOL] [-
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
 - **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
-- **--client-dns**: Comma-separated of DNS server addresses that will be provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
+- **--client-dns**: Comma-separated of DNS server addresses that is provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
 - **--client-idle-timeout**: The seconds a VPN client can be idle before this VPN server will disconnect it. Specify 0 to prevent the server from disconnecting idle clients.
 - **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
 - **--port**: The port number to use for this VPN server.
@@ -4491,7 +4627,7 @@ ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR
 
 - **VPN_SERVER_ID**: ID of the VPN server.
 - **--action**: The action to perform with a packet that matches the route. One of: **translate**, **deliver**, **drop**. (default: **deliver**).
-- **--destination**: The destination to use for this VPN route in the VPN server. Must be unique within the VPN server. If an incoming packet does not match any destination, it will be dropped.
+- **--destination**: The destination to use for this VPN route in the VPN server. Must be unique within the VPN server. If an incoming packet does not match any destination, the packet is dropped.
 - **--name**: Name of the VPN route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4599,7 +4735,7 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-image}
 
-- **IMAGE**: ID of the image.
+- **IMAGE**: ID or name of the image.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4655,10 +4791,10 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - **--os-name**: Name of the operating system for this image.
 - **--encrypted-data-key**: A base64-encoded, encrypted representation of the key that was used to encrypt the data for this image.
 - **--encryption-key**: The CRN of the root key that was used to wrap the data key (which is ultimately represented as **encrypted_data_key**). Additionally, the root key is used to encrypt volumes created from this image (unless an alternate **encryption_key** is provided at volume creation).
-- **--source-volume**: The volume from which to create the image. The specified volume must originate from image. The volume's active and busy property value must be **false**, and the volume attached instance must be in stopped status.
-- **--encryption-key-volume**: A reference to the root key to be used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--source-volume**: ID or name of the volume. The volume from which to create the image. The specified volume must originate from image. The volume's active and busy property value must be **false**, and the volume attached instance must be in stopped status.
+- **--encryption-key-volume**: A reference to the root key to that is used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4681,7 +4817,7 @@ ibmcloud is image-update IMAGE --name NEW_NAME [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-image-update}
 
-- **IMAGE**: ID of the image.
+- **IMAGE**: ID or name of the image.
 - **--name**: New name of the image.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4700,8 +4836,8 @@ ibmcloud is image-delete (IMAGE1 IMAGE2 ...) [--output JSON] [-f, --force] [-q, 
 #### Command options
 {: #command-options-image-delete}
 
-- **IMAGE1**: ID of the image.
-- **IMAGE2**: ID of the image.
+- **IMAGE1**: ID or name of the image.
+- **IMAGE2**: ID or name of the image.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -4837,12 +4973,12 @@ Create instance with volume attachment from volume snapshot.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID of the subnet.
 - **--image-id**: ID of the image.
-- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value esults in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
-- **--dedicated-host**: The host destination where the instance will be placed.
-- **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--dedicated-host**: The host destination where the instance are placed.
+- **--dedicated-host-group**: The host group destination where the instance are placed.
 - **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
@@ -4850,8 +4986,8 @@ Create instance with volume attachment from volume snapshot.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**: Supply the parameters under interactive mode. This option is mutually exclusive with all other arguments and options.
 - **-q, --quiet**: Suppress verbose output.
@@ -4898,12 +5034,12 @@ Create instance from instance template with the wanted dedicated host group
 - **--zone**: Name of the zone.
 - **--vpc-id**: ID of the VPC.
 - **--image-id**: ID of the image.
-- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
+- **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
-- **--dedicated-host**: The host destination where the instance will be placed.
-- **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--dedicated-host**: The host destination where the instance is placed.
+- **--dedicated-host-group**: The host group destination where the instance is placed.
 - **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
@@ -4912,8 +5048,8 @@ Create instance from instance template with the wanted dedicated host group
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5373,7 +5509,7 @@ ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PRO
 
 - **NAME**: Name of the volume attachment.
 - **INSTANCE**: ID of the instance.
-- **VOLUME**: ID of the volume.
+- **VOLUME**: ID or Name of the volume.
 - **--new-volume-name**: The name of new volume.
 - **--profile**: Name of the profile.
 - **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
@@ -5450,7 +5586,7 @@ ibmcloud is key KEY [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-key}
 
-- **KEY**: ID of the key.
+- **KEY**: ID or name of the key.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5475,7 +5611,7 @@ ibmcloud is key-create KEY_NAME (KEY | @KEY_FILE) [--resource-group-id RESOURCE_
 #### Command options
 {: #command-options-key-create}
 
-- **KEY_NAME**: Name of the key.
+- **KEY_NAME**: ID or name of the key.
 - **KEY**: **key**|**@key-file**. The public SSH key to import into the system.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
@@ -5496,8 +5632,8 @@ ibmcloud is key-delete (KEY1 KEY2 ...) [--output JSON] [-f, --force] [-q, --quie
 #### Command options
 {: #command-options-key-delete}
 
-- **KEY1**: ID of the key.
-- **KEY2**: ID of the key.
+- **KEY1**: ID or name of the key.
+- **KEY2**: ID or name of the key.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -5522,7 +5658,7 @@ ibmcloud is key-update KEY --name NEW_NAME [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-key-update}
 
-- **KEY**: ID of the key.
+- **KEY**: ID or name of the key.
 - **--name**: New name for the key.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -5619,7 +5755,7 @@ ibmcloud is dedicated-host-group HOST_GROUP [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-dedicated-host-group}
 
-- **HOST_GROUP**: ID of the host group.
+- **HOST_GROUP**: ID or name of the host group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5672,7 +5808,7 @@ ibmcloud is dedicated-host-group-update HOST_GROUP --name NEW_NAME [--output JSO
 #### Command options
 {: #command-options-dedicated-host-group-update}
 
-- **HOST_GROUP**: ID of the host group.
+- **HOST_GROUP**: ID or name of the host group.
 - **--name**: New name of the host group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -5691,8 +5827,8 @@ ibmcloud is dedicated-host-group-delete (HOST_GROUP1 HOST_GROUP2 ...) [--output 
 #### Command options
 {: #command-options-dedicated-host-group-delete}
 
-- **HOST_GROUP1**: ID of the host group.
-- **HOST_GROUP2**: ID of the host group.
+- **HOST_GROUP1**: ID or name of the host group.
+- **HOST_GROUP2**: ID or name of the host group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -5731,7 +5867,7 @@ ibmcloud is dedicated-host HOST [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-dedicated-host}
 
-- **HOST**: ID of the host.
+- **HOST**: ID or name of the host.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5743,21 +5879,21 @@ ibmcloud is dedicated-host HOST [--output JSON] [-q, --quiet]
 Create a host.
 
 ```
-ibmcloud is dedicated-host-create --profile PROFILE --host-group-id HOST_GROUP_ID [--enabled true | false] [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is dedicated-host-create --profile PROFILE --dhg DHG [--enabled true | false] [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-dedicated-host-create}
 
-- `ibmcloud is dedicated-host-create --profile dh2-56x344 --host-group-id 74213016-f179-4055-b161-46fd42a9d98a --name my-host`
-- `ibmcloud is dedicated-host-create --profile dh2-56x344 --host-group-id 74213016-f179-4055-b161-46fd42a9d98a --name my-host --enabled false`
-- `ibmcloud is dedicated-host-create --profile dh2-56x344 --host-group-id 74213016-f179-4055-b161-46fd42a9d98a --name my-host --output JSON`
+- `ibmcloud is dedicated-host-create --profile dh2-56x344 --dhg 74213016-f179-4055-b161-46fd42a9d98a --name my-host`
+- `ibmcloud is dedicated-host-create --profile dh2-56x344 --dhg 74213016-f179-4055-b161-46fd42a9d98a --name my-host --enabled false`
+- `ibmcloud is dedicated-host-create --profile dh2-56x344 --dhg 74213016-f179-4055-b161-46fd42a9d98a --name my-host --output JSON`
 
 #### Command options
 {: #command-options-dedicated-host-create}
 
 - **--profile**: Name of the host profile.
-- **--host-group-id**: ID of the host group.
+- **--dhg**: ID or name of the host group.
 - **--enabled**: Enable or disable the instance placement in the host. One of: **true**, **false**. (default: **true**).
 - **--name**: New name for the host.
 - **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
@@ -5785,7 +5921,7 @@ ibmcloud is dedicated-host-update HOST [--name NEW_NAME] [--enabled true | false
 #### Command options
 {: #command-options-dedicated-host-update}
 
-- **HOST**: ID of the host.
+- **HOST**: ID or name of the host.
 - **--name**: New name of the host.
 - **--enabled**: Enable or disable the instance placement in the host. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5805,8 +5941,8 @@ ibmcloud is dedicated-host-delete (HOST1 HOST2 ...) [--output JSON] [-f, --force
 #### Command options
 {: #command-options-dedicated-host-delete}
 
-- **HOST1**: ID of the host.
-- **HOST2**: ID of the host.
+- **HOST1**: ID or name of the host.
+- **HOST2**: ID or name of the host.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -5825,7 +5961,7 @@ ibmcloud is dedicated-host-disks HOST [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-dedicated-host-disks}
 
-- **HOST**: ID of the host.
+- **HOST**: ID or name of the host.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5843,8 +5979,8 @@ ibmcloud is dedicated-host-disk HOST DISK [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-dedicated-host-disk}
 
-- **HOST**: ID of the host.
-- **DISK**: ID of the dedicated host disk.
+- **HOST**: ID or name of the host.
+- **DISK**: ID or name of the dedicated host disk.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5862,8 +5998,8 @@ ibmcloud is dedicated-host-disk-update HOST DISK --name NEW_NAME [--output JSON]
 #### Command options
 {: #command-options-dedicated-host-disk-update}
 
-- **HOST**: ID of the host.
-- **DISK**: ID of the dedicated host disk.
+- **HOST**: ID or name of the host.
+- **DISK**: ID or name of the dedicated host disk.
 - **--name**: New name of the disk.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6411,7 +6547,7 @@ ibmcloud is placement-group PLACEMENT_GROUP [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-placement-group}
 
-- **PLACEMENT_GROUP**: ID of the placement group.
+- **PLACEMENT_GROUP**: ID or name of the placement group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6456,8 +6592,8 @@ ibmcloud is placement-group-delete (PLACEMENT_GROUP1 PLACEMENT_GROUP2 ...) [--ou
 #### Command options
 {: #command-options-placement-group-delete}
 
-- **PLACEMENT_GROUP1**: ID of the placement group.
-- **PLACEMENT_GROUP2**: ID of the placement group.
+- **PLACEMENT_GROUP1**: ID or name of the placement group.
+- **PLACEMENT_GROUP2**: ID or name of the placement group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -6482,7 +6618,7 @@ ibmcloud is placement-group-update PLACEMENT_GROUP --name NEW_NAME [--output JSO
 #### Command options
 {: #command-options-placement-group-update}
 
-- **PLACEMENT_GROUP**: ID of the placement group.
+- **PLACEMENT_GROUP**: ID or name of the placement group.
 - **--name**: New name of the placement group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6606,8 +6742,8 @@ Create instance template interactively.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
-- **--dedicated-host**: The host destination where the instance will be placed.
-- **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--dedicated-host**: The host destination where the instance is placed.
+- **--dedicated-host-group**: The host group destination where the instance is placed.
 - **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--security-group-ids**: Comma-separated security group IDs for primary network interface.
@@ -6653,8 +6789,8 @@ Create instance template by overriding a source template and providing overridin
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--key-ids**: Comma-separated IDs of SSH keys.
-- **--dedicated-host**: The host destination where the instance will be placed.
-- **--dedicated-host-group**: The host group destination where the instance will be placed.
+- **--dedicated-host**: The host destination where the instance is placed.
+- **--dedicated-host-group**: The host group destination where the instance is placed.
 - **--placement-group**: The placement group restrictions for the virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet-id**: ID of the subnet.
@@ -6663,8 +6799,8 @@ Create instance template by overriding a source template and providing overridin
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--resource-group-id**: ID of the resource group. This option is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This option is mutually exclusive with **--resource-group-id**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7052,9 +7188,9 @@ Create a recurring scheduled action with cron specification to update the instan
 
 - **INSTANCE_GROUP**: ID of the instance group.
 - **MANAGER**: ID of the manager.
-- **--run-at**: The date and time specified for the scheduled action. It should be in ISO 8601 format like **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--run-at**: The date and time specified for the scheduled action. It must be in ISO 8601 format like **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--cron**: The cron specification for a recurring scheduled action.
-- **--membership-count**: The number of members the instance group should have at the scheduled time.
+- **--membership-count**: The number of members that the instance group must have at the scheduled time.
 - **--max-members**: The maximum number of members in a managed instance group. Range 1-1000.
 - **--min-members**: The minimum number of members in a managed instance group. Range 1-1000.
 - **--name**: Name of the action.
@@ -7087,11 +7223,11 @@ ibmcloud is instance-group-manager-action-update INSTANCE_GROUP MANAGER ACTION (
 - **INSTANCE_GROUP**: ID of the instance group.
 - **MANAGER**: ID of the manager.
 - **ACTION**: ID of the action.
-- **--run-at**: The date and time specified for the scheduled action. It should be in ISO 8601 format like **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--run-at**: The date and time specified for the scheduled action. Date and time must be in ISO 8601 format like **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--cron**: The cron specification for a recurring scheduled action.
-- **--membership-count**: The number of members the instance group should have at the scheduled time.
-- **--min-members**: The minimum number of members the instance group should have at the scheduled time. Range 1-1000.
-- **--max-members**: The maximum number of members the instance group should have at the scheduled time. Range 1-1000.
+- **--membership-count**: The number of members that the instance group must have at the scheduled time.
+- **--min-members**: The minimum number of members that the instance group must have at the scheduled time. Range 1-1000.
+- **--max-members**: The maximum number of members that the instance group must have at the scheduled time. Range 1-1000.
 - **--name**: New name of the instance group manager action.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7462,10 +7598,16 @@ View details of a volume.
 ibmcloud is volume VOLUME [--output JSON] [-q, --quiet]
 ```
 
+#### Command examples
+{: #command-examples-volume}
+
+- `ibmcloud is volume my-volume`
+- `ibmcloud is volume 485080f6-86e8-4fd4-a940-fb0e5bc269e0`
+
 #### Command options
 {: #command-options-volume}
 
-- **VOLUME**: ID of the volume.
+- **VOLUME**: ID or Name of the volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7516,11 +7658,17 @@ Delete volumes.
 ibmcloud is volume-delete (VOLUME1 VOLUME2 ...) [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
+#### Command examples
+{: #command-examples-volume-delete}
+
+- `ibmcloud is volume-delete my-volume-3`
+- `ibmcloud is volume-delete 485080f6-86e8-4fd4-a940-fb0e5bc269e0`
+
 #### Command options
 {: #command-options-volume-delete}
 
-- **VOLUME1**: ID of the volume.
-- **VOLUME2**: ID of the volume.
+- **VOLUME1**: ID or Name of the volume.
+- **VOLUME2**: ID or Name of the volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -7576,13 +7724,15 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --name my-volume --output JSON`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --capacity 250 --output JSON`
+- `ibmcloud is volume-update my-volume-demo-1 --name my-volume --output JSON`
+- `ibmcloud is volume-update my-volume-demo-1 --capacity 250`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --profile 10iops-tier`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --iops 5000`
 
 #### Command options
 {: #command-options-volume-update}
 
-- **VOLUME**: ID of the volume.
+- **VOLUME**: ID or Name of the volume.
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
