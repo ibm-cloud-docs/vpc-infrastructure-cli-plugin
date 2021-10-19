@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-09-24"
+lastupdated: "2021-10-07"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2021-09-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v1.7.0
+{: #v1.7.0}
+
+Version 1.7.0 was released on 2021-10-07.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update load-balancer, vpc-routing-table-route-create, snapshots, vpn-gateway and vpn-server commands with "by name" support. These commands can now use an ID or name for the command option values.
+
+### Removed commands
+
+* N/A
 
 ## v1.6.0
 {: #v1.6.0}
