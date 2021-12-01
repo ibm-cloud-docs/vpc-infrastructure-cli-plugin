@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2021
-lastupdated: "2021-10-07"
+lastupdated: "2021-11-29"
 
 ---
 
@@ -21,6 +21,44 @@ lastupdated: "2021-10-07"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v2.1.0
+{: #v2.1.0}
+
+Version 2.1.0 was released on 2021-11-29.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `vpn-server-update` command to support VPN server upgrade and downgrade.
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Linux_S390x build support added.
+
+## v2.0.0
+{: #v2.0.0}
+
+Version 2.0.0 was released on 2021-11-18.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update instance commands with "by name" support. Instance commands include instance-initialization-values, instance-console, instance-create, instance-create-from-template, instance-delete, instance-disk, instance-disk-update, instance-disks, instance-network-interface, instance-network-interface-create, instance-network-interface-delete, instance-network-interface-floating-ip, instance-network-interface-floating-ip-add, instance-network-interface-floating-ip-remove, instance-network-interface-floating-ips, instance-network-interface-update, instance-network-interfaces, instance-reboot, instance-stop, instance-update, instance-volume-attachments, instance-volume-attachment, instance-volume-attachment-add, instance-volume-attachment-detach, instance-volume-attachment-update, instance-template, instance-template-create, instance-template-create-override-source-template, instance-template-update, instance-group, instance-group-create, instance-group-update, instance-group-delete, instance-group-load-balancer-delete, instance-group-managers, instance-group-manager-create, instance-group-manager-update, instance-group-manager-delete, instance-group-manager-actions, instance-group-manager-action-create, instance-group-manager-action-update, instance-group-manager-action-delete, instance-group-manager-policies, instance-group-manager-policy, instance-group-manager-policy-create, instance-group-manager-policy-update, instance-group-membership, instance-group-membership-delete, instance-group-membership-update, instance-group-memberships, instance-group-memberships-delete commands with "by name" support. Instance commands can now use an ID or name for the command option values.
+
+### Removed commands
+
+* N/A
 
 ## v1.7.0
 {: #v1.7.0}
