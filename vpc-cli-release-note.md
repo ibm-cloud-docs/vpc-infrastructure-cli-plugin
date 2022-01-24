@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2020, 2021
-lastupdated: "2021-11-29"
+  years: 2020, 2022
+lastupdated: "2022-01-24"
 
 ---
 
@@ -21,6 +21,27 @@ lastupdated: "2021-11-29"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v3.0.0
+{: #v3.0.0}
+
+Version 3.0.0 was released on 2022-01-19.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `security-group-target`, `security-group-target-add`, `security-group-target-remove`, and `endpoint-gateway-create` commands to add security group support for endpoint-gateway.
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Removed the support for creation of load balancer listener with port and protocol as arguments.
 
 ## v2.1.0
 {: #v2.1.0}
