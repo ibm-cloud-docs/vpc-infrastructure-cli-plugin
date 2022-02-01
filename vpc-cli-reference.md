@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-01-24"
+lastupdated: "2022-02-01"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -444,7 +444,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -452,6 +452,8 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https
 
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http`
 - `ibmcloud is load-balancer-listener-create my-lb --port 443 --protocol http`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp`
+Create a listener for the public network load balancer with port range.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --connection-limit 2000`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
@@ -466,6 +468,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --output JSON`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
 To create a load balancer listener when route mode is enabled in the load balancer
 
@@ -476,6 +479,8 @@ To create a load balancer listener when route mode is enabled in the load balanc
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
+- **--port-min**: The inclusive lower bound of the range of ports used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -807,7 +812,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -822,6 +827,8 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] 
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port-min 80 --port-max 85`
+The range of ports that are used by this listener.
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 303`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
@@ -834,6 +841,8 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] 
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
+- **--port-min**: The inclusive lower bound of the range of ports used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -1402,7 +1411,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1410,6 +1419,8 @@ ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https
 
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http`
 - `ibmcloud is load-balancer-listener-create my-lb --port 443 --protocol http`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp`
+Create a listener for the public network load balancer with port range.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol https --certificate-instance-crn crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --connection-limit 2000`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --default-pool 70294e14-4e61-11e8-bcf4-0242ac110004`
@@ -1424,6 +1435,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --output JSON`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
 To create a load balancer listener when route mode is enabled in the load balancer
 
@@ -1434,6 +1446,8 @@ To create a load balancer listener when route mode is enabled in the load balanc
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
+- **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -1475,7 +1489,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_I
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1490,6 +1504,8 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] 
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port 222`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --accept-proxy-protocol true`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --port-min 80 --port-max 85`
+The range of ports that are used by this listener.
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 303`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
@@ -1502,6 +1518,8 @@ ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] 
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
+- **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -2865,7 +2883,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 {: #command-options-security-group-target}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. Supported target resource types are: network_interface,load_balancer,endpoint_gateway.
+- **TARGET**: ID or name of the bound target resource for security group. The following command options are supported by target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -2898,7 +2916,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 {: #command-options-security-group-target-add}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. Supported target resource types are: network_interface,load_balancer,endpoint_gateway.
+- **TARGET**: ID or name of the bound target resource for security group. The following command options are supported by target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -2931,8 +2949,8 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 {: #command-options-security-group-target-remove}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resouces under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following are supported target resource types: _network_interface_,_load_balancer_, _endpoint_gateway_.
-- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resouces under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following are supported target resource types: _network_interface_,_load_balancer_, _endpoint_gateway_.
+- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
+- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -3202,7 +3220,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--auto-d
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
-- **--target**: The target ID or name of the reserved IP. Supported target resource types: endpoint_gateway.
+- **--target**: The target ID or name of the reserved IP. The following command options are supported by target resource types: _endpoint_gateway_.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4927,7 +4945,7 @@ ibmcloud is images [--visibility all | public | private] [--owner-type all | pro
 Create an image.
 
 ```
-ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--required-image-flag REQUIRED_IMAGE_FLAG1 --required-image-flag REQUIRED_IMAGE_FLAG2 ...] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5075,7 +5093,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 {: #command-options-instance-console}
 
 - **INSTANCE**: ID or name of the instance.
-- **--vnc**: Get the WebSocket URI for the VNC console and open the {{site.data.keyword.cloud_notm}} web VNC console in the browser for the instance.
+- **--vnc**: Get the WebSocket URI for the VNC console and open the IBM Cloud web VNC console in the browser for the instance.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -6200,13 +6218,13 @@ ibmcloud is dedicated-host-disk-update HOST DISK --name NEW_NAME [--output JSON]
 
 ---
 
-## Bare metal servers (Beta)
+## Bare metal servers
 {: #bare-metal-servers}
 
 ### ibmcloud is bare-metal-server
 {: #bare-metal-server}
 
-[Beta] View details of a bare metal server.
+View details of a bare metal server.
 
 ```
 ibmcloud is bare-metal-server SERVER [--output JSON] [-q, --quiet]
@@ -6224,7 +6242,7 @@ ibmcloud is bare-metal-server SERVER [--output JSON] [-q, --quiet]
 ### ibmcloud is bare-metal-server-console
 {: #bare-metal-server-console}
 
-[Beta] Open an interactive console to the bare metal server. This command opens an interactive serial console by default.
+Open an interactive console to the bare metal server. By default, this command opens an interactive serial console.
 
 ```
 ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
@@ -6242,7 +6260,7 @@ ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
 ### ibmcloud is bare-metal-server-create
 {: #bare-metal-server-create}
 
-[Beta] Create a bare metal server.
+Create a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS ((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-ip IPV4_ADDRESS] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true]) [--name NAME] [--user-data DATA] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
@@ -6280,7 +6298,7 @@ Create a bare metal server with a PCI secondary network interface and a VLAN sec
 - **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface.
 - **--pnic-ein**: Enable infrastructure NAT. If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the VM associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--pnic-ais**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
-- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc-beta#create-bare-metal-server**.
+- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. <!--For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc-beta#create-bare-metal-server**.--> <!--temporaily commented out because need new link and it's not available yet-->
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--interactive, -i**: 
@@ -6292,7 +6310,7 @@ Create a bare metal server with a PCI secondary network interface and a VLAN sec
 ### ibmcloud is bare-metal-server-delete
 {: #bare-metal-server-delete}
 
-[Beta] Delete bare metal servers.
+Delete a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-delete (SERVER1 SERVER2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6312,7 +6330,7 @@ ibmcloud is bare-metal-server-delete (SERVER1 SERVER2 ...) [--output JSON] [-f, 
 ### ibmcloud is bare-metal-server-disk
 {: #bare-metal-server-disk}
 
-[Beta] View details of a bare metal server disk.
+View details of a bare metal server disk.
 
 ```
 ibmcloud is bare-metal-server-disk SERVER SERVER_DISK [--output JSON] [-q, --quiet]
@@ -6331,7 +6349,7 @@ ibmcloud is bare-metal-server-disk SERVER SERVER_DISK [--output JSON] [-q, --qui
 ### ibmcloud is bare-metal-server-disk-update
 {: #bare-metal-server-disk-update}
 
-[Beta] Update a bare metal server disk.
+Update a bare metal server disk.
 
 ```
 ibmcloud is bare-metal-server-disk-update SERVER SERVER_DISK --name NEW_NAME [--output JSON] [-q, --quiet]
@@ -6351,7 +6369,7 @@ ibmcloud is bare-metal-server-disk-update SERVER SERVER_DISK --name NEW_NAME [--
 ### ibmcloud is bare-metal-server-disks
 {: #bare-metal-server-disks}
 
-[Beta] List all disks of a bare metal server.
+List all disks of a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-disks SERVER [--output JSON] [-q, --quiet]
@@ -6369,7 +6387,7 @@ ibmcloud is bare-metal-server-disks SERVER [--output JSON] [-q, --quiet]
 ### ibmcloud is bare-metal-server-initialization-values
 {: #bare-metal-server-initialization-values}
 
-[Beta] Retrieve configuration variables that are used to initialize the bare metal server.
+Retrieve configuration variables that are used to initialize the bare metal server.
 
 ```
 ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY | @KEY_FILE)] [--output JSON] [-q, --quiet]
@@ -6388,7 +6406,7 @@ ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY |
 ### ibmcloud is bare-metal-server-network-interface
 {: #bare-metal-server-network-interface}
 
-[Beta] View details of a network interface of a bare metal server.
+View details of a network interface of a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-network-interface SERVER NIC [--output JSON] [-q, --quiet]
@@ -6407,7 +6425,7 @@ ibmcloud is bare-metal-server-network-interface SERVER NIC [--output JSON] [-q, 
 ### ibmcloud is bare-metal-server-network-interface-create
 {: #bare-metal-server-network-interface-create}
 
-[Beta] Create a network interface for a bare metal server.
+Create a network interface for a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-network-interface-create SERVER --subnet SUBNET [--name NAME] [--interface-type pci | vlan] [[--ip IPV4_ADDRESS]] [--security-groups SECURITY_GROUPS] [--vpc VPC] [--allowed-vlans ALLOWED_VLANS | --vlan VLAN --allow-interface-to-float false | true] [--allow-ip-spoofing false | true] [--enable-infrastructure-nat true | false] [--output JSON] [-q, --quiet]
@@ -6456,7 +6474,7 @@ Create a PCI network interface and specify JSON as the output format.
 ### ibmcloud is bare-metal-server-network-interface-delete
 {: #bare-metal-server-network-interface-delete}
 
-[Beta] Remove network interfaces from a bare metal server.
+Remove network interfaces from a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-network-interface-delete SERVER (NIC1 NIC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6477,7 +6495,7 @@ ibmcloud is bare-metal-server-network-interface-delete SERVER (NIC1 NIC2 ...) [-
 ### ibmcloud is bare-metal-server-network-interface-floating-ip
 {: #bare-metal-server-network-interface-floating-ip}
 
-[Beta] View details of a floating IP that is associated with a network interface.
+View details of a floating IP that is associated with a network interface.
 
 ```
 ibmcloud is bare-metal-server-network-interface-floating-ip SERVER NIC FLOATING_IP [--output JSON] [-q, --quiet]
@@ -6497,7 +6515,7 @@ ibmcloud is bare-metal-server-network-interface-floating-ip SERVER NIC FLOATING_
 ### ibmcloud is bare-metal-server-network-interface-floating-ip-add
 {: #bare-metal-server-network-interface-floating-ip-add}
 
-[Beta] Associate a floating IP with a network interface.
+Associate a floating IP with a network interface.
 
 ```
 ibmcloud is bare-metal-server-network-interface-floating-ip-add SERVER NIC FLOATING_IP [--output JSON] [-q, --quiet]
@@ -6524,7 +6542,7 @@ Associate a floating IP with a network interface on a bare metal server and spec
 ### ibmcloud is bare-metal-server-network-interface-floating-ip-remove
 {: #bare-metal-server-network-interface-floating-ip-remove}
 
-[Beta] Disassociate a floating IP from a network interface.
+Disassociate a floating IP from a network interface.
 
 ```
 ibmcloud is bare-metal-server-network-interface-floating-ip-remove SERVER NIC FLOATING_IP [-f, --force] [-q, --quiet]
@@ -6544,7 +6562,7 @@ ibmcloud is bare-metal-server-network-interface-floating-ip-remove SERVER NIC FL
 ### ibmcloud is bare-metal-server-network-interface-floating-ips
 {: #bare-metal-server-network-interface-floating-ips}
 
-[Beta] List all floating IPs that are associated with a network interface.
+List all floating IPs that are associated with a network interface.
 
 ```
 ibmcloud is bare-metal-server-network-interface-floating-ips SERVER NIC [--output JSON] [-q, --quiet]
@@ -6563,7 +6581,7 @@ ibmcloud is bare-metal-server-network-interface-floating-ips SERVER NIC [--outpu
 ### ibmcloud is bare-metal-server-network-interface-update
 {: #bare-metal-server-network-interface-update}
 
-[Beta] Update a network interface of a bare metal server.
+Update a network interface of a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAME [--allow-ip-spoofing false | true] [--enable-infrastructure-nat true | false] [--allowed-vlans ALLOWED_VLANS] [--output JSON] [-q, --quiet]
@@ -6594,7 +6612,7 @@ ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAM
 ### ibmcloud is bare-metal-server-network-interfaces
 {: #bare-metal-server-network-interfaces}
 
-[Beta] List all network interfaces of a bare metal server.
+List all network interfaces of a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-network-interfaces SERVER [--output JSON] [-q, --quiet]
@@ -6612,7 +6630,7 @@ ibmcloud is bare-metal-server-network-interfaces SERVER [--output JSON] [-q, --q
 ### ibmcloud is bare-metal-server-profile
 {: #bare-metal-server-profile}
 
-[Beta] View details of a bare metal server profile.
+View details of a bare metal server profile.
 
 ```
 ibmcloud is bare-metal-server-profile PROFILE_NAME [--output JSON] [-q, --quiet]
@@ -6630,7 +6648,7 @@ ibmcloud is bare-metal-server-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 ### ibmcloud is bare-metal-server-profiles
 {: #bare-metal-server-profiles}
 
-[Beta] List all bare metal server profiles in the region.
+List all bare metal server profiles in the region.
 
 ```
 ibmcloud is bare-metal-server-profiles [--output JSON] [-q, --quiet]
@@ -6647,7 +6665,7 @@ ibmcloud is bare-metal-server-profiles [--output JSON] [-q, --quiet]
 ### ibmcloud is bare-metal-server-restart
 {: #bare-metal-server-restart}
 
-[Beta] Restart a bare metal server.
+Restart a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-restart SERVER [-f, --force] [-q, --quiet]
@@ -6665,7 +6683,7 @@ ibmcloud is bare-metal-server-restart SERVER [-f, --force] [-q, --quiet]
 ### ibmcloud is bare-metal-server-start
 {: #bare-metal-server-start}
 
-[Beta] Start a bare metal server.
+Start a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-start SERVER [-q, --quiet]
@@ -6682,7 +6700,7 @@ ibmcloud is bare-metal-server-start SERVER [-q, --quiet]
 ### ibmcloud is bare-metal-server-stop
 {: #bare-metal-server-stop}
 
-[Beta] Stop a bare metal server.
+Stop a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-stop SERVER [--type soft | hard] [-f, --force] [-q, --quiet]
@@ -6701,7 +6719,7 @@ ibmcloud is bare-metal-server-stop SERVER [--type soft | hard] [-f, --force] [-q
 ### ibmcloud is bare-metal-server-update
 {: #bare-metal-server-update}
 
-[Beta] Update a bare metal server.
+Update a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-update SERVER --name NEW_NAME [--output JSON] [-q, --quiet]
@@ -6726,7 +6744,7 @@ ibmcloud is bare-metal-server-update SERVER --name NEW_NAME [--output JSON] [-q,
 ### ibmcloud is bare-metal-servers
 {: #bare-metal-servers}
 
-[Beta] List all bare metal servers.
+List all bare metal servers.
 
 ```
 ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
