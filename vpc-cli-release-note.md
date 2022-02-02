@@ -22,6 +22,23 @@ lastupdated: "2022-01-24"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v3.1.0
+{: #v3.1.0}
+
+Version 3.1.0 was released on 2022-01-28.
+
+### New commands
+
+* Add bare metal server commands `bare-metal-server`, `bare-metal-server-console`, `bare-metal-server-create`, `bare-metal-server-delete`, `bare-metal-server-disk`, `bare-metal-server-disk-update`, `bare-metal-server-disks`, `bare-metal-server-initialization-values`, `bare-metal-server-network-interface`, `bare-metal-server-network-interface-create`, `bare-metal-server-network-interface-delete`, `bare-metal-server-network-interface-floating-ip`, `bare-metal-server-network-interface-floating-ip-add`, `bare-metal-server-network-interface-floating-ip-remove`, `bare-metal-server-network-interface-floating-ips`, `bare-metal-server-network-interface-update`, `bare-metal-server-network-interfaces`, `bare-metal-server-profile`, `bare-metal-server-profiles`, `bare-metal-server-restart`, `bare-metal-server-start`, `bare-metal-server-stop`, `bare-metal-server-update` and `bare-metal-servers`. 
+
+### Updated commands
+
+* Update `load-balancer-listener-create` and `load-balancer-listener-update` commands for public network load balancer listener port range support.
+
+### Removed commands
+
+* N/A
+
 ## v3.0.0
 {: #v3.0.0}
 
