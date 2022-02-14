@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-02-01"
+lastupdated: "2022-02-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -388,7 +388,7 @@ Create a load balancer with route mode enabled
 - **--vpc**: ID or name of the VPC. This ID or name is only required to specify the unique subnet by name inside this VPC.
 - **--family**: The load balancer family type. One of: **application**, **network**.
 - **--route-mode**: Enable or disable route mode for the load balancer. If unspecified, route mode is disabled. Currently, route mode can be enabled for only private network load balancer. One of: **false**, **true**.
-- **--sg**: Comma-separated security group IDs or names for the load balancer.
+- **--sg**: Comma-separated security group IDs or names for the load balancer. If unspecified, the VPC's default security group is used.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -444,7 +444,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -479,8 +479,8 @@ To create a load balancer listener when route mode is enabled in the load balanc
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
-- **--port-min**: The inclusive lower bound of the range of ports used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
-- **--port-max**: The inclusive higher bound of the range of ports used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -812,7 +812,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -841,8 +841,8 @@ The range of ports that are used by this listener.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
-- **--port-min**: The inclusive lower bound of the range of ports used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
-- **--port-max**: The inclusive higher bound of the range of ports used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -1009,7 +1009,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
-- **PORT**: The port number of the application that is running in the server member.
+- **PORT**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **TARGET**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
@@ -1046,7 +1046,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--target-address**: The IP address of the pool member.
 - **--target**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
-- **--port**: The port number of the application that is running in the server member and is also used for health checks unless the port property of _health_monitor_ property is specified.
+- **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of `health_monitor` property is specified.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1307,7 +1307,7 @@ Create a load balancer with route mode enabled
 - **--vpc**: ID or name of the VPC. This ID or name is only required to specify the unique subnet by name inside this VPC.
 - **--family**: The load balancer family type. One of: **application**, **network**.
 - **--route-mode**: Enable or disable route mode for the load balancer. If unspecified, route mode is disabled. Currently, route mode can be enabled for only private network load balancer. One of: **false**, **true**.
-- **--sg**: Comma-separated security group IDs or names for the load balancer.
+- **--sg**: Comma-separated security group IDs or names for the load balancer. If unspecified, the VPC's default security group is used.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -1411,7 +1411,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1447,7 +1447,7 @@ To create a load balancer listener when route mode is enabled in the load balanc
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
-- **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -1489,7 +1489,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_I
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN [--port-max PORT_MAX]] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1519,7 +1519,7 @@ The range of ports that are used by this listener.
 - **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
-- **--port-max**: The inclusive higher bound of the range of ports used by this listener. Must not be less than _port_min_. If unspecified, the value of _port_min_ is used. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
@@ -1752,7 +1752,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
-- **PORT**: The port number of the application that is running in the server member.
+- **PORT**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified
 - **TARGET**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
@@ -1789,7 +1789,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--target-address**: The IP address of the pool member.
 - **--target**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
-- **--port**: The port number of the application that is running in the server member and is also used for health checks unless the port property of _health_monitor_ property is specified.
+- **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2883,7 +2883,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 {: #command-options-security-group-target}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following command options are supported by target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
+- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -2916,7 +2916,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 {: #command-options-security-group-target-add}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following command options are supported by target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
+- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -2932,7 +2932,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 Remove targets from a security group.
 
 ```
-ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer | endpoint_gateway) | --in INSTANCE] [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer | endpoint_gateway) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2942,7 +2942,7 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 - `ibmcloud is security-group-target-remove my-sg my-lb --trt load_balancer --vpc my-vpc`
 - `ibmcloud is security-group-target-remove my-sg eth0 --in my-instnace --vpc my-vpc`
 - `ibmcloud is security-group-target-remove my-sg eth0 --in my-instnace`
-- `ibmcloud is security-group-target-remove my-sg eth0 --in my-bm --vpc my-vpc`
+- `ibmcloud is security-group-target-remove my-sg eth0 --bm my-bm --vpc my-vpc`
 - `ibmcloud is security-group-target-remove my-sg my-egw --trt endpoint-gateway`
 
 #### Command options
@@ -2954,6 +2954,7 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2968,6 +2969,12 @@ List all targets of a security group.
 ```
 ibmcloud is security-group-targets GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-security-group-targets}
+
+- `ibmcloud is sg-ts 821ce0fe-e87b-4fa7-9083-7c0d86bef357`
+- `ibmcloud is sg-ts sg-qui-us-east`
 
 #### Command options
 {: #command-options-security-group-targets}
@@ -3220,7 +3227,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--auto-d
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
-- **--target**: The target ID or name of the reserved IP. The following command options are supported by target resource types: _endpoint_gateway_.
+- **--target**: The target ID or name of the reserved IP. The following are supported target resource types: _endpoint_gateway_.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5117,6 +5124,8 @@ Create instance with volume attachment.
 Create instance with existing volume in volume attachment.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 Create instance with multiple SSH keys.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
+Create instance from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance with encrypted boot volume.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
@@ -5147,6 +5156,8 @@ Create instance with primary network interface configuration by using resource n
 Create instance that is attached to secondary network interface by using resource name.
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
+- `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
+Create instance from snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
 Create instance with boot volume attachment from volume snapshot.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "my-snapshot-name"}}}]'`
@@ -6298,7 +6309,7 @@ Create a bare metal server with a PCI secondary network interface and a VLAN sec
 - **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface.
 - **--pnic-ein**: Enable infrastructure NAT. If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the VM associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--pnic-ais**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
-- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. <!--For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc-beta#create-bare-metal-server**.--> <!--temporaily commented out because need new link and it's not available yet-->
+- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-bare-metal-server**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--interactive, -i**: 
@@ -6939,6 +6950,8 @@ Create instance template with volume attachment.
 Create instance template with existing volume in volume attachment.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 Create instance template with multiple SSH keys.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
+Create instance template from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance template with encrypted boot volume.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
@@ -7999,7 +8012,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 
 - **VOLUME**: ID or Name of the volume.
 - **--name**: New name of the volume.
-- **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. It is applicable only for attached data volume (not boot volume). Size can be only increased, not decreased.
+- **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
 - **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom. The volume must be attached as data volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
