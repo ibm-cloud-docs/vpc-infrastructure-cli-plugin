@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-01-24"
+lastupdated: "2022-02-14"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2022-01-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v3.2.0
+{: #v3.2.0}
+
+Version 3.2.0 was released on 2022-02-11.
+
+### New commands
+
+* N/A. 
+
+### Updated commands
+
+* Update `instance-create`, `instance-update` and `volume-update` commands to support resize boot volume.
+
+### Removed commands
+
+* N/A
 
 ## v3.1.0
 {: #v3.1.0}
