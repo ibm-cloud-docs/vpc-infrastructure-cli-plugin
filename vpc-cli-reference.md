@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-02-14"
+lastupdated: "2022-02-21"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -470,7 +470,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
-To create a load balancer listener when route mode is enabled in the load balancer
+To create a load balancer listener when route mode is enabled in the load balancer.
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
@@ -933,7 +933,7 @@ Create network load balancer pool with members and supply the member target by n
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
+- **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
@@ -1046,7 +1046,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--target-address**: The IP address of the pool member.
 - **--target**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
-- **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of `health_monitor` property is specified.
+- **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1130,7 +1130,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
-- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
+- **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
@@ -1437,7 +1437,7 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port 443 --protocol http --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
-To create a load balancer listener when route mode is enabled in the load balancer
+To create a load balancer listener when route mode is enabled in the load balancer.
 
 #### Command options
 {: #command-options-network-load-balancer-listener-create}
@@ -1610,7 +1610,7 @@ Create network load balancer pool with members and supply the member target by n
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **HEALTH_TYPE**.
+- **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
@@ -1677,7 +1677,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
-- **--health-monitor-url**: The health check URL. This option is applicable only to HTTP type of **--health-type**.
+- **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
@@ -1752,7 +1752,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
-- **PORT**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified
+- **PORT**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **TARGET**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
@@ -2887,7 +2887,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
-- **--bm**: The ID or name of the bare metal server to be bound, this is only required while using the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2920,7 +2920,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
-- **--bm**: The ID or name of the bare metal server to be bound, this is only required while using the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5111,7 +5111,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5124,9 +5124,9 @@ Create instance with volume attachment.
 Create instance with existing volume in volume attachment.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 Create instance with multiple SSH keys.
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
 Create instance from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance with encrypted boot volume.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create instance that is attached to secondary network interface.
@@ -5142,6 +5142,8 @@ Create instance to be placed in the wanted dedicated host group.
 Create instance to be placed in the wanted placement group.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
 Create instance with specific total volumes bandwidth
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --host-failure-policy restart`
+Create instance with availability policy on host failure
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --volume-attach '[{"volume": {"name":"my-vol-1"}}]'`
 Create instance with existing volume in volume attachment by using resource name.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 mx2-2x16 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host my-dedicated-host`
@@ -5189,6 +5191,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5203,7 +5206,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--ipv4 IPV4_ADDRESS] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--ipv4 IPV4_ADDRESS] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5211,7 +5214,7 @@ ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--p
 
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d`
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --resource-group-id 7494aacb866142fba11a88d75cb37bd8 --output JSON`
-- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --boot-volume '{"delete_volume_on_instance_delete": false, "name": "my-volume-attachment", "volume": {"name": "myvol2", "profile": {"name": "general-purpose"}}}'`
+- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --boot-volume '{"delete_volume_on_instance_delete": false, "name": "boot-vol-attachment-name", "volume": {"name": "myvol2", "profile": {"name": "general-purpose"}}}'`
 Create instance from instance template with the boot volume configuration
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --ipv4 10.240.129.10 --sgs r006-19c2ce0d-d35d-47bc-8147-120edddd3de5 --allow-ip-spoofing true`
 Create instance from instance template with the primary network interface configuration
@@ -5261,6 +5264,7 @@ Create instance from instance template with primary network interface configurat
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5646,7 +5650,7 @@ ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q
 Update a virtual server instance.
 
 ```
-ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--output JSON] [-q, --quiet]
+ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--host-failure-policy restart | stop] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5664,6 +5668,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--name**: New name of the virtual server instance.
 - **--profile**: The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Match the current profile's instance disk support. (**Note:** If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
+- **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6321,7 +6326,7 @@ Create a bare metal server with a PCI secondary network interface and a VLAN sec
 ### ibmcloud is bare-metal-server-delete
 {: #bare-metal-server-delete}
 
-Delete a bare metal server.
+Delete one or more bare metal servers.
 
 ```
 ibmcloud is bare-metal-server-delete (SERVER1 SERVER2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6937,7 +6942,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image IMAGE [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image IMAGE [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--ipv4 IPV4_ADDRESS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6950,9 +6955,9 @@ Create instance template with volume attachment.
 Create instance template with existing volume in volume attachment.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 Create instance template with multiple SSH keys.
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
 Create instance template from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance template with encrypted boot volume.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create instance template that is attached to secondary network interface.
@@ -6968,6 +6973,8 @@ Create instance template to be placed in the wanted dedicated host group.
 Create instance template to be placed in the wanted placement group.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
 Create instance template with specific total volumes bandwidth
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --host-failure-policy restart`
+Create instance template with availability policy on host failure
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --volume-attach '[{"volume": {"name":"my-vol-1"}}]'`
 Create instance template with existing volume in volume attachment by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 mx2-2x16 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host my-dedicated-host`
@@ -7005,6 +7012,7 @@ Create instance template interactively.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -7019,7 +7027,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--ipv4 IPV4_ADDRESS] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--ipv4 IPV4_ADDRESS] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7057,6 +7065,7 @@ Create instance template by overriding a source template with primary network in
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
