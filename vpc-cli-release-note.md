@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-02-14"
+lastupdated: "2022-02-21"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2022-02-14"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v3.3.0
+{: #v3.3.0}
+
+Version 3.3.0 was released on 2022-02-17.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `instance-create`, `instance-update`, `instance-template-create`, `instance-template-create-override-source-template` and `instance-create-from-template`, commands to add support for vm-host-failure-policy.
+
+### Removed commands
+
+* N/A
 
 ## v3.2.0
 {: #v3.2.0}
