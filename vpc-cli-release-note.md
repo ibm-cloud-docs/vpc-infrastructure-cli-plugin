@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-02-21"
+lastupdated: "2022-02-25"
 
 ---
 
@@ -21,6 +21,25 @@ lastupdated: "2022-02-21"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v3.4.0
+{: #v3.4.0}
+
+Version 3.4.0 was released on 2022-02-24.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `instance-create`, `instance-update`, `instance-template-create`, `instance-template-create-override-source-template` and `instance-create-from-template` commands to support metadata service.
+
+* Update `instance-create` and `instance-create-from-template` commands to support trusted profile.
+
+### Removed commands
+
+* N/A
 
 ## v3.3.0
 {: #v3.3.0}
