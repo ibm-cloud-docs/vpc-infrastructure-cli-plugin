@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-02-25"
+lastupdated: "2022-03-25"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -444,7 +444,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp | udp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -471,13 +471,15 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
 To create a load balancer listener when route mode is enabled in the load balancer.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol udp --port 53`
+Create a load balancer listener with udp protocol.
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp and udp.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -812,7 +814,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -832,6 +834,7 @@ The range of ports that are used by this listener.
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 303`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol udp`
 
 #### Command options
 {: #command-options-load-balancer-listener-update}
@@ -839,7 +842,7 @@ The range of ports that are used by this listener.
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp and udp.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -920,6 +923,8 @@ Create network load balancer pool with members
 Create network load balancer pool with members and supply the member target by name.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
+- `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin udp 20 2 5 http`
+Create network load balancer pool for the network load balancer listener with udp protocol.
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -927,7 +932,7 @@ Create network load balancer pool with members and supply the member target by n
 - **POOL_NAME**: Name of the pool.
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **ALGORITHM**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**.
-- **PROTOCOL**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
+- **PROTOCOL**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
@@ -1102,7 +1107,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER POOL [--vpc VPC] [--output 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1132,7 +1137,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
-- **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
+- **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Proxy protocol is supported only for application load balancers. One of: **disabled**, **v1**, **v2**.
@@ -1411,7 +1416,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp | udp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1438,13 +1443,15 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --port-min 80 --port-max 85 --protocol tcp --accept-proxy-protocol true`
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
 To create a load balancer listener when route mode is enabled in the load balancer.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol udp --port 53`
+Create a load balancer listener with udp protocol.
 
 #### Command options
 {: #command-options-network-load-balancer-listener-create}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp and udp.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -1489,7 +1496,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_I
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1509,6 +1516,7 @@ The range of ports that are used by this listener.
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 303`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol udp`
 
 #### Command options
 {: #command-options-network-load-balancer-listener-update}
@@ -1516,7 +1524,7 @@ The range of ports that are used by this listener.
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp.
+- **--protocol**: The listener protocol. Load balancers in the application family support tcp, http, and https. Load balancers in the network family support tcp and udp.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -1597,6 +1605,8 @@ Create network load balancer pool with members
 Create network load balancer pool with members and supply the member target by name.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
+- `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin udp 20 2 5 http`
+Create network load balancer pool for the network load balancer listener with udp protocol.
 
 #### Command options
 {: #command-options-network-load-balancer-pool-create}
@@ -1604,7 +1614,7 @@ Create network load balancer pool with members and supply the member target by n
 - **POOL_NAME**: Name of the pool.
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **ALGORITHM**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**.
-- **PROTOCOL**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
+- **PROTOCOL**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
@@ -1649,7 +1659,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER (POOL1 POOL2 ...) [--vpc VPC
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1679,7 +1689,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
-- **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**.
+- **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Proxy protocol is supported only for application load balancers. One of: **disabled**, **v1**, **v2**.
@@ -3227,7 +3237,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--auto-d
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--auto-delete**: Indicates whether this reserved IP member automatically deletes when either target is deleted, or the reserved IP is unbound. Must be false if the reserved IP is unbound. One of: **true**, **false**. (default: **false**).
-- **--target**: The target ID or name of the reserved IP. The following are supported target resource types: _endpoint_gateway_.
+- **--target**: The ID or name of the target resource. The following are supported target resource types: _endpoint_gateway_.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5054,14 +5064,15 @@ ibmcloud is instance INSTANCE [--output JSON] [-q, --quiet]
 View initialization details of a virtual instance.
 
 ```
-ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_FILE)] [--output JSON] [-q, --quiet]
+ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_FILE) [--private-key-passphrase PRIVATE_KEY_PASSPHRASE]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-instance-initialization-values}
 
 - **INSTANCE**: ID or name of the instance.
-- **--private-key**: **key**|**@key-file**. The private key in PEM format to decrypt Windows administrator default password.
+- **--private-key**: **key**|**@key-file**. The private key in PEM format to decrypt password.
+- **--private-key-passphrase**: The passphrase for the encrypted private key.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6310,6 +6321,8 @@ Create a bare metal server that enables trusted platform module with the `tpm_2`
 Create a bare metal server in the `Finance` resource group.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --network-interfaces '[{"name": "eth2", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.11", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}, {"name": "eth3", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "vlan", "vlan": 4, "allow_interface_to_float": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ipv4_address": "10.240.129.12", "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create a bare metal server with a PCI secondary network interface and a VLAN secondary network interface. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-allowed-vlans 100,200,300,400,700,710,1000,900-929,800-829`
+Create a bare metal server with a PCI network interface. Allowed VLANs are comma-separated values that can be passed as separate values or as any range of numbers.
 
 #### Command options
 {: #command-options-bare-metal-server-create}
@@ -6325,7 +6338,7 @@ Create a bare metal server with a PCI secondary network interface and a VLAN sec
 - **--vpc**: ID or name of the VPC. This ID or name is only required to specify the unique subnet by name inside this VPC.
 - **--pnic-ip**: Primary IPv4 address of the primary network interface.
 - **--pnic-sgs**: Comma-separated security group IDs for primary network interface.
-- **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface.
+- **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface. It can be passed as separate values or as any range of numbers.
 - **--pnic-ein**: Enable infrastructure NAT. If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the VM associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--pnic-ais**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
 - **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-bare-metal-server**.
@@ -6420,7 +6433,7 @@ ibmcloud is bare-metal-server-disks SERVER [--output JSON] [-q, --quiet]
 Retrieve configuration variables that are used to initialize the bare metal server.
 
 ```
-ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY | @KEY_FILE)] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY | @KEY_FILE) [--private-key-passphrase PRIVATE_KEY_PASSPHRASE]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -6428,6 +6441,7 @@ ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY |
 
 - **SERVER**: ID or name of the server.
 - **--private-key**: **key**|**@key-file**. The private key in PEM format to decrypt password.
+- **--private-key-passphrase**: The passphrase for the encrypted private key.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6470,16 +6484,18 @@ Create a PCI network interface.
 Create a PCI network interface with name support.
 - `ibmcloud is bare-metal-server-network-interface-create my-server --subnet my-subnet --vpc my-vpc`
 Create a PCI network interface with name support under a vpc.
-- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type pci --name eth1 --ip 10.0.0.11 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
+- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type pci --name eth1 --ip 10.0.0.12 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
 Create a PCI network interface with specified configuration.
-- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type pci --name eth1 --ip 10.0.0.11 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --vpc my-vpc --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
+- `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type pci --name eth1 --ip 10.0.0.12 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --vpc my-vpc --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
 Create a PCI network interface with specified configuration under a vpc
-- `ibmcloud is bare-metal-server-network-interface-create my-server --subnet my-subnet --interface-type pci --name eth1 --ip 10.0.0.11 --security-groups my-sg-1,my-sg-2 --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
+- `ibmcloud is bare-metal-server-network-interface-create my-server --subnet my-subnet --interface-type pci --name eth1 --ip 10.0.0.12 --security-groups my-sg-1,my-sg-2 --allowed-vlans 1,2,3,4 -allow-ip-spoofing true --enable-infrastructure-nat true`
 Create a PCI network interface with specified configuration with name support.
 - `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --interface-type vlan --name eth2 --ip 10.0.0.12 --security-groups 43846d71-0f04-473f-9de5-5a2d33200a4b,27c8ca96-17f3-4943-898d-ad1a1f5aec26 --vlan 1 -allow-interface-to-float true -allow-ip-spoofing true --enable-infrastructure-nat true`
 Create a VLAN network interface with specified configuration.
 - `ibmcloud is bare-metal-server-network-interface-create 7d317c32-71f8-4060-9bdc-6c971b0317d4 --subnet dcaec790-f0b0-48e6-b4cb-03dd82b745c0 --output JSON`
 Create a PCI network interface and specify JSON as the output format.
+- `ibmcloud is bm-nicc bm-cli-1 --subnet cli-subnet-1 --name bm-cli-nic-secondary --allowed-vlans 210,510,500,3001-1001`
+Create a PCI network interface. Allowed VLANs are comma-separated values that can be passed as separate values or as any range of numbers.
 
 #### Command options
 {: #command-options-bare-metal-server-network-interface-create}
@@ -6491,7 +6507,7 @@ Create a PCI network interface and specify JSON as the output format.
 - **--ip**: Primary IPv4 address.
 - **--security-groups**: Comma-separated security group IDs or names for the network interface.
 - **--vpc**: ID or name of the VPC. This is only required to specify the unique subnet and unique security-groups by name inside this VPC.
-- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface.
+- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface. It can be passed as separate values or as any range of numbers.
 - **--vlan**: Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this VLAN interface.
 - **--allow-interface-to-float**: Indicates if the interface can float to any other server within the same **resource_group**. The interface floats automatically if the network detects a GARP or RARP on another bare metal server in the resource group. Applies only to VLAN interfaces. One of: **false**, **true**. (default: **false**).
 - **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
@@ -6624,6 +6640,7 @@ ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAM
 - `ic is bm-nicu 7d317c32-71f8-4060-9bdc-6c971b0317d4 784e2e4c-0540-4e1a-aba7-a51f9b35ba52 --name ethvlan1 --allow-ip-spoofing true --enable-infrastructure-nat true --output JSON`
 - `ic is bm-nicu my-bm-server my-bm-nic --name eth0 --allow-ip-spoofing true --enable-infrastructure-nat true -allowed-vlans 1,3,5`
 - `ic is bm-nicu my-bm-server eth0 --name ethvlan1 --allow-ip-spoofing true --enable-infrastructure-nat true --output JSON`
+- `ibmcloud is bm-nicu bm-cli-1 bm-cli-nic-secondary  --allowed-vlans 210,500-600,3001-1001`
 
 #### Command options
 {: #command-options-bare-metal-server-network-interface-update}
@@ -6633,7 +6650,7 @@ ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAM
 - **--name**: New name of the network interface.
 - **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
 - **--enable-infrastructure-nat**: If true, the VPC infrastructure performs any needed NAT operations. If false, the packet is passed unmodified to or from the network interface, allowing the workload to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
-- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface.
+- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface. It can be passed as separate values or as any range of numbers.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
