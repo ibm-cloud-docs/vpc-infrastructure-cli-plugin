@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-02-25"
+lastupdated: "2022-03-25"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2022-02-25"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v3.5.0
+{: #v3.5.0}
+
+Version 3.5.0 was released on 2022-03-25.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Update `load-balancer-listener-create`,`load-balancer-listener-update`, `load-balancer-pool-create` and `load-balancer-pool-update` commands to support UDP protocol.
+
+### Removed commands
+
+* N/A
 
 ## v3.4.0
 {: #v3.4.0}
