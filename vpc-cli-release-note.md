@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-03-25"
+lastupdated: "2022-04-1"
 
 ---
 
@@ -21,6 +21,33 @@ lastupdated: "2022-03-25"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v4.0.0
+{: #v4.0.0}
+
+Version 4.0.0 was released on 2022-04-01.
+
+### New commands
+
+* Added `instance-network-interface-reserved-ips` and `instance-network-interface-reserved-ip` commands to list/get reserved IPs that are associated with a network interface.
+
+### Updated commands
+
+* Updated `instance-create`, `instance-network-interface-create`, `instance-create-from-template`, `instance-template-create`, `instance-template-create-override-source-template`, `bare-metal-server-create`, `bare-metal-server-network-interface-create`, `subnet-reserved-ip-create` commands to support reserved IP.
+
+### Removed commands
+
+* Removed security group network interface commands `security-group-network-interface`, `security-group-network-interface-add`, `security-group-network-interface-remove` and `security-group-network-interfaces`.
+
+### Note
+
+* Support for primary_ipv4_address property in primary-network-interface and network-interface options for the `instance-create`, `instance-create-from-template`, `instance-template-create` and `instance-template-create-override-source-template` commands were removed. Use primary_ip property to create the resource with wanted IP address.
+
+* Support for IPV4 option for the `instance-create`, `instance-network-interface-create`, `instance-create-from-template`, `instance-template-create` and `instance-template-create-override-source-template` commands were removed. Use the address option to create the resource with wanted IP address.
+
+* Support for PNIC-IP option and primary_ipv4_address property in network-interface option for the `bare-metal-server-create` command was removed. Use primary_ip property in network-interface option and pnic-rip-address option to create the bare metal server with wanted IP address.
+
+* Support for IP option for the `bare-metal-server-network-interface-create` command was removed. Use address option to create the bare-metal-server-network-interface with wanted IP address.
 
 ## v3.5.0
 {: #v3.5.0}
