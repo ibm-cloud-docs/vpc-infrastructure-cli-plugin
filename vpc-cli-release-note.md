@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-04-1"
+lastupdated: "2022-04-06"
 
 ---
 
@@ -22,10 +22,10 @@ lastupdated: "2022-04-1"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
-## v4.0.0
-{: #v4.0.0}
+## v4.0.1
+{: #v4.0.1}
 
-Version 4.0.0 was released on 2022-04-01.
+Version 4.0.1 was released on 2022-04-06.
 
 ### New commands
 
