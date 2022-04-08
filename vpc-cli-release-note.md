@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-04-06"
+lastupdated: "2022-04-08"
 
 ---
 
@@ -21,6 +21,27 @@ lastupdated: "2022-04-06"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v4.0.2
+{: #v4.0.2}
+
+Version 4.0.2 was released on 2022-04-08.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Fixed the reserved IP not displaying issue when the instance list `instances` command is run.
 
 ## v4.0.1
 {: #v4.0.1}
