@@ -22,6 +22,28 @@ lastupdated: "2022-04-08"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v4.0.3
+{: #v4.0.3}
+
+Version 4.0.3 was released on 2022-04-25.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `instance-create` command to support more data volumes in interactive mode.
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Fixed `bare-metal-server-create` command's interactive mode error log for allowed-vlans.
+* Fixed `bare-metal-server-console` command to display the correct bare metal server VNC console URL.
+
 ## v4.0.2
 {: #v4.0.2}
 
