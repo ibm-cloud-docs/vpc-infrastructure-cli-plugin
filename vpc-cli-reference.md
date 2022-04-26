@@ -1284,7 +1284,7 @@ ibmcloud is load-balancer LOAD_BALANCER [--vpc VPC] [--output JSON] [-q, --quiet
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET1  ... [--vpc VPC]) [--family network] [--route-mode false | true] [--sg SG] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_TYPE (--subnet SUBNET1 [--vpc VPC]) [--family network] [--route-mode false | true] [--sg SG] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
