@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-04-01"
+lastupdated: "2022-04-25"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -244,7 +244,7 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrNam
 ### ibmcloud is flow-log-delete
 {: #flow-log-delete}
 
-Delete flow logs.
+Delete one or more flow logs.
 
 ```
 ibmcloud is flow-log-delete (FLOW_LOG1 FLOW_LOG2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -400,7 +400,7 @@ Create a load balancer with route mode enabled
 ### ibmcloud is load-balancer-delete
 {: #load-balancer-delete}
 
-Delete load balancers.
+Delete one or more load balancers.
 
 ```
 ibmcloud is load-balancer-delete (LOAD_BALANCER1 LOAD_BALANCER2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -485,7 +485,7 @@ Create a load balancer listener with udp protocol.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -499,7 +499,7 @@ Create a load balancer listener with udp protocol.
 ### ibmcloud is load-balancer-listener-delete
 {: #load-balancer-listener-delete}
 
-Delete load balancer listeners.
+Delete one or more load balancer listeners.
 
 ```
 ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -613,7 +613,7 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 ### ibmcloud is load-balancer-listener-policy-delete
 {: #load-balancer-listener-policy-delete}
 
-Delete policies from a load balancer listener.
+Delete one or more policies from a load balancer listener.
 
 ```
 ibmcloud is load-balancer-listener-policy-delete LOAD_BALANCER LISTENER_ID (POLICY1 POLICY2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -689,7 +689,7 @@ ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID 
 ### ibmcloud is load-balancer-listener-policy-rule-delete
 {: #load-balancer-listener-policy-rule-delete}
 
-Delete policies from a load balancer listener.
+Delete one or more policies from a load balancer listener.
 
 ```
 ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER LISTENER_ID POLICY (RULE_ID1 RULE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -848,7 +848,7 @@ The range of ports that are used by this listener.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -952,7 +952,7 @@ Create network load balancer pool for the network load balancer listener with ud
 ### ibmcloud is load-balancer-pool-delete
 {: #load-balancer-pool-delete}
 
-Delete pools from a load balancer.
+Delete one or more pools from a load balancer.
 
 ```
 ibmcloud is load-balancer-pool-delete LOAD_BALANCER (POOL1 POOL2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -1061,7 +1061,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 ### ibmcloud is load-balancer-pool-member-delete
 {: #load-balancer-pool-member-delete}
 
-Delete members from a load balancer pool.
+Delete one or more members from a load balancer pool.
 
 ```
 ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER POOL (MEMBER_ID1 MEMBER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -1324,7 +1324,7 @@ Create a load balancer with route mode enabled
 ### ibmcloud is load-balancer-delete
 {: #network-load-balancer-delete}
 
-Delete load balancers.
+Delete one or more load balancers.
 
 ```
 ibmcloud is load-balancer-delete (LOAD_BALANCER1 LOAD_BALANCER2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -1457,7 +1457,7 @@ Create a load balancer listener with udp protocol.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -1471,7 +1471,7 @@ Create a load balancer listener with udp protocol.
 ### ibmcloud is load-balancer-listener-delete
 {: #network-load-balancer-listener-delete}
 
-Delete load balancer listeners.
+Delete one or more load balancer listeners.
 
 ```
 ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -1530,7 +1530,7 @@ The range of ports that are used by this listener.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: CRN of the certificate instance. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -1634,7 +1634,7 @@ Create network load balancer pool for the network load balancer listener with ud
 ### ibmcloud is load-balancer-pool-delete
 {: #network-load-balancer-pool-delete}
 
-Delete pools from a load balancer.
+Delete one or more pools from a load balancer.
 
 ```
 ibmcloud is load-balancer-pool-delete LOAD_BALANCER (POOL1 POOL2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -1809,7 +1809,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 ### ibmcloud is load-balancer-pool-member-delete
 {: #network-load-balancer-pool-member-delete}
 
-Delete members from a load balancer pool.
+Delete one or more members from a load balancer pool.
 
 ```
 ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER POOL (MEMBER_ID1 MEMBER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -1956,7 +1956,7 @@ ibmcloud is network-acl-update ACL --name NEW_NAME [--vpc VPC] [--output JSON] [
 ### ibmcloud is network-acl-delete
 {: #network-acl-delete}
 
-Delete network ACLs.
+Delete one or more network ACLs.
 
 ```
 ibmcloud is network-acl-delete (ACL1 ACL2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -2104,7 +2104,7 @@ ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--di
 ### ibmcloud is network-acl-rule-delete
 {: #network-acl-rule-delete}
 
-Delete rules from a network ACL.
+Delete one or more rules from a network ACL.
 
 ```
 ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -2181,7 +2181,7 @@ ibmcloud is public-gateway-create GATEWAY_NAME VPC ZONE_NAME [--ip ID | NAME | A
 ### ibmcloud is public-gateway-delete
 {: #public-gateway-delete}
 
-Delete public gateways.
+Delete one or more public gateways.
 
 ```
 ibmcloud is public-gateway-delete (GATEWAY1 GATEWAY2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -2365,7 +2365,7 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 ### ibmcloud is vpc-routing-table-delete
 {: #vpc-routing-table-delete}
 
-Delete VPC routing tables.
+Delete one or more VPC routing tables.
 
 ```
 ibmcloud is vpc-routing-table-delete VPC (ROUTING_TABLE1 ROUTING_TABLE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -2484,7 +2484,7 @@ ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NA
 ### ibmcloud is vpc-routing-table-route-delete
 {: #vpc-routing-table-route-delete}
 
-Delete VPC routes.
+Delete one or more VPC routes.
 
 ```
 ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -2577,7 +2577,7 @@ ibmcloud is security-group-create GROUP_NAME VPC [--resource-group-id RESOURCE_G
 ### ibmcloud is security-group-delete
 {: #security-group-delete}
 
-Delete security groups.
+Delete one or more security groups.
 
 ```
 ibmcloud is security-group-delete (GROUP1 GROUP2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -2656,7 +2656,7 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--remo
 ### ibmcloud is security-group-rule-delete
 {: #security-group-rule-delete}
 
-Delete rules from a security group.
+Delete one or more rules from a security group.
 
 ```
 ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -2973,7 +2973,7 @@ ibmcloud is subnet-create SUBNET_NAME VPC ((--zone ZONE_NAME --ipv4-address-coun
 ### ibmcloud is subnet-delete
 {: #subnet-delete}
 
-Delete subnets.
+Delete one or more subnets.
 
 ```
 ibmcloud is subnet-delete (SUBNET1 SUBNET2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -3106,7 +3106,7 @@ ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
 ### ibmcloud is subnet-reserved-ip
 {: #subnet-reserved-ip}
 
-View details of reserved ip.
+View details of reserved IP.
 
 ```
 ibmcloud is subnet-reserved-ip SUBNET RESERVED_IP [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -3158,7 +3158,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--addres
 ### ibmcloud is subnet-reserved-ip-update
 {: #subnet-reserved-ip-update}
 
-Update a reserved ip.
+Update a reserved IP.
 
 ```
 ibmcloud is subnet-reserved-ip-update SUBNET RESERVED_IP [--vpc VPC] [--name NEW_NAME] [--auto-delete true | false] [--output JSON] [-q, --quiet]
@@ -3188,7 +3188,7 @@ ibmcloud is subnet-reserved-ip-update SUBNET RESERVED_IP [--vpc VPC] [--name NEW
 ### ibmcloud is subnet-reserved-ip-delete
 {: #subnet-reserved-ip-delete}
 
-Release reserved IPs.
+Release one or more reserved IPs.
 
 ```
 ibmcloud is subnet-reserved-ip-delete SUBNET (RESERVED_IP1 RESERVED_IP2 ...) [--vpc VPC] [-f, --force] [--output JSON] [-q, --quiet]
@@ -3279,7 +3279,7 @@ ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--default 
 ### ibmcloud is vpc-address-prefix-delete
 {: #vpc-address-prefix-delete}
 
-Delete address prefixes.
+Delete one or more address prefixes.
 
 ```
 ibmcloud is vpc-address-prefix-delete VPC (PREFIX1 PREFIX2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -3393,7 +3393,7 @@ ibmcloud is vpc-default-security-group VPC [--output JSON] [-q, --quiet]
 ### ibmcloud is vpc-delete
 {: #vpc-delete}
 
-Delete VPCs.
+Delete one or more VPCs.
 
 ```
 ibmcloud is vpc-delete (VPC1 VPC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -3413,7 +3413,7 @@ ibmcloud is vpc-delete (VPC1 VPC2 ...) [--output JSON] [-f, --force] [-q, --quie
 ### ibmcloud is vpc-route
 {: #vpc-route}
 
-View details of a VPC route.
+[Deprecated] View details of a VPC route.
 
 ```
 ibmcloud is vpc-route VPC ROUTE [--output JSON] [-q, --quiet]
@@ -3432,7 +3432,7 @@ ibmcloud is vpc-route VPC ROUTE [--output JSON] [-q, --quiet]
 ### ibmcloud is vpc-route-create
 {: #vpc-route-create}
 
-Create a route.
+[Deprecated] Create a route.
 
 ```
 ibmcloud is vpc-route-create ROUTE_NAME VPC --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--output JSON] [-q, --quiet]
@@ -3460,7 +3460,7 @@ ibmcloud is vpc-route-create ROUTE_NAME VPC --zone ZONE_NAME --destination DESTI
 ### ibmcloud is vpc-route-update
 {: #vpc-route-update}
 
-Update a route.
+[Deprecated] Update a route.
 
 ```
 ibmcloud is vpc-route-update VPC ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
@@ -3486,7 +3486,7 @@ ibmcloud is vpc-route-update VPC ROUTE --name NEW_NAME [--output JSON] [-q, --qu
 ### ibmcloud is vpc-route-delete
 {: #vpc-route-delete}
 
-Delete routes.
+[Deprecated] Delete one or more routes.
 
 ```
 ibmcloud is vpc-route-delete VPC (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -3507,7 +3507,7 @@ ibmcloud is vpc-route-delete VPC (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --forc
 ### ibmcloud is vpc-routes
 {: #vpc-routes}
 
-List all routes.
+[Deprecated] List all routes.
 
 ```
 ibmcloud is vpc-routes VPC [--output JSON] [-q, --quiet]
@@ -3676,7 +3676,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 - **--name**: New name of the endpoint gateway.
 - **--rip**: Comma-separated IDs of the reserved IP to be bound to the endpoint gateway. At most, one reserved IP per zone is allowed. It can also be reserved IP name, but only one reserved IP name is allowed and subnet option for this reserved IP name also must be supplied.
 - **--subnet**: ID or Name of the subnet. This name is only required if the supplied reserved IP is in name format.
-- **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved ip configuration in JSON or JSON file.
+- **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved IP configuration in JSON or JSON file.
 - **--sg**: Comma-separated security group IDs or names for the endpoint gateway.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -3751,7 +3751,7 @@ ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY ((--rip RIP [--
 ### ibmcloud is endpoint-gateway-delete
 {: #endpoint-gateway-delete}
 
-Delete endpoint gateways.
+Delete one or more endpoint gateways.
 
 ```
 ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -3867,7 +3867,7 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 ### ibmcloud is ike-policy-delete
 {: #ike-policy-delete}
 
-Delete IKE policies.
+Delete one or more IKE policies.
 
 ```
 ibmcloud is ike-policy-delete (IKE_POLICY1 IKE_POLICY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -4010,7 +4010,7 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 ### ibmcloud is ipsec-policy-delete
 {: #ipsec-policy-delete}
 
-Delete an IPsec policies.
+Delete one or more IPsec policies.
 
 ```
 ibmcloud is ipsec-policy-delete (IPSEC_POLICY1 IPSEC_POLICY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -4152,7 +4152,7 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRE
 ### ibmcloud is vpn-gateway-connection-delete
 {: #vpn-gateway-connection-delete}
 
-Delete VPN gateway connections.
+Delete one or more VPN gateway connections.
 
 ```
 ibmcloud is vpn-gateway-connection-delete VPN_GATEWAY (CONNECTION1 CONNECTION2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -4348,7 +4348,7 @@ ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route] [
 ### ibmcloud is vpn-gateway-delete
 {: #vpn-gateway-delete}
 
-Delete VPN gateways.
+Delete one or more VPN gateways.
 
 ```
 ibmcloud is vpn-gateway-delete (VPN_GATEWAY1 VPN_GATEWAY2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -4547,7 +4547,7 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 ### ibmcloud is vpn-server-delete
 {: #vpn-server-delete}
 
-[Beta] Delete VPN servers.
+[Beta] Delete one or more VPN servers.
 
 ```
 ibmcloud is vpn-server-delete (VPN_SERVER_ID1 VPN_SERVER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -4633,7 +4633,7 @@ ibmcloud is vpn-server-client VPN_SERVER_ID CLIENT_ID [--vpc VPC] [--output JSON
 ### ibmcloud is vpn-server-client-delete
 {: #vpn-server-client-delete}
 
-[Beta] Delete VPN client for a VPN server.
+[Beta] Delete one or more VPN clients for a VPN server.
 
 ```
 ibmcloud is vpn-server-client-delete VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
@@ -4770,7 +4770,7 @@ ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--name N
 ### ibmcloud is vpn-server-route-delete
 {: #vpn-server-route-delete}
 
-[Beta] Delete a VPN route.
+[Beta] Delete one or more VPN routes.
 
 ```
 ibmcloud is vpn-server-route-delete VPN_SERVER_ID (ROUTE_ID1 ROUTE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -4936,7 +4936,7 @@ ibmcloud is image-update IMAGE --name NEW_NAME [--output JSON] [-q, --quiet]
 ### ibmcloud is image-delete
 {: #image-delete}
 
-Delete images.
+Delete one or more images.
 
 ```
 ibmcloud is image-delete (IMAGE1 IMAGE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -5222,7 +5222,7 @@ Create instance from instance template with primary network interface configurat
 ### ibmcloud is instance-delete
 {: #instance-delete}
 
-Delete virtual server instances.
+Delete one or more virtual server instances.
 
 ```
 ibmcloud is instance-delete (INSTANCE1 INSTANCE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -5355,7 +5355,7 @@ Create a network interface for a virtual server instance with security group by 
 ### ibmcloud is instance-network-interface-delete
 {: #instance-network-interface-delete}
 
-Remove network interfaces from a virtual server instance.
+Remove one or more network interfaces from a virtual server instance.
 
 ```
 ibmcloud is instance-network-interface-delete INSTANCE (NIC1 NIC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -5743,7 +5743,7 @@ Add an existing volume to a virtual server instance by using resource name.
 ### ibmcloud is instance-volume-attachment-detach
 {: #instance-volume-attachment-detach}
 
-Delete volume attachments, detaching volume from an instance.
+Delete one or more volume attachments, detaching volume from an instance.
 
 ```
 ibmcloud is instance-volume-attachment-detach INSTANCE (VOLUME_ATTACHMENT1 VOLUME_ATTACHMENT2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -5843,7 +5843,7 @@ ibmcloud is key-create KEY_NAME (KEY | @KEY_FILE) [--resource-group-id RESOURCE_
 ### ibmcloud is key-delete
 {: #key-delete}
 
-Delete keys.
+Delete one or more keys.
 
 ```
 ibmcloud is key-delete (KEY1 KEY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6038,7 +6038,7 @@ ibmcloud is dedicated-host-group-update HOST_GROUP --name NEW_NAME [--output JSO
 ### ibmcloud is dedicated-host-group-delete
 {: #dedicated-host-group-delete}
 
-Delete host groups.
+Delete one or more host groups.
 
 ```
 ibmcloud is dedicated-host-group-delete (HOST_GROUP1 HOST_GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6152,7 +6152,7 @@ ibmcloud is dedicated-host-update HOST [--name NEW_NAME] [--enabled true | false
 ### ibmcloud is dedicated-host-delete
 {: #dedicated-host-delete}
 
-Delete hosts.
+Delete one or more hosts.
 
 ```
 ibmcloud is dedicated-host-delete (HOST1 HOST2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6282,8 +6282,6 @@ ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image 
 Create a bare metal server with name support for image, keys and subnet
 - `ibmcloud is bare-metal-server-create --name my-server-name2 --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-name eth0 --pnic-rip-address 46.9.49.11 --pnic-sgs c791f26f-4cf1-4bbf-be0e-72d7cb87133e,fefc8362-93c2-4f3d-90d4-82c56cce787e --pnic-allowed-vlans 1,2,3,4 --pnic-ein true --pnic-ais true`
 Create a bare metal server with specified primary network interface configuration.
-- `ibmcloud is bare-metal-server-create --name my-server-name3 --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --enable-secure-boot true --enable-tpm true --tpm-mode tpm_2`
-Create a bare metal server that enables trusted platform module with the `tpm_2` mode.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --resource-group-name Finance --output JSON`
 Create a bare metal server in the `Finance` resource group.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-allowed-vlans 100,200,300,400,700,710,1000,900-929,800-829`
@@ -6319,8 +6317,8 @@ Create a bare metal server with secondary network interface with new reserved IP
 - **--pnic-rip-name**: The user-defined name for this reserved IP of the primary network interface. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--pnic-sgs**: Comma-separated security group IDs for primary network interface.
 - **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface. It can be passed as separate values or as any range of numbers.
-- **--pnic-ein**: Enable infrastructure NAT. If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the VM associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
-- **--pnic-ais**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
+- **--pnic-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to/from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--pnic-ais**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
 - **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-bare-metal-server**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -6333,7 +6331,7 @@ Create a bare metal server with secondary network interface with new reserved IP
 ### ibmcloud is bare-metal-server-delete
 {: #bare-metal-server-delete}
 
-Delete one or more bare metal servers. 
+Delete one or more bare metal servers.
 
 ```
 ibmcloud is bare-metal-server-delete (SERVER1 SERVER2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6499,8 +6497,8 @@ Create bare metal NIC with new reserved IP.
 - **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface. It can be passed as separate values or as any range of numbers.
 - **--vlan**: Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this VLAN interface.
 - **--allow-interface-to-float**: Indicates if the interface can float to any other server within the same **resource_group**. The interface floats automatically if the network detects a GARP or RARP on another bare metal server in the resource group. Applies only to VLAN interfaces. One of: **false**, **true**. (default: **false**).
-- **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
-- **--enable-infrastructure-nat**: If true, the VPC infrastructure performs any needed NAT operations. If false, the packet is passed unmodified to or from the network interface, allowing the workload to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--allow-ip-spoofing**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
+- **--enable-infrastructure-nat**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to/from the network interface, allowing the virtual machine associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6509,7 +6507,7 @@ Create bare metal NIC with new reserved IP.
 ### ibmcloud is bare-metal-server-network-interface-delete
 {: #bare-metal-server-network-interface-delete}
 
-Remove network interfaces from a bare metal server.
+Remove one or more network interfaces from a bare metal server.
 
 ```
 ibmcloud is bare-metal-server-network-interface-delete SERVER (NIC1 NIC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -6637,8 +6635,8 @@ ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAM
 - **SERVER**: ID or name of the server.
 - **NIC**: ID or name of the network interface.
 - **--name**: New name of the network interface.
-- **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on the network interface. If **true**, source IP spoofing is allowed on this interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
-- **--enable-infrastructure-nat**: If true, the VPC infrastructure performs any needed NAT operations. If false, the packet is passed unmodified to or from the network interface, allowing the workload to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--allow-ip-spoofing**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
+- **--enable-infrastructure-nat**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to/from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface. It can be passed as separate values or as any range of numbers.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6848,7 +6846,7 @@ ibmcloud is placement-group-create (--strategy host_spread | power_spread) [--na
 ### ibmcloud is placement-group-delete
 {: #placement-group-delete}
 
-Delete placement groups.
+Delete one or more placement groups.
 
 ```
 ibmcloud is placement-group-delete (PLACEMENT_GROUP1 PLACEMENT_GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7135,7 +7133,7 @@ Update an instance template by using resource name.
 ### ibmcloud is instance-template-delete
 {: #instance-template-delete}
 
-Delete instance templates.
+Delete one or more instance templates.
 
 ```
 ibmcloud is instance-template-delete (TEMPLATE1 TEMPLATE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7271,7 +7269,7 @@ ibmcloud is instance-group-update INSTANCE_GROUP [--instance-template INSTANCE_T
 ### ibmcloud is instance-group-delete
 {: #instance-group-delete}
 
-Delete instance groups.
+Delete one or more instance groups.
 
 ```
 ibmcloud is instance-group-delete (INSTANCE_GROUP1 INSTANCE_GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7418,7 +7416,7 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 ### ibmcloud is instance-group-manager-delete
 {: #instance-group-manager-delete}
 
-Delete a manager.
+Delete one or more instance group managers.
 
 ```
 ibmcloud is instance-group-manager-delete INSTANCE_GROUP (MANAGER1 MANAGER2 ...) [-f, --force] [-q, --quiet]
@@ -7552,7 +7550,7 @@ ibmcloud is instance-group-manager-action-update INSTANCE_GROUP MANAGER ACTION (
 ### ibmcloud is instance-group-manager-action-delete
 {: #instance-group-manager-action-delete}
 
-Delete instance group manager action.
+Delete one or more instance group manager actions.
 
 ```
 ibmcloud is instance-group-manager-action-delete INSTANCE_GROUP MANAGER (ACTION1 ACTION2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7643,7 +7641,7 @@ ibmcloud is instance-group-manager-policy-create INSTANCE_GROUP MANAGER (--metri
 ### ibmcloud is instance-group-manager-policy-delete
 {: #instance-group-manager-policy-delete}
 
-Delete instance group manager policies.
+Delete one or more instance group manager policies.
 
 ```
 ibmcloud is instance-group-manager-policy-delete INSTANCE_GROUP MANAGER (POLICY1 POLICY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7716,7 +7714,7 @@ ibmcloud is instance-group-membership INSTANCE_GROUP MEMBER [--output JSON] [-q,
 ### ibmcloud is instance-group-membership-delete
 {: #instance-group-membership-delete}
 
-Delete membership for an instance group.
+Delete one or more memberships for an instance group.
 
 ```
 ibmcloud is instance-group-membership-delete INSTANCE_GROUP (MEMBER1 MEMBER2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7971,7 +7969,7 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 ### ibmcloud is volume-delete
 {: #volume-delete}
 
-Delete volumes.
+Delete one or more volumes.
 
 ```
 ibmcloud is volume-delete (VOLUME1 VOLUME2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -8144,7 +8142,7 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id R
 ### ibmcloud is snapshot-delete
 {: #snapshot-delete}
 
-Delete snapshots.
+Delete one or more snapshots.
 
 ```
 ibmcloud is snapshot-delete (SNAPSHOT1 SNAPSHOT2 ...) [--output JSON] [-f, --force] [-q, --quiet]
