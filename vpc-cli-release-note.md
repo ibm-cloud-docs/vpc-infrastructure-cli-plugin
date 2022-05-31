@@ -22,6 +22,26 @@ lastupdated: "2022-04-25"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v4.1.0
+{: #v4.1.0}
+
+Version 4.1.0 was released on 2022-05-27.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `load-balancer-listener-create` and `load-balancer-listener-update` commands to support secrets manager.
+* Updated `security-group-rule-update` command to support ICMP type and ICMP code reset options.
+* Updated `instance-update` command to support placement target patch.
+* Updated `vpn-server-update` command to support client DNS reset option.
+
+### Removed commands
+
+* N/A
+
 ## v4.0.3
 {: #v4.0.3}
 
