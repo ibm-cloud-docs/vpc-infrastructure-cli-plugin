@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-05-27"
+lastupdated: "2022-06-17"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -3876,13 +3876,13 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
 - **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
-- **--client-dns**: Comma-separated of DNS server addresses that is provided to VPN clients connected to this VPN server. Two DNS servers can be set at most.
-- **--client-idle-timeout**: The seconds a VPN client can be idle before this VPN server will disconnect it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
+- **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
+- **--client-idle-timeout**: The seconds that a VPN client can idle before this VPN server disconnects it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
 - **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
 - **--port**: The port number to use for this VPN server. (default: **443**).
 - **--protocol**: The transport protocol to use for this VPN server. One of: **udp**, **tcp**. (default: **udp**).
 - **--sg**: Comma-separated security group IDs or names for the VPN server.
-- **--name**: New name for the vpn server.
+- **--name**: New name for the VPN server.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3907,9 +3907,9 @@ ibmcloud is vpn-server-update VPN_SERVER_ID [--vpc VPC] [--subnet SUBNET] [--cli
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-auth-methods certificate --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc`
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --client-ip-pool 192.168.0.0/20 --client-dns 9.9.9.9 --client-idle-timeout 120 --port 9090 --protocol tcp --enable-split-tunnel true --output JSON`
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --client-dns ""`
-Clean up the DNS server addresses that is provided to VPN clients connected to this VPN server.
+Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server.
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --reset-client-dns`
-Clean up the DNS server addresses that is provided to VPN clients connected to this VPN server.
+Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server.
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --subnet 0716-6ec3e875-abfa-40f4-a7c5-7473f4b2a2e1,0726-61b2f53f-1e95-42a7-94ab-55de8f8cbdd5`
 Update the VPN server with more than one subnet from different zones to have high availability.
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --subnet 0716-6ec3e875-abfa-40f4-a7c5-7473f4b2a2e1`
@@ -5717,7 +5717,7 @@ Create a bare metal server with secondary network interface with new reserved IP
 - **--pnic-rip-name**: The user-defined name for this reserved IP of the primary network interface. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--pnic-sgs**: Comma-separated security group IDs for primary network interface.
 - **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface. It can be passed as separate values or as any range of numbers.
-- **--pnic-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to/from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--pnic-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--pnic-ais**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
 - **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-bare-metal-server**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -5850,7 +5850,7 @@ ibmcloud is bare-metal-server-network-interface SERVER NIC [--output JSON] [-q, 
 Create a network interface for a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-network-interface-create SERVER --subnet SUBNET [--name NAME] [--interface-type pci | vlan] [[--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)]] [--security-groups SECURITY_GROUPS] [--vpc VPC] [--allowed-vlans ALLOWED_VLANS | --vlan VLAN --allow-interface-to-float false | true] [--allow-ip-spoofing false | true] [--enable-infrastructure-nat true | false] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-network-interface-create SERVER --subnet SUBNET (--interface-type pci | vlan) [--name NAME] [[--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)]] [--security-groups SECURITY_GROUPS] [--vpc VPC] [--allowed-vlans ALLOWED_VLANS | --vlan VLAN --allow-interface-to-float false | true] [--allow-ip-spoofing false | true] [--enable-infrastructure-nat true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5885,9 +5885,9 @@ Create bare metal NIC with new reserved IP.
 {: #command-options-bare-metal-server-network-interface-create}
 
 - **SERVER**: ID or name of the server.
+- **--subnet**: Subnet ID or name for the network interface.
 - **--name**: Name of the network interface.
 - **--interface-type**: Type of the network interface. One of: **pci**, **vlan**. (default: **pci**).
-- **--subnet**: Subnet ID or name for the network interface.
 - **--rip**: ID or name of the existing reserved IP.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
@@ -6036,7 +6036,7 @@ ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAM
 - **NIC**: ID or name of the network interface.
 - **--name**: New name of the network interface.
 - **--allow-ip-spoofing**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
-- **--enable-infrastructure-nat**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to/from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--enable-infrastructure-nat**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use this PCI interface. It can be passed as separate values or as any range of numbers.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7336,7 +7336,7 @@ ibmcloud is volume VOLUME [--output JSON] [-q, --quiet]
 Create a volume.
 
 ```
-ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACITY] [--iops IOPS] [--encryption-key ENCRYPTION_KEY] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACITY] [--iops IOPS] [--encryption-key ENCRYPTION_KEY] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7349,6 +7349,8 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-name Default`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --output JSON`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test,env:dev`
 
 #### Command options
 {: #command-options-volume-create}
@@ -7361,6 +7363,7 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7433,7 +7436,7 @@ ibmcloud is volume-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 Update a volume.
 
 ```
-ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile PROFILE | --iops IOPS] [--output JSON] [-q, --quiet]
+ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile PROFILE | --iops IOPS] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7445,6 +7448,8 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - `ibmcloud is volume-update my-volume-demo-1 --capacity 250`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --profile 10iops-tier`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --iops 5000`
+- `ibmcloud is volume-update a9647a52-06f8-4b19-b904-920f67dcdfcd --capacity 500 --tags env:test`
+- `ibmcloud is volume-update a9647a52-06f8-4b19-b904-920f67dcdfcd --capacity 500 --tags env:test,env:dev`
 
 #### Command options
 {: #command-options-volume-update}
@@ -7454,6 +7459,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
 - **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom. The volume must be attached as data volume.
+- **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7515,7 +7521,7 @@ ibmcloud is snapshot SNAPSHOT [--output JSON] [-q, --quiet]
 Create a snapshot from a volume.
 
 ```
-ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7526,6 +7532,9 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id R
 - `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-name Default`
 - `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --output JSON`
+- `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test`
+- `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test,env:dev`
+- `ibmcloud is snapshot-create --volume test5-3zwxlnzgqk-9vk99 --name my-ss70 --tags env:test`
 
 #### Command options
 {: #command-options-snapshot-create}
@@ -7534,6 +7543,7 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id R
 - **--name**: New name for the snapshot.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7571,7 +7581,7 @@ ibmcloud is snapshot-delete (SNAPSHOT1 SNAPSHOT2 ...) [--output JSON] [-f, --for
 Update a snapshot.
 
 ```
-ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7579,12 +7589,360 @@ ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--output JSON] [-q, --quie
 
 - `ibmcloud is snapshot-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --name my-snapshot --output JSON`
 - `ibmcloud is snapshot-update cli-demo-snapshot-1 --name my-snapshot --output JSON`
+- `ibmcloud is snapshot-update f8d51ab0-961f-4c23-8976-b1e48cc4f260 --name mysnapshot60 --tags env:tfp`
+- `ibmcloud is snapshot-update f8d51ab0-961f-4c23-8976-b1e48cc4f260 --name mysnapshot60 --tags env:tfp,env:cli`
+- `ibmcloud is snapshot-update my-snapshot-2 --name mysnapshot60 --tags env:tfp`
 
 #### Command options
 {: #command-options-snapshot-update}
 
 - **SNAPSHOT**: ID or Name of the snapshot.
 - **--name**: New name of the snapshot.
+- **--tags**: Tags for this resource.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Backup policy
+{: #backup-policy}
+
+The following section provides information about CLI commands for backup policies
+
+### ibmcloud is backup-policies
+{: #backup-policies}
+
+List all backup policies.
+
+```
+ibmcloud is backup-policies [--tag TAG_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policies}
+
+- `ibmcloud is backup-policies`
+- `ibmcloud is backup-policies --tag dev:test`
+
+#### Command options
+{: #command-options-backup-policies}
+
+- **--tag**: Filters the collection to resources with the exact tag value.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-create
+{: #backup-policy-create}
+
+Create a backup policy.
+
+```
+ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-create}
+
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-1 --plan-name demo-bkp-plan-1 --plan-cron-spec '45 09 * * *'`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-2 --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '40 09 * * *'`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '45 09 * * *' --plan-active  --plan-delete-over-count 2`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-x2  --plans @plans.json`
+
+#### Command options
+{: #command-options-backup-policy-create}
+
+- **--name**: New name for the backup policy.
+- **--match-resource-type**: A resource type this backup policy applies to. One of: **Volume**.
+- **--match-tags**: The user tags this backup policy applies to.
+- **--plans**: PLANS_JSON|@PLANS_JSON_FILE, plans in JSON or JSON file, list of policy plans. For the data schema, check **plans** property in the API documentation **https://cloud.ibm.com/apidocs/vpc#create-backup-policy** One of: **PLANS_JSON**, **@PLANS_JSON_FILE**.
+- **--plan-name**: Name of the backup policy plan.
+- **--plan-active**: Indicates whether the plan is active or not.
+- **--plan-attach-tags**: User tags to attach to each resource created by this plan.
+- **--plan-copy-tags**: Indicates whether to copy the source**s user tags to the created resource. One of: **true**, **false**.
+- **--plan-cron-spec**: The cron specification for the backup schedule.
+- **--plan-delete-after**: The maximum number of days to keep each backup after creation. (default: **30**).
+- **--plan-delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-delete
+{: #backup-policy-delete}
+
+Delete one or more backup policies.
+
+```
+ibmcloud is backup-policy-delete (POLICY1 POLICY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-delete}
+
+- `ibmcloud is backup-policy-delete r134-7759199b-bc1f-448e-84fa-2aa42bde29af`
+- `ibmcloud is backup-policy-delete demo-policy-100`
+
+#### Command options
+{: #command-options-backup-policy-delete}
+
+- **POLICY1**: ID or name of the backup policy.
+- **POLICY2**: ID or name of the backup policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-update
+{: #backup-policy-update}
+
+Update a backup policy.
+
+```
+ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-update}
+
+- `ibmcloud is backup-policy-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --name my-policy2`
+- `ibmcloud is backup-policy-update demo-policy-99 --name demo-policy-100`
+- `ibmcloud is backup-policy-update backup-policy-1001 --match-tags demo:cli`
+
+#### Command options
+{: #command-options-backup-policy-update}
+
+- **POLICY**: ID or name of the backup policy.
+- **--match-tags**: The user tags this backup policy applies to.
+- **--name**: New name of the backup policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy
+{: #backup-policy}
+
+View details of a backup policy.
+
+```
+ibmcloud is backup-policy POLICY [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy}
+
+- `ibmcloud is backup-policy r134-ac2a8be2-aa99-4571-baed-c3ec63a64ce7`
+- `ibmcloud is backup-policy demo-bkp-policy`
+
+#### Command options
+{: #command-options-backup-policy}
+
+- **POLICY**: ID or name of the backup policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-plan
+{: #backup-policy-plan}
+
+View details of a backup policy plan.
+
+```
+ibmcloud is backup-policy-plan POLICY PLAN [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-plan}
+
+- `ibmcloud is backup-policy-plan c884526b-e6cc-453d-934d-82bf39a39114 6e5b9ee4-d4f0-4e9b-89d6-18642823a855`
+- `ibmcloud is backup-policy-plan demo-bkp-policy-b98 cli-demo-policy-plan-3`
+
+#### Command options
+{: #command-options-backup-policy-plan}
+
+- **POLICY**: ID or name of the backup policy.
+- **PLAN**: ID or name of the backup policy plan.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-plans
+{: #backup-policy-plans}
+
+List all plans for the backup policy.
+
+```
+ibmcloud is backup-policy-plans POLICY [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-plans}
+
+- `ibmcloud is backup-policy-plans c884526b-e6cc-453d-934d-82bf39a39114`
+- `ibmcloud is backup-policy-plans demo-bkp-policy-b98`
+
+#### Command options
+{: #command-options-backup-policy-plans}
+
+- **POLICY**: ID or name of the backup policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-plan-create
+{: #backup-policy-plan-create}
+
+Create a backup policy plan.
+
+```
+ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-plan-create}
+
+- `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7 --attach-tags dev:test --copy-tags true --cron-spec '*/5 1,2,3 * * *' --delete-after 80 --name my-policy-plan-1`
+- `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7  --cron-spec '*/5 1,2,3 * * *'  --name my-policy-plan-2`
+- `ibmcloud is backup-policy-plan-create backup-policy-1001 --cron-spec '0 0 * * *' --active --name my-policy-plan --attach-tags my-daily-backup-plan --copy-tags true --delete-after 10 --delete-over-count 2`
+
+#### Command options
+{: #command-options-backup-policy-plan-create}
+
+- **POLICY**: ID or name of the backup policy.
+- **--name**: Name of the backup policy plan.
+- **--active**: Indicates whether or not the plan is active.
+- **--attach-tags**: User tags to attach to each resource created by this plan.
+- **--copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
+- **--cron-spec**: The cron specification for the backup schedule.
+- **--delete-after**: The maximum number of days to keep each backup after creation.
+- **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-plan-delete
+{: #backup-policy-plan-delete}
+
+Delete one or more backup policy plans.
+
+```
+ibmcloud is backup-policy-plan-delete (PLAN1 PLAN2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-plan-delete}
+
+- `ibmcloud is backup-policy-plan-delete backup-policy-1001 437cc10e-eaa5-4eaf-8e9d-5ba5d659f9a1 ec5446a2-5f28-4d25-a501-b6fa14f3c5d8`
+- `ibmcloud is backup-policy-plan-delete aaa-default-backup-policy-1 my-policy-plan-2 my-policy-plan-3 my-policy-plan-4`
+
+#### Command options
+{: #command-options-backup-policy-plan-delete}
+
+- **PLAN1**: ID or name of the backup policy plan.
+- **PLAN2**: ID or name of the backup policy plan.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-plan-update
+{: #backup-policy-plan-update}
+
+Update a backup policy plan.
+
+```
+ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-plan-update}
+
+- `ibmcloud is backup-policy-plan-update r134-77e21079-7291-44c2-866a-8f1848bc10f0 r134-fc8e15d9-02f2-4599-a216-8afe0dfeb969 --name myplan`
+- `ibmcloud is backup-policy-plan-update demo-bkp-policy-b98 my-policy-plan-1 --name cli-demo-policy-plan-3`
+- `ibmcloud is backup-policy-plan-update backup-policy-1001 2dae356e-f7b5-48dd-8bc3-f3083574885b --cron-spec '42 10 * * *' --name my-policy-plan-1 --attach-tags my-daily-backup-plan --copy-tags false --delete-after 20 --delete-over-count 1`
+
+#### Command options
+{: #command-options-backup-policy-plan-update}
+
+- **POLICY**: ID or name of the backup policy.
+- **PLAN**: ID or name of the backup policy plan.
+- **--name**: New name of the backup policy plan.
+- **--active**: Indicates whether the plan is active.
+- **--attach-tags**: User tags to attach to each resource created by this plan.
+- **--copy-tags**: Indicates whether to copy the sources user tags to the created resource. One of: **true**, **false**.
+- **--cron-spec**: The cron specification for the backup schedule.
+- **--delete-after**: The maximum number of days to keep each backup after creation.
+- **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-jobs
+{: #backup-policy-jobs}
+
+List all jobs for the backup policy.
+
+```
+ibmcloud is backup-policy-jobs POLICY [--volume VOLUME] [--snapshot SNAPSHOT] [--snapshot-crn SNAPSHOT_CRN] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-jobs}
+
+- `ibmcloud is backup-policy-jobs backup-policy-1001`
+- `ibmcloud is backup-policy-jobs r134-7759199b-bc1f-448e-84fa-2aa42bde29af`
+- `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --volume r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshot r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status completed --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
+
+#### Command options
+{: #command-options-backup-policy-jobs}
+
+- **POLICY**: ID or name of the backup policy.
+- **--volume**: Filters the collection to resources with the source volume with the specified identifier.
+- **--snapshot**: Filters the collection to resources with the target snapshot with the specified identifier.
+- **--snapshot-crn**: Filters the collection to resources with the target snapshot with the specified CRN.
+- **--status**: Filters the collection to backup policy jobs with the specified status. One of: **failed**, **running**, **succeeded**.
+- **--plan**: Filters the collection to backup policy jobs with the backup plan with the specified identifier.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is backup-policy-job
+{: #backup-policy-job}
+
+View details of a backup policy job.
+
+```
+ibmcloud is backup-policy-job POLICY JOB_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-backup-policy-job}
+
+- `ibmcloud is backup-policy-job r134-7759199b-bc1f-448e-84fa-2aa42bde29af 4cf9171a-0043-4434-8727-15b53dbc374c`
+- `ibmcloud is backup-policy-job backup-policy-1001 4cf9171a-0043-4434-8727-15b53dbc374c`
+
+#### Command options
+{: #command-options-backup-policy-job}
+
+- **POLICY**: ID or name of the backup policy.
+- **JOB_ID**: ID of the backup policy job.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
