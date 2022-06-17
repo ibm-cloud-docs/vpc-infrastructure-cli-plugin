@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-04-25"
+lastupdated: "2022-06-17"
 
 ---
 
@@ -21,6 +21,27 @@ lastupdated: "2022-04-25"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v4.2.0
+{: #v4.2.0}
+
+Version 4.2.0 was released on 2022-06-17.
+
+### New commands
+
+* Added `backup-policies`, `backup-policy-create`, `backup-policy`, `backup-policy-update`, `backup-policy-delete`, `backup-policy-plan`, `backup-policy-plans`, `backup-policy-plan-create`, `backup-policy-plan-update`, `backup-policy-plan-delete`, `backup-policy-jobs` and `backup-policy-job` commands to support Backup As a Service.
+
+### Updated commands
+
+* Updated `volume-create`, `volume-update`, `snapshot-create` and `snapshot-update` commands to support user tags.
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Added plugin support for Linux and Mac ARM64 architecture.
 
 ## v4.1.0
 {: #v4.1.0}
