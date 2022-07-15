@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-06-17"
+lastupdated: "2022-07-14"
 
 ---
 
@@ -21,6 +21,30 @@ lastupdated: "2022-06-17"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v5.0.0
+{: #v5.0.0}
+
+Version 5.0.0 was released on 2022-07-14.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `vpc-routing-table-create` and `vpc-routing-table-update` commands to support custom routes for a VPN server.
+
+* Updated `security-group-target`, `security-group-target-add` and `security-group-target-remove` commands to support a VPN server target.
+
+* Updated `vpn-server-create`, and `vpn-server-update` commands to support the secrets manager.
+
+### Removed commands
+
+* Removed VPC route commands `vpc-routes`,`vpc-route`, `vpc-route-create`, `vpc-route-update` and `vpc-route-delete`.
+
+### Note
+* VPN server commands are available.
 
 ## v4.2.0
 {: #v4.2.0}
