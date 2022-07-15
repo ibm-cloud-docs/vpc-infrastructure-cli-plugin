@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-06-17"
+lastupdated: "2022-07-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1697,7 +1697,7 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 Create a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1705,6 +1705,8 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 
 - `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --output JSON`
 - `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --output JSON`
+- `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --accept-routes-from-resource-type-filters vpn_server,vpn_gateway`
+Create a routing table with resource type filter.
 
 #### Command options
 {: #command-options-vpc-routing-table-create}
@@ -1714,6 +1716,7 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 - **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. One of: **vpn_server**, **vpn_gateway**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1725,7 +1728,7 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 Update a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway | --clean-all-accept-routes-from-filters, --cl-arf] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1743,6 +1746,8 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. All learned routes from resources that match a resource filter are removed when an existing resource filter is removed. One of: **vpn_server**, **vpn_gateway**.
+- **--clean-all-accept-routes-from-filters, --cl-arf**: Remove all accept routes from filters and delete all learned routes from the routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2177,7 +2182,7 @@ ibmcloud is security-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 View details of a target of a security group.
 
 ```
-ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2188,14 +2193,15 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 - `ibmcloud is security-group-target my-sg my-nic --bm my-bm`
 - `ibmcloud is security-group-target my-sg my-lb --trt load_balancer`
 - `ibmcloud is security-group-target my-sg my-ege --trt endpoint_gateway`
+- `ibmcloud is sg-t sg-qui-us-east vpn-server-1 --trt vpn_server --vpc vpc_per_region_us-east`
 
 #### Command options
 {: #command-options-security-group-target}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
+- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2209,7 +2215,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 Add a target to a security group.
 
 ```
-ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2221,14 +2227,15 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 - `ibmcloud is security-group-target-add my-sg eth0 --in my-instnace`
 - `ibmcloud is security-group-target-add my-sg eth0 --bm my-bm --vpc my-vpc --output JSON`
 - `ibmcloud is security-group-target-add my-sg my-egw --trt endpoint_gateway --vpc my-vpc --output JSON`
+- `ibmcloud is sg-ta demo-sg vpnServer_per_region_us-east --trt vpn_server --vpc default-vpc-2`
 
 #### Command options
 {: #command-options-security-group-target-add}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
+- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2242,7 +2249,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 Remove targets from a security group.
 
 ```
-ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer | endpoint_gateway) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2254,15 +2261,16 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 - `ibmcloud is security-group-target-remove my-sg eth0 --in my-instnace`
 - `ibmcloud is security-group-target-remove my-sg eth0 --bm my-bm --vpc my-vpc`
 - `ibmcloud is security-group-target-remove my-sg my-egw --trt endpoint-gateway`
+- `ibmcloud is sg-td demo-sg vpnServer_per_region_us-east --trt vpn_server --vpc default-vpc-2`
 
 #### Command options
 {: #command-options-security-group-target-remove}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
-- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_.
+- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
+- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2795,118 +2803,6 @@ ibmcloud is vpc-delete (VPC1 VPC2 ...) [--output JSON] [-f, --force] [-q, --quie
 - **VPC2**: ID or name of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-route
-{: #vpc-route}
-
-[Deprecated] View details of a VPC route.
-
-```
-ibmcloud is vpc-route VPC ROUTE [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-route}
-
-- **VPC**: ID or name of the VPC.
-- **ROUTE**: ID or name of the VPC route.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-route-create
-{: #vpc-route-create}
-
-[Deprecated] Create a route.
-
-```
-ibmcloud is vpc-route-create ROUTE_NAME VPC --zone ZONE_NAME --destination DESTINATION_CIDR --next-hop-ip NEXT_HOP_IP [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-vpc-route-create}
-
-- `ibmcloud is vpc-route-create my-vpc-route 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --zone us-south-1 --destination  10.2.2.0/24 --next-hop-ip 10.0.0.2 --output JSON`
-- `ibmcloud is vpc-route-create my-vpc-route my-vpc --zone us-south-1 --destination  10.2.2.0/24 --next-hop-ip 10.0.0.2 --output JSON`
-
-#### Command options
-{: #command-options-vpc-route-create}
-
-- **ROUTE_NAME**: Name of the VPC route.
-- **VPC**: ID or name of the VPC.
-- **--zone**: Name of the zone.
-- **--destination**: The destination CIDR of the route.
-- **--next-hop-ip**: The IP address of the next hop to which to route packets.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-route-update
-{: #vpc-route-update}
-
-[Deprecated] Update a route.
-
-```
-ibmcloud is vpc-route-update VPC ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-vpc-route-update}
-
-- `ibmcloud is vpc-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-renamed-vpc-route --output JSON`
-- `ibmcloud is vpc-route-update my-vpc my-vpc-route --name my-renamed-vpc-route --output JSON`
-
-#### Command options
-{: #command-options-vpc-route-update}
-
-- **VPC**: ID or name of the VPC.
-- **ROUTE**: ID or name of the VPC route.
-- **--name**: New name of the route.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-route-delete
-{: #vpc-route-delete}
-
-[Deprecated] Delete one or more routes.
-
-```
-ibmcloud is vpc-route-delete VPC (ROUTE1 ROUTE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-route-delete}
-
-- **VPC**: ID or name of the VPC.
-- **ROUTE1**: ID or name of the VPC route.
-- **ROUTE2**: ID or name of the VPC route.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is vpc-routes
-{: #vpc-routes}
-
-[Deprecated] List all routes.
-
-```
-ibmcloud is vpc-routes VPC [--output JSON] [-q, --quiet]
-```
-
-#### Command options
-{: #command-options-vpc-routes}
-
-- **VPC**: ID or name of the VPC.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -3801,7 +3697,7 @@ ibmcloud is vpn-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 
 ---
 
-## Virtual private network (VPN) servers (Beta)
+## Virtual private network (VPN) servers
 {: #vpn-server-clis}
 
 The following section gives details about the CLI commands available for working with VPN servers.
@@ -3810,7 +3706,7 @@ The following section gives details about the CLI commands available for working
 ### ibmcloud is vpn-servers
 {: #vpn-servers}
 
-[Beta] List all VPN servers.
+List all VPN servers.
 
 ```
 ibmcloud is vpn-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
@@ -3830,7 +3726,7 @@ ibmcloud is vpn-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-grou
 ### ibmcloud is vpn-server
 {: #vpn-server}
 
-[Beta] View details of a VPN server.
+View details of a VPN server.
 
 ```
 ibmcloud is vpn-server VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -3849,7 +3745,7 @@ ibmcloud is vpn-server VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
 ### ibmcloud is vpn-server-create
 {: #vpn-server-create}
 
-[Beta] Create a VPN server.
+Create a VPN server.
 
 ```
 ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--client-auth-methods certificate | username | certificate,username | username,certificate) [--subnet SUBNET --vpc VPC] [--client-ca CLIENT_CA] [--client-crl CLIENT_CRL] [--client-dns CLIENT_DNS] [--client-idle-timeout CLIENT_IDLE_TIMEOUT] [--enable-split-tunnel false | true] [--port PORT] [--protocol udp | tcp] [--sg SG] [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
@@ -3858,23 +3754,23 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 #### Command examples
 {: #command-examples-vpn-server-create}
 
-- `ibmcloud is vpn-server-create --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods certificate --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:c81627a1bf6f766379cc4b98fd21ccd6`
-- `ibmcloud is vpn-server-create --subnet my-subnet,my-subnet2 --vpc my-vpc --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods certificate --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:c81627a1bf6f766379cc4b98fd21ccd6`
-- `ibmcloud is vpn-server-create --name myvpnserver --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username`
-- `ibmcloud is vpn-server-create --name myvpnserver2 --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username --client-dns 9.9.9.9,8.8.8.8 --protocol tcp --port 8888 --enable-split-tunnel true --client-idle-timeout 1200`
-- `ibmcloud is vpn-server-create --name myvpnserver3 --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username --sg r134-e32f671c-463d-4f93-88e3-2dd0413476b4,r134-3af7a9db-d9bc-43d4-bced-93e0a33fee25`
-- `ibmcloud is vpn-server-create --name myvpnserver3 --subnet my-subnet --vpc my-vpc --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-auth-methods username --sg my-sg1,my-sg2`
-- `ibmcloud is vpn-server-create  --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-ip-pool 192.168.0.0/20 --client-dns 172.34.1.100  --client-auth-methods certificate,username --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:c81627a1bf6f766379cc4b98fd21ccd6 --client-crl @./openvpn/crl.pem --name vpnswithcrl --sg r134-5744b689-e5c4-461d-9f9b-ce5e7e8dbed6`
+- `ibmcloud is vpn-server-create --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-auth-methods certificate --client-ca crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f514`
+- `ibmcloud is vpn-server-create --subnet my-subnet,my-subnet2 --vpc my-vpc --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-auth-methods certificate --client-ca crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f514`
+- `ibmcloud is vpn-server-create --name myvpnserver --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-auth-methods username`
+- `ibmcloud is vpn-server-create --name myvpnserver2 --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0 --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-auth-methods username --client-dns 9.9.9.9,8.8.8.8 --protocol tcp --port 8888 --enable-split-tunnel true --client-idle-timeout 1200`
+- `ibmcloud is vpn-server-create --name myvpnserver3 --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0 --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-auth-methods username --sg r134-e32f671c-463d-4f93-88e3-2dd0413476b4,r134-3af7a9db-d9bc-43d4-bced-93e0a33fee25`
+- `ibmcloud is vpn-server-create --name myvpnserver3 --subnet my-subnet --vpc my-vpc --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-auth-methods username --sg my-sg1,my-sg2`
+- `ibmcloud is vpn-server-create  --subnet 0726-a7191f77-7c87-4ad4-bb11-a37f9e9fc0f0,0736-4b871e22-e819-4f87-bb17-e457a88246a2 --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-ip-pool 192.168.0.0/20 --client-dns 172.34.1.100  --client-auth-methods certificate,username --client-ca crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f514 --client-crl @./openvpn/crl.pem --name vpnswithcrl --sg r134-5744b689-e5c4-461d-9f9b-ce5e7e8dbed6`
 
 #### Command options
 {: #command-options-vpn-server-create}
 
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool**s CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
-- **--cert**: The certificate instance CRN for this VPN server.
+- **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
+- **--cert**: The secret CRN from the secret manager for this VPN server. Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
-- **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
+- **--client-ca**: The CRN of the secret from secrets manager to use for the VPN client certificate authority (CA). Since the usage of certificate CRN from Certificate Manager is deprecated, migrate your vpn server certificates from Certificate Manager to Secrets Manager.
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
 - **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
 - **--client-idle-timeout**: The seconds that a VPN client can idle before this VPN server disconnects it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
@@ -3893,7 +3789,7 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 ### ibmcloud is vpn-server-update
 {: #vpn-server-update}
 
-[Beta] Update a VPN server.
+Update a VPN server.
 
 ```
 ibmcloud is vpn-server-update VPN_SERVER_ID [--vpc VPC] [--subnet SUBNET] [--client-ip-pool CLIENT_IP_POOL] [--cert CERT] [--client-auth-methods certificate | username | certificate,username | username,certificate] [--client-ca CLIENT_CA] [--client-crl CLIENT_CRL] [[--client-dns CLIENT_DNS | --reset-client-dns]] [--client-idle-timeout CLIENT_IDLE_TIMEOUT] [--enable-split-tunnel false | true] [--port PORT] [--protocol udp | tcp] [--name NEW_NAME] [--output JSON] [-q, --quiet]
@@ -3904,7 +3800,7 @@ ibmcloud is vpn-server-update VPN_SERVER_ID [--vpc VPC] [--subnet SUBNET] [--cli
 
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --name my-server`
 - `ibmcloud is vpn-server-update my-server --name my-renamed-server`
-- `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --cert crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc --client-auth-methods certificate --client-ca crn:v1:bluemix:public:cloudcerts:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:1862b0b4-c1f8-4eef-a6b5-e9c00c9f593d:certificate:6c801ef768c139d986b4c6f91175e8cc`
+- `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --cert crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-auth-methods certificate --client-ca crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f514`
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --client-ip-pool 192.168.0.0/20 --client-dns 9.9.9.9 --client-idle-timeout 120 --port 9090 --protocol tcp --enable-split-tunnel true --output JSON`
 - `ibmcloud is vpn-server-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --client-dns ""`
 Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server.
@@ -3921,13 +3817,13 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 - **VPN_SERVER_ID**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
-- **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool**s CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
-- **--cert**: The certificate instance CRN for this VPN server.
+- **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
+- **--cert**: The secret CRN from the secret manager for this VPN server. Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
-- **--client-ca**: The CRN of the certificate instance to use for the VPN client certificate authority (CA).
+- **--client-ca**: The secret CRN from the secret manager to use for the VPN client certificate authority (CA). Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
 - **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
-- **--reset-client-dns**: Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server.
+- **--reset-client-dns**: Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server. <!-- "that are" is used because "server addresses" is plural -->
 - **--client-idle-timeout**: The seconds that a VPN client can idle before this VPN server disconnects it. Specify 0 to prevent the server from disconnecting idle clients.
 - **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
 - **--port**: The port number to use for this VPN server.
@@ -3941,7 +3837,7 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 ### ibmcloud is vpn-server-delete
 {: #vpn-server-delete}
 
-[Beta] Delete one or more VPN servers.
+Delete one or more VPN servers.
 
 ```
 ibmcloud is vpn-server-delete (VPN_SERVER_ID1 VPN_SERVER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -3962,7 +3858,7 @@ ibmcloud is vpn-server-delete (VPN_SERVER_ID1 VPN_SERVER_ID2 ...) [--vpc VPC] [-
 ### ibmcloud is vpn-server-client-configuration
 {: #vpn-server-client-configuration}
 
-[Beta] Retrieve OpenVPN client configuration.
+Retrieve OpenVPN client configuration.
 
 ```
 ibmcloud is vpn-server-client-configuration VPN_SERVER_ID [--vpc VPC] [--file FILE] [-q, --quiet]
@@ -3988,7 +3884,7 @@ ibmcloud is vpn-server-client-configuration VPN_SERVER_ID [--vpc VPC] [--file FI
 ### ibmcloud is vpn-server-clients
 {: #vpn-server-clients}
 
-[Beta] List all VPN clients for a VPN server.
+List all VPN clients for a VPN server.
 
 ```
 ibmcloud is vpn-server-clients VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -4007,7 +3903,7 @@ ibmcloud is vpn-server-clients VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --
 ### ibmcloud is vpn-server-client
 {: #vpn-server-client}
 
-[Beta] View details of a VPN client.
+View details of a VPN client.
 
 ```
 ibmcloud is vpn-server-client VPN_SERVER_ID CLIENT_ID [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -4027,7 +3923,7 @@ ibmcloud is vpn-server-client VPN_SERVER_ID CLIENT_ID [--vpc VPC] [--output JSON
 ### ibmcloud is vpn-server-client-delete
 {: #vpn-server-client-delete}
 
-[Beta] Delete one or more VPN clients for a VPN server.
+Delete one or more VPN clients for a VPN server.
 
 ```
 ibmcloud is vpn-server-client-delete VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
@@ -4048,7 +3944,7 @@ ibmcloud is vpn-server-client-delete VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [
 ### ibmcloud is vpn-server-client-disconnect
 {: #vpn-server-client-disconnect}
 
-[Beta] Disconnect VPN client.
+Disconnect VPN client.
 
 ```
 ibmcloud is vpn-server-client-disconnect VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
@@ -4069,7 +3965,7 @@ ibmcloud is vpn-server-client-disconnect VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ..
 ### ibmcloud is vpn-server-routes
 {: #vpn-server-routes}
 
-[Beta] List all VPN routes for vpn server.
+List all VPN routes for a VPN server.
 
 ```
 ibmcloud is vpn-server-routes VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -4088,7 +3984,7 @@ ibmcloud is vpn-server-routes VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --q
 ### ibmcloud is vpn-server-route
 {: #vpn-server-route}
 
-[Beta] View details of a VPN route.
+View details of a VPN route.
 
 ```
 ibmcloud is vpn-server-route VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -4108,7 +4004,7 @@ ibmcloud is vpn-server-route VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--output JSON] 
 ### ibmcloud is vpn-server-route-create
 {: #vpn-server-route-create}
 
-[Beta] Create a VPN route.
+Create a VPN route.
 
 ```
 ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR [--vpc VPC] [--action translate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
@@ -4137,7 +4033,7 @@ ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR
 ### ibmcloud is vpn-server-route-update
 {: #vpn-server-route-update}
 
-[Beta] Update a VPN route.
+Update a VPN route.
 
 ```
 ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--name NAME] [--output JSON] [-q, --quiet]
@@ -4164,7 +4060,7 @@ ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--name N
 ### ibmcloud is vpn-server-route-delete
 {: #vpn-server-route-delete}
 
-[Beta] Delete one or more VPN routes.
+Delete one or more VPN routes.
 
 ```
 ibmcloud is vpn-server-route-delete VPN_SERVER_ID (ROUTE_ID1 ROUTE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
@@ -6374,7 +6270,7 @@ Create instance template with existing volume in volume attachment.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 Create instance template with multiple SSH keys.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
-Create instance template from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
+Create instance template with image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance template with encrypted boot volume.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
@@ -6816,7 +6712,7 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 ### ibmcloud is instance-group-manager-delete
 {: #instance-group-manager-delete}
 
-Delete one or more instance group managers.
+Delete one or more managers.
 
 ```
 ibmcloud is instance-group-manager-delete INSTANCE_GROUP (MANAGER1 MANAGER2 ...) [-f, --force] [-q, --quiet]
@@ -7344,13 +7240,13 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 
 - `ibmcloud is volume-create my-volume general-purpose us-south-1`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --capacity 500`
-- `ibmcloud is volume-create my-volume custom us-south-1 --iops 10000 --capacity 1000`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --iops 10000 --capacity 1000`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 my-volume general-purpose us-south-1 --tags env:test`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 general-purpose us-south-1 --tags env:test,env:dev`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --encryption-key crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-name Default`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --output JSON`
-- `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test`
-- `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test,env:dev`
 
 #### Command options
 {: #command-options-volume-create}
@@ -7663,9 +7559,9 @@ ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans
 - **--match-tags**: The user tags this backup policy applies to.
 - **--plans**: PLANS_JSON|@PLANS_JSON_FILE, plans in JSON or JSON file, list of policy plans. For the data schema, check **plans** property in the API documentation **https://cloud.ibm.com/apidocs/vpc#create-backup-policy** One of: **PLANS_JSON**, **@PLANS_JSON_FILE**.
 - **--plan-name**: Name of the backup policy plan.
-- **--plan-active**: Indicates whether the plan is active or not.
+- **--plan-active**: Indicates whether the plan is active.
 - **--plan-attach-tags**: User tags to attach to each resource created by this plan.
-- **--plan-copy-tags**: Indicates whether to copy the source**s user tags to the created resource. One of: **true**, **false**.
+- **--plan-copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--plan-cron-spec**: The cron specification for the backup schedule.
 - **--plan-delete-after**: The maximum number of days to keep each backup after creation. (default: **30**).
 - **--plan-delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
@@ -7823,7 +7719,7 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 
 - **POLICY**: ID or name of the backup policy.
 - **--name**: Name of the backup policy plan.
-- **--active**: Indicates whether or not the plan is active.
+- **--active**: Indicates whether the plan is active.
 - **--attach-tags**: User tags to attach to each resource created by this plan.
 - **--copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--cron-spec**: The cron specification for the backup schedule.
@@ -7884,7 +7780,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - **--name**: New name of the backup policy plan.
 - **--active**: Indicates whether the plan is active.
 - **--attach-tags**: User tags to attach to each resource created by this plan.
-- **--copy-tags**: Indicates whether to copy the sources user tags to the created resource. One of: **true**, **false**.
+- **--copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--cron-spec**: The cron specification for the backup schedule.
 - **--delete-after**: The maximum number of days to keep each backup after creation.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
