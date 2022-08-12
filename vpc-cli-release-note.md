@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-07-14"
+lastupdated: "2022-07-29"
 
 ---
 
@@ -21,6 +21,26 @@ lastupdated: "2022-07-14"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v5.0.1
+{: #v5.0.1}
+
+Version 5.0.1 was released on 2022-07-29.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Note
+* Fixed VPC cri relogin issue.
 
 ## v5.0.0
 {: #v5.0.0}
