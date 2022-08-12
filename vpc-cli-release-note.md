@@ -40,7 +40,7 @@ Version 5.0.1 was released on 2022-07-29.
 * N/A
 
 ### Note
-* Fixed VPC cri relogin issue.
+* Fixed VPC CRI relogin issue.
 
 ## v5.0.0
 {: #v5.0.0}
