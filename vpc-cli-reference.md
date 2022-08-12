@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-07-14"
+lastupdated: "2022-07-29"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -2199,7 +2199,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 {: #command-options-security-group-target}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
+- **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -2233,7 +2233,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 {: #command-options-security-group-target-add}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
+- **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
@@ -2546,7 +2546,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--addres
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet. If not specified, an available address on the subnet is automatically selected.
 - **--auto-delete**: Indicates whether this reserved IP member automatically deletes when either target is deleted, or the reserved IP is unbound. Must be false if the reserved IP is unbound. One of: **true**, **false**. (default: **false**).
-- **--target**: The ID or name of the target resource. The following are supported target resource types: _endpoint_gateway_.
+- **--target**: The ID or name of the target resource. The following types are supported target resource types: _endpoint_gateway_.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3770,7 +3770,7 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
 - **--cert**: The secret CRN from the secret manager for this VPN server. Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
-- **--client-ca**: The CRN of the secret from secrets manager to use for the VPN client certificate authority (CA). Since the usage of certificate CRN from Certificate Manager is deprecated, migrate your vpn server certificates from Certificate Manager to Secrets Manager.
+- **--client-ca**: The secret CRN from the secrets manager to use for the VPN client certificate authority (CA). Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
 - **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
 - **--client-idle-timeout**: The seconds that a VPN client can idle before this VPN server disconnects it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
@@ -3820,10 +3820,10 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
 - **--cert**: The secret CRN from the secret manager for this VPN server. Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
-- **--client-ca**: The secret CRN from the secret manager to use for the VPN client certificate authority (CA). Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
+- **--client-ca**: The secret CRN from the secrets manager to use for the VPN client certificate authority (CA). Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
 - **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
-- **--reset-client-dns**: Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server. <!-- "that are" is used because "server addresses" is plural -->
+- **--reset-client-dns**: Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server.
 - **--client-idle-timeout**: The seconds that a VPN client can idle before this VPN server disconnects it. Specify 0 to prevent the server from disconnecting idle clients.
 - **--enable-split-tunnel**: Indicates whether the split tunneling is enabled on this VPN server. One of: **false**, **true**. (default: **false**).
 - **--port**: The port number to use for this VPN server.
@@ -4328,7 +4328,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service true | false] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4349,7 +4349,7 @@ Create instance with encrypted boot volume.
 Create instance that is attached to secondary network interface.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ip": {"address": "10.240.129.10", "auto-delete": true, "name": "my-reserved-ip"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
 Create instance with primary network interface configuration in JSON.
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --address 10.240.129.10 --auto-delete true --reserved-ip my-reserved-ip --allow-ip-spoofing true`
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --address 10.240.129.10 --auto-delete true --ip-name my-reserved-ip --allow-ip-spoofing true`
 Create instance with primary network interface configuration that includes security groups, reserved IP settings, source IP spoofing setting.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --reserved-ip 0711-5c7f016e-5bd2-42e3-8dff-81519e4e2469 --allow-ip-spoofing true`
 Create instance with primary network interface configuration that includes security groups, existing reserved IP, source IP spoofing setting.
@@ -4419,7 +4419,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
-- **--metadata-service**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
+- **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -4435,7 +4435,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service true | false] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4445,7 +4445,7 @@ ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--p
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --resource-group-id 7494aacb866142fba11a88d75cb37bd8 --output JSON`
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --boot-volume '{"delete_volume_on_instance_delete": false, "name": "boot-vol-attachment-name", "volume": {"name": "myvol2", "profile": {"name": "general-purpose"}}}'`
 Create instance from instance template with the boot volume configuration
-- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --address 10.240.129.10 --auto-delete true --reserved-ip my-reserved-ip --sgs r006-19c2ce0d-d35d-47bc-8147-120edddd3de5 --allow-ip-spoofing true`
+- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --subnet 0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac --address 10.240.129.10 --auto-delete true --ip-name my-reserved-ip --sgs r006-19c2ce0d-d35d-47bc-8147-120edddd3de5 --allow-ip-spoofing true`
 Create instance from instance template with the primary network interface configuration
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name my-instance --vpc r006-beca4c2f-625f-45de-bd95-c8eb12f6842a --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"0717-fe2e13d0-9ba8-43bd-ab6b-a1fad51557ac"}, "primary_ip": {"address": "10.240.129.10", "auto-delete": true, "name": "my-reserved-ip"}, "security_groups": [{"id": "r006-19c2ce0d-d35d-47bc-8147-120edddd3de5"}]}'`
 Create instance from instance template with the primary network interface configuration in json format
@@ -4461,7 +4461,7 @@ Create instance from instance template with the wanted dedicated host
 Create instance from instance template with the wanted dedicated host group
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --name new-instance-name --metadata-service true`
 Create instance from instance template with metadata service enabled or disabled
-- `ibmcloud is instance-create-from-template --template my-template --name new-instance-name --vpc my-vpc --zone us-south-1 --subnet my-subnet --address 10.240.129.10 --auto-delete true --ip-name my-reserved-ip --sgs my-security-group --allow-ip-spoofing true`
+- `ibmcloud is instance-create-from-template --template my-template --name new-instance-name --vpc my-vpc --zone us-south-1 --subnet my-subnet --reserved-ip my-reserved-ip --sgs my-security-group --allow-ip-spoofing true`
 Create instance from instance template with the primary network interface configuration by using resource name.
 - `ibmcloud is instance-create-from-template --template my-template --name my-instance --vpc my-vpc --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "primary_ip": {"name": "my-reserved-ip"}, "security_groups": [{"name": "my-security-group"}]}'`
 Create instance from instance template with the primary network interface configuration in json format by using resource name.
@@ -4500,7 +4500,7 @@ Create instance from instance template with primary network interface configurat
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
-- **--metadata-service**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
+- **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -4930,7 +4930,7 @@ ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q
 Update a virtual server instance.
 
 ```
-ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP] [--metadata-service true | false] [--host-failure-policy restart | stop] [--output JSON] [-q, --quiet]
+ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP] [--metadata-service, --ms true | false] [--host-failure-policy restart | stop] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4955,7 +4955,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
-- **--metadata-service**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
+- **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6256,7 +6256,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image IMAGE [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service true | false] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image IMAGE [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6277,7 +6277,7 @@ Create instance template with encrypted boot volume.
 Create instance template that is attached to secondary network interface.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ip": {"address": "10.240.129.10", "auto-delete": true, "name": "my-reserved-ip"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
 Create instance template with primary network interface configuration in JSON.
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --address 10.240.129.10 --auto-delete true --reserved-ip my-reserved-ip --allow-ip-spoofing true`
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --address 10.240.129.10 --auto-delete true --ip-name my-reserved-ip --allow-ip-spoofing true`
 Create instance template with primary network interface configuration that includes security groups, reserved IP settings, source IP spoofing setting.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --reserved-ip 0711-5c7f016e-5bd2-42e3-8dff-81519e4e2469 --allow-ip-spoofing true`
 Create instance template with primary network interface configuration that includes security groups, existing reserved IP, source IP spoofing setting.
@@ -6333,7 +6333,7 @@ Create instance template interactively.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--metadata-service**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
+- **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -6349,7 +6349,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service true | false] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6390,7 +6390,7 @@ Create instance template by overriding a source template with primary network in
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--metadata-service**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
+- **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
