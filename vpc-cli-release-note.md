@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-07-29"
+lastupdated: "2022-08-19"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2022-07-29"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v5.1.0
+{: #v5.1.0}
+
+Version 5.1.0 was released on 2022-08-19.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `instance-create`, `instance-volume-attachment-add`, `instance-template-create` commands to support user tags.
+
+### Removed commands
+
+* N/A
 
 ## v5.0.1
 {: #v5.0.1}
