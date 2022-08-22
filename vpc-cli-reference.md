@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-07-29"
+lastupdated: "2022-08-16"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -45,21 +45,19 @@ This CLI reference is organized into the following sections:
    ```
    {: pre} 
 
-   To update:
+   To update, use the following command:
 
    ```
    ibmcloud plugin update
    ```
    {: pre}
 
-   To view installed plug-ins and versions:
+   To view installed plug-ins and versions, use the following command:
 
    ```
    ibmcloud plugin list
    ```
    {: pre}
-
----
 
 ## NETWORK COMMANDS
 {: #network}
@@ -1837,9 +1835,9 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 - **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **--zone**: Name of the zone.
 - **--action**: The action to perform with a packet that matches the route. One of: **delegate_vpc**, **delegate**, **deliver**, **drop**.
-- **--destination**: The destination CIDR of the route. At most two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
-- **--next-hop**: If the action is **deliver**, the IP address or VPN connection ID or name of the next hop to which to route packets.
-- **--vpngw**: ID or name of the VPN gateway, and it is only required the next-hop is specified as VPN connection in name format.
+- **--destination**: The destination CIDR of the route. At most, two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
+- **--next-hop**: If the action is **deliver**, then the IP address, VPN connection ID, or name of the next-hop that packets are delivered to. For other action values, it must be omitted or specified as 0.0.0.0.
+- **--vpngw**: ID or name of the VPN gateway. This option is required only if the next-hop is specified as VPN connection in name format.
 - **--name**: Name of the VPC routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3128,10 +3126,10 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 #### Command examples
 {: #command-examples-ike-policy-create}
 
-- `ibmcloud is ike-policy-create my-ike-policy md5 2 aes128 2`
-- `ibmcloud is ike-policy-create my-ike-policy md5 2 aes128 2 --key-lifetime 28000`
-- `ibmcloud is ike-policy-create my-ike-policy md5 2 aes128 2 --resource-group-name Default`
-- `ibmcloud is ike-policy-create my-ike-policy md5 2 aes128 2 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2`
+- `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2 --key-lifetime 28000`
+- `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2 --resource-group-name Default`
+- `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
 
 #### Command options
 {: #command-options-ike-policy-create}
@@ -3183,8 +3181,8 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --name my-ike-policy`
 - `ibmcloud is ike-policy-update my-ike-policy --name my-renamed-ike-policy`
-- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm md5`
-- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --dh-group 2`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm sha256`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --dh-group 14`
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithm aes128`
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --ike-version 2`
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --key-lifetime 28000 --output JSON`
@@ -3272,10 +3270,10 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 #### Command examples
 {: #command-examples-ipsec-policy-create}
 
-- `ibmcloud is ipsec-policy-create my-ipsec-policy md5 aes128 group_2`
-- `ibmcloud is ipsec-policy-create my-ipsec-policy md5 aes128 group_2 --key-lifetime 3600`
-- `ibmcloud is ipsec-policy-create my-ipsec-policy md5 aes128 group_2 --resource-group-name Default`
-- `ibmcloud is ipsec-policy-create my-ipsec-policy md5 aes128 group_2 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14`
+- `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14 --key-lifetime 3600`
+- `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14 --resource-group-name Default`
+- `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
 
 #### Command options
 {: #command-options-ipsec-policy-create}
@@ -3283,7 +3281,7 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 - **IPSEC_POLICY_NAME**: Name of the IPsec policy.
 - **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
 - **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
-- **PFS**: The Diffie-Hellman group. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_19**.
+- **PFS**: Perfect Forward Secrecy. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_19**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **3600**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -3326,8 +3324,8 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --name my-ipsec-policy`
 - `ibmcloud is ipsec-policy-update my-ipsec-policy --name my-renamed-ipsec-policy`
-- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm md5`
-- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --pfs group_2`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm sha256`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --pfs group_14`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithm aes128`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --key-lifetime 3600 --output JSON`
 
@@ -3411,7 +3409,7 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRE
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 16.3.4.5 --local-cidr 12.3.4.5 --peer-cidr 16.3.4.5 --peer-cidr 12.3.4.5  --output JSON`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-create}
@@ -3729,13 +3727,13 @@ ibmcloud is vpn-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-grou
 View details of a VPN server.
 
 ```
-ibmcloud is vpn-server VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server VPN_SERVER [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3792,7 +3790,7 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 Update a VPN server.
 
 ```
-ibmcloud is vpn-server-update VPN_SERVER_ID [--vpc VPC] [--subnet SUBNET] [--client-ip-pool CLIENT_IP_POOL] [--cert CERT] [--client-auth-methods certificate | username | certificate,username | username,certificate] [--client-ca CLIENT_CA] [--client-crl CLIENT_CRL] [[--client-dns CLIENT_DNS | --reset-client-dns]] [--client-idle-timeout CLIENT_IDLE_TIMEOUT] [--enable-split-tunnel false | true] [--port PORT] [--protocol udp | tcp] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-update VPN_SERVER [--vpc VPC] [--subnet SUBNET] [--client-ip-pool CLIENT_IP_POOL] [--cert CERT] [--client-auth-methods certificate | username | certificate,username | username,certificate] [--client-ca CLIENT_CA] [--client-crl CLIENT_CRL] [[--client-dns CLIENT_DNS | --reset-client-dns]] [--client-idle-timeout CLIENT_IDLE_TIMEOUT] [--enable-split-tunnel false | true] [--port PORT] [--protocol udp | tcp] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3814,7 +3812,7 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 #### Command options
 {: #command-options-vpn-server-update}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
@@ -3840,14 +3838,14 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 Delete one or more VPN servers.
 
 ```
-ibmcloud is vpn-server-delete (VPN_SERVER_ID1 VPN_SERVER_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-server-delete (VPN_SERVER1 VPN_SERVER2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-delete}
 
-- **VPN_SERVER_ID1**: ID or name of the VPN server.
-- **VPN_SERVER_ID2**: ID or name of the VPN server.
+- **VPN_SERVER1**: ID or name of the VPN server.
+- **VPN_SERVER2**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
@@ -3861,7 +3859,7 @@ ibmcloud is vpn-server-delete (VPN_SERVER_ID1 VPN_SERVER_ID2 ...) [--vpc VPC] [-
 Retrieve OpenVPN client configuration.
 
 ```
-ibmcloud is vpn-server-client-configuration VPN_SERVER_ID [--vpc VPC] [--file FILE] [-q, --quiet]
+ibmcloud is vpn-server-client-configuration VPN_SERVER [--vpc VPC] [--file FILE] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3874,7 +3872,7 @@ ibmcloud is vpn-server-client-configuration VPN_SERVER_ID [--vpc VPC] [--file FI
 #### Command options
 {: #command-options-vpn-server-client-configuration}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--file**: Save the client configuration to the specified file path name.
 - **-q, --quiet**: Suppress verbose output.
@@ -3887,13 +3885,13 @@ ibmcloud is vpn-server-client-configuration VPN_SERVER_ID [--vpc VPC] [--file FI
 List all VPN clients for a VPN server.
 
 ```
-ibmcloud is vpn-server-clients VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-clients VPN_SERVER [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-clients}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3906,13 +3904,13 @@ ibmcloud is vpn-server-clients VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --
 View details of a VPN client.
 
 ```
-ibmcloud is vpn-server-client VPN_SERVER_ID CLIENT_ID [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-client VPN_SERVER CLIENT_ID [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-client}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **CLIENT_ID**: ID of the VPN client.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3926,13 +3924,13 @@ ibmcloud is vpn-server-client VPN_SERVER_ID CLIENT_ID [--vpc VPC] [--output JSON
 Delete one or more VPN clients for a VPN server.
 
 ```
-ibmcloud is vpn-server-client-delete VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-server-client-delete VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-client-delete}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **CLIENT_ID1**: ID of the VPN client.
 - **CLIENT_ID2**: ID of the VPN client.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
@@ -3947,13 +3945,13 @@ ibmcloud is vpn-server-client-delete VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [
 Disconnect VPN client.
 
 ```
-ibmcloud is vpn-server-client-disconnect VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-server-client-disconnect VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-client-disconnect}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **CLIENT_ID1**: ID of the VPN client.
 - **CLIENT_ID2**: ID of the VPN client.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
@@ -3968,13 +3966,13 @@ ibmcloud is vpn-server-client-disconnect VPN_SERVER_ID (CLIENT_ID1 CLIENT_ID2 ..
 List all VPN routes for a VPN server.
 
 ```
-ibmcloud is vpn-server-routes VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-routes VPN_SERVER [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-routes}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3987,13 +3985,13 @@ ibmcloud is vpn-server-routes VPN_SERVER_ID [--vpc VPC] [--output JSON] [-q, --q
 View details of a VPN route.
 
 ```
-ibmcloud is vpn-server-route VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-route VPN_SERVER ROUTE_ID [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-route}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **ROUTE_ID**: ID or name of the VPN route.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4007,7 +4005,7 @@ ibmcloud is vpn-server-route VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--output JSON] 
 Create a VPN route.
 
 ```
-ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR [--vpc VPC] [--action translate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-route-create VPN_SERVER --destination DESTINATION_CIDR [--vpc VPC] [--action translate | deliver | drop] [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4020,7 +4018,7 @@ ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR
 #### Command options
 {: #command-options-vpn-server-route-create}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--action**: The action to perform with a packet that matches the route. One of: **translate**, **deliver**, **drop**. (default: **deliver**).
 - **--destination**: The destination to use for this VPN route in the VPN server. Must be unique within the VPN server. If an incoming packet does not match any destination, the packet is dropped.
@@ -4036,7 +4034,7 @@ ibmcloud is vpn-server-route-create VPN_SERVER_ID --destination DESTINATION_CIDR
 Update a VPN route.
 
 ```
-ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--name NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-server-route-update VPN_SERVER ROUTE_ID [--vpc VPC] [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4048,7 +4046,7 @@ ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--name N
 #### Command options
 {: #command-options-vpn-server-route-update}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **ROUTE_ID**: ID or name of the VPN route.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the VPN route.
@@ -4063,13 +4061,13 @@ ibmcloud is vpn-server-route-update VPN_SERVER_ID ROUTE_ID [--vpc VPC] [--name N
 Delete one or more VPN routes.
 
 ```
-ibmcloud is vpn-server-route-delete VPN_SERVER_ID (ROUTE_ID1 ROUTE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-server-route-delete VPN_SERVER (ROUTE_ID1 ROUTE_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpn-server-route-delete}
 
-- **VPN_SERVER_ID**: ID or name of the VPN server.
+- **VPN_SERVER**: ID or name of the VPN server.
 - **ROUTE_ID1**: ID or name of the VPN route.
 - **ROUTE_ID2**: ID or name of the VPN route.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
@@ -4335,7 +4333,7 @@ ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--i
 {: #command-examples-instance-create}
 
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
-- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"}}}]'`
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}]'`
 Create instance with volume attachment.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"id":"67531475-bd8a-478e-bcfe-2e53365cd0aa"}}]'`
 Create instance with existing volume in volume attachment.
@@ -4343,6 +4341,8 @@ Create instance with existing volume in volume attachment.
 Create instance with multiple SSH keys.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
 Create instance from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}'`
+Create instance with boot volume and boot volume with user tags.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance with encrypted boot volume.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
@@ -5005,7 +5005,7 @@ ibmcloud is instance-volume-attachments INSTANCE [--output JSON] [-q, --quiet]
 Create a volume attachment, connecting a volume to an instance.
 
 ```
-ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PROFILE --new-volume-name NEW_VOLUME_NAME --iops IOPS --encryption-key ENCRYPTION_KEY --capacity CAPACITY --source-snapshot SOURCE_SNAPSHOT) [--auto-delete false | true] [--output JSON] [-q, --quiet]
+ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PROFILE --new-volume-name NEW_VOLUME_NAME --iops IOPS --encryption-key ENCRYPTION_KEY --capacity CAPACITY --tags TAGS --source-snapshot SOURCE_SNAPSHOT) [--auto-delete false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5015,6 +5015,7 @@ ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PRO
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 1a6b7274-678d-4dfb-8981-c71dd9d4daa5 --auto-delete true`
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 1a6b7274-678d-4dfb-8981-c71dd9d4daa5 --auto-delete true --output JSON`
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --profile general-purpose --source-snapshot eaf9d6ca-35bf-4ac7-bc45-d0f2507f2830 --auto-delete true --output JSON`
+- `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --profile general-purpose ---capacity 10 --auto-delete true --tags my-tag-1,my-tag-2`
 - `ibmcloud is instance-volume-attachment-add data-vol-name my-instance my-volume --auto-delete true`
 Add an existing volume to a virtual server instance by using resource name.
 
@@ -5029,6 +5030,7 @@ Add an existing volume to a virtual server instance by using resource name.
 - **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles#custom.
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes.
+- **--tags**: Comma-separated tags for the volume.
 - **--source-snapshot**: ID or name of the snapshot to clone volume.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -6263,7 +6265,7 @@ ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFIL
 {: #command-examples-instance-template-create}
 
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
-- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"}}}]'`
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}]'`
 Create instance template with volume attachment.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"id":"67531475-bd8a-478e-bcfe-2e53365cd0aa"}}]'`
 Create instance template with existing volume in volume attachment.
@@ -6271,6 +6273,8 @@ Create instance template with existing volume in volume attachment.
 Create instance template with multiple SSH keys.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
 Create instance template with image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}'`
+Create instance template with boot volume and boot volume with user tags.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
 Create instance template with encrypted boot volume.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
@@ -7241,8 +7245,8 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - `ibmcloud is volume-create my-volume general-purpose us-south-1`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --capacity 500`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --iops 10000 --capacity 1000`
-- `ibmcloud is volume-create my-volume general-purpose us-south-1 my-volume general-purpose us-south-1 --tags env:test`
-- `ibmcloud is volume-create my-volume general-purpose us-south-1 general-purpose us-south-1 --tags env:test,env:dev`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test,env:dev`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --encryption-key crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-name Default`
