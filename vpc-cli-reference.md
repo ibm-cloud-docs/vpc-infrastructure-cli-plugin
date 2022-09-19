@@ -1243,7 +1243,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 {: #network-acls}
 
 ### ibmcloud is network-acls
-{: #network-acls}
+{: #ibmcloud-is-network-acls}
 
 List all network ACLs.
 
@@ -1619,7 +1619,7 @@ ibmcloud is public-gateway-update GATEWAY --name NEW_NAME [--vpc VPC] [--output 
 ---
 
 ### ibmcloud is public-gateways
-{: #public-gateways}
+{: #ibmcloud-is-public-gateways}
 
 List all public gateways.
 
@@ -4296,7 +4296,7 @@ ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_F
 ---
 
 ### ibmcloud is instances
-{: #instances}
+{: #ibmcloud-is-instances}
 
 List all virtual server instances.
 
@@ -5197,7 +5197,7 @@ ibmcloud is key-update KEY --name NEW_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is keys
-{: #keys}
+{: #ibmcloud-is-keys}
 
 List all keys.
 
@@ -5367,7 +5367,7 @@ ibmcloud is dedicated-host-group-delete (HOST_GROUP1 HOST_GROUP2 ...) [--output 
 ---
 
 ### ibmcloud is dedicated-hosts
-{: #dedicated-hosts}
+{: #ibmcloud-is-dedicated-hosts}
 
 List all hosts.
 
@@ -6087,7 +6087,7 @@ ibmcloud is bare-metal-server-update SERVER --name NEW_NAME [--output JSON] [-q,
 ---
 
 ### ibmcloud is bare-metal-servers
-{: #bare-metal-servers}
+{: #ibmcloud-is-bare-metal-servers}
 
 List all bare metal servers.
 
@@ -6110,7 +6110,7 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 {: #placement-group}
 
 ### ibmcloud is placement-group
-{: #placement-group}
+{: #ibmcloud-is-placement-group}
 
 View details of a placement group.
 
@@ -6248,7 +6248,7 @@ ibmcloud is instance-templates [--resource-group-id RESOURCE_GROUP_ID | --resour
 ---
 
 ### ibmcloud is instance-template
-{: #instance-template}
+{: #ibmcloud-is-instance-template}
 
 View details of an instance template.
 
@@ -6487,7 +6487,7 @@ ibmcloud is instance-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 ---
 
 ### ibmcloud is instance-group
-{: #instance-group}
+{: #ibmcloud-is-instance-group}
 
 View details of an instance group.
 
@@ -7135,7 +7135,7 @@ ibmcloud is region REGION_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is regions
-{: #regions}
+{: #ibmcloud-is-regions}
 
 List all regions.
 
@@ -7173,7 +7173,7 @@ ibmcloud is zone ZONE_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is zones
-{: #zones}
+{: #ibmcloud-is-zones}
 
 List all zones in the target region.
 
@@ -7643,7 +7643,7 @@ ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--name NEW_NA
 ---
 
 ### ibmcloud is backup-policy
-{: #backup-policy}
+{: #ibmcloud-is-backup-policy}
 
 View details of a backup policy.
 
