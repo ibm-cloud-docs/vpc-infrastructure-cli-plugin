@@ -22,6 +22,23 @@ lastupdated: "2022-08-19"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v5.2.0
+{: #v5.2.0}
+
+Version 5.2.0 was released on 2022-09-16.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `load-balancer-update` command to support application load balancer subnet patch.
+
+### Removed commands
+
+* N/A
+
 ## v5.1.0
 {: #v5.1.0}
 
