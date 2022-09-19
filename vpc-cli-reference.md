@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-08-16"
+lastupdated: "2022-09-16"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -58,6 +58,8 @@ This CLI reference is organized into the following sections:
    ibmcloud plugin list
    ```
    {: pre}
+
+---
 
 ## NETWORK COMMANDS
 {: #network}
@@ -812,7 +814,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID | --reset-default-pool] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI | --reset-http-redirect-target-uri])] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -845,6 +847,7 @@ The range of ports that are used by this listener.
 - **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
+- **--reset-default-pool**: Reset default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
 - **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. Migrate your load balancer certificates from Certificate Manager to Secrets Manager because the certificate CRN from Certificate Manager is deprecated. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
@@ -852,6 +855,7 @@ The range of ports that are used by this listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
 - **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
+- **--reset-http-redirect-target-uri**: Reset Target URI.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1105,7 +1109,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER POOL [--vpc VPC] [--output 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY --health-max-retries RETRIES --health-timeout TIMEOUT --health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1135,6 +1139,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
+- **--reset-health-monitor-port**: Reset health monitor port.
 - **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
@@ -1189,7 +1194,7 @@ ibmcloud is load-balancer-statistics LOAD_BALANCER [--vpc VPC] [--output JSON] [
 Update a load balancer.
 
 ```
-ibmcloud is load-balancer-update LOAD_BALANCER [--vpc VPC] [--name NEW_NAME] [--logging-datapath-active false | true] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--name NEW_NAME] [--logging-datapath-active false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1199,6 +1204,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER [--vpc VPC] [--name NEW_NAME] [--
 - `ibmcloud is load-balancer-update my-lb --name my-renamed-lb`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-renamed-lb --output JSON`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --logging-datapath-active false`
+- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet ec8bb350-d802-4f1b-b362-b848abd5bb65,ec8bb350-d802-4f1b-b362-b848abd5bb66`
 
 #### Command options
 {: #command-options-load-balancer-update}
@@ -1207,6 +1213,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER [--vpc VPC] [--name NEW_NAME] [--
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the Load balancer.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
+- **--subnets**: Comma-separated ID or name of the subnets to provision this load balancer. Load balancer availability depends on the availability of the zones that the specified subnets reside in. Currently, only the load balancer in the application family supports this option.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1403,7 +1410,7 @@ ibmcloud is network-acl-rule ACL RULE [--vpc VPC] [--output JSON] [-q, --quiet]
 Add a rule to a network ACL.
 
 ```
-ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--vpc VPC] [--name NAME] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--before-rule-id RULE_ID] [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATION [--vpc VPC] [--name NAME] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--before-rule BEFORE_RULE | --reset-before-rule] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1435,7 +1442,8 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 - **--source-port-max**: Maximum source port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp** (default: **65535**).
 - **--destination-port-min**: Minimum destination port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp** (default: **1**).
 - **--destination-port-max**: Maximum destination port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp** (default: **65535**).
-- **--before-rule-id**: ID of the rule that this rule is inserted before.
+- **--before-rule**: The ID or name of the rule that this rule is inserted before.
+- **--reset-before-rule**: Reset before rule. Specify this option to move this rule after all existing rules.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1447,7 +1455,7 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 Update a rule of a network ACL.
 
 ```
-ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--direction inbound | outbound] [--action allow | deny] [--before-rule-id RULE_ID] [--source SOURCE] [--dest DEST] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--direction inbound | outbound] [--action allow | deny] [--before-rule BEFORE_RULE | --reset-before-rule] [--source SOURCE] [--dest DEST] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--source-port-min PORT_MIN] [--source-port-max PORT_MAX] [--destination-port-min PORT_MIN] [--destination-port-max PORT_MAX] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1471,7 +1479,8 @@ ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--di
 - **--name**: New name of the rule.
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **--action**: One of: **allow**, **deny**.
-- **--before-rule-id**: ID of the rule that this rule is inserted before.
+- **--before-rule**: The ID or name of the rule that this rule is inserted before.
+- **--reset-before-rule**: Reset before rule. Specify this option to move this rule after all existing rules.
 - **--source**: Source IP address or CIDR block.
 - **--dest**: Destination IP address or CIDR block.
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
@@ -2076,7 +2085,7 @@ ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--vpc VPC]
 Update a rule of a security group.
 
 ```
-ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE] [--icmp-code ICMP_CODE] [--reset-icmp-type] [--reset-icmp-code] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE | --reset-icmp-type] [--icmp-code ICMP_CODE | --reset-icmp-code] [--port-min PORT_MIN | --reset-port-min] [--port-max PORT_MAX | --reset-port-max] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2098,11 +2107,13 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
-- **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
 - **--reset-icmp-type**: Reset an existing ICMP traffic type value.
+- **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
 - **--reset-icmp-code**: Reset an existing ICMP traffic code value.
 - **--port-min**: Minimum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **1**).
+- **--reset-port-min**: Reset minimum port number.
 - **--port-max**: Maximum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **65535**).
+- **--reset-port-max**: Reset maximum port number.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3548,7 +3559,7 @@ ibmcloud is vpn-gateway-connection-peer-cidr-delete VPN_GATEWAY CONNECTION PREFI
 Update a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--peer-address ADDRESS] [--psk PSK] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID | --reset-ike-policy] [--ipsec-policy IPSEC_POLICY_ID | --reset-ipsec-policy] [--peer-address ADDRESS] [--psk PSK] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3568,7 +3579,9 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 - **--dead-peer-detection-interval**: Dead Peer Detection interval in seconds.
 - **--dead-peer-detection-timeout**: Dead Peer Detection timeout in seconds.
 - **--ike-policy**: ID of the IKE policy.
+- **--reset-ike-policy**: Remove IKE policy.
 - **--ipsec-policy**: ID of the IPsec policy.
+- **--reset-ipsec-policy**: Remove IPsec policy.
 - **--peer-address**: The IP address of the peer VPN gateway.
 - **--psk**: The preshared key.
 - **--name**: New name of the connection.
@@ -7766,7 +7779,7 @@ ibmcloud is backup-policy-plan-delete (PLAN1 PLAN2 ...) [--output JSON] [-f, --f
 Update a backup policy plan.
 
 ```
-ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--reset-delete-over-count] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7775,6 +7788,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - `ibmcloud is backup-policy-plan-update r134-77e21079-7291-44c2-866a-8f1848bc10f0 r134-fc8e15d9-02f2-4599-a216-8afe0dfeb969 --name myplan`
 - `ibmcloud is backup-policy-plan-update demo-bkp-policy-b98 my-policy-plan-1 --name cli-demo-policy-plan-3`
 - `ibmcloud is backup-policy-plan-update backup-policy-1001 2dae356e-f7b5-48dd-8bc3-f3083574885b --cron-spec '42 10 * * *' --name my-policy-plan-1 --attach-tags my-daily-backup-plan --copy-tags false --delete-after 20 --delete-over-count 1`
+- `ibmcloud is backup-policy-plan-update demo-bkp-policy-x demo-bkp-plan-2 --reset-delete-over-count`
 
 #### Command options
 {: #command-options-backup-policy-plan-update}
@@ -7788,6 +7802,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - **--cron-spec**: The cron specification for the backup schedule.
 - **--delete-after**: The maximum number of days to keep each backup after creation.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
+- **--reset-delete-over-count**: Remove any existing maximum number of recent backups to keep.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
