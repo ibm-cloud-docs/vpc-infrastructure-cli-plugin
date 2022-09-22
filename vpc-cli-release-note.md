@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-08-19"
+lastupdated: "2022-09-22"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2022-08-19"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v5.3.0
+{: #v5.3.0}
+
+Version 5.3.0 was released on 2022-09-23.
+
+### New commands
+
+* Added `ibmcloud is catalog-image-offerings` and `ibmcloud is catalog-image-offering` commands to support Enterprise Image Sharing. 
+
+### Updated commands
+
+* Updated  `instance-create` , `instance-create-from-template` , `instance-template-create` and `instance-template-create-override-source-template` commands to support Enterprise Image Sharing. 
+* Updated `ike-policy-create` , `ike-policy-update` , `ipsec-policy-create` and `ipsec-policy-update` commands to support Additional Cipher Suites for VPN.
+
+### Removed commands
+
+* N/A
 
 ## v5.2.0
 {: #v5.2.0}
