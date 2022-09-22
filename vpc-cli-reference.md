@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-09-16"
+lastupdated: "2022-09-22"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1204,7 +1204,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 - `ibmcloud is load-balancer-update my-lb --name my-renamed-lb`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-renamed-lb --output JSON`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --logging-datapath-active false`
-- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet ec8bb350-d802-4f1b-b362-b848abd5bb65,ec8bb350-d802-4f1b-b362-b848abd5bb66`
+- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnets ec8bb350-d802-4f1b-b362-b848abd5bb65,ec8bb350-d802-4f1b-b362-b848abd5bb66`
 
 #### Command options
 {: #command-options-load-balancer-update}
@@ -3146,9 +3146,9 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 {: #command-options-ike-policy-create}
 
 - **IKE_POLICY_NAME**: Name of the IKE policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
-- **DH_GROUP**: The Diffie-Hellman group. One of: **2**, **5**, **14**, **19**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
+- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. The 'md5' and 'sha1' algorithms are deprecated. One of: **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
+- **DH_GROUP**: The Diffie-Hellman group. Groups '2' and '5' are deprecated. One of: **2**, **5**, **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
+- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The 'triple_des' algorithm are deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
 - **IKE_VERSION**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **28800**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -3184,7 +3184,7 @@ ibmcloud is ike-policy-delete (IKE_POLICY1 IKE_POLICY2 ...) [--output JSON] [-f,
 Update an IKE policy.
 
 ```
-ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256 | sha512] [--dh-group 2 | 5 | 14 | 19] [--encryption-algorithm triple_des | aes128 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256 | sha384 | sha512] [--dh-group 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 31] [--encryption-algorithm triple_des | aes128 | aes192 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3203,9 +3203,9 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 
 - **IKE_POLICY**: ID or name of the IKE policy.
 - **--name**: New name of the IKE policy.
-- **--authentication-algorithm**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
-- **--dh-group**: The Diffie-Hellman group. One of: **2**, **5**, **14**, **19**.
-- **--encryption-algorithm**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
+- **--authentication-algorithm**: The authentication algorithm. The **md5** and **sha1** algorithms are deprecated. One of: **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
+- **--dh-group**: The Diffie-Hellman group. Groups **2** and **5** are deprecated. One of: **2**, **5**, **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
+- **--encryption-algorithm**: The encryption algorithm. The **triple_des** algorithm are deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
 - **--ike-version**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3290,9 +3290,9 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 {: #command-options-ipsec-policy-create}
 
 - **IPSEC_POLICY_NAME**: Name of the IPsec policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
-- **PFS**: Perfect Forward Secrecy. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_19**.
+- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. The 'md5' and 'sha1' algorithms are deprecated. Must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16' One of: **disabled**, **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
+- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The 'triple_des' algorithm are deprecated. The authentication algorithm must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16' One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**, **triple_des**.
+- **PFS**: Perfect Forward Secrecy. Groups 'group_2' and 'group_5' are deprecated. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **3600**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -3327,7 +3327,7 @@ ibmcloud is ipsec-policy-delete (IPSEC_POLICY1 IPSEC_POLICY2 ...) [--output JSON
 Update an IPsec policy.
 
 ```
-ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256 | sha512] [--pfs disabled | group_2 | group_5 | group_14 | group_19] [--encryption-algorithm triple_des | aes128 | aes256] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication-algorithm disabled | md5 | sha1 | sha256 | sha384 | sha512] [--pfs disabled | group_2 | group_5 | group_14 | group_15 | group_16 | group_17 | group_18 | group_19 | group_20 | group_21 | group_22 | group_23 | group_24 | group_31] [--encryption-algorithm aes128 | aes128gcm16 | aes192 | aes192gcm16 | aes256 | aes256gcm16 | triple_des] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3345,9 +3345,9 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 
 - **IPSEC_POLICY**: ID or name of the IPsec policy.
 - **--name**: New name of the IPsec policy.
-- **--authentication-algorithm**: The authentication algorithm. One of: **md5**, **sha1**, **sha256**, **sha512**.
-- **--pfs**: Perfect Forward Secrecy. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_19**.
-- **--encryption-algorithm**: The encryption algorithm. One of: **triple_des**, **aes128**, **aes256**.
+- **--authentication-algorithm**: The authentication algorithm. The **md5** and **sha1** algorithms are deprecated. Must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16** One of: **disabled**, **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
+- **--pfs**: Perfect Forward Secrecy. Groups **group_2** and **group_5** are deprecated. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
+- **--encryption-algorithm**: The encryption algorithm. The **triple_des** algorithm are deprecated. The authentication algorithm must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16** One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**, **triple_des**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4254,6 +4254,52 @@ ibmcloud is image-delete (IMAGE1 IMAGE2 ...) [--output JSON] [-f, --force] [-q, 
 
 ---
 
+### ibmcloud is catalog-image-offerings
+{: #catalog-image-offerings}
+
+List all catalog image offerings.
+
+```
+ibmcloud is catalog-image-offerings [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-catalog-image-offerings}
+
+- `ibmcloud is catalog-image-offerings`
+
+#### Command options
+{: #command-options-catalog-image-offerings}
+
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is catalog-image-offering
+{: #catalog-image-offering}
+
+Get catalog image offering.
+
+```
+ibmcloud is catalog-image-offering CATALOG OFFERING [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-catalog-image-offering}
+
+- `ibmcloud is catalog-image-offering 2497ae83-40cb-46ba-ac7f-5303514a2669 54372a73-7a0a-4799-ac9c-8736620c67f1`
+
+#### Command options
+{: #command-options-catalog-image-offering}
+
+- **CATALOG**: ID of the catalog.
+- **OFFERING**: ID of the offering.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Instances
 {: #instances}
 
@@ -4339,7 +4385,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4392,6 +4438,10 @@ Create instance to be placed in the wanted placement group by using resource nam
 Create instance with primary network interface configuration by using resource name.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "security_groups": [{"id": "my-security-group-1"}, {"id": "my-security-group-2"}]}]'`
 Create instance that is attached to secondary network interface by using resource name.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
+Create instance from catalog offering.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
+Create instance from catalog offering version.
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -4414,9 +4464,11 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID or name of the subnet.
 - **--image**: ID or name of the image.
+- **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--keys**: Comma-separated IDs or names of SSH keys.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
@@ -4428,8 +4480,8 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
 - **--ip-name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the  **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
@@ -4448,7 +4500,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4494,9 +4546,11 @@ Create instance from instance template with primary network interface configurat
 - **--zone**: Name of the zone.
 - **--vpc**: The ID or name of the VPC. It is only required to specify the unique resource by name that is inside this VPC or to override the VPC value in the template.
 - **--image**: ID or name of the image.
+- **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--keys**: Comma-separated IDs or names of SSH keys.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
@@ -4509,8 +4563,8 @@ Create instance from instance template with primary network interface configurat
 - **--ip-name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--sgs**: Comma-separated security group IDs or names for primary network interface.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For information about the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
@@ -6106,6 +6160,45 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 
 ---
 
+### ibmcloud is bare-metal-server-network-interface-reserved-ips
+{: #bare-metal-server-network-interface-reserved-ips}
+
+Lists all reserved IPs bound to a network interface of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interface-reserved-ips SERVER NIC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-reserved-ips}
+
+- **SERVER**: ID or name of the server.
+- **NIC**: ID or name of the network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-interface-reserved-ip
+{: #bare-metal-server-network-interface-reserved-ip}
+
+Retrieves the specified reserved IP address if it is bound to the network interface of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-interface-reserved-ip SERVER NIC RESERVED_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-interface-reserved-ip}
+
+- **SERVER**: ID or name of the server.
+- **NIC**: ID or name of the network interface.
+- **RESERVED_IP**: The ID or name of the reserved IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Placement group
 {: #placement-group}
 
@@ -6271,7 +6364,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET --image IMAGE [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6322,6 +6415,10 @@ Create instance template to be placed in the wanted placement group by using res
 Create instance template with primary network interface configuration by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "security_groups": [{"id": "my-security-group-1"}, {"id": "my-security-group-2"}]}]'`
 Create instance template that is attached to secondary network interface by using resource name.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
+Create instance template with catalog offering.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
+Create instance template with catalog offering version.
 - `ibmcloud is instance-template-create --interactive`
 Create instance template interactively.
 
@@ -6334,9 +6431,11 @@ Create instance template interactively.
 - **PROFILE_NAME**: Name of the profile.
 - **SUBNET**: ID or name of the subnet.
 - **--image**: ID or name of the image.
+- **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--keys**: Comma-separated IDs or names of SSH keys.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
@@ -6348,8 +6447,8 @@ Create instance template interactively.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
 - **--ip-name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -6366,7 +6465,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false ] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6390,9 +6489,11 @@ Create instance template by overriding a source template with primary network in
 - **--zone**: Name of the zone.
 - **--vpc**: The ID or name of the VPC. It is only required to specify the unique resource by name that is inside this VPC or to override the VPC value in the template.
 - **--image**: ID or name of the image.
+- **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. To create a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. To create a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, check **boot_volume_attachment** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, check **volume_attachments** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--keys**: Comma-separated IDs or names of SSH keys.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
@@ -6405,8 +6506,8 @@ Create instance template by overriding a source template with primary network in
 - **--ip-name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--sgs**: Comma-separated security group IDs or names for primary network interface.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
-- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, check **primary_network_interface** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
-- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, check **network_interfaces** property in the API docs **https://cloud.ibm.com/apidocs/vpc#create-instance**.
+- **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
