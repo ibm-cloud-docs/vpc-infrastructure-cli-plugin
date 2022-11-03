@@ -22,6 +22,27 @@ lastupdated: "2022-10-06"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v6.0.0
+{: #v6.0.0}
+
+Version 6.0.0 was released on 2022-11-03.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `VPC API` version to `2022-09-13`.
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Fixed `backup-policy-job` and `backup-policy-jobs` commands to support Backup As A Service Amendment.
+
 ## v5.4.0
 {: #v5.4.0}
 
