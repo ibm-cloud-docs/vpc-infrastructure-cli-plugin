@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-10-06"
+lastupdated: "2022-11-03"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -43,7 +43,7 @@ This CLI reference is organized into the following sections:
    ```
    ibmcloud plugin install vpc-infrastructure
    ```
-   {: pre}
+   {: pre} 
 
    To update, use the following command:
 
@@ -1638,7 +1638,7 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 
 ---
 
-## Routing tables and routes
+## Routing tables and routes 
 {: #custom-routes-section}
 
 The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
@@ -3148,7 +3148,7 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 - **IKE_POLICY_NAME**: Name of the IKE policy.
 - **AUTHENTICATION_ALGORITHM**: The authentication algorithm. The 'md5' and 'sha1' algorithms are deprecated. One of: **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
 - **DH_GROUP**: The Diffie-Hellman group. Groups '2' and '5' are deprecated. One of: **2**, **5**, **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The 'triple_des' algorithm are deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
+- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The 'triple_des' algorithm is deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
 - **IKE_VERSION**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **28800**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -3205,7 +3205,7 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 - **--name**: New name of the IKE policy.
 - **--authentication-algorithm**: The authentication algorithm. The **md5** and **sha1** algorithms are deprecated. One of: **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
 - **--dh-group**: The Diffie-Hellman group. Groups **2** and **5** are deprecated. One of: **2**, **5**, **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
-- **--encryption-algorithm**: The encryption algorithm. The **triple_des** algorithm are deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
+- **--encryption-algorithm**: The encryption algorithm. The **triple_des** algorithm is deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
 - **--ike-version**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4467,7 +4467,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
-- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--keys**: Comma-separated IDs or names of SSH keys.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
@@ -4489,7 +4489,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--interactive, -i**:
+- **--interactive, -i**: 
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -5687,7 +5687,7 @@ Create a bare metal server with secondary network interface with new reserved IP
 - **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-bare-metal-server).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--interactive, -i**:
+- **--interactive, -i**: 
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6454,7 +6454,7 @@ Create instance template interactively.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--interactive, -i**:
+- **--interactive, -i**: 
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -7915,7 +7915,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 List all jobs for the backup policy.
 
 ```
-ibmcloud is backup-policy-jobs POLICY [--volume VOLUME] [--snapshot SNAPSHOT] [--snapshot-crn SNAPSHOT_CRN] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,SNAPSHOT2, ...] [--snapshots-crns SNAPSHOT1_CRN,SNAPSHOT2_CRN, ...] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7924,14 +7924,18 @@ ibmcloud is backup-policy-jobs POLICY [--volume VOLUME] [--snapshot SNAPSHOT] [-
 - `ibmcloud is backup-policy-jobs backup-policy-1001`
 - `ibmcloud is backup-policy-jobs r134-7759199b-bc1f-448e-84fa-2aa42bde29af`
 - `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --volume r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshot r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status running --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots r134-f1d9b974-14e5-4a2e-8e38-c023164be316,r134-b11f1540-288d-4331-97ab-f565ca15a3b8,r134-ab3147a3-715f-4017-8fed-ea3ddadeeb1d,r134-435b8414-dae2-4026-847f-a73162105e5f`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots bkp-plan-do-not-delete-31addff28e2b-422b,bkp-plan-do-not-delete-f37bc1f19123-4995`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots-crns  crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b,crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c10755ee-db71-472e-bf80-01e21229fda0`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete  --source r134-71757aee-5e90-40f5-bd7d-0a538c084efb`
 
 #### Command options
 {: #command-options-backup-policy-jobs}
 
 - **POLICY**: ID or name of the backup policy.
-- **--volume**: ID or name of the source volume. Source name can be used only if the source exists inside the VPC.
-- **--snapshot**: ID or name of target snapshot.
-- **--snapshot-crn**: CRN of the target snapshot.
+- **--source**: ID or name of the source volume. Source name can be used only if the source exists inside the VPC.
+- **--snapshots**: ID or name of target snapshots.
+- **--snapshots-crns**: CRNs of the target snapshots.
 - **--status**: Status of the backup policy job. One of: **failed**, **running**, **succeeded**.
 - **--plan**: ID or name of backup policy plan.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
