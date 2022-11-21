@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-10-06"
+lastupdated: "2022-11-21"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2022-10-06"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.1.0
+{: #v6.1.0}
+
+Version 6.1.0 was released on 2022-11-21.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `vpc-default-routing-table`, `vpc-routing-table` , `vpc-routing-table-create`, `vpc-routing-table-update` commands to support Public Ingress Routing. 
+
+### Removed commands
+
+* N/A
+
 
 ## v6.0.0
 {: #v6.0.0}
