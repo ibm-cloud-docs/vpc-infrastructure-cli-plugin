@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-11-03"
+lastupdated: "2022-11-21"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1704,7 +1704,7 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 Create a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1712,6 +1712,8 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 
 - `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --output JSON`
 - `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --output JSON`
+- `ibmcloud is vpc-routing-table-create vpc-doloremque-6364-us-east --name test-vpc-cli-routing-tb2 --direct-link-ingress true --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress false`
+- `ibmcloud is vpc-routing-table-create 979b4bc6-f018-40a2-92f5-0b1cf777b55d --name test-vpc-cli-routing-tb1 --direct-link-ingress false --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress true`
 - `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --accept-routes-from-resource-type-filters vpn_server,vpn_gateway`
 Create a routing table with resource type filter.
 
@@ -1721,6 +1723,7 @@ Create a routing table with resource type filter.
 - **VPC**: ID or name of the VPC.
 - **--name**: Name of the VPC routing table.
 - **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--internet-ingress, --internet**: Indicates whether this routing table is used to route traffic that originates from the internet.  Updating to "true" selects this routing table, provided no other routing table in the VPC already has this property set to "true".  Updating to "false" deselects this routing table. One of: **false**, **true**.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. One of: **vpn_server**, **vpn_gateway**.
@@ -1735,7 +1738,7 @@ Create a routing table with resource type filter.
 Update a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway | --clean-all-accept-routes-from-filters, --cl-arf] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway | --clean-all-accept-routes-from-filters, --cl-arf] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1743,6 +1746,8 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 
 - `ibmcloud is vpc-routing-table-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-renamed-vpc-routing-table --output JSON`
 - `ibmcloud is vpc-routing-table-update my-vpc my-vpc-routing-table --name my-renamed-vpc-routing-table --output JSON`
+- `ibmcloud is vpc-routing-table-update vpc-doloremque-6364-us-east  test-vpc-cli-routing-tb2 --direct-link-ingress true --internet-ingress false   --transit-gateway-ingress true  --vpc-zone-ingress false`
+- `ibmcloud is vpc-routing-table-update 979b4bc6-f018-40a2-92f5-0b1cf777b55d  27415d55-9d3b-4adb-a993-236ef59a45ec --direct-link-ingress false --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress false`
 
 #### Command options
 {: #command-options-vpc-routing-table-update}
@@ -1751,6 +1756,7 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **--name**: New name of the routing table.
 - **--direct-link-ingress, --direct-link**: If set to "true", this routing table is used to route traffic that originates from Direct Link to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
+- **--internet-ingress, --internet**: Indicates whether this routing table is used to route traffic that originates from the internet.  Updating to "true" selects this routing table, provided no other routing table in the VPC already has this property set to "true".  Updating to "false" deselects this routing table. One of: **false**, **true**.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. All learned routes from resources that match a resource filter are removed when an existing resource filter is removed. One of: **vpn_server**, **vpn_gateway**.
