@@ -1,0 +1,17 @@
+---
+toc:
+  properties:
+    subcollection: vpc-infrastructure-cli-plugin
+    audience: service
+    href: /docs/vpc-infrastructure-cli-plugin
+    console-page: /vpc-ext/overview
+    product-page: https://www.ibm.com/cloud/vpc
+    path: vpc-infrastructure-cli-plugin
+    label: CLI Plugin for Virtual Private Cloud (VPC)
+
+  entries:
+  - navgroup:
+        id: reference
+        topics:
+        - vpc-cli-reference.md
+        - vpc-cli-release-note.md
