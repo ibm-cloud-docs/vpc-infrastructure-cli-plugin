@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2022
-lastupdated: "2022-11-21"
+lastupdated: "2022-12-14"
 
 ---
 
@@ -22,6 +22,25 @@ lastupdated: "2022-11-21"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+
+## v6.2.0
+{: #v6.2.0}
+
+Version 6.2.0 was released on 2022-12-14.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `volume-create` command to support creation of volume from snapshot.
+
+### Removed commands
+
+* N/A
+
+
 ## v6.1.0
 {: #v6.1.0}
 
@@ -38,6 +57,7 @@ Version 6.1.0 was released on 2022-11-21.
 ### Removed commands
 
 * N/A
+
 
 
 ## v6.0.0
@@ -61,6 +81,7 @@ Version 6.0.0 was released on 2022-11-03.
 
 * Fixed `backup-policy-job` and `backup-policy-jobs` commands to support Backup As A Service Amendment.
 
+
 ## v5.4.0
 {: #v5.4.0}
 
@@ -72,7 +93,7 @@ Version 5.4.0 was released on 2022-10-06.
 
 ### Updated commands
 
-* Updated `instance-create` and `instance-update` commands to support VNF Scalability.
+* Updated `instance-create` and `instance-update` commands to support VNF Scalability. 
 
 ### Removed commands
 
@@ -85,11 +106,11 @@ Version 5.3.0 was released on 2022-09-23.
 
 ### New commands
 
-* Added `ibmcloud is catalog-image-offerings` and `ibmcloud is catalog-image-offering` commands to support Enterprise Image Sharing.
+* Added `ibmcloud is catalog-image-offerings` and `ibmcloud is catalog-image-offering` commands to support Enterprise Image Sharing. 
 
 ### Updated commands
 
-* Updated  `instance-create` , `instance-create-from-template` , `instance-template-create` and `instance-template-create-override-source-template` commands to support Enterprise Image Sharing.
+* Updated  `instance-create` , `instance-create-from-template` , `instance-template-create` and `instance-template-create-override-source-template` commands to support Enterprise Image Sharing. 
 * Updated `ike-policy-create` , `ike-policy-update` , `ipsec-policy-create` and `ipsec-policy-update` commands to support Additional Cipher Suites for VPN.
 
 ### Removed commands
@@ -345,7 +366,7 @@ Version 3.2.0 was released on 2022-02-11.
 
 ### New commands
 
-* N/A.
+* N/A. 
 
 ### Updated commands
 
@@ -362,7 +383,7 @@ Version 3.1.0 was released on 2022-01-28.
 
 ### New commands
 
-* Add bare metal server commands `bare-metal-server`, `bare-metal-server-console`, `bare-metal-server-create`, `bare-metal-server-delete`, `bare-metal-server-disk`, `bare-metal-server-disk-update`, `bare-metal-server-disks`, `bare-metal-server-initialization-values`, `bare-metal-server-network-interface`, `bare-metal-server-network-interface-create`, `bare-metal-server-network-interface-delete`, `bare-metal-server-network-interface-floating-ip`, `bare-metal-server-network-interface-floating-ip-add`, `bare-metal-server-network-interface-floating-ip-remove`, `bare-metal-server-network-interface-floating-ips`, `bare-metal-server-network-interface-update`, `bare-metal-server-network-interfaces`, `bare-metal-server-profile`, `bare-metal-server-profiles`, `bare-metal-server-restart`, `bare-metal-server-start`, `bare-metal-server-stop`, `bare-metal-server-update` and `bare-metal-servers`.
+* Add bare metal server commands `bare-metal-server`, `bare-metal-server-console`, `bare-metal-server-create`, `bare-metal-server-delete`, `bare-metal-server-disk`, `bare-metal-server-disk-update`, `bare-metal-server-disks`, `bare-metal-server-initialization-values`, `bare-metal-server-network-interface`, `bare-metal-server-network-interface-create`, `bare-metal-server-network-interface-delete`, `bare-metal-server-network-interface-floating-ip`, `bare-metal-server-network-interface-floating-ip-add`, `bare-metal-server-network-interface-floating-ip-remove`, `bare-metal-server-network-interface-floating-ips`, `bare-metal-server-network-interface-update`, `bare-metal-server-network-interfaces`, `bare-metal-server-profile`, `bare-metal-server-profiles`, `bare-metal-server-restart`, `bare-metal-server-start`, `bare-metal-server-stop`, `bare-metal-server-update` and `bare-metal-servers`. 
 
 ### Updated commands
 
@@ -495,7 +516,7 @@ Version 1.4.0 was released on 2021-08-26.
 ### Updated commands
 
 * Update `vpc/address-prefix/routing-table/route` commands with "by name" support. These commands can now use an ID or name for the command option values.
-
+ 
 * Update network ACL and network ACL rule commands with "by name" support. These commands can now use an ID or name for the command option values.
 
 ### Removed commands
@@ -588,7 +609,7 @@ Version 0.8.6 was released on 2021-06-17.
 
 ### Updated commands
 
-* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands.
+* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands. 
 
 ### Removed commands
 
@@ -687,7 +708,7 @@ Version 0.7.8 was released on 2021-02-25.
 
 ### Updated commands
 
-* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana).
+* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana). 
 * Added a `--security-group` flag to the `load-balancer-create` command so you can bind security groups when you create a load balancer.
 * Added a security groups field to the `load-balancer` command to show the security groups that are bound to a load balancer.
 
