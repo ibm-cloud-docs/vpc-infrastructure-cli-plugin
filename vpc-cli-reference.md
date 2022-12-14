@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2022
-lastupdated: "2022-11-21"
+lastupdated: "2022-12-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -7356,7 +7356,7 @@ ibmcloud is volume VOLUME [--output JSON] [-q, --quiet]
 Create a volume.
 
 ```
-ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACITY] [--iops IOPS] [--encryption-key ENCRYPTION_KEY] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
+ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACITY] [--iops IOPS] [--encryption-key ENCRYPTION_KEY] [--snapshot SNAPSHOT] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7365,6 +7365,10 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - `ibmcloud is volume-create my-volume general-purpose us-south-1`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --capacity 500`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --iops 10000 --capacity 1000`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --snapshot r134-2fbe71a8-126e-4a05-80ad-dad45df491a5`
+Create a volume from snapshot
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --snapshot my-snapshot --capacity 500`
+Create a volume from snapshot with capacity
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --tags env:test,env:dev`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --encryption-key crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
@@ -7378,9 +7382,10 @@ ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACIT
 - **VOLUME_NAME**: Name of the volume.
 - **PROFILE_NAME**: Name of the profile.
 - **ZONE_NAME**: Name of the zone.
-- **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes. (default: **100**).
-- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes. After source snapshot is provided, the capacity value must be at least snapshot's **minimum_capacity**, and the default capacity value is source snapshot's **minimum_capacity**. (default: **100**).
+- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile](docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
+- **--snapshot**: ID or name of the snapshot.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
