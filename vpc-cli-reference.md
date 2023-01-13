@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2018, 2022
-lastupdated: "2022-12-14"
+  years: 2018, 2023
+lastupdated: "2023-01-13"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -485,7 +485,7 @@ Create a load balancer listener with udp protocol.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. Migrate your load balancer certificates from Certificate Manager to Secrets Manager because the certificate CRN from Certificate Manager is deprecated. This option is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -849,7 +849,7 @@ The range of ports that are used by this listener.
 - **--default-pool**: ID of the default pool.
 - **--reset-default-pool**: Reset default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. Migrate your load balancer certificates from Certificate Manager to Secrets Manager because the certificate CRN from Certificate Manager is deprecated. This option is not applicable for the load balancers in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -1243,7 +1243,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 {: #network-acls}
 
 ### ibmcloud is network-acls
-{: #ibmcloud-is-network-acls}
+{: #network-acls}
 
 List all network ACLs.
 
@@ -1619,7 +1619,7 @@ ibmcloud is public-gateway-update GATEWAY --name NEW_NAME [--vpc VPC] [--output 
 ---
 
 ### ibmcloud is public-gateways
-{: #ibmcloud-is-public-gateways}
+{: #public-gateways}
 
 List all public gateways.
 
@@ -3152,9 +3152,9 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 {: #command-options-ike-policy-create}
 
 - **IKE_POLICY_NAME**: Name of the IKE policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. The 'md5' and 'sha1' algorithms are deprecated. One of: **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
-- **DH_GROUP**: The Diffie-Hellman group. Groups '2' and '5' are deprecated. One of: **2**, **5**, **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The 'triple_des' algorithm is deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
+- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **sha256**, **sha384**, **sha512**.
+- **DH_GROUP**: The Diffie-Hellman group. One of: **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
+- **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **aes128**, **aes192**, **aes256**.
 - **IKE_VERSION**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **28800**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -3190,7 +3190,7 @@ ibmcloud is ike-policy-delete (IKE_POLICY1 IKE_POLICY2 ...) [--output JSON] [-f,
 Update an IKE policy.
 
 ```
-ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-algorithm md5 | sha1 | sha256 | sha384 | sha512] [--dh-group 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 31] [--encryption-algorithm triple_des | aes128 | aes192 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-algorithm sha256 | sha384 | sha512] [--dh-group 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 31] [--encryption-algorithm aes128 | aes192 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3209,9 +3209,9 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 
 - **IKE_POLICY**: ID or name of the IKE policy.
 - **--name**: New name of the IKE policy.
-- **--authentication-algorithm**: The authentication algorithm. The **md5** and **sha1** algorithms are deprecated. One of: **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
-- **--dh-group**: The Diffie-Hellman group. Groups **2** and **5** are deprecated. One of: **2**, **5**, **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
-- **--encryption-algorithm**: The encryption algorithm. The **triple_des** algorithm is deprecated. One of: **triple_des**, **aes128**, **aes192**, **aes256**.
+- **--authentication-algorithm**: The authentication algorithm. One of: **sha256**, **sha384**, **sha512**.
+- **--dh-group**: The Diffie-Hellman group. One of: **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
+- **--encryption-algorithm**: The encryption algorithm. One of: **aes128**, **aes192**, **aes256**.
 - **--ike-version**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3296,9 +3296,9 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 {: #command-options-ipsec-policy-create}
 
 - **IPSEC_POLICY_NAME**: Name of the IPsec policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. The 'md5' and 'sha1' algorithms are deprecated. Must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16' One of: **disabled**, **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The 'triple_des' algorithm is deprecated. The authentication algorithm must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16' One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**, **triple_des**.
-- **PFS**: Perfect Forward Secrecy. Groups 'group_2' and 'group_5' are deprecated. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
+- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. Must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16'. One of: **disabled**, **sha256**, **sha384**, **sha512**.
+- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The authentication algorithm must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16'. One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**.
+- **PFS**: Perfect Forward Secrecy. One of: **disabled**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **3600**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -3333,7 +3333,7 @@ ibmcloud is ipsec-policy-delete (IPSEC_POLICY1 IPSEC_POLICY2 ...) [--output JSON
 Update an IPsec policy.
 
 ```
-ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication-algorithm disabled | md5 | sha1 | sha256 | sha384 | sha512] [--pfs disabled | group_2 | group_5 | group_14 | group_15 | group_16 | group_17 | group_18 | group_19 | group_20 | group_21 | group_22 | group_23 | group_24 | group_31] [--encryption-algorithm aes128 | aes128gcm16 | aes192 | aes192gcm16 | aes256 | aes256gcm16 | triple_des] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication-algorithm disabled | sha256 | sha384 | sha512] [--pfs disabled | group_14 | group_15 | group_16 | group_17 | group_18 | group_19 | group_20 | group_21 | group_22 | group_23 | group_24 | group_31] [--encryption-algorithm aes128 | aes128gcm16 | aes192 | aes192gcm16 | aes256 | aes256gcm16] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3351,9 +3351,9 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 
 - **IPSEC_POLICY**: ID or name of the IPsec policy.
 - **--name**: New name of the IPsec policy.
-- **--authentication-algorithm**: The authentication algorithm. The **md5** and **sha1** algorithms are deprecated. Must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16** One of: **disabled**, **md5**, **sha1**, **sha256**, **sha384**, **sha512**.
-- **--pfs**: Perfect Forward Secrecy. Groups **group_2** and **group_5** are deprecated. One of: **disabled**, **group_2**, **group_5**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
-- **--encryption-algorithm**: The encryption algorithm. The **triple_des** algorithm is deprecated. The authentication algorithm must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16** One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**, **triple_des**.
+- **--authentication-algorithm**: The authentication algorithm. Must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16**. One of: **disabled**, **sha256**, **sha384**, **sha512**.
+- **--pfs**: Perfect Forward Secrecy. One of: **disabled**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
+- **--encryption-algorithm**: The encryption algorithm. The authentication algorithm must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16**. One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3785,9 +3785,9 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
-- **--cert**: The secret CRN from the secret manager for this VPN server. Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
+- **--cert**: The secret CRN from the secret manager for this VPN server.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
-- **--client-ca**: The secret CRN from the secrets manager to use for the VPN client certificate authority (CA). Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
+- **--client-ca**: The secret CRN from the secrets manager to use for the VPN client certificate authority (CA).
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
 - **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
 - **--client-idle-timeout**: The seconds that a VPN client can idle before this VPN server disconnects it. Specify 0 to prevent the server from disconnecting idle clients (default: **600**).
@@ -3835,9 +3835,9 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
-- **--cert**: The secret CRN from the secret manager for this VPN server. Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
+- **--cert**: The secret CRN from the secret manager for this VPN server.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
-- **--client-ca**: The secret CRN from the secrets manager to use for the VPN client certificate authority (CA). Because the usage of certificate CRN from Certificate Manager is deprecated, migrate your VPN server certificates from Certificate Manager to Secrets Manager.
+- **--client-ca**: The secret CRN from the secrets manager to use for the VPN client certificate authority (CA).
 - **--client-crl**: CRL | @CRL-file. The certificate revocation list contents, encoded in PEM format.
 - **--client-dns**: Comma-separated of DNS server addresses that are provided to VPN clients that are connected to this VPN server. Two DNS servers can be set at most.
 - **--reset-client-dns**: Clean up the DNS server addresses that are provided to VPN clients that are connected to this VPN server.
@@ -4348,7 +4348,7 @@ ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_F
 ---
 
 ### ibmcloud is instances
-{: #ibmcloud-is-instances}
+{: #instances}
 
 List all virtual server instances.
 
@@ -5100,9 +5100,9 @@ Add an existing volume to a virtual server instance by using resource name.
 - **VOLUME**: ID or name of the volume.
 - **--new-volume-name**: The name of new volume.
 - **--profile**: Name of the profile.
-- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
-- **--capacity**: The capacity of the volume in gigabytes. Range 10-16000 for custom and general-purpose profile volumes, 10-9600 for 5iops-tier profile volumes, 10-4800 for 10iops-tier profile volumes.
+- **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes.
 - **--tags**: Comma-separated tags for the volume.
 - **--source-snapshot**: ID or name of the snapshot to clone volume.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
@@ -5257,7 +5257,7 @@ ibmcloud is key-update KEY --name NEW_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is keys
-{: #ibmcloud-is-keys}
+{: #keys}
 
 List all keys.
 
@@ -5427,7 +5427,7 @@ ibmcloud is dedicated-host-group-delete (HOST_GROUP1 HOST_GROUP2 ...) [--output 
 ---
 
 ### ibmcloud is dedicated-hosts
-{: #ibmcloud-is-dedicated-hosts}
+{: #dedicated-hosts}
 
 List all hosts.
 
@@ -6147,7 +6147,7 @@ ibmcloud is bare-metal-server-update SERVER --name NEW_NAME [--output JSON] [-q,
 ---
 
 ### ibmcloud is bare-metal-servers
-{: #ibmcloud-is-bare-metal-servers}
+{: #bare-metal-servers}
 
 List all bare metal servers.
 
@@ -6209,7 +6209,7 @@ ibmcloud is bare-metal-server-network-interface-reserved-ip SERVER NIC RESERVED_
 {: #placement-group}
 
 ### ibmcloud is placement-group
-{: #ibmcloud-is-placement-group}
+{: #placement-group}
 
 View details of a placement group.
 
@@ -6347,7 +6347,7 @@ ibmcloud is instance-templates [--resource-group-id RESOURCE_GROUP_ID | --resour
 ---
 
 ### ibmcloud is instance-template
-{: #ibmcloud-is-instance-template}
+{: #instance-template}
 
 View details of an instance template.
 
@@ -6594,7 +6594,7 @@ ibmcloud is instance-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 ---
 
 ### ibmcloud is instance-group
-{: #ibmcloud-is-instance-group}
+{: #instance-group}
 
 View details of an instance group.
 
@@ -7242,7 +7242,7 @@ ibmcloud is region REGION_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is regions
-{: #ibmcloud-is-regions}
+{: #regions}
 
 List all regions.
 
@@ -7280,7 +7280,7 @@ ibmcloud is zone ZONE_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is zones
-{: #ibmcloud-is-zones}
+{: #zones}
 
 List all zones in the target region.
 
@@ -7383,9 +7383,9 @@ Create a volume from snapshot with capacity
 - **PROFILE_NAME**: Name of the profile.
 - **ZONE_NAME**: Name of the zone.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes. After source snapshot is provided, the capacity value must be at least snapshot's **minimum_capacity**, and the default capacity value is source snapshot's **minimum_capacity**. (default: **100**).
-- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile](docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
-- **--snapshot**: ID or name of the snapshot.
+- **--snapshot**: ID or Name of the snapshot.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
@@ -7755,7 +7755,7 @@ ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--name NEW_NA
 ---
 
 ### ibmcloud is backup-policy
-{: #ibmcloud-is-backup-policy}
+{: #backup-policy}
 
 View details of a backup policy.
 
