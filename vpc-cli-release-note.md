@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2020, 2022
-lastupdated: "2022-12-14"
+  years: 2020, 2023
+lastupdated: "2023-01-13"
 
 ---
 
@@ -22,6 +22,24 @@ lastupdated: "2022-12-14"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v6.3.0
+{: #v6.3.0}
+
+Version 6.3.0 was released on 2023-01-13.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `ike-policy-create`, `ike-policy-update`, `ipsec-policy-create` and `ipsec-policy-update` commands to remove the weak ciphers.
+
+* Updated `vpn-server-create`, `vpn-server-update`, `load-balancer-listener-create` and `load-balancer-listener-update` commands to remove the certificate manager support.
+
+### Removed commands
+
+* N/A
 
 ## v6.2.0
 {: #v6.2.0}
