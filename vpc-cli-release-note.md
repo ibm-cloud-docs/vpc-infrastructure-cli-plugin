@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-01-13"
+lastupdated: "2023-01-31"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2023-01-13"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.4.0
+{: #v6.4.0}
+
+Version 6.4.0 was released on 2023-01-31.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `bare-metal-server-create`, `bare-metal-server-update` and `bare-metal-server` commands to support secure boot mode and TPM. 
+
+### Removed commands
+
+* N/A
 
 ## v6.3.0
 {: #v6.3.0}
