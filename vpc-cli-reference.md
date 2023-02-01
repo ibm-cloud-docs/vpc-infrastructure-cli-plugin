@@ -1220,7 +1220,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 ---
 
 ### ibmcloud is load-balancers
-{: #load-balancers}
+{: #load-balancers-cli}
 
 List all load balancers.
 
