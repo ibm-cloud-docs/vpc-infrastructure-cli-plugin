@@ -293,7 +293,7 @@ ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [
 ---
 
 ### ibmcloud is flow-log
-{: #flow-log}
+{: #flow-log-view}
 
 View details of a flow log.
 
@@ -311,7 +311,7 @@ ibmcloud is flow-log FLOW_LOG [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is flow-logs
-{: #flow-logs}
+{: #flow-logs-list}
 
 List all flow logs in the region.
 
