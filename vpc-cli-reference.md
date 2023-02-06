@@ -3999,7 +3999,7 @@ ibmcloud is vpn-server-routes VPN_SERVER [--vpc VPC] [--output JSON] [-q, --quie
 ---
 
 ### ibmcloud is vpn-server-route
-{: #vpn-server-route}
+{: #vpn-server-route-view}
 
 View details of a VPN route.
 
