@@ -1243,7 +1243,7 @@ ibmcloud is load-balancers [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 {: #network-acls}
 
 ### ibmcloud is network-acls
-{: #network-acls}
+{: #network-acls-list}
 
 List all network ACLs.
 
