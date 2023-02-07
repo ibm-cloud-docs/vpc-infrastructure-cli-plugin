@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-01-31"
+lastupdated: "2023-02-07"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -293,7 +293,7 @@ ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [
 ---
 
 ### ibmcloud is flow-log
-{: #flow-log-view}
+{: #flow-logs-view}
 
 View details of a flow log.
 
@@ -1220,7 +1220,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 ---
 
 ### ibmcloud is load-balancers
-{: #load-balancers}
+{: #load-balancers-cli}
 
 List all load balancers.
 
@@ -7553,7 +7553,7 @@ ibmcloud is snapshot SNAPSHOT [--output JSON] [-q, --quiet]
 Create a snapshot from a volume.
 
 ```
-ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--clone-zones CLONE_ZONES] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7564,6 +7564,7 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id R
 - `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-name Default`
 - `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --output JSON`
+- `ibmcloud is snapshot-create --name my-snapshot --volume r006-1772e102-0671-48c7-a97a-504247e61e48 --clone-zones us-south-1,us-south-2,us-south-3`
 - `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test`
 - `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test,env:dev`
 - `ibmcloud is snapshot-create --volume test5-3zwxlnzgqk-9vk99 --name my-ss70 --tags env:test`
@@ -7573,6 +7574,7 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--resource-group-id R
 
 - **--volume**: ID or Name of the volume to snapshot.
 - **--name**: New name for the snapshot.
+- **--clone-zones**: Comma-separated zone names that you want the snapshot clones to reside in. Snapshot fast restore is enabled in the cloned zones.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
@@ -7636,6 +7638,107 @@ ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--tags  TAG_NAME1,TAG_NAME
 
 ---
 
+### ibmcloud is snapshot-clone
+{: #snapshot-clone}
+
+View details of a zonal snapshot clone.
+
+```
+ibmcloud is snapshot-clone SNAPSHOT ZONE_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-clone}
+
+- `ibmcloud is snapshot-cl f0542d32-2c92-4f64-9d25-8469a5bef29d  us-east-2`
+- `ibmcloud is snapshot-clone aaa-default-snapshot-2 us-east-1`
+
+#### Command options
+{: #command-options-snapshot-clone}
+
+- **SNAPSHOT**: ID or Name of the snapshot.
+- **ZONE_NAME**: The zone name that this snapshot clone resides in. Snapshot fast restore is enabled in the cloned zones.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-clone-create
+{: #snapshot-clone-create}
+
+Create a zonal snapshot clone.
+
+```
+ibmcloud is snapshot-clone-create SNAPSHOT --zone ZONE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-clone-create}
+
+- `ibmcloud is snaphost-clone-create r134-77e21079-7291-44c2-866a-8f1848bc10f0 --zone us-south-2`
+- `ibmcloud is snapshot-clone-create aaa-default-snapshot-2 --zone us-east-1`
+
+#### Command options
+{: #command-options-snapshot-clone-create}
+
+- **SNAPSHOT**: ID or Name of the snapshot.
+- **--zone**: The zone name that you want the snapshot clone to reside in. Snapshot fast restore is enabled in the cloned zones.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-clone-delete
+{: #snapshot-clone-delete}
+
+Delete zonal snapshot clones in one or more zones.
+
+```
+ibmcloud is snapshot-clone-delete SNAPSHOT (ZONE_NAME1 ZONE_NAME2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-clone-delete}
+
+- `ibmcloud is snaphost-clone-delete r134-77e21079-7291-44c2-866a-8f1848bc10f0 --zone us-south-2`
+- `ibmcloud is snapshot-clone-delete aaa-default-snapshot-2 us-east-1`
+
+#### Command options
+{: #command-options-snapshot-clone-delete}
+
+- **SNAPSHOT**: ID or Name of the snapshot.
+- **ZONE_NAME1**: The zone name that this snapshot clone resides in.
+- **ZONE_NAME2**: The zone name that this snapshot clone resides in.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-clones
+{: #snapshot-clones}
+
+List all zonal snapshot clones.
+
+```
+ibmcloud is snapshot-clones SNAPSHOT [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-clones}
+
+- `ibmcloud is snapshot-clones aaa-default-snapshot-2`
+- `ibmcloud is snapshot-cls f0542d32-2c92-4f64-9d25-8469a5bef29d`
+
+#### Command options
+{: #command-options-snapshot-clones}
+
+- **SNAPSHOT**: ID or Name of the snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Backup policy
 {: #backup-policy}
 
@@ -7674,7 +7777,7 @@ ibmcloud is backup-policies [--tag TAG_NAME] [--resource-group-id RESOURCE_GROUP
 Create a backup policy.
 
 ```
-ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7686,21 +7789,27 @@ ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans
 - `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '45 09 * * *' --plan-active  --plan-delete-over-count 2`
 - `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
 - `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-x2  --plans @plans.json`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '45 09 * * *' --plan-active --plan-clone-policy-max-snapshots 4 --plan-clone-policy-zones us-south-1 --plan-delete-over-count 2`
+Create backup-policy-plan with Fast Restore
+- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":0,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":0,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
+Create backup-policy-plan with Fast Restore
 
 #### Command options
 {: #command-options-backup-policy-create}
 
 - **--name**: New name for the backup policy.
-- **--match-resource-type**: A resource type this backup policy applies to. One of: **Volume**.
-- **--match-tags**: The user tags this backup policy applies to.
+- **--match-resource-type**: A resource type that this backup policy applies to. One of: **Volume**.
+- **--match-tags**: The user tags that this backup policy applies to.
 - **--plans**: PLANS_JSON|@PLANS_JSON_FILE, plans in JSON or JSON file, list of policy plans. For the data schema, check the **plans** property in the [API documentation](/apidocs/vpc#create-backup-policy). One of: **PLANS_JSON**, **@PLANS_JSON_FILE**.
 - **--plan-name**: Name of the backup policy plan.
 - **--plan-active**: Indicates whether the plan is active.
-- **--plan-attach-tags**: User tags to attach to each resource created by this plan.
+- **--plan-attach-tags**: User tags to attach to each resource that was created by this plan.
 - **--plan-copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--plan-cron-spec**: The cron specification for the backup schedule.
 - **--plan-delete-after**: The maximum number of days to keep each backup after creation. (default: **30**).
 - **--plan-delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
+- **--plan-clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keeps clones. (default: **5**).
+- **--plan-clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -7840,7 +7949,7 @@ ibmcloud is backup-policy-plans POLICY [--output JSON] [-q, --quiet]
 Create a backup policy plan.
 
 ```
-ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [[--clone-policy-zones  ZONE1,ZONE2,...] [--clone-policy-max-snapshots CLONE_POLICY_MAX_SNAPSHOTS]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7848,6 +7957,7 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 
 - `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7 --attach-tags dev:test --copy-tags true --cron-spec '*/5 1,2,3 * * *' --delete-after 80 --name my-policy-plan-1`
 - `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7  --cron-spec '*/5 1,2,3 * * *'  --name my-policy-plan-2`
+- `ibmcloud is backup-policy-plan-create backup-policy-1001 --cron-spec '0 0 * * *' --active --name my-policy-plan --attach-tags my-daily-backup-plan --copy-tags true --delete-after 10 --delete-over-count 2 --clone-policy-max-snapshots 1 --clone-policy-zones us-south-1,us-south-2`
 - `ibmcloud is backup-policy-plan-create backup-policy-1001 --cron-spec '0 0 * * *' --active --name my-policy-plan --attach-tags my-daily-backup-plan --copy-tags true --delete-after 10 --delete-over-count 2`
 
 #### Command options
@@ -7861,6 +7971,8 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 - **--cron-spec**: The cron specification for the backup schedule.
 - **--delete-after**: The maximum number of days to keep each backup after creation.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
+- **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones. (default: **5**).
+- **--clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7898,7 +8010,7 @@ ibmcloud is backup-policy-plan-delete (PLAN1 PLAN2 ...) [--output JSON] [-f, --f
 Update a backup policy plan.
 
 ```
-ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--reset-delete-over-count] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--reset-delete-over-count] [[--clone-policy-zones  ZONE1,ZONE2,...] [--clone-policy-max-snapshots CLONE_POLICY_MAX_SNAPSHOTS]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7906,6 +8018,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 
 - `ibmcloud is backup-policy-plan-update r134-77e21079-7291-44c2-866a-8f1848bc10f0 r134-fc8e15d9-02f2-4599-a216-8afe0dfeb969 --name myplan`
 - `ibmcloud is backup-policy-plan-update demo-bkp-policy-b98 my-policy-plan-1 --name cli-demo-policy-plan-3`
+- `ibmcloud is backup-policy-plan-update backup-policy-1001 2dae356e-f7b5-48dd-8bc3-f3083574885b --cron-spec '42 10 * * *' --name my-policy-plan-1 --attach-tags my-daily-backup-plan --copy-tags false --delete-after 20 --delete-over-count 1 --clone-policy-max-snapshots 3 --clone-policy-zones us-south-1,us-south-2 --active`
 - `ibmcloud is backup-policy-plan-update backup-policy-1001 2dae356e-f7b5-48dd-8bc3-f3083574885b --cron-spec '42 10 * * *' --name my-policy-plan-1 --attach-tags my-daily-backup-plan --copy-tags false --delete-after 20 --delete-over-count 1`
 - `ibmcloud is backup-policy-plan-update demo-bkp-policy-x demo-bkp-plan-2 --reset-delete-over-count`
 
@@ -7922,6 +8035,8 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - **--delete-after**: The maximum number of days to keep each backup after creation.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--reset-delete-over-count**: Remove any existing maximum number of recent backups to keep.
+- **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones.
+- **--clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
