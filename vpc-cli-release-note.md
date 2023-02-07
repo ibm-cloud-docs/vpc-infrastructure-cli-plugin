@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-01-31"
+lastupdated: "2023-02-07"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2023-01-31"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.5.0
+{: #v6.5.0}
+
+Version 6.5.0 was released on 2023-02-07.
+
+### New commands
+
+* Added `snapshot-clone`, `snapshot-clone-create`, `snapshot-clone-delete` and `snapshot-clones`commands to support snapshot fast restore. 
+
+### Updated commands
+
+* Updated `snapshot-create`, `backup-policy-create`, `backup-policy-plan-create` and `backup-policy-plan-update` commands to support snapshot and backup fast restore.
+
+### Removed commands
+
+* N/A
 
 ## v6.4.0
 {: #v6.4.0}
