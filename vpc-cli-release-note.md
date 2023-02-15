@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-02-07"
+lastupdated: "2023-02-15"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2023-02-07"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.6.0
+{: #v6.6.0}
+
+Version 6.6.0 was released on 2023-02-15.
+
+### New commands
+
+N/A
+
+### Updated commands
+
+* Updated `instance-create`, `instance-create-from-template`, `instance-update`, `instance-template-create` and `instance-template-create-override-source-template` commands to support instance metadata service.
+
+### Removed commands
+
+* N/A
 
 ## v6.5.0
 {: #v6.5.0}
@@ -55,6 +72,7 @@ Version 6.4.0 was released on 2023-01-31.
 ### Removed commands
 
 * N/A
+
 
 ## v6.3.0
 {: #v6.3.0}
