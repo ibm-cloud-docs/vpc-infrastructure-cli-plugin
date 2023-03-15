@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-02-15"
+lastupdated: "2023-03-07"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -444,7 +444,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp | udp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp | udp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--idle-connection-timeout IDLE_CONNECTION_TIMEOUT] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -472,7 +472,9 @@ Possible values for _condition_ are "contains", "equals", or "matches_regex". Po
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol tcp`
 To create a load balancer listener when route mode is enabled in the load balancer.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol udp --port 53`
-Create a load balancer listener with udp protocol.
+Create a load balancer listener with UDP protocol.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol https --port 443 --idle-connection-timeout 30`
+Create an application load balancer listener with idle connection timeout.
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
@@ -491,6 +493,7 @@ Create a load balancer listener with udp protocol.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
 - **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
+- **--idle-connection-timeout**: The idle connection timeout of the listener in seconds. Only load balancers in the **application** family support this option. Minimum: **50**, maximum: **7200**. (default: **50**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -814,7 +817,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID | --reset-default-pool] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI | --reset-http-redirect-target-uri])] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID | --reset-default-pool] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI | --reset-http-redirect-target-uri])] [--idle-connection-timeout IDLE_CONNECTION_TIMEOUT] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -835,6 +838,7 @@ The range of ports that are used by this listener.
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --http-redirect-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --http-redirect-status-code 307 --http-redirect-target-uri /example2`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol udp`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --idle-connection-timeout 30`
 
 #### Command options
 {: #command-options-load-balancer-listener-update}
@@ -856,6 +860,7 @@ The range of ports that are used by this listener.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
 - **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--reset-http-redirect-target-uri**: Reset Target URI.
+- **--idle-connection-timeout**: The idle connection timeout of the listener in seconds. Only load balancers in the **application** family support this option. Minimum: **50**, maximum: **7200**. (default: **50**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4444,6 +4449,10 @@ Create instance to be placed in the wanted placement group by using resource nam
 Create instance with primary network interface configuration by using resource name.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "security_groups": [{"id": "my-security-group-1"}, {"id": "my-security-group-2"}]}]'`
 Create instance that is attached to secondary network interface by using resource name.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"id": "67531475-bd8a-478e-bcfe-2e53365cd0aa"}}'`
+Create instance from existing boot volume.
+- `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-existing-boot-vol"}}'`
+Create instance from existing boot volume by using resource name.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
 Create instance from catalog offering.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
@@ -4491,7 +4500,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol to use for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -7329,12 +7338,17 @@ The following section provides information about CLI commands for volumes.
 List all volumes.
 
 ```
-ibmcloud is volumes [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is volumes [--attachment-state attached | unattached | unusable] [--encryption provider_managed | user_managed] [--operating-system-family OPERATING_SYSTEM_FAMILY] [--operating-system-architecture OPERATING_SYSTEM_ARCHITECTURE] [--zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-volumes}
 
+- **--attachment-state**: Filters the collection to volumes with the specified attachment state. One of: **attached**, **unattached**, **unusable**.
+- **--encryption**: Filters the collection to resources with the specified encryption type One of: **provider_managed**, **user_managed**.
+- **--operating-system-family**: Filters the collection to resources with the exact specified operating system family. This option also supports the values `null` and `not:null` that filters the collection to resources that have no operating system or any operating system.
+- **--operating-system-architecture**: Filters the collection to resources with the exact specified operating system architecture. This option also supports the values `null` and `not:null` that filters the collection to resources that have no operating system or any operating system.
+- **--zone**: Filters the collection to resources in the zone with the exact specified name.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -7400,7 +7414,7 @@ Create a volume from snapshot with capacity
 - **PROFILE_NAME**: Name of the profile.
 - **ZONE_NAME**: Name of the zone.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes. After source snapshot is provided, the capacity value must be at least snapshot's **minimum_capacity**, and the default capacity value is source snapshot's **minimum_capacity**. (default: **100**).
-- **--iops**: Input/Output Operations Per Second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--snapshot**: ID or Name of the snapshot.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -7873,7 +7887,7 @@ ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--name NEW_NA
 {: #command-options-backup-policy-update}
 
 - **POLICY**: ID or name of the backup policy.
-- **--match-tags**: The user tags this backup policy applies to.
+- **--match-tags**: The user tags that this backup policy applies to.
 - **--name**: New name of the backup policy.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
