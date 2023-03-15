@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-02-15"
+lastupdated: "2023-03-13"
 
 ---
 
@@ -21,6 +21,47 @@ lastupdated: "2023-02-15"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.7.2
+{: #v6.7.2}
+
+Version 6.7.2 was released on 2023-03-13.
+
+### New commands
+
+N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Note
+
+* Fixed `instances` list command to show the floating IP.
+* Fixed `instance-volume-attachment-add` command optional field issue.
+
+## v6.7.0
+{: #v6.7.0}
+
+Version 6.7.0 was released on 2023-03-07.
+
+### New commands
+
+N/A
+
+### Updated commands
+
+* Updated `load-balancer-listener-create`,  and `load-balancer-listener-update` commands to support load balancer idle connection timeout.
+* Updated `volumes` command to support `attachment-state`, `encryption`, `operating-system-family`, `operating-system-architecture` and `zone` filters.
+* Updated `instance-create` command to support instance creation from existing boot volume.
+
+### Removed commands
+
+* N/A
 
 ## v6.6.0
 {: #v6.6.0}
