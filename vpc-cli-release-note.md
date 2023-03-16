@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-03-13"
+lastupdated: "2023-03-15"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2023-03-13"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+
+## v6.8.0
+{: #v6.8.0}
+
+Version 6.8.0 was released on 2023-03-15.
+
+### New commands
+
+N/A
+
+### Updated commands
+
+* Updated `vpc-routing-table-route-create` and `vpc-routing-table-route-update` commands to support route priority feature.
+
+### Removed commands
+
+* N/A
 
 ## v6.7.2
 {: #v6.7.2}
