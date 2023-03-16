@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-03-07"
+lastupdated: "2023-03-15"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -70,7 +70,7 @@ The following section provides information about CLI commands for network servic
 {: #floating-ips-cli-ref}
 
 ### ibmcloud is floating-ip
-{: #floating-ip}
+{: #floating-ip-view}
 
 View details of a floating IP.
 
@@ -172,7 +172,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 ---
 
 ### ibmcloud is floating-ips
-{: #floating-ips}
+{: #floating-ips-list}
 
 List all floating IPs.
 
@@ -293,7 +293,7 @@ ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [
 ---
 
 ### ibmcloud is flow-log
-{: #flow-logs-view}
+{: #flow-log-view}
 
 View details of a flow log.
 
@@ -336,7 +336,7 @@ ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 The following section provides information about CLI commands for working with load balancers, listeners, and pools.
 
 ### ibmcloud is load-balancer
-{: #load-balancer}
+{: #load-balancer-view}
 
 View details of a load balancer.
 
@@ -419,7 +419,7 @@ ibmcloud is load-balancer-delete (LOAD_BALANCER1 LOAD_BALANCER2 ...) [--vpc VPC]
 ---
 
 ### ibmcloud is load-balancer-listener
-{: #load-balancer-listener}
+{: #load-balancer-listener-view}
 
 View details of a load balancer listener.
 
@@ -522,7 +522,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_I
 ---
 
 ### ibmcloud is load-balancer-listener-policies
-{: #load-balancer-listener-policies}
+{: #load-balancer-listener-policies-list}
 
 List all load balancer policies.
 
@@ -542,7 +542,7 @@ ibmcloud is load-balancer-listener-policies LOAD_BALANCER LISTENER_ID [--vpc VPC
 ---
 
 ### ibmcloud is load-balancer-listener-policy
-{: #load-balancer-listener-policy}
+{: #load-balancer-listener-policy-view}
 
 View details of load balancer listener policy.
 
@@ -637,7 +637,7 @@ ibmcloud is load-balancer-listener-policy-delete LOAD_BALANCER LISTENER_ID (POLI
 ---
 
 ### ibmcloud is load-balancer-listener-policy-rule
-{: #load-balancer-listener-policy-rule}
+{: #load-balancer-listener-policy-rule-view}
 
 List single load balancer policy rule.
 
@@ -746,7 +746,7 @@ ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID 
 ---
 
 ### ibmcloud is load-balancer-listener-policy-rules
-{: #load-balancer-listener-policy-rules}
+{: #load-balancer-listener-policy-rules-list}
 
 List all load balancer policy rules.
 
@@ -867,7 +867,7 @@ The range of ports that are used by this listener.
 ---
 
 ### ibmcloud is load-balancer-listeners
-{: #load-balancer-listeners}
+{: #load-balancer-listeners-list}
 
 List all load balancer listeners.
 
@@ -886,7 +886,7 @@ ibmcloud is load-balancer-listeners LOAD_BALANCER [--vpc VPC] [--output JSON] [-
 ---
 
 ### ibmcloud is load-balancer-pool
-{: #load-balancer-pool}
+{: #load-balancer-pool-view}
 
 View details of a load balancer pool.
 
@@ -979,7 +979,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER (POOL1 POOL2 ...) [--vpc VPC
 ---
 
 ### ibmcloud is load-balancer-pool-member
-{: #load-balancer-pool-member}
+{: #load-balancer-pool-member-view}
 
 View details of load balancer pool member.
 
@@ -1089,7 +1089,7 @@ ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER POOL (MEMBER_ID1 MEMB
 ---
 
 ### ibmcloud is load-balancer-pool-members
-{: #load-balancer-pool-members}
+{: #load-balancer-pool-members-list}
 
 List all the members of a load balancer pool.
 
@@ -1156,7 +1156,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 ---
 
 ### ibmcloud is load-balancer-pools
-{: #load-balancer-pools}
+{: #load-balancer-pools-list}
 
 List all pools of a load balancer.
 
@@ -1175,7 +1175,7 @@ ibmcloud is load-balancer-pools LOAD_BALANCER [--vpc VPC] [--output JSON] [-q, -
 ---
 
 ### ibmcloud is load-balancer-statistics
-{: #load-balancer-statistics}
+{: #load-balancer-statistics-list}
 
 List all statistics of a load balancer.
 
@@ -1225,7 +1225,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 ---
 
 ### ibmcloud is load-balancers
-{: #load-balancers-cli}
+{: #load-balancers-list}
 
 List all load balancers.
 
@@ -1268,7 +1268,7 @@ ibmcloud is network-acls [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 ---
 
 ### ibmcloud is network-acl
-{: #network-acl}
+{: #network-acl-view}
 
 View details of a network ACL.
 
@@ -1371,7 +1371,7 @@ ibmcloud is network-acl-delete (ACL1 ACL2 ...) [--vpc VPC] [--output JSON] [-f, 
 ---
 
 ### ibmcloud is network-acl-rules
-{: #network-acl-rules}
+{: #network-acl-rules-list}
 
 List all rules of a network ACL.
 
@@ -1390,7 +1390,7 @@ ibmcloud is network-acl-rules ACL [--vpc VPC] [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is network-acl-rule
-{: #network-acl-rule}
+{: #network-acl-rule-view}
 
 View details of a network ACL rule.
 
@@ -1525,7 +1525,7 @@ ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output 
 {: #public-gateways}
 
 ### ibmcloud is public-gateway
-{: #public-gateway}
+{: #public-gateway-view}
 
 View details of a public gateway.
 
@@ -1649,7 +1649,7 @@ ibmcloud is public-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-
 The following section gives details about the CLI commands that are available for working with VPC routing tables and routes.
 
 ### ibmcloud is vpc-default-routing-table
-{: #vpc-default-routing-table}
+{: #vpc-default-routing-table-view}
 
 View details of the default routing table of a VPC.
 
@@ -1667,7 +1667,7 @@ ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is vpc-routing-tables
-{: #vpc-routing-tables}
+{: #vpc-routing-tables-list}
 
 List all routing tables for a VPC.
 
@@ -1685,7 +1685,7 @@ ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is vpc-routing-table
-{: #vpc-routing-table}
+{: #vpc-routing-table-view}
 
 View details of a VPC routing table.
 
@@ -1793,7 +1793,7 @@ ibmcloud is vpc-routing-table-delete VPC (ROUTING_TABLE1 ROUTING_TABLE2 ...) [--
 ---
 
 ### ibmcloud is vpc-routing-table-routes
-{: #vpc-routing-table-routes}
+{: #vpc-routing-table-routes-list}
 
 List all the routes of a VPC routing table.
 
@@ -1812,7 +1812,7 @@ ibmcloud is vpc-routing-table-routes VPC ROUTING_TABLE [--output JSON] [-q, --qu
 ---
 
 ### ibmcloud is vpc-routing-table-route
-{: #vpc-routing-table-route}
+{: #vpc-routing-table-route-view}
 
 View details of a VPC route.
 
@@ -1837,7 +1837,7 @@ ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q,
 Create a VPC route.
 
 ```
-ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR [--action delegate_vpc | delegate | deliver | drop] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--name NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR [--action delegate_vpc | delegate | deliver | drop] [--priority PRIORITY] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1847,6 +1847,8 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 - `ibmcloud is vpc-routing-table-route-create my-vpc my-routing-table --name my-vpc-route --action deliver --zone us-south-1 --destination  10.2.2.0/24 --next-hop 10.0.0.2 --output JSON`
 - `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action delegate --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
 - `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action drop --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
+- `ibmcloud is vpc-routing-table-route-create  vpc1001  routing-table-vpc1001-rtable011-id -name my-vpc-route --action deliver --zone us-east-3 --destination  10.2.2.0/24 --priority 1 --next-hop 10.0.0.2`
+- `ibmcloud is vpc-routing-table-route-create vpc1001 routing-table-vpc1001-1-name  --zone us-east-3 --destination  10.2.2.0/24  --action deliver  --priority 3  --next-hop vpn-connection-vel-4573-us-east --vpngw aaa-default-vpn-gateway-1  --name vpc-route-cli-demo-1001`
 
 #### Command options
 {: #command-options-vpc-routing-table-route-create}
@@ -1856,6 +1858,7 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 - **--zone**: Name of the zone.
 - **--action**: The action to perform with a packet that matches the route. One of: **delegate_vpc**, **delegate**, **deliver**, **drop**.
 - **--destination**: The destination CIDR of the route. At most, two routes per zone in a table can have the same destination, and only if both routes have an action of **deliver**.
+- **--priority**: The route's priority. Smaller values have higher priority. Values can range between 0-4. (default: **2**).
 - **--next-hop**: If the action is **deliver**, then the IP address, VPN connection ID, or name of the next-hop that packets are delivered to. For other action values, it must be omitted or specified as 0.0.0.0.
 - **--vpngw**: ID or name of the VPN gateway. This option is required only if the next-hop is specified as VPN connection in name format.
 - **--name**: Name of the VPC routing table.
@@ -1870,13 +1873,15 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 Update a VPC route.
 
 ```
-ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE [--name NEW_NAME] [--priority PRIORITY] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-vpc-routing-table-route-update}
+#### Command examples
+{: #command-examples-vpc-routing-table-route-update}
 
 - `ibmcloud is vpc-routing-table-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 72b27b5c-f4b0-48bb-b954-5becc7c1d4ef --name my-vpc-route --output JSON`
+- `ibmcloud is vpc-routing-table-route-update vpc1001 routing-table-vpc1001-rtable011-id  my-vpc-route --priority 4 --next-hop 10.1.1.1 --name vpc-route-cli-1`
+- `ibmcloud is vpc-routing-table-route-update vpc1001 routing-table-vpc1001-1-name  vpc-route-cli-demo-1001 --priority 3  --next-hop 541c6bbf-6109-44bd-b2c9-176c6e11bc59  --vpngw aaa-default-vpn-gateway-1  --name vpc-route-cli-demo-1003`
 
 #### Command options
 {: #command-options-vpc-routing-table-route-update}
@@ -1885,6 +1890,9 @@ ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE --name NEW_NA
 - **ROUTING_TABLE**: ID or name of the VPC routing table.
 - **ROUTE**: ID or name of the VPC route.
 - **--name**: New name of the route.
+- **--priority**: The route's priority. Smaller values have higher priority. Values can range between 0-4. (default: **2**).
+- **--next-hop**: If the action is **deliver**, then the IP address, VPN connection ID, or name of the next-hop that packets are delivered to. For other action values, it must be omitted or specified as 0.0.0.0.
+- **--vpngw**: ID or name of the VPN gateway. This option is required only if the next-hop is specified as VPN connection in name format.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1913,7 +1921,7 @@ ibmcloud is vpc-routing-table-route-delete VPC ROUTING_TABLE (ROUTE1 ROUTE2 ...)
 ---
 
 ### ibmcloud is subnet-routing-table
-{: #subnet-routing-table}
+{: #subnet-routing-table-view}
 
 View details of routing table that is attached to the subnet.
 
@@ -1935,7 +1943,7 @@ ibmcloud is subnet-routing-table SUBNET [--vpc VPC] [--output JSON] [-q, --quiet
 {: #security-groups-cli-ref}
 
 ### ibmcloud is security-group
-{: #security-group}
+{: #security-group-view}
 
 View details of a security group.
 
@@ -2005,7 +2013,7 @@ ibmcloud is security-group-delete (GROUP1 GROUP2 ...) [--vpc VPC] [--output JSON
 ---
 
 ### ibmcloud is security-group-rule
-{: #security-group-rule}
+{: #security-group-rule-view}
 
 View details of a security group rule.
 
@@ -2131,7 +2139,7 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 ---
 
 ### ibmcloud is security-group-rules
-{: #security-group-rules}
+{: #security-group-rules-list}
 
 List all rules of a security group.
 
@@ -2177,7 +2185,7 @@ ibmcloud is security-group-update GROUP [--vpc VPC] [--name NEW_NAME] [--output 
 ---
 
 ### ibmcloud is security-groups
-{: #security-groups}
+{: #security-groups-list}
 
 List all security groups.
 
@@ -2197,7 +2205,7 @@ ibmcloud is security-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 ---
 
 ### ibmcloud is security-group-target
-{: #security-group-target}
+{: #security-group-target-view}
 
 View details of a target of a security group.
 
@@ -2300,7 +2308,7 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 ---
 
 ### ibmcloud is security-group-targets
-{: #security-group-targets}
+{: #security-group-targets-list}
 
 List all targets of a security group.
 
@@ -2328,7 +2336,7 @@ ibmcloud is security-group-targets GROUP [--vpc VPC] [--output JSON] [-q, --quie
 {: #subnet-cli-ref}
 
 ### ibmcloud is subnet
-{: #subnet}
+{: #subnet-view}
 
 View details of a subnet.
 
@@ -2444,7 +2452,7 @@ ibmcloud is subnet-update SUBNET [--vpc VPC] [--name NEW_NAME] [--acl ACL] [--pg
 ---
 
 ### ibmcloud is subnets
-{: #subnets}
+{: #subnets-list}
 
 List all subnets.
 
@@ -2464,7 +2472,7 @@ ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-na
 ---
 
 ### ibmcloud is subnet-public-gateway
-{: #subnet-public-gateway}
+{: #subnet-public-gateway-view}
 
 View details of public gateway attached to the subnet.
 
@@ -2502,7 +2510,7 @@ ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, -
 ---
 
 ### ibmcloud is subnet-reserved-ips
-{: #subnet-reserved-ips}
+{: #subnet-reserved-ips-list}
 
 List all reserved IPs in the subnet.
 
@@ -2521,7 +2529,7 @@ ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is subnet-reserved-ip
-{: #subnet-reserved-ip}
+{: #subnet-reserved-ip-view}
 
 View details of reserved IP.
 
@@ -2628,7 +2636,7 @@ ibmcloud is subnet-reserved-ip-delete SUBNET (RESERVED_IP1 RESERVED_IP2 ...) [--
 {: #vpcs-cli-ref}
 
 ### ibmcloud is vpc
-{: #vpc}
+{: #vpc-view}
 
 View details of a VPC.
 
@@ -2647,7 +2655,7 @@ ibmcloud is vpc VPC [--show-attached] [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is vpc-address-prefix
-{: #vpc-address-prefix}
+{: #vpc-address-prefix-view}
 
 View details of a VPC address prefix.
 
@@ -2742,7 +2750,7 @@ ibmcloud is vpc-address-prefix-update VPC PREFIX [--name NEW_NAME] [--default fa
 ---
 
 ### ibmcloud is vpc-address-prefixes
-{: #vpc-address-prefixes}
+{: #vpc-address-prefixes-list}
 
 List all address prefixes.
 
@@ -2790,7 +2798,7 @@ ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management 
 ---
 
 ### ibmcloud is vpc-default-security-group
-{: #vpc-default-security-group}
+{: #vpc-default-security-group-view}
 
 View details of the default security group of a VPC.
 
@@ -2853,7 +2861,7 @@ ibmcloud is vpc-update VPC --name NEW_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is vpcs
-{: #vpcs}
+{: #vpcs-list}
 
 List all VPCs.
 
@@ -2879,7 +2887,7 @@ ibmcloud is vpcs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name 
 The following section gives details about the CLI commands that are available for working with endpoint gateways.
 
 ### ibmcloud is endpoint-gateway-targets
-{: #endpoint-gateway-targets}
+{: #endpoint-gateway-targets-list}
 
 List all resources can be set as target for endpoint gateway in all regions.
 
@@ -2896,7 +2904,7 @@ ibmcloud is endpoint-gateway-targets [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is endpoint-gateway
-{: #endpoint-gateway}
+{: #endpoint-gateway-view}
 
 View details of an endpoint gateway.
 
@@ -2915,7 +2923,7 @@ ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, -
 ---
 
 ### ibmcloud is endpoint-gateways
-{: #endpoint-gateways}
+{: #endpoint-gateways-list}
 
 List all endpoint gateways in the region.
 
@@ -3081,7 +3089,7 @@ The following section gives details about the CLI commands that are available fo
 
 
 ### ibmcloud is ike-policies
-{: #ike-policies}
+{: #ike-policies-list}
 
 List all IKE policies.
 
@@ -3101,7 +3109,7 @@ ibmcloud is ike-policies [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 ---
 
 ### ibmcloud is ike-policy
-{: #ike-policy}
+{: #ike-policy-view}
 
 View details of an IKE policy.
 
@@ -3119,7 +3127,7 @@ ibmcloud is ike-policy IKE_POLICY [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is ike-policy-connections
-{: #ike-policy-connections}
+{: #ike-policy-connections-list}
 
 List all connections that use the IKE policy.
 
@@ -3225,7 +3233,7 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 ---
 
 ### ibmcloud is ipsec-policies
-{: #ipsec-policies}
+{: #ipsec-policies-list}
 
 List all IPsec policies.
 
@@ -3245,7 +3253,7 @@ ibmcloud is ipsec-policies [--resource-group-id RESOURCE_GROUP_ID | --resource-g
 ---
 
 ### ibmcloud is ipsec-policy
-{: #ipsec-policy}
+{: #ipsec-policy-view}
 
 View details of an IPsec policy.
 
@@ -3263,7 +3271,7 @@ ibmcloud is ipsec-policy IPSEC_POLICY [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is ipsec-policy-connections
-{: #ipsec-policy-connections}
+{: #ipsec-policy-connections-list}
 
 List all connections that use the IPsec policy.
 
@@ -3366,7 +3374,7 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 ---
 
 ### ibmcloud is vpn-gateway
-{: #vpn-gateway}
+{: #vpn-gateway-view}
 
 View details of a VPN gateway.
 
@@ -3385,7 +3393,7 @@ ibmcloud is vpn-gateway VPN_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is vpn-gateway-connection
-{: #vpn-gateway-connection}
+{: #vpn-gateway-connection-view}
 
 View details of a VPN gateway connection.
 
@@ -3602,7 +3610,7 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 ---
 
 ### ibmcloud is vpn-gateway-connections
-{: #vpn-gateway-connections}
+{: #vpn-gateway-connections-list}
 
 List all VPN gateway connections.
 
@@ -3700,7 +3708,7 @@ ibmcloud is vpn-gateway-update VPN_GATEWAY [--vpc VPC] [--name NEW_NAME] [--outp
 ---
 
 ### ibmcloud is vpn-gateways
-{: #vpn-gateways}
+{: #vpn-gateways-list}
 
 List all VPN gateways.
 
@@ -3726,7 +3734,7 @@ The following section gives details about the CLI commands available for working
 
 
 ### ibmcloud is vpn-servers
-{: #vpn-servers}
+{: #vpn-servers-list}
 
 List all VPN servers.
 
@@ -3746,7 +3754,7 @@ ibmcloud is vpn-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-grou
 ---
 
 ### ibmcloud is vpn-server
-{: #vpn-server}
+{: #vpn-server-view}
 
 View details of a VPN server.
 
@@ -3878,7 +3886,7 @@ ibmcloud is vpn-server-delete (VPN_SERVER1 VPN_SERVER2 ...) [--vpc VPC] [--outpu
 ---
 
 ### ibmcloud is vpn-server-client-configuration
-{: #vpn-server-client-configuration}
+{: #vpn-server-client-configuration-view}
 
 Retrieve OpenVPN client configuration.
 
@@ -3904,7 +3912,7 @@ ibmcloud is vpn-server-client-configuration VPN_SERVER [--vpc VPC] [--file FILE]
 ---
 
 ### ibmcloud is vpn-server-clients
-{: #vpn-server-clients}
+{: #vpn-server-clients-list}
 
 List all VPN clients for a VPN server.
 
@@ -3923,7 +3931,7 @@ ibmcloud is vpn-server-clients VPN_SERVER [--vpc VPC] [--output JSON] [-q, --qui
 ---
 
 ### ibmcloud is vpn-server-client
-{: #vpn-server-client}
+{: #vpn-server-client-view}
 
 View details of a VPN client.
 
@@ -3985,7 +3993,7 @@ ibmcloud is vpn-server-client-disconnect VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) 
 ---
 
 ### ibmcloud is vpn-server-routes
-{: #vpn-server-routes}
+{: #vpn-server-routes-list}
 
 List all VPN routes for a VPN server.
 
@@ -4110,7 +4118,7 @@ The following section provides information about CLI commands for compute functi
 {: #compute-images}
 
 ### ibmcloud is operating-systems
-{: #operating-systems}
+{: #operating-systems-list}
 
 List all operating systems.
 
@@ -4127,7 +4135,7 @@ ibmcloud is operating-systems [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is operating-system
-{: #operating-system}
+{: #operating-system-view}
 
 View details of an operating system.
 
@@ -4145,7 +4153,7 @@ ibmcloud is operating-system OPERATING_SYSTEM_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is image
-{: #image}
+{: #image-view}
 
 View details of an image.
 
@@ -4163,7 +4171,7 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is images
-{: #images}
+{: #images-list}
 
 List all images in the region.
 
@@ -4266,7 +4274,7 @@ ibmcloud is image-delete (IMAGE1 IMAGE2 ...) [--output JSON] [-f, --force] [-q, 
 ---
 
 ### ibmcloud is catalog-image-offerings
-{: #catalog-image-offerings}
+{: #catalog-image-offerings-list}
 
 List all catalog image offerings.
 
@@ -4288,7 +4296,7 @@ ibmcloud is catalog-image-offerings [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is catalog-image-offering
-{: #catalog-image-offering}
+{: #catalog-image-offering-view}
 
 Get catalog image offering.
 
@@ -4315,7 +4323,7 @@ ibmcloud is catalog-image-offering CATALOG OFFERING [--output JSON] [-q, --quiet
 {: #instances}
 
 ### ibmcloud is instance
-{: #instance}
+{: #instance-view}
 
 View details of a virtual server instance.
 
@@ -4616,7 +4624,7 @@ ibmcloud is instance-delete (INSTANCE1 INSTANCE2 ...) [--output JSON] [-f, --for
 ---
 
 ### ibmcloud is instance-disk
-{: #instance-disk}
+{: #instance-disk-view}
 
 View details of a virtual server instance disk.
 
@@ -4655,7 +4663,7 @@ ibmcloud is instance-disk-update INSTANCE INSTANCE_DISK --name NEW_NAME [--outpu
 ---
 
 ### ibmcloud is instance-disks
-{: #instance-disks}
+{: #instance-disks-list}
 
 List all disks of a virtual server instance.
 
@@ -4673,7 +4681,7 @@ ibmcloud is instance-disks INSTANCE [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is instance-network-interface
-{: #instance-network-interface}
+{: #instance-network-interface-view}
 
 View details of a network interface of a virtual server instance.
 
@@ -4750,7 +4758,7 @@ ibmcloud is instance-network-interface-delete INSTANCE (NIC1 NIC2 ...) [--output
 ---
 
 ### ibmcloud is instance-network-interface-floating-ip
-{: #instance-network-interface-floating-ip}
+{: #instance-network-interface-floating-ip-view}
 
 View details of a floating IP that is associated with a network interface.
 
@@ -4818,7 +4826,7 @@ ibmcloud is instance-network-interface-floating-ip-remove INSTANCE NIC FLOATING_
 ---
 
 ### ibmcloud is instance-network-interface-floating-ips
-{: #instance-network-interface-floating-ips}
+{: #instance-network-interface-floating-ips-list}
 
 List all floating IPs that are associated with a network interface.
 
@@ -4837,7 +4845,7 @@ ibmcloud is instance-network-interface-floating-ips INSTANCE NIC [--output JSON]
 ---
 
 ### ibmcloud is instance-network-interface-reserved-ips
-{: #instance-network-interface-reserved-ips}
+{: #instance-network-interface-reserved-ips-list}
 
 List all reserved IPs that are associated with a network interface.
 
@@ -4856,7 +4864,7 @@ ibmcloud is instance-network-interface-reserved-ips INSTANCE NIC [--output JSON]
 ---
 
 ### ibmcloud is instance-network-interface-reserved-ip
-{: #instance-network-interface-reserved-ip}
+{: #instance-network-interface-reserved-ip-view}
 
 View details of a reserved IP that is associated with a network interface.
 
@@ -4897,7 +4905,7 @@ ibmcloud is instance-network-interface-update INSTANCE NIC --name NEW_NAME [--al
 ---
 
 ### ibmcloud is instance-network-interfaces
-{: #instance-network-interfaces}
+{: #instance-network-interfaces-list}
 
 List all network interfaces of a virtual server instance.
 
@@ -4915,7 +4923,7 @@ ibmcloud is instance-network-interfaces INSTANCE [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is instance-profile
-{: #instance-profile}
+{: #instance-profile-view}
 
 View details of a virtual server instance profile.
 
@@ -4933,7 +4941,7 @@ ibmcloud is instance-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is instance-profiles
-{: #instance-profiles}
+{: #instance-profiles-list}
 
 List all virtual server instance profiles in the region.
 
@@ -5051,7 +5059,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 ---
 
 ### ibmcloud is instance-volume-attachment
-{: #instance-volume-attachment}
+{: #instance-volume-attachment-view}
 
 View details of a volume attachment.
 
@@ -5070,7 +5078,7 @@ ibmcloud is instance-volume-attachment INSTANCE VOLUME_ATTACHMENT [--output JSON
 ---
 
 ### ibmcloud is instance-volume-attachments
-{: #instance-volume-attachments}
+{: #instance-volume-attachments-list}
 
 List all volume attachments to an instance.
 
@@ -5181,7 +5189,7 @@ Update a volume attachment by using resource name.
 {: #keys}
 
 ### ibmcloud is key
-{: #key}
+{: #key-view}
 
 View details of a key.
 
@@ -5295,7 +5303,7 @@ ibmcloud is keys [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name 
 {: #dedicated-hosts}
 
 ### ibmcloud is dedicated-host-profiles
-{: #dedicated-host-profiles}
+{: #dedicated-host-profiles-list}
 
 List all host profiles in the region.
 
@@ -5312,7 +5320,7 @@ ibmcloud is dedicated-host-profiles [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is dedicated-host-profile
-{: #dedicated-host-profile}
+{: #dedicated-host-profile-view}
 
 View details of a host profile.
 
@@ -5330,7 +5338,7 @@ ibmcloud is dedicated-host-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is dedicated-host-groups
-{: #dedicated-host-groups}
+{: #dedicated-host-groups-list}
 
 List all host groups.
 
@@ -5350,7 +5358,7 @@ ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --res
 ---
 
 ### ibmcloud is dedicated-host-group
-{: #dedicated-host-group}
+{: #dedicated-host-group-view}
 
 View details of a host group.
 
@@ -5462,7 +5470,7 @@ ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-
 ---
 
 ### ibmcloud is dedicated-host
-{: #dedicated-host}
+{: #dedicated-host-view}
 
 View details of a host.
 
@@ -5556,7 +5564,7 @@ ibmcloud is dedicated-host-delete (HOST1 HOST2 ...) [--output JSON] [-f, --force
 ---
 
 ### ibmcloud is dedicated-host-disks
-{: #dedicated-host-disks}
+{: #dedicated-host-disks-list}
 
 List all disks of a dedicated host.
 
@@ -5574,7 +5582,7 @@ ibmcloud is dedicated-host-disks HOST [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is dedicated-host-disk
-{: #dedicated-host-disk}
+{: #dedicated-host-disk-view}
 
 View details of a dedicated host disk.
 
@@ -5616,7 +5624,7 @@ ibmcloud is dedicated-host-disk-update HOST DISK --name NEW_NAME [--output JSON]
 {: #bare-metal-servers}
 
 ### ibmcloud is bare-metal-server
-{: #bare-metal-server}
+{: #bare-metal-server-view}
 
 View details of a bare metal server.
 
@@ -5739,7 +5747,7 @@ ibmcloud is bare-metal-server-delete (SERVER1 SERVER2 ...) [--output JSON] [-f, 
 ---
 
 ### ibmcloud is bare-metal-server-disk
-{: #bare-metal-server-disk}
+{: #bare-metal-server-disk-view}
 
 View details of a bare metal server disk.
 
@@ -5778,7 +5786,7 @@ ibmcloud is bare-metal-server-disk-update SERVER SERVER_DISK --name NEW_NAME [--
 ---
 
 ### ibmcloud is bare-metal-server-disks
-{: #bare-metal-server-disks}
+{: #bare-metal-server-disks-list}
 
 List all disks of a bare metal server.
 
@@ -5816,7 +5824,7 @@ ibmcloud is bare-metal-server-initialization-values SERVER [--private-key (KEY |
 ---
 
 ### ibmcloud is bare-metal-server-network-interface
-{: #bare-metal-server-network-interface}
+{: #bare-metal-server-network-interface-view}
 
 View details of a network interface of a bare metal server.
 
@@ -5916,7 +5924,7 @@ ibmcloud is bare-metal-server-network-interface-delete SERVER (NIC1 NIC2 ...) [-
 ---
 
 ### ibmcloud is bare-metal-server-network-interface-floating-ip
-{: #bare-metal-server-network-interface-floating-ip}
+{: #bare-metal-server-network-interface-floating-ip-view}
 
 View details of a floating IP that is associated with a network interface.
 
@@ -5983,7 +5991,7 @@ ibmcloud is bare-metal-server-network-interface-floating-ip-remove SERVER NIC FL
 ---
 
 ### ibmcloud is bare-metal-server-network-interface-floating-ips
-{: #bare-metal-server-network-interface-floating-ips}
+{: #bare-metal-server-network-interface-floating-ips-list}
 
 List all floating IPs that are associated with a network interface.
 
@@ -6034,7 +6042,7 @@ ibmcloud is bare-metal-server-network-interface-update SERVER NIC --name NEW_NAM
 ---
 
 ### ibmcloud is bare-metal-server-network-interfaces
-{: #bare-metal-server-network-interfaces}
+{: #bare-metal-server-network-interfaces-list}
 
 List all network interfaces of a bare metal server.
 
@@ -6052,7 +6060,7 @@ ibmcloud is bare-metal-server-network-interfaces SERVER [--output JSON] [-q, --q
 ---
 
 ### ibmcloud is bare-metal-server-profile
-{: #bare-metal-server-profile}
+{: #bare-metal-server-profile-view}
 
 View details of a bare metal server profile.
 
@@ -6070,7 +6078,7 @@ ibmcloud is bare-metal-server-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is bare-metal-server-profiles
-{: #bare-metal-server-profiles}
+{: #bare-metal-server-profiles-list}
 
 List all bare metal server profiles in the region.
 
@@ -6189,7 +6197,7 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 ---
 
 ### ibmcloud is bare-metal-server-network-interface-reserved-ips
-{: #bare-metal-server-network-interface-reserved-ips}
+{: #bare-metal-server-network-interface-reserved-ips-list}
 
 Lists all reserved IPs bound to a network interface of a bare metal server.
 
@@ -6208,7 +6216,7 @@ ibmcloud is bare-metal-server-network-interface-reserved-ips SERVER NIC [--outpu
 ---
 
 ### ibmcloud is bare-metal-server-network-interface-reserved-ip
-{: #bare-metal-server-network-interface-reserved-ip}
+{: #bare-metal-server-network-interface-reserved-ip-view}
 
 Retrieves the specified reserved IP address if it is bound to the network interface of a bare metal server.
 
@@ -6321,7 +6329,7 @@ ibmcloud is placement-group-update PLACEMENT_GROUP --name NEW_NAME [--output JSO
 ---
 
 ### ibmcloud is placement-groups
-{: #placement-groups}
+{: #placement-groups-list}
 
 List all placement groups.
 
@@ -6349,7 +6357,7 @@ The following section provides information about CLI commands for auto scaling f
 {: #instance-template}
 
 ### ibmcloud is instance-templates
-{: #instance-templates}
+{: #instance-templates-list}
 
 List all templates in the region.
 
@@ -6600,7 +6608,7 @@ ibmcloud is instance-template-delete (TEMPLATE1 TEMPLATE2 ...) [--output JSON] [
 {: #instance-group}
 
 ### ibmcloud is instance-groups
-{: #instance-groups}
+{: #instance-groups-list}
 
 List all instance groups in the region.
 
@@ -6751,7 +6759,7 @@ ibmcloud is instance-group-load-balancer-delete INSTANCE_GROUP [-f, --force] [-q
 ---
 
 ### ibmcloud is instance-group-managers
-{: #instance-group-managers}
+{: #instance-group-managers-list}
 
 List all managers for an instance group.
 
@@ -6769,7 +6777,7 @@ ibmcloud is instance-group-managers INSTANCE_GROUP [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is instance-group-manager
-{: #instance-group-manager}
+{: #instance-group-manager-view}
 
 View details of a manager.
 
@@ -6880,7 +6888,7 @@ ibmcloud is instance-group-manager-delete INSTANCE_GROUP (MANAGER1 MANAGER2 ...)
 ---
 
 ### ibmcloud is instance-group-manager-actions
-{: #instance-group-manager-actions}
+{: #instance-group-manager-actions-list}
 
 List actions for an instance group manager.
 
@@ -6899,7 +6907,7 @@ ibmcloud is instance-group-manager-actions INSTANCE_GROUP MANAGER [--output JSON
 ---
 
 ### ibmcloud is instance-group-manager-action
-{: #instance-group-manager-action}
+{: #instance-group-manager-action-view}
 
 View details of an instance group manager action.
 
@@ -7016,7 +7024,7 @@ ibmcloud is instance-group-manager-action-delete INSTANCE_GROUP MANAGER (ACTION1
 ---
 
 ### ibmcloud is instance-group-manager-policies
-{: #instance-group-manager-policies}
+{: #instance-group-manager-policies-list}
 
 List policies for an instance group manager.
 
@@ -7035,7 +7043,7 @@ ibmcloud is instance-group-manager-policies INSTANCE_GROUP MANAGER [--output JSO
 ---
 
 ### ibmcloud is instance-group-manager-policy
-{: #instance-group-manager-policy}
+{: #instance-group-manager-policy-view}
 
 View details of an instance group manager policy.
 
@@ -7139,7 +7147,7 @@ ibmcloud is instance-group-manager-policy-update INSTANCE_GROUP MANAGER POLICY [
 ---
 
 ### ibmcloud is instance-group-membership
-{: #instance-group-membership}
+{: #instance-group-membership-view}
 
 View details of a member of instance group.
 
@@ -7206,7 +7214,7 @@ ibmcloud is instance-group-membership-update INSTANCE_GROUP MEMBER [--name NEW_N
 ---
 
 ### ibmcloud is instance-group-memberships
-{: #instance-group-memberships}
+{: #instance-group-memberships-list}
 
 List all members of an instance group.
 
@@ -7250,7 +7258,7 @@ The following section provides information about CLI commands for working with r
 {: #regions}
 
 ### ibmcloud is region
-{: #region}
+{: #region-view}
 
 View details of a region.
 
@@ -7288,7 +7296,7 @@ ibmcloud is regions [--output JSON] [-q, --quiet]
 {: #zones}
 
 ### ibmcloud is zone
-{: #zone}
+{: #zone-view}
 
 View details of a zone in the target region.
 
@@ -7333,7 +7341,7 @@ ibmcloud is zones [--output JSON] [-q, --quiet]
 The following section provides information about CLI commands for volumes.
 
 ### ibmcloud is volumes
-{: #volumes}
+{: #volumes-list}
 
 List all volumes.
 
@@ -7358,7 +7366,7 @@ ibmcloud is volumes [--attachment-state attached | unattached | unusable] [--enc
 ---
 
 ### ibmcloud is volume
-{: #volume}
+{: #volume-view}
 
 View details of a volume.
 
@@ -7452,7 +7460,7 @@ ibmcloud is volume-delete (VOLUME1 VOLUME2 ...) [--output JSON] [-f, --force] [-
 ---
 
 ### ibmcloud is volume-profiles
-{: #volume-profiles}
+{: #volume-profiles-list}
 
 List all volume profiles.
 
@@ -7469,7 +7477,7 @@ ibmcloud is volume-profiles [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is volume-profile
-{: #volume-profile}
+{: #volume-profile-view}
 
 View details of a volume profile.
 
@@ -7527,7 +7535,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 The following section provides information about CLI commands for snapshots.
 
 ### ibmcloud is snapshots
-{: #snapshots}
+{: #snapshots-list}
 
 List all snapshots.
 
@@ -7548,7 +7556,7 @@ ibmcloud is snapshots [--volume VOLUME] [--resource-group-id RESOURCE_GROUP_ID |
 ---
 
 ### ibmcloud is snapshot
-{: #snapshot}
+{: #snapshot-view}
 
 View details of a snapshot.
 
@@ -7663,7 +7671,7 @@ ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--tags  TAG_NAME1,TAG_NAME
 ---
 
 ### ibmcloud is snapshot-clone
-{: #snapshot-clone}
+{: #snapshot-clone-view}
 
 View details of a zonal snapshot clone.
 
@@ -7740,7 +7748,7 @@ ibmcloud is snapshot-clone-delete SNAPSHOT (ZONE_NAME1 ZONE_NAME2 ...) [--output
 ---
 
 ### ibmcloud is snapshot-clones
-{: #snapshot-clones}
+{: #snapshot-clones-list}
 
 List all zonal snapshot clones.
 
@@ -7769,7 +7777,7 @@ ibmcloud is snapshot-clones SNAPSHOT [--output JSON] [-q, --quiet]
 The following section provides information about CLI commands for backup policies
 
 ### ibmcloud is backup-policies
-{: #backup-policies}
+{: #backup-policies-list}
 
 List all backup policies.
 
@@ -7919,7 +7927,7 @@ ibmcloud is backup-policy POLICY [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is backup-policy-plan
-{: #backup-policy-plan}
+{: #backup-policy-plan-view}
 
 View details of a backup policy plan.
 
@@ -7944,7 +7952,7 @@ ibmcloud is backup-policy-plan POLICY PLAN [--output JSON] [-q, --quiet]
 ---
 
 ### ibmcloud is backup-policy-plans
-{: #backup-policy-plans}
+{: #backup-policy-plans-list}
 
 List all plans for the backup policy.
 
@@ -8067,7 +8075,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 ---
 
 ### ibmcloud is backup-policy-jobs
-{: #backup-policy-jobs}
+{: #backup-policy-jobs-list}
 
 List all jobs for the backup policy.
 
@@ -8101,7 +8109,7 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 ---
 
 ### ibmcloud is backup-policy-job
-{: #backup-policy-job}
+{: #backup-policy-job-view}
 
 View details of a backup policy job.
 
