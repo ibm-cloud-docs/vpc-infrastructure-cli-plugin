@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-03-15"
+lastupdated: "2023-03-23"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -360,7 +360,7 @@ ibmcloud is load-balancer LOAD_BALANCER [--vpc VPC] [--output JSON] [-q, --quiet
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (--subnet SUBNET1 --subnet SUBNET2 ... [--vpc VPC]) [--family application | network] [--route-mode false | true] [--sg SG] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (--subnet SUBNET1 --subnet SUBNET2 ... [--vpc VPC]) (--dns-instance-crn DNS_INSTANCE_CRN --dns-zone-id DNS_ZONE_ID) [--family application | network] [--route-mode false | true] [--sg SG] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -378,6 +378,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (-
 - `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
 - `ibmcloud is load-balancer-create my-lb private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
 Create a load balancer with route mode enabled
+- `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
+Create private DNS support for Load Balancer.
 
 #### Command options
 {: #command-options-load-balancer-create}
@@ -390,6 +392,8 @@ Create a load balancer with route mode enabled
 - **--route-mode**: Enable or disable route mode for the load balancer. If unspecified, route mode is disabled. Currently, route mode can be enabled for only private network load balancer. One of: **false**, **true**.
 - **--sg**: Comma-separated security group IDs or names for the load balancer. If unspecified, the VPC's default security group is used.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. If unspecified, datapath logging is disabled. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
+- **--dns-instance-crn**: The CRN of the DNS instance that is associated with the DNS zone.
+- **--dns-zone-id**: ID of the DNS Zone.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -1199,7 +1203,7 @@ ibmcloud is load-balancer-statistics LOAD_BALANCER [--vpc VPC] [--output JSON] [
 Update a load balancer.
 
 ```
-ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--name NEW_NAME] [--logging-datapath-active false | true] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--name NEW_NAME] [--logging-datapath-active false | true] [--dns-instance-crn DNS_INSTANCE_CRN --dns-zone-id DNS_ZONE_ID | --reset-dns] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1210,6 +1214,8 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-renamed-lb --output JSON`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --logging-datapath-active false`
 - `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnets ec8bb350-d802-4f1b-b362-b848abd5bb65,ec8bb350-d802-4f1b-b362-b848abd5bb66`
+- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:228e2e37-b0ce-474d-9824-41fdef4d9121:: --dns-zone-id 260763f2-81e8-4447-b8a1-e9a92d82062c`
+- `ibmcloud is load-balancer-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --reset-dns`
 
 #### Command options
 {: #command-options-load-balancer-update}
@@ -1219,6 +1225,9 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 - **--name**: New name of the Load balancer.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
 - **--subnets**: Comma-separated ID or name of the subnets to provision this load balancer. Load balancer availability depends on the availability of the zones that the specified subnets reside in. Currently, only the load balancer in the application family supports this option.
+- **--dns-instance-crn**: The CRN of the DNS instance associated with the DNS zone.
+- **--dns-zone-id**: ID of the DNS Zone.
+- **--reset-dns**: Specify this flag to remove any existing DNS records.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4508,7 +4517,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -4593,7 +4602,7 @@ Create instance from instance template with primary network interface configurat
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol that is for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -5050,7 +5059,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -6486,7 +6495,7 @@ Create instance template interactively.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -6547,7 +6556,7 @@ Create instance template by overriding a source template with primary network in
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -7354,8 +7363,8 @@ ibmcloud is volumes [--attachment-state attached | unattached | unusable] [--enc
 
 - **--attachment-state**: Filters the collection to volumes with the specified attachment state. One of: **attached**, **unattached**, **unusable**.
 - **--encryption**: Filters the collection to resources with the specified encryption type One of: **provider_managed**, **user_managed**.
-- **--operating-system-family**: Filters the collection to resources with the exact specified operating system family. This option also supports the values `null` and `not:null` that filters the collection to resources that have no operating system or any operating system.
-- **--operating-system-architecture**: Filters the collection to resources with the exact specified operating system architecture. This option also supports the values `null` and `not:null` that filters the collection to resources that have no operating system or any operating system.
+- **--operating-system-family**: null        Filters the collection to resources with the exact specified operating system family. This option also supports the values null and `not:null` that filters the collection to resources that have no operating system or any operating system.
+- **--operating-system-architecture**: null  Filters the collection to resources with the exact specified operating system architecture. This option also supports the values null and `not:null` that filters the collection to resources that have no operating system or any operating system.
 - **--zone**: Filters the collection to resources in the zone with the exact specified name.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
