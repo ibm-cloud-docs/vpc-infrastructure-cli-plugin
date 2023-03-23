@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-03-15"
+lastupdated: "2023-03-23"
 
 ---
 
@@ -22,6 +22,22 @@ lastupdated: "2023-03-15"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v6.9.0
+{: #v6.9.0}
+
+Version 6.9.0 was released on 2023-03-23.
+
+### New commands
+
+N/A
+
+### Updated commands
+
+* Updated `load-balancer-create` and `load-balancer-update` commands to support load balancer private DNS service.
+
+### Removed commands
+
+* N/A
 
 ## v6.8.0
 {: #v6.8.0}
