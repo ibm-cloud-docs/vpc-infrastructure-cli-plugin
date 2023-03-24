@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-03-23"
+lastupdated: "2023-03-24"
 
 ---
 
@@ -21,6 +21,24 @@ lastupdated: "2023-03-23"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.10.0
+{: #v6.10.0}
+
+Version 6.10.0 was released on 2023-03-24.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Updated `instance-profiles`and  `instance-profile` commands to support `network_interface_count` property in the response.
+* Updated `bare-metal-server-profiles` and `bare-metal-server-profile` commands to support `network_interface_count` and `console_types` properties in the response.
+
+### Removed commands
+
+* N/A
 
 ## v6.9.0
 {: #v6.9.0}
