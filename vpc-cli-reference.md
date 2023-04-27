@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-03-23"
+lastupdated: "2023-04-27"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -379,7 +379,7 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (-
 - `ibmcloud is load-balancer-create my-lb private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
 Create a load balancer with route mode enabled
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
-Create private DNS support for Load Balancer.
+Create Private DNS support for Load Balancer.
 
 #### Command options
 {: #command-options-load-balancer-create}
@@ -3434,15 +3434,14 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRE
 #### Command examples
 {: #command-examples-vpn-gateway-connection-create}
 
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso`
-- `ibmcloud is vpn-gateway-connection-create my-connection my-vpn-gateway 169.21.50.5 lkj14b1oi0alcniejkso`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --admin-state-up true`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is vpn-gateway-connection-create my-connection my-vpn-gateway 169.21.50.5 lkj14b1oi0alcniejkso --ipsec-policy my-ispec-policy`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is vpn-gateway-connection-create my-connection my-vpn-gateway 169.21.50.5 lkj14b1oi0alcniejkso --ike-policy my-ike-policy`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --output JSON`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24`
+- `ibmcloud is vpn-gateway-connection-create my-connection my-vpn-gateway 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --admin-state-up true`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is vpn-gateway-connection-create my-connection my-vpn-gateway 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ipsec-policy my-ispec-policy`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is vpn-gateway-connection-create my-connection my-vpn-gateway 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy my-ike-policy`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --admin-state-up true`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100`
@@ -3462,8 +3461,8 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRE
 - **--dead-peer-detection-action**: Dead Peer Detection actions. One of: **restart**, **clear**, **hold**, **none**. (default: **restart**).
 - **--dead-peer-detection-interval**: Dead Peer Detection interval in seconds (default: **2**).
 - **--dead-peer-detection-timeout**: Dead Peer Detection timeout in seconds (default: **10**).
-- **--ike-policy**: ID of the IKE policy.
-- **--ipsec-policy**: ID of the IPsec policy.
+- **--ike-policy**: ID or name of the IKE policy.
+- **--ipsec-policy**: ID or name of the IPsec policy.
 - **--local-cidr**: Local CIDR for the resource.
 - **--peer-cidr**: Peer CIDRs for the resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3606,9 +3605,9 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 - **--dead-peer-detection-action**: Dead Peer Detection actions. One of: **restart**, **clear**, **hold**, **none**.
 - **--dead-peer-detection-interval**: Dead Peer Detection interval in seconds.
 - **--dead-peer-detection-timeout**: Dead Peer Detection timeout in seconds.
-- **--ike-policy**: ID of the IKE policy.
+- **--ike-policy**: ID or name of the IKE policy.
 - **--reset-ike-policy**: Remove IKE policy.
-- **--ipsec-policy**: ID of the IPsec policy.
+- **--ipsec-policy**: ID or name of the IPsec policy.
 - **--reset-ipsec-policy**: Remove IPsec policy.
 - **--peer-address**: The IP address of the peer VPN gateway.
 - **--psk**: The preshared key.
@@ -3661,7 +3660,7 @@ ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route] [
 
 - **VPN_GATEWAY_NAME**: Name of the VPN gateway.
 - **SUBNET**: ID or name of the subnet.
-- **--mode**: The mode of the VPN gateway. One of: **policy**, **route**.
+- **--mode**: The mode of the VPN gateway, if not specified the default mode of the VPN gateway is policy. One of: **policy**, **route**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4276,6 +4275,135 @@ ibmcloud is image-delete (IMAGE1 IMAGE2 ...) [--output JSON] [-f, --force] [-q, 
 
 - **IMAGE1**: ID or name of the image.
 - **IMAGE2**: ID or name of the image.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-export-job
+{: #image-export-job-view}
+
+View details of an image export job.
+
+```
+ibmcloud is image-export-job IMAGE JOB [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-export-job}
+
+- `ibmcloud is image-export-job 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 6451a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is image-export-job my-image my-export-job`
+
+#### Command options
+{: #command-options-image-export-job}
+
+- **IMAGE**: ID or name of the image.
+- **JOB**: ID or name of the image export job.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-export-jobs
+{: #image-export-jobs-list}
+
+List all export jobs of an image.
+
+```
+ibmcloud is image-export-jobs IMAGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-export-jobs}
+
+- `ibmcloud is image-export-jobs 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is image-export-jobs my-image`
+
+#### Command options
+{: #command-options-image-export-jobs}
+
+- **IMAGE**: ID or name of the image.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-export-job-create
+{: #image-export-job-create}
+
+Create an image export job.
+
+```
+ibmcloud is image-export-job-create IMAGE --bucket BUCKET [--name NEW_NAME] [--format qcow2 | vhd] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-export-job-create}
+
+- `ibmcloud is image-export-job-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-export-job --format qcow2 --bucket my-bucket`
+- `ibmcloud is image-export-job-create my-image --name my-export-job --format qcow2 --bucket my-bucket`
+
+#### Command options
+{: #command-options-image-export-job-create}
+
+- **IMAGE**: ID or name of the image.
+- **--name**: New name of the image export job.
+- **--format**: The format to use for the exported image. If the image is encrypted, only qcow2 is supported. One of: **qcow2**, **vhd**. (default: **qcow2**).
+- **--bucket**: The Cloud Object Storage bucket to export the image to. The bucket must exist and an IAM service authorization must grant Image Service for VPC of VPC Infrastructure Services writer access to the bucket.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-export-job-update
+{: #image-export-job-update}
+
+Update an image export job.
+
+```
+ibmcloud is image-export-job-update IMAGE JOB --name NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-export-job-update}
+
+- `ibmcloud is image-export-job-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 6451a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-image-export-job`
+- `ibmcloud is image-export-job-update my-image my-export-job --name my-image-export-job`
+
+#### Command options
+{: #command-options-image-export-job-update}
+
+- **IMAGE**: ID or name of the image.
+- **JOB**: ID or name of the image export job.
+- **--name**: Name of the image export job.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-export-job-delete
+{: #image-export-job-delete}
+
+Delete one or more image export jobs.
+
+```
+ibmcloud is image-export-job-delete IMAGE (JOB1 JOB2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-export-job-delete}
+
+- `ibmcloud is image-export-job-delete 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 6451a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is image-export-job-delete my-image my-export-job`
+
+#### Command options
+{: #command-options-image-export-job-delete}
+
+- **IMAGE**: ID or name of the image.
+- **JOB1**: ID or name of the image export job.
+- **JOB2**: ID or name of the image export job.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -5252,6 +5380,12 @@ Delete one or more keys.
 ibmcloud is key-delete (KEY1 KEY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
+#### Command examples
+{: #command-examples-key-delete}
+
+- `ibmcloud is key-delete e9e7655e-0000-0000-0000-0000001a957a --output JSON`
+- `ibmcloud is key-delete e9e7655e-0000-0000-0000-0000001a957a -f`
+
 #### Command options
 {: #command-options-key-delete}
 
@@ -5296,6 +5430,12 @@ List all keys.
 ```
 ibmcloud is keys [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-keys}
+
+- `ibmcloud is keys --resource-group-name Default --output JSON`
+- `ibmcloud is keys --resource-group-id 11baaa8984beb82690daab08767et --output JSON`
 
 #### Command options
 {: #command-options-keys}
