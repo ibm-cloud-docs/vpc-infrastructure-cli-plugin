@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-03-24"
+lastupdated: "2023-04-27"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2023-03-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.11.0
+{: #v6.11.0}
+
+Version 6.11.0 was released on 2023-04-27.
+
+### New commands
+
+* Added `image-export-job`, `image-export-jobs`, `image-export-job-create`, `image-export-job-update` and `image-export-job-delete` for image export functionality.
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
 
 ## v6.10.0
 {: #v6.10.0}
