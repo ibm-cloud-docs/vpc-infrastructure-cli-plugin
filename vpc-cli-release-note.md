@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-04-27"
+lastupdated: "2023-05-03"
 
 ---
 
@@ -21,6 +21,27 @@ lastupdated: "2023-04-27"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+
+## v6.11.1
+{: #v6.11.1}
+
+Version 6.11.1 was released on 2023-05-03.
+
+### New commands
+
+* N/A
+### Updated commands
+
+* N/A 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed `bare-metal-server-network-interfaces` and `bare-metal-server-network-interface` command to print MAC address value.
 
 ## v6.11.0
 {: #v6.11.0}
