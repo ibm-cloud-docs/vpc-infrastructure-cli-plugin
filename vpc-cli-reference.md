@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-04-27"
+lastupdated: "2023-06-01"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1225,7 +1225,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 - **--name**: New name of the Load balancer.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
 - **--subnets**: Comma-separated ID or name of the subnets to provision this load balancer. Load balancer availability depends on the availability of the zones that the specified subnets reside in. Currently, only the load balancer in the application family supports this option.
-- **--dns-instance-crn**: The CRN of the DNS instance associated with the DNS zone.
+- **--dns-instance-crn**: The CRN of the DNS instance that is associated with the DNS zone.
 - **--dns-zone-id**: ID of the DNS Zone.
 - **--reset-dns**: Specify this flag to remove any existing DNS records.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4576,6 +4576,8 @@ Create instance to be placed in the wanted dedicated host group.
 Create instance to be placed in the wanted placement group.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
 Create instance with specific total volumes bandwidth
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --metadata-service true`
+Create instance with metadata service enabled or disabled
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --metadata-service true --metadata-service-protocol http --metadata-service-response-hop-limit 60`
 Create instance with metadata service configuration
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --default-trusted-profile Profile-c9fe8182-870a-49df-8308-c8bb7394c4c3 --default-trusted-profile-auto-link true`
@@ -6584,6 +6586,8 @@ Create instance template to be placed in the wanted dedicated host group.
 Create instance template to be placed in the wanted placement group.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
 Create instance template with specific total volumes bandwidth
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --metadata-service true`
+Create instance template with metadata service enabled or disabled
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --metadata-service true --metadata-service-protocol http --metadata-service-response-hop-limit 60`
 Create instance template with metadata service configuration
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --host-failure-policy restart`
@@ -6600,6 +6604,10 @@ Create instance template to be placed in the wanted placement group by using res
 Create instance template with primary network interface configuration by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "security_groups": [{"id": "my-security-group-1"}, {"id": "my-security-group-2"}]}]'`
 Create instance template that is attached to secondary network interface by using resource name.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"id": "67531475-bd8a-478e-bcfe-2e53365cd0aa"}}'`
+Create instance from existing boot volume.
+- `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-existing-boot-vol"}}'`
+Create instance from existing boot volume by using resource name.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
 Create instance template with catalog offering.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
@@ -7689,13 +7697,32 @@ The following section provides information about CLI commands for snapshots.
 List all snapshots.
 
 ```
-ibmcloud is snapshots [--volume VOLUME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_IMAGE] [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--clones-zone-name CLONES_ZONE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-snapshots}
+
+- `ibmcloud is snapshots`
+- `ibmcloud is snapshots --volume r134-f13fc172-22e0-4e5b-ab81-63f5fe8b3ea0`
+- `ibmcloud is snapshots --volume vol-bkp-policy-do-not-delete`
+- `ibmcloud is snapshots --volume crn:v1:staging:public:is:us-south-2:a/efe5afc483594adaa8325e2b4d1290df::volume:r134-f13fc172-22e0-4e5b-ab81-63f5fe8b3ea0`
+- `ibmcloud is snapshots --tag dev:env`
+- `ibmcloud is snapshots --source-image r134-24d856e2-6aec-41c2-8f36-5a8a3766f0d6`
+- `ibmcloud is snapshots --source-image ibm-centos-7-9-minimal-amd64-9`
+- `ibmcloud is snapshots --source-image crn:v1:staging:public:is:us-east:a/efe5afc483594adaa8325e2b4d1290df::image:r134-24d856e2-6aec-41c2-8f36-5a8a3766f0d6`
+- `ibmcloud is snapshots --backup-policy-plan r134-7d36a9df-9512-496e-8ad0-054cb4dd854c --backup-policy r134-3f56e0fa-1cfb-4341-9e57-de2a6345e7b3`
+- `ibmcloud is snapshots --backup-policy-plan bkp-plan-do-not-delete --backup-policy bkp-policy-do-not-delete`
 
 #### Command options
 {: #command-options-snapshots}
 
-- **--volume**: ID or Name of the volume to snapshot.
+- **--volume**: ID, name, or CRN of the source volume.
+- **--tag**: Tag for this resource.
+- **--source-image**: ID, name, or CRN of the source image.
+- **--backup-policy-plan**: ID or name of the backup policy plan.
+- **--backup-policy**: ID or Name of the backup policy.
+- **--clones-zone-name**: Name of the snapshot clone zone.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -7722,7 +7749,7 @@ ibmcloud is snapshot SNAPSHOT [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-snapshot}
 
-- **SNAPSHOT**: ID or Name of the snapshot.
+- **SNAPSHOT**: ID or name of the snapshot.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7753,7 +7780,7 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--clone-zones CLONE_Z
 #### Command options
 {: #command-options-snapshot-create}
 
-- **--volume**: ID or Name of the volume to snapshot.
+- **--volume**: ID, name, or CRN of the source volume.
 - **--name**: New name for the snapshot.
 - **--clone-zones**: Comma-separated zone names that you want the snapshot clones to reside in. Snapshot fast restore is enabled in the cloned zones.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -8240,6 +8267,7 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 - `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --volume r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshot r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status running --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots r134-f1d9b974-14e5-4a2e-8e38-c023164be316,r134-b11f1540-288d-4331-97ab-f565ca15a3b8,r134-ab3147a3-715f-4017-8fed-ea3ddadeeb1d,r134-435b8414-dae2-4026-847f-a73162105e5f`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots bkp-plan-do-not-delete-31addff28e2b-422b,bkp-plan-do-not-delete-f37bc1f19123-4995`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b,crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c10755ee-db71-472e-bf80-01e21229fda0`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots-crns  crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b,crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c10755ee-db71-472e-bf80-01e21229fda0`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete  --source r134-71757aee-5e90-40f5-bd7d-0a538c084efb`
 
@@ -8248,7 +8276,7 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 
 - **POLICY**: ID or name of the backup policy.
 - **--source**: ID or name of the source volume. Source name can be used only if the source exists inside the VPC.
-- **--snapshots**: ID or name of target snapshots.
+- **--snapshots**: IDs, names, or CRNs of target snapshots. Combinations of these three types are not supported. Passing is supported by only one of these three types.
 - **--snapshots-crns**: CRNs of the target snapshots.
 - **--status**: Status of the backup policy job. One of: **failed**, **running**, **succeeded**.
 - **--plan**: ID or name of backup policy plan.
