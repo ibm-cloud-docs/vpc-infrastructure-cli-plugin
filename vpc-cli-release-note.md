@@ -22,6 +22,26 @@ lastupdated: "2023-05-03"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v6.12.0
+{: #v6.12.0}
+
+Version 6.12.0 was released on 2023-06-01.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for fileshare mount targets in share commands (Beta). 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed `bare-metal-server-network-interfaces`, `bare-metal-server-profiles` and `bare-metal-servers` commands to print correct response values.
 
 ## v6.11.1
 {: #v6.11.1}
