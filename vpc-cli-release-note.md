@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-05-03"
+lastupdated: "2023-06-22"
 
 ---
 
@@ -21,6 +21,23 @@ lastupdated: "2023-05-03"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.13.0
+{: #v6.13.0}
+
+Version 6.13.0 was released on 2023-06-22.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for snapshot and backup cross region copy in `snaphot-create`, `snapshots`, `backup-policy-plan-create` and `backup-policy-plan-update` commands. 
+
+### Removed commands
+
+* N/A
 
 ## v6.12.0
 {: #v6.12.0}
