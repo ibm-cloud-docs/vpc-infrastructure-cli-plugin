@@ -1,8 +1,8 @@
----
+ ---
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-06-01"
+lastupdated: "2023-06-22"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -2997,7 +2997,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 - **--target**: The name of the provider infrastructure service or the CRN for a provider cloud service instance. You can use command **ibmcloud is endpoint-gateway-targets** to list the provider cloud and infrastructure services that are qualified to be set as endpoint gateway target.
 - **--name**: New name of the endpoint gateway.
 - **--rip**: Comma-separated IDs of the reserved IP to be bound to the endpoint gateway. At most, one reserved IP per zone is allowed. It can also be reserved IP name, but only one reserved IP name is allowed and subnet option for this reserved IP name also must be supplied.
-- **--subnet**: ID or Name of the subnet. This name is only required if the supplied reserved IP is in name format.
+- **--subnet**: ID or name of the subnet. This name is only required if the supplied reserved IP is in name format.
 - **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved IP configuration in JSON or JSON file.
 - **--sg**: Comma-separated security group IDs or names for the endpoint gateway.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -3041,8 +3041,8 @@ ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY (--rip RIP [--sub
 
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--rip**: ID or Name of the reserved IP address to be bound.
-- **--subnet**: ID or Name of the subnet. This name is only required if the supplied reserved IP is in name format.
+- **--rip**: ID or name of the reserved IP address to be bound.
+- **--subnet**: ID or name of the subnet. This name is only required if the supplied reserved IP is in name format.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3063,8 +3063,8 @@ ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY ((--rip RIP [--
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--address**: The reserved IP address to be unbound.
-- **--rip**: ID or Name of the reserved IP address to be unbound.
-- **--subnet**: ID or Name of the subnet. This name is only required if the supplied reserved IP is in name format.
+- **--rip**: ID or name of the reserved IP address to be unbound.
+- **--subnet**: ID or name of the subnet. This name is only required if the supplied reserved IP is in name format.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7540,7 +7540,7 @@ ibmcloud is volume VOLUME [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-volume}
 
-- **VOLUME**: ID or Name of the volume.
+- **VOLUME**: ID or name of the volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7581,7 +7581,7 @@ Create a volume from snapshot with capacity
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes. After source snapshot is provided, the capacity value must be at least snapshot's **minimum_capacity**, and the default capacity value is source snapshot's **minimum_capacity**. (default: **100**).
 - **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
-- **--snapshot**: ID or Name of the snapshot.
+- **--snapshot**: ID or name of the snapshot.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
@@ -7608,8 +7608,8 @@ ibmcloud is volume-delete (VOLUME1 VOLUME2 ...) [--output JSON] [-f, --force] [-
 #### Command options
 {: #command-options-volume-delete}
 
-- **VOLUME1**: ID or Name of the volume.
-- **VOLUME2**: ID or Name of the volume.
+- **VOLUME1**: ID or name of the volume.
+- **VOLUME2**: ID or name of the volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -7675,7 +7675,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 #### Command options
 {: #command-options-volume-update}
 
-- **VOLUME**: ID or Name of the volume.
+- **VOLUME**: ID or name of the volume.
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
@@ -7697,7 +7697,7 @@ The following section provides information about CLI commands for snapshots.
 List all snapshots.
 
 ```
-ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_IMAGE] [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--clones-zone-name CLONES_ZONE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_IMAGE] [--copies COPY1,COPY2,...] [--copies-remote-region COPIES_REMOTE_REGION] [--source-snapshot SOURCE_SNAPSHOT] [--source-snapshot-remote-region SOURCE_SNAPSHOT_REMOTE_REGION] [--volume-remote-region VOLUME_REMOTE_REGION] [--source-image-remote-region SOURCE_IMAGE_REMOTE_REGION] [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--clones-zone-name CLONES_ZONE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7711,8 +7711,16 @@ ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_
 - `ibmcloud is snapshots --source-image r134-24d856e2-6aec-41c2-8f36-5a8a3766f0d6`
 - `ibmcloud is snapshots --source-image ibm-centos-7-9-minimal-amd64-9`
 - `ibmcloud is snapshots --source-image crn:v1:staging:public:is:us-east:a/efe5afc483594adaa8325e2b4d1290df::image:r134-24d856e2-6aec-41c2-8f36-5a8a3766f0d6`
+- `ibmcloud is snapshots --copies r134-fc2a25b9-1cca-4cee-a9c4-0f350d7923f5`
+- `ibmcloud is snapshots --copies snapshot-copy-us-east`
+- `ibmcloud is snapshots --copies crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-fc2a25b9-1cca-4cee-a9c4-0f350d7923f5`
+- `ibmcloud is snapshots --copies-remote-region us-south`
+- `ibmcloud is snapshots --source-volume-remote-region us-south`
+- `ibmcloud is snapshots --source-snapshot-remote-region us-south`
 - `ibmcloud is snapshots --backup-policy-plan r134-7d36a9df-9512-496e-8ad0-054cb4dd854c --backup-policy r134-3f56e0fa-1cfb-4341-9e57-de2a6345e7b3`
 - `ibmcloud is snapshots --backup-policy-plan bkp-plan-do-not-delete --backup-policy bkp-policy-do-not-delete`
+- `ibmcloud is snapshots --source-snapshot  r142-abb79ab7-d79d-4863-9678-123d1dffee06`
+- `ibmcloud is snapshots --clones-zone-name us-south-2`
 
 #### Command options
 {: #command-options-snapshots}
@@ -7720,8 +7728,14 @@ ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_
 - **--volume**: ID, name, or CRN of the source volume.
 - **--tag**: Tag for this resource.
 - **--source-image**: ID, name, or CRN of the source image.
+- **--copies**: ID, name, or CRN of the snapshot copies. Combination of these three types are not supported. Only passing either one of three types is supported.
+- **--copies-remote-region**: Name of the snapshot copies remote region.
+- **--source-snapshot**: ID or name of source snapshot.
+- **--source-snapshot-remote-region**: Name of the source snapshot remote region.
+- **--volume-remote-region**: Name of the source volume remote region.
+- **--source-image-remote-region**: Name of the source image remote region.
 - **--backup-policy-plan**: ID or name of the backup policy plan.
-- **--backup-policy**: ID or Name of the backup policy.
+- **--backup-policy**: ID or name of the backup policy.
 - **--clones-zone-name**: Name of the snapshot clone zone.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -7761,7 +7775,7 @@ ibmcloud is snapshot SNAPSHOT [--output JSON] [-q, --quiet]
 Create a snapshot from a volume.
 
 ```
-ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--clone-zones CLONE_ZONES] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-create (--volume VOLUME | --source-snapshot-crn SOURCE_SNAPSHOT_CRN [--encryption-key ENCRYPTION_KEY]) [--name NAME] [--clone-zones CLONE_ZONES] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7776,11 +7790,14 @@ ibmcloud is snapshot-create --volume VOLUME [--name NAME] [--clone-zones CLONE_Z
 - `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test`
 - `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test,env:dev`
 - `ibmcloud is snapshot-create --volume test5-3zwxlnzgqk-9vk99 --name my-ss70 --tags env:test`
+- `ibmcloud is snapshot-create --name my-snapshot --source-snapshot-crn crn:v1:bluemix:public:is:us-south:a/123456::snapshot:r134-f6bfa329-0e36-433f-a3bb-0df632e79263 --encryption-key crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
 
 #### Command options
 {: #command-options-snapshot-create}
 
 - **--volume**: ID, name, or CRN of the source volume.
+- **--source-snapshot-crn**: CRN of the remote snapshot to create this snapshot from.
+- **--encryption-key**: The root key to use to wrap the data encryption key for the snapshot. If unspecified, the encryption_key from the most recent snapshot with the same source volume is used. If this snapshot is the first snapshot of the source volume, the encryption_key from the source volume is used.
 - **--name**: New name for the snapshot.
 - **--clone-zones**: Comma-separated zone names that you want the snapshot clones to reside in. Snapshot fast restore is enabled in the cloned zones.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -7809,8 +7826,8 @@ ibmcloud is snapshot-delete (SNAPSHOT1 SNAPSHOT2 ...) [--output JSON] [-f, --for
 #### Command options
 {: #command-options-snapshot-delete}
 
-- **SNAPSHOT1**: ID or Name of the snapshot.
-- **SNAPSHOT2**: ID or Name of the snapshot.
+- **SNAPSHOT1**: ID or name of the snapshot.
+- **SNAPSHOT2**: ID or name of the snapshot.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -7838,7 +7855,7 @@ ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--tags  TAG_NAME1,TAG_NAME
 #### Command options
 {: #command-options-snapshot-update}
 
-- **SNAPSHOT**: ID or Name of the snapshot.
+- **SNAPSHOT**: ID or name of the snapshot.
 - **--name**: New name of the snapshot.
 - **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -7864,7 +7881,7 @@ ibmcloud is snapshot-clone SNAPSHOT ZONE_NAME [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-snapshot-clone}
 
-- **SNAPSHOT**: ID or Name of the snapshot.
+- **SNAPSHOT**: ID or name of the snapshot.
 - **ZONE_NAME**: The zone name that this snapshot clone resides in. Snapshot fast restore is enabled in the cloned zones.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7889,7 +7906,7 @@ ibmcloud is snapshot-clone-create SNAPSHOT --zone ZONE [--output JSON] [-q, --qu
 #### Command options
 {: #command-options-snapshot-clone-create}
 
-- **SNAPSHOT**: ID or Name of the snapshot.
+- **SNAPSHOT**: ID or name of the snapshot.
 - **--zone**: The name of the zone that you want the snapshot clone to reside in. Snapshot fast restore is enabled in the cloned zones.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7914,7 +7931,7 @@ ibmcloud is snapshot-clone-delete SNAPSHOT (ZONE_NAME1 ZONE_NAME2 ...) [--output
 #### Command options
 {: #command-options-snapshot-clone-delete}
 
-- **SNAPSHOT**: ID or Name of the snapshot.
+- **SNAPSHOT**: ID or name of the snapshot.
 - **ZONE_NAME1**: The zone name that this snapshot clone resides in.
 - **ZONE_NAME2**: The zone name that this snapshot clone resides in.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -7941,7 +7958,7 @@ ibmcloud is snapshot-clones SNAPSHOT [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-snapshot-clones}
 
-- **SNAPSHOT**: ID or Name of the snapshot.
+- **SNAPSHOT**: ID or name of the snapshot.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8157,7 +8174,7 @@ ibmcloud is backup-policy-plans POLICY [--output JSON] [-q, --quiet]
 Create a backup policy plan.
 
 ```
-ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [[--clone-policy-zones  ZONE1,ZONE2,...] [--clone-policy-max-snapshots CLONE_POLICY_MAX_SNAPSHOTS]] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [[--clone-policy-zones  ZONE1,ZONE2,...] [--clone-policy-max-snapshots CLONE_POLICY_MAX_SNAPSHOTS]] [--remote-region-policies REMOTE_REGION_POLICY_JSON | @REMOTE_REGION_POLICY_JSON] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8167,6 +8184,8 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 - `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7  --cron-spec '*/5 1,2,3 * * *'  --name my-policy-plan-2`
 - `ibmcloud is backup-policy-plan-create backup-policy-1001 --cron-spec '0 0 * * *' --active --name my-policy-plan --attach-tags my-daily-backup-plan --copy-tags true --delete-after 10 --delete-over-count 2 --clone-policy-max-snapshots 1 --clone-policy-zones us-south-1,us-south-2`
 - `ibmcloud is backup-policy-plan-create backup-policy-1001 --cron-spec '0 0 * * *' --active --name my-policy-plan --attach-tags my-daily-backup-plan --copy-tags true --delete-after 10 --delete-over-count 2`
+- `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7  --cron-spec '*/5 1,2,3 * * *'  --name my-policy-plan-2 --remote-region-policies '[{"delete_over_count": 5,"region": {"name": "us-east"}},{"delete_over_count": 5,"region": {"name": "us-south"}}]'`
+- `ibmcloud is backup-policy-plan-create c9a0e8d9-c592-4175-80cb-3056f6fd1da7  --cron-spec '*/5 1,2,3 * * *'  --name my-policy-plan-2 --remote-region-policies @/tmp/remote_region_policies.json`
 
 #### Command options
 {: #command-options-backup-policy-plan-create}
@@ -8181,6 +8200,7 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones. (default: **5**).
 - **--clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
+- **--remote-region-policies**: REMOTE_REGION_POLICY_JSON|@REMOTE_REGION_POLICY_JSON, remote region policies in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8218,7 +8238,7 @@ ibmcloud is backup-policy-plan-delete (PLAN1 PLAN2 ...) [--output JSON] [-f, --f
 Update a backup policy plan.
 
 ```
-ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--reset-delete-over-count] [[--clone-policy-zones  ZONE1,ZONE2,...] [--clone-policy-max-snapshots CLONE_POLICY_MAX_SNAPSHOTS]] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--attach-tags ATTACH_TAGS] [--copy-tags true | false] [--cron-spec CRON_SPEC] [[--delete-after DELETE_AFTER] [--delete-over-count DELETE_OVER_COUNT]] [--reset-delete-over-count] [[--clone-policy-zones  ZONE1,ZONE2,...] [--clone-policy-max-snapshots CLONE_POLICY_MAX_SNAPSHOTS]] [--remote-region-policies REMOTE_REGION_POLICY_JSON | @REMOTE_REGION_POLICY_JSON] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8229,6 +8249,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - `ibmcloud is backup-policy-plan-update backup-policy-1001 2dae356e-f7b5-48dd-8bc3-f3083574885b --cron-spec '42 10 * * *' --name my-policy-plan-1 --attach-tags my-daily-backup-plan --copy-tags false --delete-after 20 --delete-over-count 1 --clone-policy-max-snapshots 3 --clone-policy-zones us-south-1,us-south-2 --active`
 - `ibmcloud is backup-policy-plan-update backup-policy-1001 2dae356e-f7b5-48dd-8bc3-f3083574885b --cron-spec '42 10 * * *' --name my-policy-plan-1 --attach-tags my-daily-backup-plan --copy-tags false --delete-after 20 --delete-over-count 1`
 - `ibmcloud is backup-policy-plan-update demo-bkp-policy-x demo-bkp-plan-2 --reset-delete-over-count`
+- `ibmcloud is backup-policy-plan-update demo-bkp-policy-x demo-bkp-plan-2 --reset-delete-over-count --remote-region-policies '[{"delete_over_count": 5,"region": {"name": "us-east"}},{"delete_over_count": 5,"region": {"name": "us-south"}}]'`
 
 #### Command options
 {: #command-options-backup-policy-plan-update}
@@ -8245,6 +8266,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - **--reset-delete-over-count**: Remove any existing maximum number of recent backups to keep.
 - **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones.
 - **--clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
+- **--remote-region-policies**: REMOTE_REGION_POLICY_JSON|@REMOTE_REGION_POLICY_JSON, remote region policies in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8256,7 +8278,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 List all jobs for the backup policy.
 
 ```
-ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,SNAPSHOT2, ...] [--snapshots-crns SNAPSHOT1_CRN,SNAPSHOT2_CRN, ...] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,SNAPSHOT2, ...] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8277,7 +8299,6 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 - **POLICY**: ID or name of the backup policy.
 - **--source**: ID or name of the source volume. Source name can be used only if the source exists inside the VPC.
 - **--snapshots**: IDs, names, or CRNs of target snapshots. Combinations of these three types are not supported. Passing is supported by only one of these three types.
-- **--snapshots-crns**: CRNs of the target snapshots.
 - **--status**: Status of the backup policy job. One of: **failed**, **running**, **succeeded**.
 - **--plan**: ID or name of backup policy plan.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
