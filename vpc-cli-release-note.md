@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-06-23"
+lastupdated: "2023-06-30"
 
 ---
 
@@ -21,6 +21,27 @@ lastupdated: "2023-06-23"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.14.1
+{: #v6.14.1}
+
+Version 6.14.1 was released on 2023-06-30.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed issue with using the SSH key generated from UI in CLI.
 
 ## v6.14.0
 {: #v6.14.0}
