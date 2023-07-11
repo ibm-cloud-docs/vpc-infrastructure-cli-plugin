@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-06-30"
+lastupdated: "2023-07-11"
 
 ---
 
@@ -21,6 +21,27 @@ lastupdated: "2023-06-30"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v6.15.0
+{: #v6.15.0}
+
+Version 6.15.0 was released on 2023-07-11.
+
+### New commands
+
+* New commands `image-obsolete` and `image-deprecate` are introduced to support image lifecycle management.
+
+### Updated commands
+
+* Added support for image lifecycle management in `image-create`, `image-update`, and `images` commands. 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v6.14.1
 {: #v6.14.1}
