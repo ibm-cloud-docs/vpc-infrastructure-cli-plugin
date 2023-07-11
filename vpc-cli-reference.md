@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-06-30"
+lastupdated: "2023-07-11"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4173,14 +4173,20 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 List all images in the region.
 
 ```
-ibmcloud is images [--visibility all | public | private] [--owner-type all | provider | user] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is images [--visibility all | public | private] [--owner-type all | provider | user] [--status STATUS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
+
+#### Command example
+{: #command-example-images}
+
+- `ibmcloud is images --status deprecated,obsolete`
 
 #### Command options
 {: #command-options-images}
 
 - **--visibility**: List images with given visibility. Valid visibility is: **public** or **private**.
 - **--owner-type**: Filters images with given owner type. Default is `all`. One of: **all**, **provider**, **user**.
+- **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, pending, unusable.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -4195,7 +4201,7 @@ ibmcloud is images [--visibility all | public | private] [--owner-type all | pro
 Create an image.
 
 ```
-ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--deprecate-at DEPRECATE_AT] [--obsolete-at OBSOLETE_AT] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4208,6 +4214,7 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --encrypted-data-key eyJjaXBoZXJ0ZXh0IjoiSFVBS1VxTFFzUVhVRytTdElxTENDS3BjQjZ5Qm9HWlMxOVU9IiwiaXYiOiIxVXdNeTFTNG9odHVOWmJPIiwidmVyc2lvbiI6IjQuMC4wIiwiaGFuZGxlIjoiMWU5MzNkY2QtYjczMi00MDY3LWEyNTUtZDg5MzMxMTdmZGZmIn0= --encryption-key crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
 - `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e`
 - `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --encryption-key-volume crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
+- `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --deprecate-at "2023-03-01T00:45:00Z" --obsolete-at "2023-03-02T00:50:00Z"`
 
 #### Command options
 {: #command-options-image-create}
@@ -4221,6 +4228,8 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - **--encryption-key-volume**: A reference to the root key to that is used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**
+- **--obsolete-at**: The obsolescence date and time to set for this image. The date and time must not be in the past, and must be later than "deprecate_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4232,19 +4241,27 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 Update an image.
 
 ```
-ibmcloud is image-update IMAGE --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is image-update IMAGE --name NEW_NAME [--deprecate-at DEPRECATE_AT | --reset-deprecate-at] [--obsolete-at OBSOLETE_AT | --reset-obsolete-at] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-image-update}
+#### Command examples
+{: #command-examples-image-update}
 
 - `ibmcloud is image-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name my-image`
+- `ibmcloud is image-update my-image-from-volume-cli --name  my-image-from-volume-cli-do-not-delete --obsolete-at "2023-03-02T04:20:00+05:30"`
+- `ibmcloud is image-update my-image-from-volume-cli-do-not-delete --deprecate-at "2023-03-03T04:20:00+05:30"`
+- `ibmcloud is image-update  my-image-from-volume-cli-do-not-delete --reset-deprecate-at`
+- `ibmcloud is image-update  my-image-from-volume-cli-do-not-delete --reset-obsolete-at`
 
 #### Command options
 {: #command-options-image-update}
 
 - **IMAGE**: ID or name of the image.
 - **--name**: New name of the image.
+- **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--reset-deprecate-at**: Specify this flag to remove an existing deprecation date and time. If the image status is "deprecated", it becomes "available".
+- **--obsolete-at**: The obsolescence date and time to set for this image. The date and time must not be in the past, and must be later than "deprecate_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--reset-obsolete-at**: Specify this flag to remove an existing obsolescence date and time. If the image status is "obsolete", it becomes "deprecated" if "deprecate_at" is in the past. Otherwise, it becomes "available".
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4395,6 +4412,52 @@ ibmcloud is image-export-job-delete IMAGE (JOB1 JOB2 ...) [--output JSON] [-f, -
 - **JOB2**: ID or name of the image export job.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-deprecate
+{: #image-deprecate-view}
+
+Deprecate an image.
+
+```
+ibmcloud is image-deprecate IMAGE [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-image-deprecate}
+
+- `ibmcloud is image-deprecate my-image-from-volume-cli-do-not-delete`
+
+#### Command options
+{: #command-options-image-deprecate}
+
+- **IMAGE**: ID or name of the image.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-obsolete
+{: #image-obsolete-view}
+
+Obsolete an image
+
+```
+ibmcloud is image-obsolete IMAGE [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-image-obsolete}
+
+- `ibmcloud is image-obsolete my-image-from-volume-cli-do-not-delete`
+
+#### Command options
+{: #command-options-image-obsolete}
+
+- **IMAGE**: ID or name of the image.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
