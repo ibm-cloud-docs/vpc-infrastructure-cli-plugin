@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-07-11"
+lastupdated: "2023-08-04"
 
 ---
 
@@ -21,6 +21,50 @@ lastupdated: "2023-07-11"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v7.0.0
+{: #v7.0.0}
+
+Version 7.0.0 was released on 2023-08-04.
+
+### New commands
+
+* New commands `share`, `share-create`, `share-delete`, `share-mount-target`, `share-mount-target-create`, `share-mount-target-delete`, `share-mount-target-update`, `share-mount-targets`, `share-profile`, `share-profiles`, `share-replica-create`, `share-replica-failover`, `share-replica-split`, `share-update` and `shares` are introduced to support File Share as a Service. 
+
+* New commands `virtual-network-interface`, `virtual-network-interface-update` and `virtual-network-interfaces` are introduced to support Virtual Network Interface as a Service. 
+
+### Updated commands
+
+* Added support for Virtual Network Interface in `security-group-target`, `security-group-target-add`, `security-group-target-remove` and `security-group-targets` commands. 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
+
+## v6.16.1
+{: #v6.16.1}
+
+Version 6.16.1 was released on 2023-07-18.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Removed release version 6.16.0.
 
 ## v6.15.0
 {: #v6.15.0}
