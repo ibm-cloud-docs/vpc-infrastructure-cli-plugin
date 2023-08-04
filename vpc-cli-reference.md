@@ -2,7 +2,8 @@
 
 copyright:
   years: 2018, 2023
-lastupdated: "2023-07-11"
+  
+lastupdated: "2023-08-04"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -2208,7 +2209,7 @@ ibmcloud is security-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-
 View details of a target of a security group.
 
 ```
-ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server | virtual_network_interface) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2220,14 +2221,15 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 - `ibmcloud is security-group-target my-sg my-lb --trt load_balancer`
 - `ibmcloud is security-group-target my-sg my-ege --trt endpoint_gateway`
 - `ibmcloud is sg-t sg-qui-us-east vpn-server-1 --trt vpn_server --vpc vpc_per_region_us-east`
+- `ibmcloud is security-group-target sg-vni cli-share-vni-1 --trt virtual_network_interface`
 
 #### Command options
 {: #command-options-security-group-target}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
+- **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2241,7 +2243,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 Add a target to a security group.
 
 ```
-ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server | virtual_network_interface) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2254,14 +2256,15 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 - `ibmcloud is security-group-target-add my-sg eth0 --bm my-bm --vpc my-vpc --output JSON`
 - `ibmcloud is security-group-target-add my-sg my-egw --trt endpoint_gateway --vpc my-vpc --output JSON`
 - `ibmcloud is sg-ta demo-sg vpnServer_per_region_us-east --trt vpn_server --vpc default-vpc-2`
+- `ibmcloud is security-group-target-add sg-vni cli-share-vni-1 --trt virtual_network_interface`
 
 #### Command options
 {: #command-options-security-group-target-add}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
+- **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2275,7 +2278,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 Remove targets from a security group.
 
 ```
-ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC] [(--trt load_balancer | endpoint_gateway | vpn_server | virtual_network_interface) | --in INSTANCE | --bm BARE_METAL_SERVER] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2288,15 +2291,16 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 - `ibmcloud is security-group-target-remove my-sg eth0 --bm my-bm --vpc my-vpc`
 - `ibmcloud is security-group-target-remove my-sg my-egw --trt endpoint-gateway`
 - `ibmcloud is sg-td demo-sg vpnServer_per_region_us-east --trt vpn_server --vpc default-vpc-2`
+- `ibmcloud is security-group-target-remove sg-vni cli-share-vni-1 --trt virtual_network_interface`
 
 #### Command options
 {: #command-options-security-group-target-remove}
 
 - **GROUP**: ID or name of the security group.
-- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
-- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_.
+- **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
+- **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**.
+- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
 - **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3076,6 +3080,85 @@ ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [-
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Virtual network interface
+{: #vni-clis}
+
+The following section gives details about the CLI commands that are available for working with virtual network interface.
+
+### ibmcloud is virtual-network-interface
+{: #virtual-network-interface-view}
+
+View details of a virtual network interface.
+
+```
+ibmcloud is virtual-network-interface VIRTUAL_NETWORK_INTERFACE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface}
+
+- `ibmcloud is virtual-network-interface r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is virtual-network-interface new-share-vni`
+
+#### Command options
+{: #command-options-virtual-network-interface}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interfaces
+{: #virtual-network-interfaces-list}
+
+List all virtual network interfaces.
+
+```
+ibmcloud is virtual-network-interfaces [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-virtual-network-interfaces}
+
+- `ibmcloud is virtual-network-interfaces`
+
+#### Command options
+{: #command-options-virtual-network-interfaces}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-update
+{: #virtual-network-interface-update}
+
+Update a virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-update}
+
+- `ibmcloud is virtual-network-interface-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-vni`
+- `ibmcloud is virtual-network-interface-update new-vni --name new-share`
+
+#### Command options
+{: #command-options-virtual-network-interface-update}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **--name**: New name of the virtual network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -4228,7 +4311,7 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - **--encryption-key-volume**: A reference to the root key to that is used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**
+- **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--obsolete-at**: The obsolescence date and time to set for this image. The date and time must not be in the past, and must be later than "deprecate_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4258,7 +4341,7 @@ ibmcloud is image-update IMAGE --name NEW_NAME [--deprecate-at DEPRECATE_AT | --
 
 - **IMAGE**: ID or name of the image.
 - **--name**: New name of the image.
-- **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
+- **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--reset-deprecate-at**: Specify this flag to remove an existing deprecation date and time. If the image status is "deprecated", it becomes "available".
 - **--obsolete-at**: The obsolescence date and time to set for this image. The date and time must not be in the past, and must be later than "deprecate_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--reset-obsolete-at**: Specify this flag to remove an existing obsolescence date and time. If the image status is "obsolete", it becomes "deprecated" if "deprecate_at" is in the past. Otherwise, it becomes "available".
@@ -4442,7 +4525,7 @@ ibmcloud is image-deprecate IMAGE [--output JSON] [-q, --quiet]
 ### ibmcloud is image-obsolete
 {: #image-obsolete-view}
 
-Obsolete an image
+Obsolete an image.
 
 ```
 ibmcloud is image-obsolete IMAGE [--output JSON] [-q, --quiet]
@@ -8015,6 +8098,429 @@ ibmcloud is snapshot-clones SNAPSHOT [--output JSON] [-q, --quiet]
 {: #command-options-snapshot-clones}
 
 - **SNAPSHOT**: ID or name of the snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## File shares
+{: #file-shares-cli}
+
+The following section provides information about CLI commands for file shares.
+
+### ibmcloud is share
+{: #share-view}
+
+View details of a file share.
+
+```
+ibmcloud is share SHARE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share}
+
+- `ibmcloud is share r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is share new-share`
+
+#### Command options
+{: #command-options-share}
+
+- **SHARE**: ID or name of the file share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-create
+{: #share-create}
+
+Create a file share.
+
+```
+ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--access-control-mode security_group | vpc] [--user-tags USER_TAGS] [--iops IOPS] [--size SIZE [--encryption_key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-create}
+
+- `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40`
+- `ibmcloud is share-create --name my-file-share-1 --zone us-south-1 --profile dp2 --size 40 --initial-owner-gid 100 --initial-owner-uid 200`
+- `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40 --output JSON`
+- `ibmcloud is share-create --name p-share-3 --zone us-south-1 --profile dp2 --replica-share-profile dp2 --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-3  --replica-share-name replica-p-share-3 --replica-share-mount-targets '[{"name": "my-target1", "vpc": {"id": "r134-fa7c3b16-8a59-4434-8c2c-3230e916d441"}}]' --size 40`
+- `ibmcloud is share-create --zone us-south-1 --profile dp2 --name my-file-share --user-tags env:dev,env:test --mount-targets '[{"name": "my-target121","vpc": {"name": "test-vpc-18-1"}},{"name": "my-target122","vpc": {"name": "vpc-0413"}}]' --replica-share-profile dp2 --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-3 --replica-share-user-tags env:dev,env:prod --replica-share-name my-file-share-replica --replica-share-mount-targets '[{"name": "my-target1", "vpc": {"id": "r006-9265c6c2-13e7-4268-b4e9-658d4df1e2f6"}}]' --size 40`
+- `ibmcloud is share-create --name my-file-share-3 --zone au-syd-1 --profile dp2 --size 40 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone au-syd-2  --replica-share-name replica-p-share-3 --replica-share-mount-targets '[{"name": "my-replica-target1", "vpc": {"name": "vpc-1006-01"}}]'`
+- `ibmcloud is share-create --name my-file-share --zone us-south-2 --profile dp2 --size 1000 --iops 1000`
+- `ibmcloud is share-create --zone us-east-1 --profile dp2 --size 40 --encryption_key crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
+- `ibmcloud is share-create --name my-fs-cli-1 --zone us-south-1 --profile dp2 --size 40 --mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni","primary_ip":{"id":"0716-d2a60008-84ca-4345-86f9-23a65dc75a32"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-a2f82965-1b8d-4bfe-9949-fe79e47daa86"}]}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-2  --replica-share-name my-fs-cli-1-replica  --replica-share-mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni-2","primary_ip":{"address":"10.240.66.20","auto-delete":true,"name":"rip-vni-target"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-bd0f8527-c45c-496e-8d34-63bda6dd829b"}],"subnet":{"id":"0726-cf6d55db-284e-40c6-aea7-67dbabfa5542"}}}]'`
+
+#### Command options
+{: #command-options-share-create}
+
+- **--name**: The user-defined name for this file share.
+- **--zone**: Name of the zone.
+- **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
+- **--user-tags**: Tags for this resource.
+- **--profile**: The profile that the file share uses.
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--size**: The size of the file share rounded up to the next gigabyte.
+- **--encryption_key**: The key to use for encrypting this file share. If no encryption key is provided, the share can't be encrypted.
+- **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
+- **--initial-owner-uid**: The initial owner user identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
+- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share, it is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--replica-share-user-tags**: Tags for this resource.
+- **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
+- **--replica-share-name**: The user-defined name for this file share.
+- **--replica-share-profile**: The profile that the file share uses.
+- **--replica-share-cron-spec**: The cron specification for the file share replication schedule.
+- **--replica-share-zone**: The zone that this replica file share is to reside in. Must be a different zone in the same region as the source share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-delete
+{: #share-delete}
+
+Delete one or more file shares.
+
+```
+ibmcloud is share-delete (SHARE1 SHARE2 ...) [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-delete}
+
+- `ibmcloud is share-delete  my-file-share-99  cli-demo-00`
+- `ibmcloud is share-delete  r006-866fc826-6f30-444f-b55e-0d697cf8b4bb`
+
+#### Command options
+{: #command-options-share-delete}
+
+- **SHARE1**: ID or name of the file share.
+- **SHARE2**: ID or name of the file share.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-profile
+{: #share-profile-view}
+
+View details of a file share profile.
+
+```
+ibmcloud is share-profile PROFILE_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-share-profile}
+
+- **PROFILE_NAME**: Name of the file share profile.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-profiles
+{: #share-profiles-list}
+
+List all file share profiles in the region.
+
+```
+ibmcloud is share-profiles [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-share-profiles}
+
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-update
+{: #share-update}
+
+Update a file share.
+
+```
+ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-update}
+
+- `ibmcloud is share-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-share`
+- `ibmcloud is share-update my-file-share-0b88  --name new-share`
+- `ibmcloud is share-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-share --output JSON`
+- `ibmcloud is share-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --size 10000 --output JSON`
+- `ibmcloud is share-update my-file-share --profile dp2 --iops 1200`
+- `ibmcloud is share-update my-file-share --profile dp2`
+- `ibmcloud is share-update my-file-share-1 --iops 1000`
+- `ibmcloud is share-update p-share-32 --user-tags env:dev,env:prod`
+- `ibmcloud is share-update my-fs-2-cli --access-control-mode security_group`
+
+#### Command options
+{: #command-options-share-update}
+
+- **SHARE**: ID or name of the file share.
+- **--name**: New name of the file share.
+- **--size**: The size of the file share rounded up to the next gigabyte. Size can be only increased, not decreased.
+- **--replication-cron-spec**: The cron specification for the file share replication schedule.
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--profile**: The profile that the file share uses.
+- **--user-tags**: Tags for this resource.
+- **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is shares
+{: #shares-list}
+
+List all file shares in the region.
+
+```
+ibmcloud is shares [--replication-role none | replica | source] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-shares}
+
+- `ibmcloud is shares`
+- `ibmcloud is shares --replication-role replica`
+
+#### Command options
+{: #command-options-shares}
+
+- **--replication-role**: Filters the collection to file shares with the specified replication role. One of: **none**, **replica**, **source**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-replica-create
+{: #share-replica-create}
+
+Create a replica file share from an existing file share.
+
+```
+ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-replica-create}
+
+- `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --replication-cron-spec '10 05 * * *' --source-share r134-2b4c32f9-9d25-43df-9d59-3874a81ec46e`
+- `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r134-2f06ca6e-771e-40cc-9553-3838e2cc396d"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share`
+- `ibmcloud is share-replica-create --zone us-south-3 --profile dp2 --iops 1200 --name p-share-replica-32  --replica-share-user-tags env:dev,env:test --mount-targets  '[{"name": "my-target1", "vpc": {"name": "test-vpc-18-1"}}]' --replication-cron-spec '10 08 * * *' --source-share r006-0394a827-fe42-4341-b369-186e1a2288d3`
+- `ibmcloud is share-replica-create --zone au-syd-2 --profile dp2 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share --name my-file-share-3-replica`
+
+#### Command options
+{: #command-options-share-replica-create}
+
+- **--name**: The user-defined name for this file share.
+- **--zone**: Name of the zone.
+- **--replica-share-user-tags**: Tags for this resource.
+- **--profile**: The profile that the file share uses.
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
+- **--replication-cron-spec**: The cron specification for the file share replication schedule.
+- **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-replica-failover
+{: #share-replica-failover}
+
+Failover to replica file share.
+
+```
+ibmcloud is share-replica-failover REPLICA-SHARE [--fallback-policy fail | split] [--timeout TIMEOUT] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-replica-failover}
+
+- `ibmcloud is share-replica-failover r134-de1e70af-c3cb-44c6-a96d-2ece09b51ae3 --fallback-policy fail --timeout 1200`
+- `ibmcloud is share-replica-failover r134-8a07129c-e376-4572-9ef3-68c729b315d5 --fallback-policy split --timeout 600`
+
+#### Command options
+{: #command-options-share-replica-failover}
+
+- **REPLICA-SHARE**: ID or name of the replica file share.
+- **--fallback-policy**: The action to take if the failover request is accepted but cannot be performed or times out. One of: **fail**, **split**.
+- **--timeout**: The failover timeout in seconds. The minimum timeout is 300 seconds and the maximum 3600 seconds. If the timeout is reached, the fallback_policy is triggered.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-replica-split
+{: #share-replica-split}
+
+Split the source file share from a replica share.
+
+```
+ibmcloud is share-replica-split REPLICA-SHARE [-f, --force] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-replica-split}
+
+- `ibmcloud is share-replica-split replica-p-share-3`
+
+#### Command options
+{: #command-options-share-replica-split}
+
+- **REPLICA-SHARE**: ID or name of the replica file share.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-mount-target
+{: #share-mount-target-view}
+
+View details of a file share mount target.
+
+```
+ibmcloud is share-mount-target SHARE MOUNT_TARGET [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-mount-target}
+
+- `ibmcloud is share-mount-target my-file-share-3 my-target1`
+
+#### Command options
+{: #command-options-share-mount-target}
+
+- **SHARE**: ID or name of the file share.
+- **MOUNT_TARGET**: ID or name of the file share mount target.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-mount-targets
+{: #share-mount-targets-list}
+
+List all share mount targets for a file share.
+
+```
+ibmcloud is share-mount-targets SHARE [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-mount-targets}
+
+- `ibmcloud is share-mount-targets my-file-share-3`
+
+#### Command options
+{: #command-options-share-mount-targets}
+
+- **SHARE**: ID or name of the file share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-mount-target-delete
+{: #share-mount-target-delete}
+
+Delete one or more file share mount targets.
+
+```
+ibmcloud is share-mount-target-delete SHARE (MOUNT_TARGET1 MOUNT_TARGET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-mount-target-delete}
+
+- `ibmcloud is share-mount-target-delete r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 mount-target-test`
+
+#### Command options
+{: #command-options-share-mount-target-delete}
+
+- **SHARE**: ID or name of the file share.
+- **MOUNT_TARGET1**: ID or name of the file share mount target.
+- **MOUNT_TARGET2**: ID or name of the file share mount target.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-mount-target-update
+{: #share-mount-target-update}
+
+Update a file share mount target.
+
+```
+ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-mount-target-update}
+
+- `ibmcloud is share-mount-target-update r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 overbuilt-yogurt-detention-wreaths --name mount-target-test`
+
+#### Command options
+{: #command-options-share-mount-target-update}
+
+- **SHARE**: ID or name of the file share.
+- **MOUNT_TARGET**: ID or name of the file share mount target.
+- **--name**: New name of the file share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-mount-target-create
+{: #share-mount-target-create}
+
+Create a file share mount target.
+
+```
+ibmcloud is share-mount-target-create SHARE [--name NAME] [--transit-encryption user_managed | none] [--subnet SUBNET] [([--vni-name VNI_NAME] [[--vni-rip VNI_RIP] | [[--vni-rip-address VNI_RIP_ADDRESS] [--vni-rip-auto-delete VNI_RIP_AUTO_DELETE] [--vni-rip-name VNI_RIP_NAME]]] [--vni-sgs VNI_SGS] --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-mount-target-create}
+
+- `ibmcloud is share-mount-target-create r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 --vpc vpc-1006-01`
+- `ibmcloud is share-mount-target-create r042-3afab254-82b7-4627-94b2-35d8bdfcd306 --subnet 02u7-62c52bfc-6075-4dad-a588-bdb6a42d925b --vni-name cli-vni --vni-rip-auto-delete true --name my-cli-target --transit-encryption user_managed`
+- `ibmcloud is share-mount-target-create cli-share-1 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
+
+#### Command options
+{: #command-options-share-mount-target-create}
+
+- **SHARE**: ID or name of the file share.
+- **--name**: The user-defined name for this file share mount target.
+- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **user_managed**, **none**.
+- **--subnet**: The subnet that is associated with this file share mount target.
+- **--vni-name**: The name for this virtual network interface.
+- **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface.
+- **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
+- **--vni-rip-auto-delete**: Indicates whether this reserved IP is automatically deleted when either target is deleted, or the reserved IP is unbound.
+- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface.
+- **--vni-sgs**: IDs or Names of the security groups to use for the virtual network interface.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--vpc**: ID or name of the VPC to which this share mount target allows to mount the file share.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
