@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2023
   
-lastupdated: "2023-08-04"
+lastupdated: "2023-10-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
