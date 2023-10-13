@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-08-04"
+lastupdated: "2023-10-12"
 
 ---
 
@@ -21,6 +21,50 @@ lastupdated: "2023-08-04"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+
+## v8.0.0
+{: #v8.0.0}
+
+Version 8.0.0 was released on 2023-10-12.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for diagnosing a failed VPN gateway and VPN server in the `vpn-gateway` and `vpn-server` commands. 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* API Version is updated to 2023-10-10.
+
+
+## v7.1.0
+{: #v7.1.0}
+
+Version 7.1.0 was released on 2023-09-22.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for Enterprise Backup As a Service in `backup-policy-create` command. 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v7.0.0
 {: #v7.0.0}
