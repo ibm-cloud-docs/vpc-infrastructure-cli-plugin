@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2023
   
-lastupdated: "2023-10-12"
+lastupdated: "2023-12-05"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4676,7 +4676,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4799,7 +4799,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5319,7 +5319,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 
 - **INSTANCE**: ID or name of the instance.
 - **--name**: New name of the virtual server instance.
-- **--profile**: The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Match the current profile's instance disk support. (**Note:** If the current profile supports instance storage disks, the requested profile can have a different instance storage disk configuration.) 2. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
+- **--profile**: The profile to use for this virtual server instance. To change the profile, the instance status must be `stopping` or `stopped`. In addition, the requested profile must: 1. Be compatible with any placement target constraints. For example, if the instance is placed on a dedicated host, the requested profile `family` must be the same as the dedicated host `family`.
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
@@ -5955,7 +5955,7 @@ ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
 Create a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS ((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true]) [--name NAME] [--user-data DATA] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS ((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6005,7 +6005,7 @@ Create a bare metal server with secondary network interface with new reserved IP
 - **--pnic-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network interface. It can be passed as separate values or as any range of numbers.
 - **--pnic-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--pnic-ais**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
-- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-bare-metal-server).
+- **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_INTERFACES_JSON**, **@NETWORK_INTERFACES_JSON_FILE**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. One of: **false**, **true**. (default: **false**).
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -6690,7 +6690,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6799,7 +6799,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [(--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7818,7 +7818,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).. The volume must be attached as data volume.
+- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as data volume.
 - **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7836,7 +7836,7 @@ The following section provides information about CLI commands for snapshots.
 List all snapshots.
 
 ```
-ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_IMAGE] [--copies COPY1,COPY2,...] [--copies-remote-region COPIES_REMOTE_REGION] [--source-snapshot SOURCE_SNAPSHOT] [--source-snapshot-remote-region SOURCE_SNAPSHOT_REMOTE_REGION] [--volume-remote-region VOLUME_REMOTE_REGION] [--source-image-remote-region SOURCE_IMAGE_REMOTE_REGION] [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--clones-zone-name CLONES_ZONE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_IMAGE] [--copies COPY1,COPY2,...] [--copies-remote-region COPIES_REMOTE_REGION] [--source-snapshot SOURCE_SNAPSHOT] [--source-snapshot-remote-region SOURCE_SNAPSHOT_REMOTE_REGION] [--volume-remote-region VOLUME_REMOTE_REGION] [--source-image-remote-region SOURCE_IMAGE_REMOTE_REGION] [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--snapshot-consistency-group SNAPSHOT_CONSISTENCY_GROUP] [--clones-zone-name CLONES_ZONE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7860,6 +7860,8 @@ ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_
 - `ibmcloud is snapshots --backup-policy-plan bkp-plan-do-not-delete --backup-policy bkp-policy-do-not-delete`
 - `ibmcloud is snapshots --source-snapshot  r142-abb79ab7-d79d-4863-9678-123d1dffee06`
 - `ibmcloud is snapshots --clones-zone-name us-south-2`
+- `ibmcloud is snapshots --snapshot-consistency-group scg1`
+- `ibmcloud is snapshots --snapshot-consistency-group r134-fc2a25b9-1cca-4cee-a9c4-0f350d7923f5`
 
 #### Command options
 {: #command-options-snapshots}
@@ -7875,6 +7877,7 @@ ibmcloud is snapshots [--volume VOLUME] [--tag TAG_NAME] [--source-image SOURCE_
 - **--source-image-remote-region**: Name of the source image remote region.
 - **--backup-policy-plan**: ID or name of the backup policy plan.
 - **--backup-policy**: ID or name of the backup policy.
+- **--snapshot-consistency-group**: ID, name or CRN of the snapshot consistency group.
 - **--clones-zone-name**: Name of the snapshot clone zone.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -8103,6 +8106,152 @@ ibmcloud is snapshot-clones SNAPSHOT [--output JSON] [-q, --quiet]
 
 ---
 
+### ibmcloud is snapshot-consistency-groups
+{: #snapshot-consistency-groups-list}
+
+List all snapshot consistency groups.
+
+```
+ibmcloud is snapshot-consistency-groups [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-consistency-groups}
+
+- `ibmcloud is snapshot-consistency-groups`
+- `ibmcloud is snapshot-consistency-groups --backup-policy-plan r134-7d36a9df-9512-496e-8ad0-054cb4dd854c --backup-policy r134-3f56e0fa-1cfb-4341-9e57-de2a6345e7b3`
+- `ibmcloud is snapshot-consistency-groups --backup-policy-plan bkp-plan-do-not-delete --backup-policy bkp-policy-do-not-delete`
+- `ibmcloud is snapshot-consistency-groups --backup-policy-plan r134-7d36a9df-9512-496e-8ad0-054cb4dd854c --backup-policy bkp-policy-do-not-delete`
+- `ibmcloud is snapshot-consistency-groups --backup-policy-plan bkp-plan-do-not-delete --backup-policy r134-3f56e0fa-1cfb-4341-9e57-de2a6345e7b3`
+
+#### Command options
+{: #command-options-snapshot-consistency-groups}
+
+- **--backup-policy-plan**: ID or name of the backup policy plan.
+- **--backup-policy**: ID or name of the backup policy.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-consistency-group
+{: #snapshot-consistency-group-view}
+
+View details of a snapshot consistency group.
+
+```
+ibmcloud is snapshot-consistency-group SNAPSHOT_CONSISTENCY_GROUP [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-consistency-group}
+
+- `ibmcloud is snapshot-consistency-group r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is snapshot-consistency-group example-snap-cg`
+
+#### Command options
+{: #command-options-snapshot-consistency-group}
+
+- **SNAPSHOT_CONSISTENCY_GROUP**: ID or name of the snapshot consistency group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-consistency-group-create
+{: #snapshot-consistency-group-create}
+
+Create a snapshot consistency group.
+
+```
+ibmcloud is snapshot-consistency-group-create ((--snapshots SNAPSHOTS_JSON | @SNAPSHOTS_JSON_FILE) | (--source-volume SOURCE_VOLUME [--snapshot-name SNAPSHOT_NAME] [--user-tags USER_TAG_NAME1,USER_TAG_NAME2,...])) [--name NAME] [--delete-snapshot-on-delete false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-consistency-group-create}
+
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48`
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-name Default`
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --snapshot-name snapshot1 --name snapshot-consistency-group-1`
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --user-tags env:test,env:stage`
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output json`
+- `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --delete-snapshot-on-delete false --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output json`
+- `ibmcloud is snapshot-consistency-group-create --snapshots '[{"source_volume":"r006-1772e102-0671-48c7-a97a-504247e61e48"}]'`
+- `ibmcloud is snapshot-consistency-group-create --snapshots '[{"source_volume":"r006-1772e102-0671-48c7-a97a-504247e61e48","user_tags":["env:test,env:stage"],"snapshot_name":"snapshot1"}]' --name multi-snapshot-consistency-group --delete-snapshot-on-delete false`
+- `ibmcloud is snapshot-consistency-group-create --snapshots @snapshots.json --name multi-snapshot-consistency-group --delete-snapshot-on-delete false`
+
+#### Command options
+{: #command-options-snapshot-consistency-group-create}
+
+- **--snapshots**: SNAPSHOTS_JSON|@SNAPSHOTS_JSON_FILE, snapshots in JSON or JSON file, list of snapshots. For the data schema, check the **snapshots** property in the [API documentation](/apidocs/vpc#create-snapshot-consistency-group). One of: **SNAPSHOTS_JSON**, **@SNAPSHOTS_JSON_FILE**.
+- **--source-volume**: ID, name, or CRN of the source volume.
+- **--snapshot-name**: The name for this snapshot.
+- **--user-tags**: The user tags associated with this snapshot.
+- **--name**: Name for the snapshot consistency group.
+- **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group will also delete the snapshots in the group. One of: **false**, **true**. (default: **true**).
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-consistency-group-update
+{: #snapshot-consistency-group-update}
+
+Update a snapshot consistency group.
+
+```
+ibmcloud is snapshot-consistency-group-update [--name NEW_NAME] [--delete-snapshot-on-delete false | true] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-consistency-group-update}
+
+- `ibmcloud is snapshot-consistency-group-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name snapshot-consistency-group-1`
+- `ibmcloud is snapshot-consistency-group-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name snapshot-consistency-group-1 --delete-snapshot-on-delete false`
+- `ibmcloud is snapshot-consistency-group-update snapshot-consistency-group-1-new --name snapshot-consistency-group-1-updated --delete-snapshot-on-delete false`
+
+#### Command options
+{: #command-options-snapshot-consistency-group-update}
+
+- **--name**: New name for the snapshot-consistency-group.
+- **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group will also delete the snapshots in the group. One of: **false**, **true**. (default: **true**).
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-consistency-group-delete
+{: #snapshot-consistency-group-delete}
+
+Delete one or more snapshot consistency groups.
+
+```
+ibmcloud is snapshot-consistency-group-delete (SNAPSHOT_CONSISTENCY_GROUP1 SNAPSHOT_CONSISTENCY_GROUP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-consistency-group-delete}
+
+- `ibmcloud is snapshot-consistency-group-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is snapshot-consistency-group-delete scg1 scg2`
+
+#### Command options
+{: #command-options-snapshot-consistency-group-delete}
+
+- **SNAPSHOT_CONSISTENCY_GROUP1**: ID or name of the snapshot consistency group.
+- **SNAPSHOT_CONSISTENCY_GROUP2**: ID or name of the snapshot consistency group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## File shares
 {: #file-shares-cli}
 
@@ -8164,13 +8313,13 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--profile**: The profile that the file share uses.
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--size**: The size of the file share rounded up to the next gigabyte.
-- **--encryption_key**: The key to use for encrypting this file share. If no encryption key is provided, the share can't be encrypted.
+- **--encryption_key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--initial-owner-uid**: The initial owner user identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
-- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share, it is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--replica-share-user-tags**: Tags for this resource.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
 - **--replica-share-name**: The user-defined name for this file share.
@@ -8348,7 +8497,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 Failover to replica file share.
 
 ```
-ibmcloud is share-replica-failover REPLICA-SHARE [--fallback-policy fail | split] [--timeout TIMEOUT] [--output JSON] [-q, --quiet]
+ibmcloud is share-replica-failover REPLICA_SHARE [--fallback-policy fail | split] [--timeout TIMEOUT] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8360,7 +8509,7 @@ ibmcloud is share-replica-failover REPLICA-SHARE [--fallback-policy fail | split
 #### Command options
 {: #command-options-share-replica-failover}
 
-- **REPLICA-SHARE**: ID or name of the replica file share.
+- **REPLICA_SHARE**: ID or name of the replica file share.
 - **--fallback-policy**: The action to take if the failover request is accepted but cannot be performed or times out. One of: **fail**, **split**.
 - **--timeout**: The failover timeout in seconds. The minimum timeout is 300 seconds and the maximum 3600 seconds. If the timeout is reached, the fallback_policy is triggered.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -8374,7 +8523,7 @@ ibmcloud is share-replica-failover REPLICA-SHARE [--fallback-policy fail | split
 Split the source file share from a replica share.
 
 ```
-ibmcloud is share-replica-split REPLICA-SHARE [-f, --force] [-q, --quiet]
+ibmcloud is share-replica-split REPLICA_SHARE [-f, --force] [-q, --quiet]
 ```
 
 #### Command example
@@ -8385,7 +8534,7 @@ ibmcloud is share-replica-split REPLICA-SHARE [-f, --force] [-q, --quiet]
 #### Command options
 {: #command-options-share-replica-split}
 
-- **REPLICA-SHARE**: ID or name of the replica file share.
+- **REPLICA_SHARE**: ID or name of the replica file share.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8495,7 +8644,7 @@ ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--outp
 Create a file share mount target.
 
 ```
-ibmcloud is share-mount-target-create SHARE [--name NAME] [--transit-encryption user_managed | none] [--subnet SUBNET] [([--vni-name VNI_NAME] [[--vni-rip VNI_RIP] | [[--vni-rip-address VNI_RIP_ADDRESS] [--vni-rip-auto-delete VNI_RIP_AUTO_DELETE] [--vni-rip-name VNI_RIP_NAME]]] [--vni-sgs VNI_SGS] --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is share-mount-target-create SHARE ([(--vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption user_managed | none] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8511,12 +8660,12 @@ ibmcloud is share-mount-target-create SHARE [--name NAME] [--transit-encryption 
 - **SHARE**: ID or name of the file share.
 - **--name**: The user-defined name for this file share mount target.
 - **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **user_managed**, **none**.
-- **--subnet**: The subnet that is associated with this file share mount target.
 - **--vni-name**: The name for this virtual network interface.
 - **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface.
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP is automatically deleted when either target is deleted, or the reserved IP is unbound.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface.
+- **--subnet**: The subnet that is associated with this file share mount target.
 - **--vni-sgs**: IDs or Names of the security groups to use for the virtual network interface.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -8564,7 +8713,7 @@ ibmcloud is backup-policies [--tag TAG_NAME] [--resource-group-id RESOURCE_GROUP
 Create a backup policy.
 
 ```
-ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [--match-resource-type volume | instance [--included-content boot_volume | data_volume | boot_volume, data_volume]] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--scope SCOPE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8580,12 +8729,23 @@ ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [[--plans
 Create backup-policy-plan with Fast Restore
 - `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":0,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":0,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
 Create backup-policy-plan with Fast Restore
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1 --match-resource-type instance --included-content data_volumes,boot_volume`
+Create backup-policy for match resource type instance and include both data and boot volumes as backup
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1 --match-resource-type instance --included-content data_volumes`
+Create backup-policy for match resource type instance and include only data volumes as backup
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1 --match-resource-type instance --included-content boot_volume`
+Create backup-policy for match resource type instance and include only boot volume as backup
+- `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1 --match-resource-type instance`
+Create backup-policy for match resource type instance and default full backup (include both data and boot volumes)
+- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-scope-1 --scope crn:v1:bluemix:public:enterprise::a/e92d45e305dc4ee0b13e29be392f1c0c::enterprise:ebc2b430240943458b9e91e1432cfcce`
+Create backup-policy for enterprise support
 
 #### Command options
 {: #command-options-backup-policy-create}
 
 - **--name**: New name for the backup policy.
-- **--match-resource-type**: A resource type that this backup policy applies to. One of: **Volume**.
+- **--match-resource-type**: A resource type that this backup policy applies to. One of: **volume**, **instance**. (default: **volume**).
+- **--included-content**: The included content for backups that were created by using this policy. Any of: data_volumes, boot_volume. (default: **data_volumes,boot_volume**).
 - **--match-tags**: The user tags that this backup policy applies to.
 - **--plans**: PLANS_JSON|@PLANS_JSON_FILE, plans in JSON or JSON file, list of policy plans. For the data schema, check the **plans** property in the [API documentation](/apidocs/vpc#create-backup-policy). One of: **PLANS_JSON**, **@PLANS_JSON_FILE**.
 - **--plan-name**: Name of the backup policy plan.
@@ -8597,6 +8757,7 @@ Create backup-policy-plan with Fast Restore
 - **--plan-delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--plan-clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones. (default: **5**).
 - **--plan-clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
+- **--scope**: CRN of enterprise account.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -8636,7 +8797,7 @@ ibmcloud is backup-policy-delete (POLICY1 POLICY2 ...) [--output JSON] [-f, --fo
 Update a backup policy.
 
 ```
-ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--included-content boot_volume | data_volume | boot_volume, data_volume] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8645,11 +8806,18 @@ ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--name NEW_NA
 - `ibmcloud is backup-policy-update r134-aa88726e-8b34-4f97-992d-027df9c4bb36 --name my-policy2`
 - `ibmcloud is backup-policy-update demo-policy-99 --name demo-policy-100`
 - `ibmcloud is backup-policy-update backup-policy-1001 --match-tags demo:cli`
+- `ibmcloud is backup-policy-update demo-policy-99 --included-content data_volumes,boot_volume`
+Update backup-policy of match resource type instance to include both data and boot volumes as backup
+- `ibmcloud is backup-policy-update demo-policy-99 --included-content data_volumes`
+Create backup-policy for match resource type instance to include data volumes as backup
+- `ibmcloud is backup-policy-update demo-policy-99 --included-content boot_volume`
+Create backup-policy for match resource type instance to include boot volume as backup
 
 #### Command options
 {: #command-options-backup-policy-update}
 
 - **POLICY**: ID or name of the backup policy.
+- **--included-content**: The included content for backups that were created by using this policy. Any of: data_volumes, boot_volume. (default: **data_volumes,boot_volume**).
 - **--match-tags**: The user tags that this backup policy applies to.
 - **--name**: New name of the backup policy.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
