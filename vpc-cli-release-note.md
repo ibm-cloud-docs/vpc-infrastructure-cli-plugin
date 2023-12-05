@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-10-12"
+lastupdated: "2023-12-05"
 
 ---
 
@@ -21,6 +21,48 @@ lastupdated: "2023-10-12"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v8.2.0
+{: #v8.2.0}
+
+Version 8.2.0 was released on 2023-12-05.
+
+### New commands
+
+* New commands `snapshot-consistency-group`, `snapshot-consistency-group-create`, `snapshot-consistency-group-delete`, `snapshot-consistency-group-update`, `snapshot-consistency-groups` are introduced to support multivolume snapshots.
+
+### Updated commands
+
+* Added support for included_content and match_resource_type in `backup-policy-create` command. 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
+
+## v8.1.0
+{: #v8.1.0}
+
+Version 8.1.0 was released on 2023-10-18.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for NUMA topology and Sapphire Gen 3 profiles in the `instance`, `instance-profile`, `dedicated-host-profile` and `bare-metal-profile` commands. 
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 
 ## v8.0.0
