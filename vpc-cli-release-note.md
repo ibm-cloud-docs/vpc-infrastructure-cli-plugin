@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2023
-lastupdated: "2023-12-05"
+lastupdated: "2023-12-14"
 
 ---
 
@@ -21,6 +21,29 @@ lastupdated: "2023-12-05"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v9.0.0
+{: #v9.0.0}
+
+Version 9.0.0 was released on 2023-12-14.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for advertise-routes-to in `vpc-routing-table-create` and `vpc-routing-table-update` commands.
+* Added support for advertise in `vpc-routing-table-route-create` and `vpc-routing-table-route-update` commands.
+* Added support for file share cross region in `share-replica-create` command
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v8.2.0
 {: #v8.2.0}
