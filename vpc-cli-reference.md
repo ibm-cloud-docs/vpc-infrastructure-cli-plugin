@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2023
   
-lastupdated: "2023-12-05"
+lastupdated: "2023-12-11"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1708,7 +1708,7 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 Create a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--advertise-routes-to direct_link | transit_gateway | direct_link, transit_gateway] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1720,6 +1720,7 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 - `ibmcloud is vpc-routing-table-create 979b4bc6-f018-40a2-92f5-0b1cf777b55d --name test-vpc-cli-routing-tb1 --direct-link-ingress false --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress true`
 - `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --accept-routes-from-resource-type-filters vpn_server,vpn_gateway`
 Create a routing table with resource type filter.
+- `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table--direct-link-ingress true  --transit-gateway-ingress true --advertise-routes-to direct_link,transit_gateway`
 
 #### Command options
 {: #command-options-vpc-routing-table-create}
@@ -1731,6 +1732,7 @@ Create a routing table with resource type filter.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. One of: **vpn_server**, **vpn_gateway**.
+- **--advertise-routes-to**: The ingress sources to advertise routes to. Routes in the table with advertise enabled are advertised to these sources. Any of direct_link, transit_gateway, or a combination of both.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1742,7 +1744,7 @@ Create a routing table with resource type filter.
 Update a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway | --clean-all-accept-routes-from-filters, --cl-arf] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway | --clean-all-accept-routes-from-filters, --cl-arf] [--advertise-routes-to direct_link | transit_gateway | direct_link, transit_gateway] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1752,6 +1754,7 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - `ibmcloud is vpc-routing-table-update my-vpc my-vpc-routing-table --name my-renamed-vpc-routing-table --output JSON`
 - `ibmcloud is vpc-routing-table-update vpc-doloremque-6364-us-east  test-vpc-cli-routing-tb2 --direct-link-ingress true --internet-ingress false   --transit-gateway-ingress true  --vpc-zone-ingress false`
 - `ibmcloud is vpc-routing-table-update 979b4bc6-f018-40a2-92f5-0b1cf777b55d  27415d55-9d3b-4adb-a993-236ef59a45ec --direct-link-ingress false --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress false`
+- `ibmcloud is vpc-routing-table-update 6fd4f882-9640-4da2-a76f-e3732d317610 ce155406-8a64-4f05-946a-634c2977584d --advertise-routes-to direct_link`
 
 #### Command options
 {: #command-options-vpc-routing-table-update}
@@ -1765,6 +1768,7 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. All learned routes from resources that match a resource filter are removed when an existing resource filter is removed. One of: **vpn_server**, **vpn_gateway**.
 - **--clean-all-accept-routes-from-filters, --cl-arf**: Remove all accept routes from filters and delete all learned routes from the routing table.
+- **--advertise-routes-to**: The ingress sources to advertise routes to. Routes in the table with advertise enabled are advertised to these sources. Any of direct_link, transit_gateway, or a combination of both.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1836,7 +1840,7 @@ ibmcloud is vpc-routing-table-route VPC ROUTING_TABLE ROUTE [--output JSON] [-q,
 Create a VPC route.
 
 ```
-ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR [--action delegate_vpc | delegate | deliver | drop] [--priority PRIORITY] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--name NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --destination DESTINATION_CIDR [--action delegate_vpc | delegate | deliver | drop] [--priority PRIORITY] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--advertise false | true] [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1848,6 +1852,7 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 - `ibmcloud is vpc-routing-table-route-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 --name my-vpc-route --action drop --zone us-south-1 --destination  10.2.2.0/24 --output JSON`
 - `ibmcloud is vpc-routing-table-route-create  vpc1001  routing-table-vpc1001-rtable011-id -name my-vpc-route --action deliver --zone us-east-3 --destination  10.2.2.0/24 --priority 1 --next-hop 10.0.0.2`
 - `ibmcloud is vpc-routing-table-route-create vpc1001 routing-table-vpc1001-1-name  --zone us-east-3 --destination  10.2.2.0/24  --action deliver  --priority 3  --next-hop vpn-connection-vel-4573-us-east --vpngw aaa-default-vpn-gateway-1  --name vpc-route-cli-demo-1001`
+- `ibmcloud is vpc-routing-table-route-create 6fd4f882-9640-4da2-a76f-e3732d317610 ce155406-8a64-4f05-946a-634c2977584d --zone us-east-1 --destination 10.2.2.0/24 --next-hop 10.0.0.2 --action deliver --advertise true --name cli-route-7`
 
 #### Command options
 {: #command-options-vpc-routing-table-route-create}
@@ -1860,6 +1865,7 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 - **--priority**: The route's priority. Smaller values have higher priority. Values can range between 0-4. (default: **2**).
 - **--next-hop**: If the action is **deliver**, then the IP address, VPN connection ID, or name of the next-hop that packets are delivered to. For other action values, it must be omitted or specified as 0.0.0.0.
 - **--vpngw**: ID or name of the VPN gateway. This option is required only if the next-hop is specified as VPN connection in name format.
+- **--advertise**: Indicates whether this route advertises to the ingress sources that are specified by the advertise_routes_to routing table property. One of: **false**, **true**.
 - **--name**: Name of the VPC routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1872,7 +1878,7 @@ ibmcloud is vpc-routing-table-route-create VPC ROUTING_TABLE --zone ZONE_NAME --
 Update a VPC route.
 
 ```
-ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE [--name NEW_NAME] [--priority PRIORITY] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE [--name NEW_NAME] [--priority PRIORITY] [--advertise false | true] [--next-hop NEXT_HOP [--vpngw VPNGW]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1881,6 +1887,7 @@ ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE [--name NEW_N
 - `ibmcloud is vpc-routing-table-route-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1d456 72b27b5c-f4b0-48bb-b954-5becc7c1d4ef --name my-vpc-route --output JSON`
 - `ibmcloud is vpc-routing-table-route-update vpc1001 routing-table-vpc1001-rtable011-id  my-vpc-route --priority 4 --next-hop 10.1.1.1 --name vpc-route-cli-1`
 - `ibmcloud is vpc-routing-table-route-update vpc1001 routing-table-vpc1001-1-name  vpc-route-cli-demo-1001 --priority 3  --next-hop 541c6bbf-6109-44bd-b2c9-176c6e11bc59  --vpngw aaa-default-vpn-gateway-1  --name vpc-route-cli-demo-1003`
+- `ibmcloud is vpc-routing-table-route-update 6fd4f882-9640-4da2-a76f-e3732d317610 ce155406-8a64-4f05-946a-634c2977584d 2bbca25a-a7c6-4bce-8889-5f914b7a7142 --advertise false`
 
 #### Command options
 {: #command-options-vpc-routing-table-route-update}
@@ -1890,6 +1897,7 @@ ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE [--name NEW_N
 - **ROUTE**: ID or name of the VPC route.
 - **--name**: New name of the route.
 - **--priority**: The route's priority. Smaller values have higher priority. Values can range between 0-4. (default: **2**).
+- **--advertise**: Indicates whether this route advertises to the ingress sources specified by the advertise_routes_to routing table property. One of: **false**, **true**.
 - **--next-hop**: If the action is **deliver**, then the IP address, VPN connection ID, or name of the next-hop that packets are delivered to. For other action values, it must be omitted or specified as 0.0.0.0.
 - **--vpngw**: ID or name of the VPN gateway. This option is required only if the next-hop is specified as VPN connection in name format.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -8287,7 +8295,7 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 Create a file share.
 
 ```
-ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--access-control-mode security_group | vpc] [--user-tags USER_TAGS] [--iops IOPS] [--size SIZE [--encryption_key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] [--output JSON] [-q, --quiet]
+ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--access-control-mode security_group | vpc] [--user-tags USER_TAGS] [--iops IOPS] [--size SIZE [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8313,7 +8321,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--profile**: The profile that the file share uses.
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--size**: The size of the file share rounded up to the next gigabyte.
-- **--encryption_key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
+- **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--initial-owner-uid**: The initial owner user identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -8462,7 +8470,7 @@ ibmcloud is shares [--replication-role none | replica | source] [--resource-grou
 Create a replica file share from an existing file share.
 
 ```
-ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8472,6 +8480,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r134-2f06ca6e-771e-40cc-9553-3838e2cc396d"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share`
 - `ibmcloud is share-replica-create --zone us-south-3 --profile dp2 --iops 1200 --name p-share-replica-32  --replica-share-user-tags env:dev,env:test --mount-targets  '[{"name": "my-target1", "vpc": {"name": "test-vpc-18-1"}}]' --replication-cron-spec '10 08 * * *' --source-share r006-0394a827-fe42-4341-b369-186e1a2288d3`
 - `ibmcloud is share-replica-create --zone au-syd-2 --profile dp2 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share --name my-file-share-3-replica`
+- `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --replication-cron-spec '10 05 * * *' --source-share crn:v1:staging:public:is:us-south-2:a/egq5afc483594adaa8325e2b4d1290df::share:r134-ee076f3c-9b82-4e33-953c-866205612fc9 --encryption-key crn:v1:staging:public:kms:us-south:a/efe5afc483594adaa8325e2b4d1290df:1be45161-6dae-44ca-b248-837f98004057:key:3dd21cc5-dc20-4f7c-bc62-8ec9a8a3d1bd`
 
 #### Command options
 {: #command-options-share-replica-create}
@@ -8480,6 +8489,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - **--zone**: Name of the zone.
 - **--replica-share-user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses.
+- **--encryption-key**: The root key to use to wrap the data encryption key for the share. This property must be specified whether the source_share encryption type is user_managed, and must not be specified otherwise.
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
