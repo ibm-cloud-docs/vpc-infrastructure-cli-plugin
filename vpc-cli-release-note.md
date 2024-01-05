@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2020, 2023
-lastupdated: "2023-12-14"
+  years: 2020, 2024
+lastupdated: "2024-01-05"
 
 ---
 
@@ -21,6 +21,31 @@ lastupdated: "2023-12-14"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v9.0.1
+{: #v9.0.1}
+
+Version 9.0.1 was released on 2024-01-05.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed `backup-policy-create` command issue with optional `name` and `match_resource_type` as instance.
+* Fixed `backup-policy-jobs` command pagination issue.
+* Fixed `share-mount-target-create` command with `vpc` field issue.
+* Fixed `flow-log-create` command with index out of bound error.
+* Fixed `instance-create --interactive` command issue on optional name for SSH keys.
 
 ## v9.0.0
 {: #v9.0.0}
