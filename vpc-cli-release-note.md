@@ -41,7 +41,7 @@ Version 9.0.1 was released on 2024-01-05.
 
 ### Notes
 
-* Fixed `backup-policy-create` command issue with optional `name` and `match_resource_type` as instance.
+* Fixed `backup-policy-create` command, made `name` flag as optional and added support for instance in `match_resource_type` flag.
 * Fixed `backup-policy-jobs` command pagination issue.
 * Fixed `share-mount-target-create` command with `vpc` field issue.
 * Fixed `flow-log-create` command with index out of bound error.
@@ -124,7 +124,7 @@ Version 8.0.0 was released on 2023-10-12.
 
 ### Updated commands
 
-* Added support for diagnosing a failed VPN gateway and VPN server in the `vpn-gateway` and `vpn-server` commands. 
+* Added support for diagnosing a failed VPN gateway and VPN server in the `vpn-gateway` and `vpn-server` commands. And, the `status` attribute is no longer the part of the response in `vpn-gateway` commands. 
 
 ### Removed commands
 
@@ -173,7 +173,7 @@ Version 7.0.0 was released on 2023-08-04.
 
 ### Removed commands
 
-* N/A
+* Removed support for `share-replica-source` command - you can get the same details from the `share` command.
 
 ### Notes
 
