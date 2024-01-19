@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-01-05"
+lastupdated: "2024-01-19"
 
 ---
 
@@ -21,6 +21,28 @@ lastupdated: "2024-01-05"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+
+## v9.0.2
+{: #v9.0.2}
+
+Version 9.0.2 was released on 2024-01-19.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed `vpc-routing-table-update` command to support `clean-all-advertise-routes-to-sources` flag.
 
 ## v9.0.1
 {: #v9.0.1}
