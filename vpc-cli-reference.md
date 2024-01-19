@@ -1,9 +1,9 @@
 ---
 
 copyright:
-  years: 2018, 2023
+  years: 2018, 2024
   
-lastupdated: "2023-12-14"
+lastupdated: "2024-01-19"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1708,7 +1708,7 @@ ibmcloud is vpc-routing-table VPC ROUTING_TABLE [--output JSON] [-q, --quiet]
 Create a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--advertise-routes-to direct_link | transit_gateway | direct_link, transit_gateway] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] [--advertise-routes-to direct_link | transit_gateway | direct_link,transit_gateway] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1732,7 +1732,7 @@ Create a routing table with resource type filter.
 - **--transit-gateway-ingress, --transit-gateway**: If set to "true", this routing table is used to route traffic that originates from Transit Gateway to this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. One of: **vpn_server**, **vpn_gateway**.
-- **--advertise-routes-to**: The ingress sources to advertise routes to. Routes in the table with advertise enabled are advertised to these sources. Any of direct_link, transit_gateway, or a combination of both.
+- **--advertise-routes-to**: The ingress sources to advertise routes to. Routes in the table with advertise enabled are advertised to these sources. One or more comma separated values of: direct_link, transit_gateway.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1744,7 +1744,7 @@ Create a routing table with resource type filter.
 Update a VPC routing table.
 
 ```
-ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway | --clean-all-accept-routes-from-filters, --cl-arf] [--advertise-routes-to direct_link | transit_gateway | direct_link, transit_gateway] [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--direct-link-ingress false | true] [--internet-ingress, --internet false | true] [--transit-gateway-ingress false | true] [--vpc-zone-ingress false | true] [[--accept-routes-from-resource-type-filters, --ar-rtf vpn_server | vpn_gateway] | --clean-all-accept-routes-from-filters, --cl-arf] [[--advertise-routes-to direct_link | transit_gateway | direct_link,transit_gateway] | --clean-all-advertise-routes-to-sources, --cl-adrt] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1755,6 +1755,7 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - `ibmcloud is vpc-routing-table-update vpc-doloremque-6364-us-east  test-vpc-cli-routing-tb2 --direct-link-ingress true --internet-ingress false   --transit-gateway-ingress true  --vpc-zone-ingress false`
 - `ibmcloud is vpc-routing-table-update 979b4bc6-f018-40a2-92f5-0b1cf777b55d  27415d55-9d3b-4adb-a993-236ef59a45ec --direct-link-ingress false --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress false`
 - `ibmcloud is vpc-routing-table-update 6fd4f882-9640-4da2-a76f-e3732d317610 ce155406-8a64-4f05-946a-634c2977584d --advertise-routes-to direct_link`
+- `ibmcloud is vpc-routing-table-update 6fd4f882-9640-4da2-a76f-e3732d317610 ce155406-8a64-4f05-946a-634c2977584d --clean-all-advertise-routes-to-sources`
 
 #### Command options
 {: #command-options-vpc-routing-table-update}
@@ -1768,7 +1769,8 @@ ibmcloud is vpc-routing-table-update VPC ROUTING_TABLE [--name NEW_NAME] [--dire
 - **--vpc-zone-ingress, --vpc-zone**: If set to "true", this routing table is used to route traffic that originates from subnets in other zones in this VPC. For the routing to succeed, the VPC must not already have a routing table with this property set to "true". One of: **false**, **true**.
 - **--accept-routes-from-resource-type-filters, --ar-rtf**: The comma-separated resource type filters that can create routes in this routing table. All learned routes from resources that match a resource filter are removed when an existing resource filter is removed. One of: **vpn_server**, **vpn_gateway**.
 - **--clean-all-accept-routes-from-filters, --cl-arf**: Remove all accept routes from filters and delete all learned routes from the routing table.
-- **--advertise-routes-to**: The ingress sources to advertise routes to. Routes in the table with advertise enabled are advertised to these sources. Any of direct_link, transit_gateway, or a combination of both.
+- **--advertise-routes-to**: The ingress sources to advertise routes to. Routes in the table with advertise enabled are advertised to these sources. One or more comma separated values of: direct_link, transit_gateway.
+- **--clean-all-advertise-routes-to-sources, --cl-adrt**: Remove all existing ingress sources to advertise to.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1897,7 +1899,7 @@ ibmcloud is vpc-routing-table-route-update VPC ROUTING_TABLE ROUTE [--name NEW_N
 - **ROUTE**: ID or name of the VPC route.
 - **--name**: New name of the route.
 - **--priority**: The route's priority. Smaller values have higher priority. Values can range between 0-4. (default: **2**).
-- **--advertise**: Indicates whether this route advertises to the ingress sources specified by the advertise_routes_to routing table property. One of: **false**, **true**.
+- **--advertise**: Indicates whether this route advertises to the ingress sources that are specified by the advertise_routes_to routing table property. One of: **false**, **true**.
 - **--next-hop**: If the action is **deliver**, then the IP address, VPN connection ID, or name of the next-hop that packets are delivered to. For other action values, it must be omitted or specified as 0.0.0.0.
 - **--vpngw**: ID or name of the VPN gateway. This option is required only if the next-hop is specified as VPN connection in name format.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -6452,7 +6454,7 @@ ibmcloud is bare-metal-server-stop SERVER [--type soft | hard] [-f, --force] [-q
 Update a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-update SERVER --name NEW_NAME [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7826,7 +7828,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as data volume.
+- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
 - **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -8723,7 +8725,7 @@ ibmcloud is backup-policies [--tag TAG_NAME] [--resource-group-id RESOURCE_GROUP
 Create a backup policy.
 
 ```
-ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [--match-resource-type volume | instance [--included-content boot_volume | data_volume | boot_volume, data_volume]] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--scope SCOPE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [--match-resource-type volume | instance [--included-content data_volumes | boot_volume | boot_volume,data_volumes]] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--scope SCOPE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8733,11 +8735,11 @@ ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [--match-
 - `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-2 --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '40 09 * * *'`
 - `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1`
 - `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '45 09 * * *' --plan-active  --plan-delete-over-count 2`
-- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"45 09 * * *","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"copy_user_tags":true,"cron_spec":"45 09 * * *","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
 - `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-x2  --plans @plans.json`
 - `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x --plan-name demo-bkp-plan-2 --plan-attach-tags dev:test --plan-copy-tags false --plan-delete-after 60 --plan-cron-spec '45 09 * * *' --plan-active --plan-clone-policy-max-snapshots 4 --plan-clone-policy-zones us-south-1 --plan-delete-over-count 2`
 Create backup-policy-plan with Fast Restore
-- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":0,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":0,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"*/51,2,3***","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
+- `ibmcloud is backup-policy-create --match-tags dev:test --name backup-policy-z  --plans '[{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":2,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"45 09 * * *","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan"},{"active":true,"attach_user_tags":["my-daily-backup-plan"],"clone_policy":{"max_snapshots":2,"zones":[{"name":"us-south-1"}]},"copy_user_tags":true,"cron_spec":"45 09 * * *","deletion_trigger":{"delete_after":20,"delete_over_count":20},"name":"my-policy-plan-99"}]'`
 Create backup-policy-plan with Fast Restore
 - `ibmcloud is backup-policy-create --match-tags dev:test --name demo-bkp-policy-x1 --match-resource-type instance --included-content data_volumes,boot_volume`
 Create backup-policy for match resource type instance and include both data and boot volumes as backup
@@ -8755,7 +8757,7 @@ Create backup-policy for enterprise support
 
 - **--name**: New name for the backup policy.
 - **--match-resource-type**: A resource type that this backup policy applies to. One of: **volume**, **instance**. (default: **volume**).
-- **--included-content**: The included content for backups that were created by using this policy. Any of: data_volumes, boot_volume. (default: **data_volumes,boot_volume**).
+- **--included-content**: The included content for backups that were created by using this policy. One of: **data_volumes**, **boot_volume**, **boot_volume,data_volumes**. (default: **boot_volume,data_volumes**).
 - **--match-tags**: The user tags that this backup policy applies to.
 - **--plans**: PLANS_JSON|@PLANS_JSON_FILE, plans in JSON or JSON file, list of policy plans. For the data schema, check the **plans** property in the [API documentation](/apidocs/vpc#create-backup-policy). One of: **PLANS_JSON**, **@PLANS_JSON_FILE**.
 - **--plan-name**: Name of the backup policy plan.
@@ -8807,7 +8809,7 @@ ibmcloud is backup-policy-delete (POLICY1 POLICY2 ...) [--output JSON] [-f, --fo
 Update a backup policy.
 
 ```
-ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--included-content boot_volume | data_volume | boot_volume, data_volume] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--included-content data_volumes | boot_volume | boot_volume,data_volumes] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8827,7 +8829,7 @@ Create backup-policy for match resource type instance to include boot volume as 
 {: #command-options-backup-policy-update}
 
 - **POLICY**: ID or name of the backup policy.
-- **--included-content**: The included content for backups that were created by using this policy. Any of: data_volumes, boot_volume. (default: **data_volumes,boot_volume**).
+- **--included-content**: The included content for backups that were created by using this policy. One of: **data_volumes**, **boot_volume**, **boot_volume,data_volumes**. (default: **boot_volume,data_volumes**).
 - **--match-tags**: The user tags that this backup policy applies to.
 - **--name**: New name of the backup policy.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
