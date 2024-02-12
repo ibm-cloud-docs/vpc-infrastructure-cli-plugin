@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-01-19"
+lastupdated: "2024-02-12"
 
 ---
 
@@ -22,6 +22,27 @@ lastupdated: "2024-01-19"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+
+## v9.0.3
+{: #v9.0.3}
+
+Version 9.0.3 was released on 2024-02-12.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed `private-path-service-gateway-update` command to enable or disable `published` flag.
 
 ## v9.0.2
 {: #v9.0.2}
