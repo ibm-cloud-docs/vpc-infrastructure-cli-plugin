@@ -124,7 +124,7 @@ Version 8.2.0 was released on 2023-12-05.
 
 ### Updated commands
 
-* Added support for included_content and match_resource_type in `backup-policy-create` command. 
+* Added support for included_content and match_resource_type in `backup-policy-create` command.
 
 ### Removed commands
 
@@ -145,7 +145,7 @@ Version 8.1.0 was released on 2023-10-18.
 
 ### Updated commands
 
-* Added support for NUMA topology and Sapphire Gen 3 profiles in the `instance`, `instance-profile`, `dedicated-host-profile` and `bare-metal-profile` commands. 
+* Added support for NUMA topology and Sapphire Gen 3 profiles in the `instance`, `instance-profile`, `dedicated-host-profile` and `bare-metal-profile` commands.
 
 ### Removed commands
 
@@ -167,7 +167,7 @@ Version 8.0.0 was released on 2023-10-12.
 
 ### Updated commands
 
-* Added support for diagnosing a failed VPN gateway and VPN server in the `vpn-gateway` and `vpn-server` commands. And, the `status` attribute is no longer the part of the response in `vpn-gateway` commands. 
+* Added support for diagnosing a failed VPN gateway and VPN server in the `vpn-gateway` and `vpn-server` commands. And, the `status` attribute is no longer the part of the response in `vpn-gateway` commands.
 
 ### Removed commands
 
@@ -189,7 +189,7 @@ Version 7.1.0 was released on 2023-09-22.
 
 ### Updated commands
 
-* Added support for Enterprise Backup As a Service in `backup-policy-create` command. 
+* Added support for Enterprise Backup As a Service in `backup-policy-create` command.
 
 ### Removed commands
 
@@ -206,13 +206,13 @@ Version 7.0.0 was released on 2023-08-04.
 
 ### New commands
 
-* New commands `share`, `share-create`, `share-delete`, `share-mount-target`, `share-mount-target-create`, `share-mount-target-delete`, `share-mount-target-update`, `share-mount-targets`, `share-profile`, `share-profiles`, `share-replica-create`, `share-replica-failover`, `share-replica-split`, `share-update` and `shares` are introduced to support File Share as a Service. 
+* New commands `share`, `share-create`, `share-delete`, `share-mount-target`, `share-mount-target-create`, `share-mount-target-delete`, `share-mount-target-update`, `share-mount-targets`, `share-profile`, `share-profiles`, `share-replica-create`, `share-replica-failover`, `share-replica-split`, `share-update` and `shares` are introduced to support File Share as a Service.
 
-* New commands `virtual-network-interface`, `virtual-network-interface-update` and `virtual-network-interfaces` are introduced to support Virtual Network Interface as a Service. 
+* New commands `virtual-network-interface`, `virtual-network-interface-update` and `virtual-network-interfaces` are introduced to support Virtual Network Interface as a Service.
 
 ### Updated commands
 
-* Added support for Virtual Network Interface in `security-group-target`, `security-group-target-add`, `security-group-target-remove` and `security-group-targets` commands. 
+* Added support for Virtual Network Interface in `security-group-target`, `security-group-target-add`, `security-group-target-remove` and `security-group-targets` commands.
 
 ### Removed commands
 
@@ -254,7 +254,7 @@ Version 6.15.0 was released on 2023-07-11.
 
 ### Updated commands
 
-* Added support for image lifecycle management in `image-create`, `image-update`, and `images` commands. 
+* Added support for image lifecycle management in `image-create`, `image-update`, and `images` commands.
 
 ### Removed commands
 
@@ -313,7 +313,7 @@ Version 6.13.0 was released on 2023-06-22.
 
 ### Updated commands
 
-* Added support for snapshot and backup cross region copy in `snaphot-create`, `snapshots`, `backup-policy-plan-create` and `backup-policy-plan-update` commands. 
+* Added support for snapshot and backup cross region copy in `snaphot-create`, `snapshots`, `backup-policy-plan-create` and `backup-policy-plan-update` commands.
 
 ### Removed commands
 
@@ -330,7 +330,7 @@ Version 6.12.0 was released on 2023-06-01.
 
 ### Updated commands
 
-* Added support for fileshare mount targets in share commands (Beta). 
+* Added support for fileshare mount targets in share commands (Beta).
 
 ### Removed commands
 
@@ -350,7 +350,7 @@ Version 6.11.1 was released on 2023-05-03.
 * N/A
 ### Updated commands
 
-* N/A 
+* N/A
 
 ### Removed commands
 
@@ -494,7 +494,7 @@ Version 6.5.0 was released on 2023-02-07.
 
 ### New commands
 
-* Added `snapshot-clone`, `snapshot-clone-create`, `snapshot-clone-delete` and `snapshot-clones`commands to support snapshot fast restore. 
+* Added `snapshot-clone`, `snapshot-clone-create`, `snapshot-clone-delete` and `snapshot-clones`commands to support snapshot fast restore.
 
 ### Updated commands
 
@@ -515,7 +515,7 @@ Version 6.4.0 was released on 2023-01-31.
 
 ### Updated commands
 
-* Updated `bare-metal-server-create`, `bare-metal-server-update` and `bare-metal-server` commands to support secure boot mode and TPM. 
+* Updated `bare-metal-server-create`, `bare-metal-server-update` and `bare-metal-server` commands to support secure boot mode and TPM.
 
 ### Removed commands
 
@@ -570,7 +570,7 @@ Version 6.1.0 was released on 2022-11-21.
 
 ### Updated commands
 
-* Updated `vpc-default-routing-table`, `vpc-routing-table` , `vpc-routing-table-create`, `vpc-routing-table-update` commands to support Public Ingress Routing. 
+* Updated `vpc-default-routing-table`, `vpc-routing-table` , `vpc-routing-table-create`, `vpc-routing-table-update` commands to support Public Ingress Routing.
 
 ### Removed commands
 
@@ -611,7 +611,7 @@ Version 5.4.0 was released on 2022-10-06.
 
 ### Updated commands
 
-* Updated `instance-create` and `instance-update` commands to support VNF Scalability. 
+* Updated `instance-create` and `instance-update` commands to support VNF Scalability.
 
 ### Removed commands
 
@@ -624,11 +624,11 @@ Version 5.3.0 was released on 2022-09-23.
 
 ### New commands
 
-* Added `ibmcloud is catalog-image-offerings` and `ibmcloud is catalog-image-offering` commands to support Enterprise Image Sharing. 
+* Added `ibmcloud is catalog-image-offerings` and `ibmcloud is catalog-image-offering` commands to support Enterprise Image Sharing.
 
 ### Updated commands
 
-* Updated  `instance-create` , `instance-create-from-template` , `instance-template-create` and `instance-template-create-override-source-template` commands to support Enterprise Image Sharing. 
+* Updated  `instance-create` , `instance-create-from-template` , `instance-template-create` and `instance-template-create-override-source-template` commands to support Enterprise Image Sharing.
 * Updated `ike-policy-create` , `ike-policy-update` , `ipsec-policy-create` and `ipsec-policy-update` commands to support Additional Cipher Suites for VPN.
 
 ### Removed commands
@@ -884,7 +884,7 @@ Version 3.2.0 was released on 2022-02-11.
 
 ### New commands
 
-* N/A. 
+* N/A.
 
 ### Updated commands
 
@@ -901,7 +901,7 @@ Version 3.1.0 was released on 2022-01-28.
 
 ### New commands
 
-* Add bare metal server commands `bare-metal-server`, `bare-metal-server-console`, `bare-metal-server-create`, `bare-metal-server-delete`, `bare-metal-server-disk`, `bare-metal-server-disk-update`, `bare-metal-server-disks`, `bare-metal-server-initialization-values`, `bare-metal-server-network-interface`, `bare-metal-server-network-interface-create`, `bare-metal-server-network-interface-delete`, `bare-metal-server-network-interface-floating-ip`, `bare-metal-server-network-interface-floating-ip-add`, `bare-metal-server-network-interface-floating-ip-remove`, `bare-metal-server-network-interface-floating-ips`, `bare-metal-server-network-interface-update`, `bare-metal-server-network-interfaces`, `bare-metal-server-profile`, `bare-metal-server-profiles`, `bare-metal-server-restart`, `bare-metal-server-start`, `bare-metal-server-stop`, `bare-metal-server-update` and `bare-metal-servers`. 
+* Add bare metal server commands `bare-metal-server`, `bare-metal-server-console`, `bare-metal-server-create`, `bare-metal-server-delete`, `bare-metal-server-disk`, `bare-metal-server-disk-update`, `bare-metal-server-disks`, `bare-metal-server-initialization-values`, `bare-metal-server-network-interface`, `bare-metal-server-network-interface-create`, `bare-metal-server-network-interface-delete`, `bare-metal-server-network-interface-floating-ip`, `bare-metal-server-network-interface-floating-ip-add`, `bare-metal-server-network-interface-floating-ip-remove`, `bare-metal-server-network-interface-floating-ips`, `bare-metal-server-network-interface-update`, `bare-metal-server-network-interfaces`, `bare-metal-server-profile`, `bare-metal-server-profiles`, `bare-metal-server-restart`, `bare-metal-server-start`, `bare-metal-server-stop`, `bare-metal-server-update` and `bare-metal-servers`.
 
 ### Updated commands
 
@@ -1034,7 +1034,7 @@ Version 1.4.0 was released on 2021-08-26.
 ### Updated commands
 
 * Update `vpc/address-prefix/routing-table/route` commands with "by name" support. These commands can now use an ID or name for the command option values.
- 
+
 * Update network ACL and network ACL rule commands with "by name" support. These commands can now use an ID or name for the command option values.
 
 ### Removed commands
@@ -1127,7 +1127,7 @@ Version 0.8.6 was released on 2021-06-17.
 
 ### Updated commands
 
-* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands. 
+* Add cookie persistence support for `load-balancer-pool-create`, `load-balancer-pool-update` and `load-balancer-pool` commands.
 
 ### Removed commands
 
@@ -1226,7 +1226,7 @@ Version 0.7.8 was released on 2021-02-25.
 
 ### Updated commands
 
-* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana). 
+* Added a `delegate_vpc` action type to the `vpc-routing-table-route-create` command to defer a route to the VPC system routing table for forwarding action. Use only for VPCs that have both non-RFC-1918 addresses and public connectivity. For more information, see [Routing considerations for IANA-registered IP assignments](/docs/vpc?topic=vpc-interconnectivity#routing-considerations-iana).
 * Added a `--security-group` flag to the `load-balancer-create` command so you can bind security groups when you create a load balancer.
 * Added a security groups field to the `load-balancer` command to show the security groups that are bound to a load balancer.
 
@@ -1511,7 +1511,7 @@ Version 0.5.11 was released on 2020-03-05.
 * Added resource tag fields to the `ibmcloud is volumes` command output
 * Updated the `ibmcloud is network-acl-rule-add` command example
 * Updated the `ibmcloud is network-acl-create` command example
-* Added more command examples to the [VPC CLI reference](/docs/vpc?topic=vpc-infrastructure-cli-plugin-vpc-reference)
+* Added more command examples to the [VPC CLI reference](/docs/vpc?topic=vpc-vpc-reference)
 * Translation update to the command help
 
 ### Removed commands
