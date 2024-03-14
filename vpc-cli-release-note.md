@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-02-12"
+lastupdated: "2024-02-14"
 
 ---
 
@@ -22,6 +22,36 @@ lastupdated: "2024-02-12"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v10.0.0
+{: #v10.0.0}
+
+Version 10.0.0 was released on 2024-03-12.
+
+### New commands
+
+* New commands `virtual-network-interface-create`, `virtual-network-interface-delete`, `virtual-network-interface-floating-ip`, `virtual-network-interface-floating-ips`, `virtual-network-interface-floating-ip-add`, `virtual-network-interface-floating-ip-remove`, `virtual-network-interface-reserved-ip`, `virtual-network-interface-reserved-ips`, `virtual-network-interface-reserved-ip-bind` and `virtual-network-interface-reserved-ip-unbind` are introduced to support Virtual Network Interface as a Service.
+* New commands `instance-network-attachments`, `instance-network-attachment`, `instance-network-attachment-create`, `instance-network-attachment-update` and `instance-network-attachment-delete` are introduced to support instance network attachments.
+* New commands `bare-metal-server-network-attachments`, `bare-metal-server-network-attachment`, `bare-metal-server-network-attachment-create`, `bare-metal-server-network-attachment-update`, `bare-metal-server-network-attachment-update` and `bare-metal-server-network-attachment-delete` are introduced to support bare metal network attachments.
+
+### Updated commands
+
+* Added support for the VNI in the `floating-ip-reserve` and `floating-ip-update` commands.
+* Added support for the VNI and NAC in the `flow-log-create` command.
+* Added support for the VPC filter in the `security-groups` command.
+* Added support for the TRT in the `subnet-reserved-ip-create` command.
+* Added support for allow-ip-spoofing, auto-delete, and enable-infrastructure-nat in the `virtual-network-interface-update` command.
+* Added support for pnac-name, pnac-vni, pnac-vni-ais, pnac-vni-ein, pnac-vni-auto-delete, pnac-vni-ips, pnac-vni-name, pnac-vni-rip-address, pnac-vni-rip-auto-delete, pnac-vni-rip-name, pnac-vni-sgs, and network-attachments in the `instance-create`, `instance-create-from-template`,`instance-template-create`, and `instance-template-create-override-source-template` commands.
+* Added support for pnac-name, pnac-allowed-vlans, pnac-vni, pnac-vni-subnet, pnac-vni-ais, pnac-vni-ein, pnac-vni-auto-delete, pnac-vni-ips, pnac-vni-name, pnac-vni-rip, pnac-vni-rip-address, pnac-vni-rip-auto-delete, pnac-vni-rip-name, pnac-vni-sgs, and network-attachments in `bare-metal-server-create` command.
+* Added support for VNI and vni-auto-delete in the `share-mount-target-create` command.
+
+### Removed commands
+
+* N/A
+
+### Breaking Change Notes
+
+* In the past, when a Virtual Server Instance (VSI) was provisioned without explicitly mentioning the `--primary-network-interface` (legacy interface), a `primary_network_interface` was created and the same details were available in the response. However, with the 10.0.0 and later releases, when a virtual server instance is provisioned without explicitly mentioning `--primary-network-interface`, a `primary_network_attachment` is created, along with a Virtual Network Interface (VNI) resource.
+* To support compatibility with an eariler version, users need to explicitly define `--primary-network-interface` to create a legacy network interface. It is recommended to use `primary_network_attachment` over the legacy `primary_network_interface`.
 
 ## v9.0.3
 {: #v9.0.3}
