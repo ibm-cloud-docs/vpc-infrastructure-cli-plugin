@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-02-28"
+lastupdated: "2024-03-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -103,7 +103,7 @@ ibmcloud is floating-ip-release (FLOATING_IP1 FLOATING_IP2 ...) [--output JSON] 
 Reserve a floating IP.
 
 ```
-ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -114,6 +114,8 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 - `ibmcloud is floating-ip-reserve my-ip --nic eth0 --in my-instance`
 - `ibmcloud is floating-ip-reserve my-ip --nic eth0 --bm my-bm`
 - `ibmcloud is floating-ip-reserve my-ip --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is floating-ip-reserve cli-vni-ip --vni vni2`
+- `ibmcloud is floating-ip-reserve cli-vni-ip-1 --vni 7308-b81c1e13-b3a2-455c-814a-213bc9de4a90`
 
 #### Command options
 {: #command-options-floating-ip-reserve}
@@ -123,6 +125,7 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 - **--nic**: The ID or name of the network interface to be bound.
 - **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
+- **--vni**: ID or name of the virtual network interface.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -136,7 +139,7 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 Update a floating IP.
 
 ```
-ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER]] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -147,6 +150,8 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - `ibmcloud is floating-ip-update my-ip --nic eth0 --in my-instance`
 - `ibmcloud is floating-ip-update my-ip --nic eth0 --bm my-bm`
 - `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
+- `ibmcloud is floating-ip-update cli-vni-ip --name cli-vni-ip-2 --vni vni2`
+- `ibmcloud is floating-ip-update cli-vni-ip-1 --name cli-vni-ip-3 --vni 7308-b81c1e13-b3a2-455c-814a-213bc9de4a90`
 
 #### Command options
 {: #command-options-floating-ip-update}
@@ -156,6 +161,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - **--nic**: The ID or name of the network interface to be bound.
 - **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
+- **--vni**: ID or Name for virtual network interface.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -190,7 +196,7 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 Create a flow log.
 
 ```
-ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrName [--target-type vpc | subnet | instance | nic] [--vpc VPC] [--in IN] [--name NAME] [--active TRUE | FALSE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrName [--target-type vpc | subnet | instance | nic | vni | nac] [--vpc VPC] [--in IN] [--name NAME] [--active TRUE | FALSE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -213,13 +219,15 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrNam
 - `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic --name my-flow-log`
 - `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic --in my-instance`
 - `ibmcloud is flow-log-create --bucket bucket-name --target my-network-interface --target-type nic --in my-instance --name my-flow-log`
+- `ibmcloud is flow-log-create --bucket cli-bucket-1 --target 7308-3e36540f-9572-4fd5-9b53-c9a1122d3d28 --target-type vni`
+- `ibmcloud is flow-log-create --bucket cli-bucket-1 --target unworn-daintily-travesty-myself --target-type vni`
 
 #### Command options
 {: #command-options-flow-log-create}
 
 - **--bucket**: Name of COS bucket.
 - **--target**: Target ID or name for flow log.
-- **--target-type**: Target type for flow log. This option is only required if target is passed as name of the resource. One of: **vpc**, **subnet**, **instance**, **nic**.
+- **--target-type**: Target type for flow log. This option is only required if target is passed as name of the resource. One of: **vpc**, **subnet**, **instance**, **nic**, **vni**, **nac**.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--in**: ID or name of the INSTANCE. It is only required to specify the unique resource by name inside this INSTANCE.
 - **--name**: New name for the flow log.
@@ -2199,12 +2207,13 @@ ibmcloud is security-group-update GROUP [--vpc VPC] [--name NEW_NAME] [--output 
 List all security groups.
 
 ```
-ibmcloud is security-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is security-groups [--vpc VPC] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-security-groups}
 
+- **--vpc**: ID or name of the VPC.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -2566,7 +2575,7 @@ ibmcloud is subnet-reserved-ip SUBNET RESERVED_IP [--vpc VPC] [--output JSON] [-
 Reserve an IP in a subnet.
 
 ```
-ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--address ADDRESS] [--auto-delete true | false] [--target TARGET] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--address ADDRESS] [--trt endpoint_gateway | virtual_network_interface] [--auto-delete true | false] [--target TARGET] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2577,6 +2586,8 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--addres
 - `ibmcloud is subnet-reserved-ip-create 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --name my-reserved-ip --address 10.240.64.10 --auto-delete true --target r134-5be98168-017a-459c-959f-7a6c1f7b813b`
 - `ibmcloud is subnet-reserved-ip-create my-subnet --name my-reserved-ip --address 10.240.64.10 --auto-delete true --target my-vpe`
 - `ibmcloud is subnet-reserved-ip-create 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --name my-reserved-ip --address 10.240.64.10 --output JSON`
+- `ibmcloud is subnet-reserved-ip-create sn-20230803-02 --name vni-rip-1 --target vni2 --trt virtual_network_interface`
+- `ibmcloud is subnet-reserved-ip-create 7308-5c62937d-b7cb-4ce8-8456-c39de068755e --name vni-rip-2 --trt virtual_network_interface --target 7308-b81c1e13-b3a2-455c-814a-213bc9de4a90 --auto-delete true`
 
 #### Command options
 {: #command-options-subnet-reserved-ip-create}
@@ -2585,8 +2596,9 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--addres
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet. If not specified, an available address on the subnet is automatically selected.
+- **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**.
 - **--auto-delete**: Indicates whether this reserved IP member automatically deletes when either target is deleted, or the reserved IP is unbound. Must be false if the reserved IP is unbound. One of: **true**, **false**. (default: **false**).
-- **--target**: The ID or name of the target resource. The following types are supported target resource types: _endpoint_gateway_.
+- **--target**: The ID or name of the target resource. The following types are supported target resource types: _endpoint_gateway_, _virtual_network_interface_.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2706,7 +2718,7 @@ ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--default 
 - **PREFIX_NAME**: Name of the VPC address prefix.
 - **VPC**: ID or name of the VPC.
 - **ZONE_NAME**: Name of the zone.
-- **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (eight addresses).
+- **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (eight addresses).
 - **--default**: This flag indicates whether this is the default prefix for this zone in this VPC. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3154,7 +3166,7 @@ ibmcloud is virtual-network-interfaces [--resource-group-id RESOURCE_GROUP_ID | 
 Update a virtual network interface.
 
 ```
-ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NEW_NAME [--output JSON] [-q, --quiet]
+ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NEW_NAME [--allow-ip-spoofing false | true] [--auto-delete false | true] [--enable-infrastructure-nat false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3162,13 +3174,280 @@ ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NE
 
 - `ibmcloud is virtual-network-interface-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --name new-vni`
 - `ibmcloud is virtual-network-interface-update new-vni --name new-share`
+- `ibmcloud is virtual-network-interface-update 7208-8918786e-5958-42fc-9e4b-410c5a58b164 --name cli-vni-1 --allow-ip-spoofing false --auto-delete false --enable-infrastructure-nat false`
+- `ibmcloud is virtual-network-interface-update cli-vni-1 --name cli-vni-2 --allow-ip-spoofing false --auto-delete true --enable-infrastructure-nat false`
 
 #### Command options
 {: #command-options-virtual-network-interface-update}
 
 - **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
 - **--name**: New name of the virtual network interface.
+- **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this interface. If true, source IP spoofing is allowed on this interface. One of: **false**, **true**.
+- **--auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
+- **--enable-infrastructure-nat**: If true: The VPC infrastructure performs any needed NAT operations. If false: Packets are passed unchanged to and from the network interface which allows the workload to perform any needed NAT operations. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-create
+{: #virtual-network-interface-create}
+
+Create a virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing false | true] [--auto-delete false | true] [--enable-infrastructure-nat false | true] [[--rip RIP | [--rip-address RIP_ADDRESS --rip-auto-delete RIP_AUTO_DELETE --rip-name RIP_NAME]]] [--subnet SUBNET] [--ips RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE] [--sgs SGS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-create}
+
+- `ibmcloud is virtual-network-interface-create --name cli-vni-1 --allow-ip-spoofing true --auto-delete true --enable-infrastructure-nat true --rip 7208-d4c0abbe-3fc2-4696-9fe1-4eb3dc9af976  --ips '[{"id":"7208-d83b7e58-3c3d-47d0-89c5-02d9a20c72fd"},{"address":"10.240.64.13", "auto_delete": false, "name": "srip2"}]' --sgs r134-aa7c7658-e503-4456-b342-8d6a89e05115,r134-4fb388f1-2b6e-4013-b279-7a8748f4d6ca --resource-group-id 11caaa983d9c4beb82690daab08717e9`
+- `ibmcloud is virtual-network-interface-create --name cli-vni-2 --allow-ip-spoofing true --auto-delete true --enable-infrastructure-nat true --rip cli-rip-1 --subnet my-subnet --vpc vpc-cli-1 --ips '[{"id":"7208-d83b7e58-3c3d-47d0-89c5-02d9a20c72fd"},{"address":"10.240.64.14", "auto_delete": false, "name": "srip3"}]' --sgs cli-sg,sanctity-contest-only-filing --resource-group-name Default`
+- `ibmcloud is virtual-network-interface-create --name cli-vni-4 --allow-ip-spoofing false --auto-delete false --enable-infrastructure-nat false --subnet 7208-bfe017e7-6e71-415a-8615-0ee787fbeef9 --rip-address 10.240.64.15 --rip-auto-delete false --rip-name primar-ip-1  --ips '[{"id":"7208-2772a45f-c062-4e22-bafb-32ea792da56b"},{"address":"10.240.64.17", "auto_delete": false, "name": "sec-ip-2"}]' --sgs r134-aa7c7658-e503-4456-b342-8d6a89e05115,r134-4fb388f1-2b6e-4013-b279-7a8748f4d6ca --resource-group-id 11caaa983d9c4beb82690daab08717e9`
+- `ibmcloud is virtual-network-interface-create --name cli-vni-3 --allow-ip-spoofing true --auto-delete false --enable-infrastructure-nat true --subnet my-subnet --vpc vpc-cli-1 --rip-address 10.240.64.18 --rip-auto-delete true --rip-name primar-ip-2  --ips '[{"id":"7208-d42716a5-6df2-416c-979d-f26330b9d0b1"},{"address":"10.240.64.19", "auto_delete": true, "name": "sec-ip-3"}]' --sgs cli-sg,sanctity-contest-only-filing  --resource-group-name Default`
+
+#### Command options
+{: #command-options-virtual-network-interface-create}
+
+- **--name**: The name for this virtual network interface.
+- **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this interface. If true, source IP spoofing is allowed on this interface. One of: **false**, **true**.
+- **--auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
+- **--enable-infrastructure-nat**: If true: The VPC infrastructure performs any needed NAT operations. If false: Packets are passed unchanged to and from the network interface, which allows the workload to perform any needed NAT operations. One of: **false**, **true**.
+- **--rip**: ID or name of the reserved IP to bind to the virtual network interface.
+- **--rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
+- **--rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or the reserved IP is unbound.
+- **--rip-name**: The name for this reserved IP to bind to the virtual network interface.
+- **--subnet**: The associated subnet.
+- **--ips**: ips                          RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **RESERVED_IPS_JSON**, **@RESERVED_IPS_JSON_FILE**.
+- **--sgs**: IDs or names of the security groups to use for the virtual network interface.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--vpc**: ID or name of the VPC to which this VNI is associated to.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-delete
+{: #virtual-network-interface-delete}
+
+Delete one or more virtual network interfaces.
+
+```
+ibmcloud is virtual-network-interface-delete (VIRTUAL_NETWORK_INTERFACE1 VIRTUAL_NETWORK_INTERFACE2 ...) [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-delete}
+
+- `ibmcloud is virtual-network-interface-delete  my-vni-share-99  cli-vni-demo-00`
+- `ibmcloud is virtual-network-interface-delete  r006-866fc826-6f30-444f-b55e-0d697cf8b4bb`
+
+#### Command options
+{: #command-options-virtual-network-interface-delete}
+
+- **VIRTUAL_NETWORK_INTERFACE1**: ID or name of the virtual network interface.
+- **VIRTUAL_NETWORK_INTERFACE2**: ID or name of the virtual network interface.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-floating-ip
+{: #virtual-network-interface-floating-ip-view}
+
+View details of a floating IP that is associated with virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-floating-ip VIRTUAL_NETWORK_INTERFACE FLOATING_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-floating-ip}
+
+- `ibmcloud is virtual-network-interface-floating-ip cli-vni-2 cli-ip-2`
+- `ibmcloud is virtual-network-interface-floating-ip 7208-a666bd40-c065-4feb-8815-1cbb81313e08 r134-90b991ee-7da1-404a-91d6-64aa91e43292`
+
+#### Command options
+{: #command-options-virtual-network-interface-floating-ip}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **FLOATING_IP**: ID or name of the floating IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-floating-ips
+{: #virtual-network-interface-floating-ips-list}
+
+List all floating IPs that are associated with virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-floating-ips VIRTUAL_NETWORK_INTERFACE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-floating-ips}
+
+- `ibmcloud is virtual-network-interface-floating-ips 7208-8918786e-5958-42fc-9e4b-410c5a58b164`
+- `ibmcloud is virtual-network-interface-floating-ips cli-vni-2`
+
+#### Command options
+{: #command-options-virtual-network-interface-floating-ips}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-floating-ip-add
+{: #virtual-network-interface-floating-ip-add}
+
+Associate a floating IP with virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-floating-ip-add VIRTUAL_NETWORK_INTERFACE FLOATING_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-floating-ip-add}
+
+- `ibmcloud is virtual-network-interface-floating-ip-add cli-vni-1 cli-ip`
+- `ibmcloud is virtual-network-interface-floating-ip-add 7208-a666bd40-c065-4feb-8815-1cbb81313e08 r134-90b991ee-7da1-404a-91d6-64aa91e43292`
+
+#### Command options
+{: #command-options-virtual-network-interface-floating-ip-add}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **FLOATING_IP**: ID or name of the floating IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-floating-ip-remove
+{: #virtual-network-interface-floating-ip-remove}
+
+Disassociate a floating IP from virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-floating-ip-remove VIRTUAL_NETWORK_INTERFACE FLOATING_IP [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-floating-ip-remove}
+
+- `ibmcloud is virtual-network-interface-floating-ip-remove cli-vni-2 cli-ip-2`
+- `ibmcloud is virtual-network-interface-floating-ip-remove 7208-a8c7311c-938e-452d-a89e-3e6f282583e0 r134-90b991ee-7da1-404a-91d6-64aa91e43292`
+
+#### Command options
+{: #command-options-virtual-network-interface-floating-ip-remove}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **FLOATING_IP**: ID or name of the floating IP.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-reserved-ip
+{: #virtual-network-interface-reserved-ip-view}
+
+View details of a reserved IP that is associated with virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-reserved-ip VIRTUAL_NETWORK_INTERFACE RESERVED_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-reserved-ip}
+
+- `ibmcloud is virtual-network-interface-reserved-ip cli-vni-2 cli-rip-2`
+- `ibmcloud is virtual-network-interface-reserved-ip 7208-a666bd40-c065-4feb-8815-1cbb81313e08 r134-90b991ee-7da1-404a-91d6-64aa91e43292`
+
+#### Command options
+{: #command-options-virtual-network-interface-reserved-ip}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **RESERVED_IP**: ID or name of the reserved IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-reserved-ips
+{: #virtual-network-interface-reserved-ips-list}
+
+List all reserved IPs that are associated with virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-reserved-ips VIRTUAL_NETWORK_INTERFACE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-reserved-ips}
+
+- `ibmcloud is virtual-network-interface-reserved-ips 7208-8918786e-5958-42fc-9e4b-410c5a58b164`
+- `ibmcloud is virtual-network-interface-reserved-ips cli-vni-2`
+
+#### Command options
+{: #command-options-virtual-network-interface-reserved-ips}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-reserved-ip-bind
+{: #virtual-network-interface-reserved-ip-bind}
+
+Bind a reserved IP to virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-reserved-ip-bind VIRTUAL_NETWORK_INTERFACE RESERVED_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-reserved-ip-bind}
+
+- `ibmcloud is virtual-network-interface-reserved-ip-bind cli-vni-1 cli-rip`
+- `ibmcloud is virtual-network-interface-reserved-ip-bind 7208-a666bd40-c065-4feb-8815-1cbb81313e08 r134-90b991ee-7da1-404a-91d6-64aa91e43292`
+
+#### Command options
+{: #command-options-virtual-network-interface-reserved-ip-bind}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **RESERVED_IP**: ID or name of the reserved IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is virtual-network-interface-reserved-ip-unbind
+{: #virtual-network-interface-reserved-ip-unbind}
+
+Unbind a reserved IP from virtual network interface.
+
+```
+ibmcloud is virtual-network-interface-reserved-ip-unbind VIRTUAL_NETWORK_INTERFACE RESERVED_IP [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-virtual-network-interface-reserved-ip-unbind}
+
+- `ibmcloud is virtual-network-interface-reserved-ip-unbind cli-vni-2 cli-rip-2`
+- `ibmcloud is virtual-network-interface-reserved-ip-unbind 7208-a8c7311c-938e-452d-a89e-3e6f282583e0 r134-90b991ee-7da1-404a-91d6-64aa91e43292`
+
+#### Command options
+{: #command-options-virtual-network-interface-reserved-ip-unbind}
+
+- **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
+- **RESERVED_IP**: ID or name of the reserved IP.
+- **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -4686,7 +4965,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4751,16 +5030,22 @@ Create instance from catalog offering.
 Create instance from catalog offering version.
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}] --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
+Create instance with network attachment and existing virtual network interface.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip bee-olympics-perplexed-briskness --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]`
+Create instance with network attachment and new virtual network interface with existing reserved IP.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"},{"address": "10.240.128.13", "auto_delete" : true, "name": "vni-pnac-sip-1"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip-address 10.240.128.13 --pnac-vni-rip-auto-delete true --pnac-vni-rip-name pnac-vni-rip-1 --pnac-vni-sgs r134-8e0e4ad9-4ca3-4d5f-b9d8-7a967693d231`
+Create instance with network attachment and new virtual network interface with existing reserved IP.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
-Create instance from snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250
+Create instance from snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
 Create instance with boot volume attachment from volume snapshot.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "my-snapshot-name"}}}]'`
-Create instance with volume attachment from volume snapshot by using resource name.
+Create instance with volume attachment from volume snapshot by using the resource name.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}]'`
 Create instance with volume attachment from volume snapshot.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "my-snapshot-name"}}}'`
-Create instance with boot volume attachment from volume snapshot by using resource name.
+Create instance with boot volume attachment from volume snapshot by using the resource name.
 
 #### Command options
 {: #command-options-instance-create}
@@ -4789,6 +5074,19 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--pnac-name**: Name of the primary network attachment.
+- **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
+- **--pnac-vni-ein**: Enable infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, the value needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or when the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that is associated with primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
@@ -4798,7 +5096,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--interactive, -i**:
+- **--interactive, -i**: 
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -4809,7 +5107,7 @@ Create instance with boot volume attachment from volume snapshot by using resour
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4853,7 +5151,7 @@ Create instance from instance template with primary network interface configurat
 - **--name**: Name of the instance.
 - **--profile**: Name of the instance profile.
 - **--zone**: Name of the zone.
-- **--vpc**: The ID or name of the VPC. It is only required to specify the unique resource by name that is inside this VPC or to override the VPC value in the template.
+- **--vpc**: The ID or name of the VPC. It is required only to specify the unique resource by name that is inside this VPC or to override the VPC value in the template.
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
@@ -4874,6 +5172,20 @@ Create instance from instance template with primary network interface configurat
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--pnac-name**: Name of the primary network attachment.
+- **--pnac-vni**: ID or name of the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-subnet**: The associated subnet.
+- **--pnac-vni-ais**: Allow IP spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
+- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach the VNI to an Instance, it need to be set to true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: ips                                          VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is ssociated with the primary network attachment.
+- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
@@ -5469,6 +5781,131 @@ Update a volume attachment by using resource name.
 
 ---
 
+### ibmcloud is instance-network-attachments
+{: #instance-network-attachments-list}
+
+List all network attachments of an instance.
+
+```
+ibmcloud is instance-network-attachments INSTANCE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-network-attachments}
+
+- **INSTANCE**: ID or name of the instance.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-network-attachment
+{: #instance-network-attachment-view}
+
+View details of a network attachment of an instance.
+
+```
+ibmcloud is instance-network-attachment INSTANCE NAC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-network-attachment}
+
+- **INSTANCE**: ID or name of the instance.
+- **NAC**: ID or name of the network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-network-attachment-create
+{: #instance-network-attachment-create}
+
+Create a network attachment for an instance.
+
+```
+ibmcloud is instance-network-attachment-create INSTANCE [--vni VNI | ((--vni-subnet VNI_SUBNET [--vpc VPC]) --vni-ais false | true --vni-ein true | false --vni-auto-delete true | false --vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete true | false --vni-rip-name VNI_RIP_NAME)] --vni-sgs VNI_SGS)] [--name NAC_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-network-attachment-create}
+
+- `ibmcloud is  instance-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 --vni-ais false  --vni-ein true  --vni-auto-delete true  --vni-ips '[{"id": "02h7-b982a5f1-804b-4dd9-b448-777ae3641242"}]' --vni-name ins-vni-1 --vni-rip  02h7-f9203bfc-ea46-4431-9b66-a9ae223e9076  --vni-sgs r026-b315a040-8ea9-49c4-8974-b7ab373c660c`
+- `ibmcloud is  instance-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8  --vni-rip  02h7-f9203bfc-ea46-4431-9b66-a9ae223e9076`
+- `ibmcloud is  instance-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8  --vni-rip-address "10.245.0.34"  --vni-subnet cli-subnet --vpc vpc-1`
+- `ibmcloud is  instance-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8  --vni-subnet 02h7-275c2a52-1890-4473-83a0-54de53da8a25`
+- `ibmcloud is  instance-network-attachment-create 02h7_02b4927a-7837-4568-9653-6ae51a861c9d --vni 02h7-123156e0-3aee-489f-bcdc-78cdc2549c0d`
+
+#### Command options
+{: #command-options-instance-network-attachment-create}
+
+- **INSTANCE**: ID or name of the instance.
+- **--name**: The name for this bare metal server network attachment.
+- **--vni**: ID or name of virtual network interface for this bare metal server network attachment.
+- **--vni-subnet**: The associated subnet.
+- **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
+- **--vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface. One of: **false**, **true**. (default: **false**).
+- **--vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the virtual network interface, which allows the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--vni-ips**: ips                VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--vni-name**: The name for this virtual network interface.
+- **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface. Required if subnet is not specified. The reserved IP must be unbound.
+- **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface. Requires subnet to be specified.
+- **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**.
+- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with `ibm-` are reserved for provider-owned resources, and are not allowed.
+- **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-network-attachment-update
+{: #instance-network-attachment-update}
+
+Update a network attachment of an instance.
+
+```
+ibmcloud is instance-network-attachment-update INSTANCE NAC --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-network-attachment-update}
+
+- `ibmcloud is ins-nacu cli-instance-1 empty-ribcage-jiffy-stitch --name cli-instance-nac`
+- `ibmcloud is ins-nacu 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 02h7-a5c765f9-ebcd-41a0-89df-c6512d7f0147 --name ins-net-attch-1`
+
+#### Command options
+{: #command-options-instance-network-attachment-update}
+
+- **INSTANCE**: ID or name of the instance.
+- **NAC**: ID or name of the network attachment.
+- **--name**: New name of the network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-network-attachment-delete
+{: #instance-network-attachment-delete}
+
+Remove one or more network attachments from an instance.
+
+```
+ibmcloud is instance-network-attachment-delete INSTANCE (NAC1 NAC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-network-attachment-delete}
+
+- **INSTANCE**: ID or name of the instance.
+- **NAC1**: ID or name of the network attachment.
+- **NAC2**: ID or name of the network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Keys
 {: #keys}
 
@@ -5965,7 +6402,7 @@ ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
 Create a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS ((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5982,18 +6419,22 @@ Create a bare metal server that enables trusted platform module with the `tpm_2`
 Create a bare metal server in the `Finance` resource group.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-allowed-vlans 100,200,300,400,700,710,1000,900-929,800-829`
 Create a bare metal server with a PCI network interface. Allowed VLANs are comma-separated values that can be passed as separate values or as any range of numbers.
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans -10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoorfing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]`
+Create bare metal server with a network attachment and existing virtual network interface.
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans -10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoorfing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]`
+Create bare metal server with a network attachment and existing virtual network interface.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d`
-Create a bare metal server with pre-created reserved IP ID.
+Create a bare metal server with a pre-created reserved IP ID.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip cli-rip-1`
-Create a bare metal server with pre-created reserved IP by NAME.
+Create a bare metal server with a pre-created reserved IP by NAME.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip-address 10.240.128.38  --pnic-rip-auto-delete true --pnic-rip-name cli-rip1`
-Create a bare metal server with primary network interface with new reserved IP.
+Create a bare metal server with a primary network interface with new reserved IP.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"}, "primary_ip":{"id": "2302-2b09dd0a-9cfb-4639-a2ac-cc6c154ab461"}}]`
-Create a bare metal server with secondary network interface with pre-created reserved IP ID. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+Create a bare metal server with a secondary network interface with pre-created reserved IP ID. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip cli-rip-1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"},"primary_ip":{"name": "cli-rip-byname"}}]`
-Create a bare metal server with secondary network interface with pre-created reserved IP by Name. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+Create a bare metal server with a secondary network interface with pre-created reserved IP by Name. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip-address 10.240.128.38  --pnic-rip-auto-delete true --pnic-rip-name cli-rip1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-d368b797-2955-464b-aa42-588edd4c389f"}, "primary_ip":{"address": "10.240.128.41"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
-Create a bare metal server with secondary network interface with new reserved IP. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+Create a bare metal server with a secondary network interface with new reserved IP. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 
 #### Command options
 {: #command-options-bare-metal-server-create}
@@ -6016,11 +6457,26 @@ Create a bare metal server with secondary network interface with new reserved IP
 - **--pnic-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the network interface, allowing the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
 - **--pnic-ais**: Allow IP Spoofing (AIS). If **true**, source IP spoofing is allowed on packets that are using this network interface. If **false**, source IP spoofing is prevented on this interface. One of: **false**, **true**. (default: **false**).
 - **--network-interfaces**: NETWORK_INTERFACES_JSON|@NETWORK_INTERFACES_JSON_FILE. Network interface configuration in JSON or JSON file. For the data schema, check the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_INTERFACES_JSON**, **@NETWORK_INTERFACES_JSON_FILE**.
+- **--pnac-name**: Name of the primary network attachment.
+- **--pnac-allowed-vlans**: Comma-separated VLAN IDs. Indicates which VLAN IDs (for VLAN interfaces only) can use the primary network attachment. It can be passed as separate values or as any range of numbers.
+- **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-subnet**: The associated subnet.
+- **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
+- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, it needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: ips                VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the ips property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or when the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. One of: **false**, **true**. (default: **false**).
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--interactive, -i**:
+- **--interactive, -i**: 
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6535,6 +6991,134 @@ ibmcloud is bare-metal-server-network-interface-reserved-ip SERVER NIC RESERVED_
 
 ---
 
+### ibmcloud is bare-metal-server-network-attachments
+{: #bare-metal-server-network-attachments-list}
+
+List all network attachments of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-attachments SERVER [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-attachments}
+
+- **SERVER**: ID or name of the server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-attachment
+{: #bare-metal-server-network-attachment-view}
+
+View details of a network attachment of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-attachment SERVER NAC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-attachment}
+
+- **SERVER**: ID or name of the server.
+- **NAC**: ID or name of the network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-attachment-create
+{: #bare-metal-server-network-attachment-create}
+
+Create a network attachment for a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type pci | vlan) [--vni VNI | ((--vni-subnet VNI_SUBNET [--vpc VPC]) --vni-ais false | true --vni-ein true | false --vni-auto-delete true | false --vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --vni-sgs VNI_SGS)] [--name NAC_NAME] [--allowed-vlans ALLOWED_VLANS] [--allow-to-float ALLOW_TO_FLOAT] [--vlan VLAN] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-network-attachment-create}
+
+- `ibmcloud is bare-metal-server-network-attachment-create cli-bm-1-scheduler-requirement-fake-node --interface-type pci --vni bm-cli-vni-2 --name bm-nac-3 --allowed-vlans 10-50`
+- `ibmcloud is bare-metal-server-network-attachment-create 2302-f097c96c-c092-4929-b093-b9d4a481c20d --interface-type pci --vni-subnet 2302-a31b7225-c513-481b-be6b-9df9396f69ae  --vni-ais false --vni-ein false --vni-auto-delete true --vni-ips  '[{"id": "2302-8e9060c3-90d8-4c73-b07c-215f60c87a2e"},{"address": "10.240.133.22"}]' --vni-name bm-vni-2 --vni-rip-address 10.240.133.22 --vni-rip-auto-delete true --vni-rip-name bm-rip-11 --vni-sgs r134-61c9d87e-0a7d-4a5f-9c8a-a7475ebf182e,r134-244e457e-59ef-43de-9317-dba6de040ced  --name bm-nac-10  --allowed-vlans 10-50`
+- `ibmcloud is bare-metal-server-network-attachment-create cli-bm-1-scheduler-requirement-fake-node --interface-type vlan   --vni-subnet palash-subnet-us-3 --vpc travis-long-run-vpc --vni-ais true --vni-ein true  --vni-auto-delete true --vni-ips '[{"id": "2302-4bc26be6-2d4a-4090-a645-f50c22091902"}]' --vni-name bm-vni-1 --vni-rip rip-cli-12 --vni-sgs abundantly-gangly-aspire-discuss,travis-long-run-sg1 --name bm-nac-30  --allow-to-float true --vlan 10`
+
+#### Command options
+{: #command-options-bare-metal-server-network-attachment-create}
+
+- **SERVER**: ID or name of the server.
+- **--name**: The name for this bare metal server network attachment.
+- **--interface-type**: The network attachment interface type. One of: **pci**, **vlan**. (default: **pci**).
+- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) attachment. It can be passed as separate values or as any range of numbers.
+- **--allow-to-float**: Indicates if the bare metal server network attachment can automatically float to any other server that is within the same resource_group.
+- **--vlan**: Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this attachment.
+- **--vni**: ID or name of the virtual network interface that is for this bare metal server network attachment.
+- **--vni-subnet**: The associated subnet.
+- **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
+- **--vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface. One of: **false**, **true**. (default: **false**).
+- **--vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the virtual network interface which allows the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--vni-ips**: ips                VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--vni-name**: The name for this virtual network interface.
+- **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface. Required if subnet is not specified. The reserved IP must be unbound.
+- **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface. Requires subnet to be specified.
+- **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
+- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP that is in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
+- **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-attachment-update
+{: #bare-metal-server-network-attachment-update}
+
+Update a network attachment of a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-attachment-update SERVER NAC --name NEW_NAME [--allowed-vlans ALLOWED_VLANS] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-network-attachment-update}
+
+- `ibmcloud is bm-nacu cli-bm-1-scheduler-requirement-fake-node cli-pnac-1-primary --name nac-2`
+- `ibmcloud is bm-nacu 2302-f097c96c-c092-4929-b093-b9d4a481c20d 2302-9688e589-ec0d-4611-9984-4bf88082414b --name nac-1 --allowed-vlans 10,20-50`
+
+#### Command options
+{: #command-options-bare-metal-server-network-attachment-update}
+
+- **SERVER**: ID or name of the server.
+- **NAC**: ID or name of the network attachment.
+- **--name**: New name of the network attachment.
+- **--allowed-vlans**: Comma-separated VLAN IDs. Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) attachment. It can be passed as separate values or as any range of numbers.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-network-attachment-delete
+{: #bare-metal-server-network-attachment-delete}
+
+Remove one or more network attachments from a bare metal server.
+
+```
+ibmcloud is bare-metal-server-network-attachment-delete SERVER (NAC1 NAC2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-network-attachment-delete}
+
+- **SERVER**: ID or name of the server.
+- **NAC1**: ID or name of the network attachment.
+- **NAC2**: ID or name of the network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Placement group
 {: #placement-group}
 
@@ -6700,7 +7284,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6708,61 +7292,67 @@ ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFIL
 
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":10, "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}]'`
-Create instance template with volume attachment.
+Create an instance template with a volume attachment.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-attach '[{"volume": {"id":"67531475-bd8a-478e-bcfe-2e53365cd0aa"}}]'`
-Create instance template with existing volume in volume attachment.
+Create an instance template with an existing volume in a volume attachment.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-Create instance template with multiple SSH keys.
+Create an instance template with multiple SSH keys.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
-Create instance template with image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
+Create an instance template with image with a boot volume capacity. The capacity value can range from the image's minimum provisioned size to 250.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}'`
-Create instance template with boot volume and boot volume with user tags.
+Create an instance template with a boot volume and a boot volume with user tags.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
-Create instance template with encrypted boot volume.
+Create an instance template with an encrypted boot volume.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
-Create instance template that is attached to secondary network interface.
+Create an instance template that is attached to a secondary network interface.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}, "primary_ip": {"address": "10.240.129.10", "auto-delete": true, "name": "my-reserved-ip"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}'`
-Create instance template with primary network interface configuration in JSON.
+Create an instance template with a primary network interface configuration in JSON.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --address 10.240.129.10 --auto-delete true --ip-name my-reserved-ip --allow-ip-spoofing true`
-Create instance template with primary network interface configuration that includes security groups, reserved IP settings, source IP spoofing setting.
+Create an instance template with a primary network interface configuration that includes security groups, reserved IP settings, and source IP spoofing setting.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --sgs 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --reserved-ip 0711-5c7f016e-5bd2-42e3-8dff-81519e4e2469 --allow-ip-spoofing true`
-Create instance template with primary network interface configuration that includes security groups, existing reserved IP, source IP spoofing setting.
+Create an instance template with a primary network interface configuration that includes security groups, existing reserved IP, and source IP spoofing setting.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host c019b1f7-c4d6-430c-aaa4-e0cc25d47277`
-Create instance template to be placed in the wanted dedicated host.
+Create an instance template to be placed in the wanted dedicated host.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host-group a4738ceb-5e59-4601-849a-61d7895740ee`
-Create instance template to be placed in the wanted dedicated host group.
+Create an instance template to be placed in the wanted dedicated host group.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --placement-group 1d2afa0f-b9f2-4d85-ae35-a08885269644`
-Create instance template to be placed in the wanted placement group.
+Create an instance template to be placed in the wanted placement group.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --total-volume-bandwidth 4000`
-Create instance template with specific total volumes bandwidth
+Create an instance template with a specific total volumes bandwidth.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --metadata-service true`
-Create instance template with metadata service enabled or disabled
+Create an instance template with metadata service enabled or disabled.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --metadata-service true --metadata-service-protocol http --metadata-service-response-hop-limit 60`
-Create instance template with metadata service configuration
+Create an instance template with metadata service configuration.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --host-failure-policy restart`
-Create instance template with availability policy on host failure
+Create an nstance template with the availability policy on host failure.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --volume-attach '[{"volume": {"name":"my-vol-1"}}]'`
-Create instance template with existing volume in volume attachment by using resource name.
+Create an instance template with an existing volume in a volume attachment by using the resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 mx2-2x16 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host my-dedicated-host`
-Create instance template to be placed in the wanted dedicated host by using resource name.
+Create an instance template to be placed in the wanted dedicated host by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 mx2-2x16 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host-group my-dedicated-host-group`
-Create instance template to be placed in the wanted dedicated host group by using resource name.
+Create an instance template to be placed in the wanted dedicated host group by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 mx2-2x16 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --placement-group my-placement-host-group`
-Create instance template to be placed in the wanted placement group by using resource name.
+Create an instance template to be placed in the wanted placement group by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 --image ibm-ubuntu-20-04-2-minimal-amd64-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"name":"my-subnet"}, "primary_ip": {"name": "my-reserved-ip"}, "security_groups": [{"name": "my-security-group-1"}, {"name": "my-security-group-2"}]}'`
-Create instance template with primary network interface configuration by using resource name.
+Create an instance template with primary network interface configuration by using resource name.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "security_groups": [{"id": "my-security-group-1"}, {"id": "my-security-group-2"}]}]'`
-Create instance template that is attached to secondary network interface by using resource name.
+Create an instance template that is attached to secondary network interface by using resource name.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"id": "67531475-bd8a-478e-bcfe-2e53365cd0aa"}}'`
-Create instance from existing boot volume.
+Create an instance from an existing boot volume.
 - `ibmcloud is instance-template-create my-template-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-existing-boot-vol"}}'`
-Create instance from existing boot volume by using resource name.
+Create an instance from an existing boot volume by using resource name.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
-Create instance template with catalog offering.
+Create an instance template with a catalog offering.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
-Create instance template with catalog offering version.
+Create an instance template with a catalog offering version.
 - `ibmcloud is instance-template-create --interactive`
-Create instance template interactively.
+Create an instance template interactively.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}] --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
+Create an instance with a network attachment and an existing virtual network interface.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip bee-olympics-perplexed-briskness --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]`
+Create an instance with a network attachment and new virtual network interface with existing reserved IP.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"},{"address": "10.240.128.13", "auto_delete" : true, "name": "vni-pnac-sip-1"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip-address 10.240.128.13 --pnac-vni-rip-auto-delete true --pnac-vni-rip-name pnac-vni-rip-1 --pnac-vni-sgs r134-8e0e4ad9-4ca3-4d5f-b9d8-7a967693d231`
+Create an instance with a network attachment and a new virtual network interface with existing reserved IP.
 
 #### Command options
 {: #command-options-instance-template-create}
@@ -6791,6 +7381,19 @@ Create instance template interactively.
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--pnac-name**: Name of the primary network attachment.
+- **--pnac-vni**: ID or name of virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
+- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, it must always be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: ips                                          VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property that is in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically delete when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration in JSON or JSON file. For the data schema, see the **network_attachments** property that is in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
@@ -6809,7 +7412,7 @@ Create instance template interactively.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE] [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6852,6 +7455,20 @@ Create instance template by overriding a source template with primary network in
 - **--allow-ip-spoofing**: Disables the source and destination checks on this interface. If **false**, source IP spoofing is not allowed on this interface. One of: **false**, **true**.
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--pnac-name**: Name of the primary network attachment.
+- **--pnac-vni**: ID or name of virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-subnet**: The associated subnet.
+- **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
+- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, it needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI and allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. It can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: ips                                          VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property that is in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration in JSON or JSON file. For the data schema, see the **network_attachments** property that is in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
@@ -8321,7 +8938,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [How IO size affects file share performance](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-profiles-block-size).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--size**: The size of the file share rounded up to the next gigabyte.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
@@ -8329,7 +8946,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
-- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [How IO size affects file share performance](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-profiles-block-size).
+- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--replica-share-user-tags**: Tags for this resource.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
 - **--replica-share-name**: The user-defined name for this file share.
@@ -8430,7 +9047,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - **--name**: New name of the file share.
 - **--size**: The size of the file share rounded up to the next gigabyte. Size can be only increased, not decreased.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [How IO size affects file share performance](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-profiles-block-size).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
@@ -8492,7 +9109,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - **--replica-share-user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. This property must be specified whether the source_share encryption type is user_managed, and must not be specified otherwise.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [How IO size affects file share performance](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-profiles-block-size).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
@@ -8656,7 +9273,7 @@ ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--outp
 Create a file share mount target.
 
 ```
-ibmcloud is share-mount-target-create SHARE ([(--vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption user_managed | none] [--output JSON] [-q, --quiet]
+ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete true | false --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption user_managed | none] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8672,10 +9289,12 @@ ibmcloud is share-mount-target-create SHARE ([(--vni-name VNI_NAME [--vni-rip VN
 - **SHARE**: ID or name of the file share.
 - **--name**: The user-defined name for this file share mount target.
 - **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **user_managed**, **none**.
+- **--vni**: ID or name of the virtual network interface.
+- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
 - **--vni-name**: The name for this virtual network interface.
 - **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface.
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
-- **--vni-rip-auto-delete**: Indicates whether this reserved IP is automatically deleted when either target is deleted, or the reserved IP is unbound.
+- **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface.
 - **--subnet**: The subnet that is associated with this file share mount target.
 - **--vni-sgs**: IDs or Names of the security groups to use for the virtual network interface.
