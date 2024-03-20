@@ -22,6 +22,27 @@ lastupdated: "2024-02-14"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v10.0.1
+{: #v10.0.1}
+
+Version 10.0.1 was released on 2024-03-12.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Fixed `subnet-reserved-ip-create` command, made `endpoint_gateway` as default value for `trt` flag.
+
 ## v10.0.0
 {: #v10.0.0}
 
