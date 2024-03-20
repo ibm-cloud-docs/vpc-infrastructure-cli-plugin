@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-03-14"
+lastupdated: "2024-03-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -161,7 +161,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - **--nic**: The ID or name of the network interface to be bound.
 - **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
-- **--vni**: ID or Name for virtual network interface.
+- **--vni**: ID or name of the virtual network interface.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -385,7 +385,7 @@ Create Private DNS support for Load Balancer.
 - **LOAD_BALANCER_NAME**: Name of the load balancer.
 - **LOAD_BALANCER_ACCESS_TYPE**: Access type of the load balancer. One of: **public**, **private**.
 - **--subnet**: ID or name of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
-- **--vpc**: ID or name of the VPC. This ID or name is only required to specify the unique subnet by name inside this VPC.
+- **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
 - **--family**: The load balancer family type. One of: **application**, **network**.
 - **--route-mode**: Enable or disable route mode for the load balancer. If unspecified, route mode is disabled. Currently, route mode can be enabled for only private network load balancer. One of: **false**, **true**.
 - **--sg**: Comma-separated security group IDs or names for the load balancer. If unspecified, the VPC's default security group is used.
@@ -2596,7 +2596,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--addres
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet. If not specified, an available address on the subnet is automatically selected.
-- **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**.
+- **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**. (default: **endpoint_gateway**).
 - **--auto-delete**: Indicates whether this reserved IP member automatically deletes when either target is deleted, or the reserved IP is unbound. Must be false if the reserved IP is unbound. One of: **true**, **false**. (default: **false**).
 - **--target**: The ID or name of the target resource. The following types are supported target resource types: _endpoint_gateway_, _virtual_network_interface_.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3183,8 +3183,8 @@ ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NE
 - **VIRTUAL_NETWORK_INTERFACE**: ID or name of the virtual network interface.
 - **--name**: New name of the virtual network interface.
 - **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this interface. If true, source IP spoofing is allowed on this interface. One of: **false**, **true**.
-- **--auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
-- **--enable-infrastructure-nat**: If true: The VPC infrastructure performs any needed NAT operations. If false: Packets are passed unchanged to and from the network interface which allows the workload to perform any needed NAT operations. One of: **false**, **true**.
+- **--auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
+- **--enable-infrastructure-nat**: If true: The VPC infrastructure performs any needed NAT operations. If false: Packets are passed unchanged to and from the network interface, which allows the workload to perform any needed NAT operations. One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3212,14 +3212,14 @@ ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing 
 
 - **--name**: The name for this virtual network interface.
 - **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this interface. If true, source IP spoofing is allowed on this interface. One of: **false**, **true**.
-- **--auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
+- **--auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
 - **--enable-infrastructure-nat**: If true: The VPC infrastructure performs any needed NAT operations. If false: Packets are passed unchanged to and from the network interface, which allows the workload to perform any needed NAT operations. One of: **false**, **true**.
 - **--rip**: ID or name of the reserved IP to bind to the virtual network interface.
 - **--rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
 - **--rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or the reserved IP is unbound.
 - **--rip-name**: The name for this reserved IP to bind to the virtual network interface.
 - **--subnet**: The associated subnet.
-- **--ips**: ips                          RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **RESERVED_IPS_JSON**, **@RESERVED_IPS_JSON_FILE**.
+- **--ips**: IPS RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **RESERVED_IPS_JSON**, **@RESERVED_IPS_JSON_FILE**.
 - **--sgs**: IDs or names of the security groups to use for the virtual network interface.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -4979,7 +4979,7 @@ Create instance with existing volume in volume attachment.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --keys 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8,72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 Create instance with multiple SSH keys.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
-Create instance from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250
+Create instance from image with boot volume capacity. The capacity value can range from image's minimum provisioned size to 250.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "profile": {"name": "general-purpose"},"user_tags": ["my-tag-1"]}}'`
 Create instance with boot volume and boot volume with user tags.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"profile": {"name": "general-purpose"},"encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:adffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}}}'`
@@ -5021,9 +5021,9 @@ Create instance with primary network interface configuration by using resource n
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "security_groups": [{"id": "my-security-group-1"}, {"id": "my-security-group-2"}]}]'`
 Create instance that is attached to secondary network interface by using resource name.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"id": "67531475-bd8a-478e-bcfe-2e53365cd0aa"}}'`
-Create instance from existing boot volume.
+Create an instance from an existing boot volume.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-existing-boot-vol"}}'`
-Create instance from existing boot volume by using resource name.
+Create an instance from an existing boot volume by using resource name.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
 Create instance from catalog offering.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
@@ -5031,11 +5031,11 @@ Create instance from catalog offering version.
 - `ibmcloud is instance-create --interactive`
 Create instance interactively.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}] --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
-Create instance with network attachment and existing virtual network interface.
+Create an instance with a network attachment and an existing virtual network interface.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip bee-olympics-perplexed-briskness --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]`
-Create instance with network attachment and new virtual network interface with existing reserved IP.
+Create an instance with a network attachment and new virtual network interface with existing reserved IP.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"},{"address": "10.240.128.13", "auto_delete" : true, "name": "vni-pnac-sip-1"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip-address 10.240.128.13 --pnac-vni-rip-auto-delete true --pnac-vni-rip-name pnac-vni-rip-1 --pnac-vni-sgs r134-8e0e4ad9-4ca3-4d5f-b9d8-7a967693d231`
-Create instance with network attachment and new virtual network interface with existing reserved IP.
+Create an instance with a network attachment and new virtual network interface with existing reserved IP.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
 Create instance from snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -5078,14 +5078,14 @@ Create instance with boot volume attachment from volume snapshot by using the re
 - **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
 - **--pnac-vni-ein**: Enable infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, the value needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-ips**: ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
 - **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
-- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or when the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
@@ -5096,7 +5096,7 @@ Create instance with boot volume attachment from volume snapshot by using the re
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--interactive, -i**: 
+- **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -5151,7 +5151,7 @@ Create instance from instance template with primary network interface configurat
 - **--name**: Name of the instance.
 - **--profile**: Name of the instance profile.
 - **--zone**: Name of the zone.
-- **--vpc**: The ID or name of the VPC. It is required only to specify the unique resource by name that is inside this VPC or to override the VPC value in the template.
+- **--vpc**: The ID or name of the VPC. It is only required to specify the unique resource by name that is inside this VPC or to override the VPC value in the template.
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
@@ -5173,17 +5173,17 @@ Create instance from instance template with primary network interface configurat
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--pnac-name**: Name of the primary network attachment.
-- **--pnac-vni**: ID or name of the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-subnet**: The associated subnet.
-- **--pnac-vni-ais**: Allow IP spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
-- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach the VNI to an Instance, it need to be set to true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-ips**: ips                                          VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
-- **--pnac-vni-name**: The name for this virtual network interface that is ssociated with the primary network attachment.
+- **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
+- **--pnac-vni-ein**: Enable infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, the value needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
-- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
@@ -5841,18 +5841,18 @@ ibmcloud is instance-network-attachment-create INSTANCE [--vni VNI | ((--vni-sub
 
 - **INSTANCE**: ID or name of the instance.
 - **--name**: The name for this bare metal server network attachment.
-- **--vni**: ID or name of virtual network interface for this bare metal server network attachment.
+- **--vni**: ID or name of the virtual network interface that is for this bare metal server network attachment.
 - **--vni-subnet**: The associated subnet.
 - **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
 - **--vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface. One of: **false**, **true**. (default: **false**).
 - **--vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the virtual network interface, which allows the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
-- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
-- **--vni-ips**: ips                VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
+- **--vni-ips**: ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the ips property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
 - **--vni-name**: The name for this virtual network interface.
 - **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface. Required if subnet is not specified. The reserved IP must be unbound.
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface. Requires subnet to be specified.
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**.
-- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with `ibm-` are reserved for provider-owned resources, and are not allowed.
+- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
 - **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6447,7 +6447,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--user-data**: data|@data-file. User data to transfer to the bare metal server.
 - **--pnic-name**: Name of the primary network interface.
 - **--pnic-subnet**: Subnet ID or name for the primary network interface.
-- **--vpc**: ID or name of the VPC. This ID or name is only required to specify the unique subnet by name inside this VPC.
+- **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
 - **--pnic-rip**: ID or name of the existing reserved IP that is bound to the primary network interface.
 - **--pnic-rip-address**: The IP address of the primary network interface to reserve, which must not already be reserved on the subnet.
 - **--pnic-rip-auto-delete**: If set to **true**, this reserved IP of the primary network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
@@ -6462,16 +6462,16 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-subnet**: The associated subnet.
 - **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
-- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, it needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-ips**: ips                VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the ips property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-ein**: Enable infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, the value needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
 - **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
-- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with primary network attachment.
-- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or when the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with primary network attachment.
-- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. One of: **false**, **true**. (default: **false**).
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -7040,9 +7040,9 @@ ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type
 #### Command examples
 {: #command-examples-bare-metal-server-network-attachment-create}
 
-- `ibmcloud is bare-metal-server-network-attachment-create cli-bm-1-scheduler-requirement-fake-node --interface-type pci --vni bm-cli-vni-2 --name bm-nac-3 --allowed-vlans 10-50`
+- `ibmcloud is bare-metal-server-network-attachment-create my-bare-metal-server-nw-att --interface-type pci --vni bm-cli-vni-2 --name bm-nac-3 --allowed-vlans 10-50`
 - `ibmcloud is bare-metal-server-network-attachment-create 2302-f097c96c-c092-4929-b093-b9d4a481c20d --interface-type pci --vni-subnet 2302-a31b7225-c513-481b-be6b-9df9396f69ae  --vni-ais false --vni-ein false --vni-auto-delete true --vni-ips  '[{"id": "2302-8e9060c3-90d8-4c73-b07c-215f60c87a2e"},{"address": "10.240.133.22"}]' --vni-name bm-vni-2 --vni-rip-address 10.240.133.22 --vni-rip-auto-delete true --vni-rip-name bm-rip-11 --vni-sgs r134-61c9d87e-0a7d-4a5f-9c8a-a7475ebf182e,r134-244e457e-59ef-43de-9317-dba6de040ced  --name bm-nac-10  --allowed-vlans 10-50`
-- `ibmcloud is bare-metal-server-network-attachment-create cli-bm-1-scheduler-requirement-fake-node --interface-type vlan   --vni-subnet palash-subnet-us-3 --vpc travis-long-run-vpc --vni-ais true --vni-ein true  --vni-auto-delete true --vni-ips '[{"id": "2302-4bc26be6-2d4a-4090-a645-f50c22091902"}]' --vni-name bm-vni-1 --vni-rip rip-cli-12 --vni-sgs abundantly-gangly-aspire-discuss,travis-long-run-sg1 --name bm-nac-30  --allow-to-float true --vlan 10`
+- `ibmcloud is bare-metal-server-network-attachment-create my-bare-metal-server-nw-att --interface-type vlan   --vni-subnet subnet-us-3 --vpc travis-long-run-vpc --vni-ais true --vni-ein true  --vni-auto-delete true --vni-ips '[{"id": "2302-4bc26be6-2d4a-4090-a645-f50c22091902"}]' --vni-name bm-vni-1 --vni-rip rip-cli-12 --vni-sgs abundantly-gangly-aspire-discuss,travis-long-run-sg1 --name bm-nac-30  --allow-to-float true --vlan 10`
 
 #### Command options
 {: #command-options-bare-metal-server-network-attachment-create}
@@ -7057,14 +7057,14 @@ ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type
 - **--vni-subnet**: The associated subnet.
 - **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
 - **--vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface. One of: **false**, **true**. (default: **false**).
-- **--vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the virtual network interface which allows the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
-- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
-- **--vni-ips**: ips                VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations. If **false**, the packet is passed unmodified to or from the virtual network interface, which allows the virtual machine that is associated with the floating IP to perform any needed NAT operations. One of: **true**, **false**. (default: **true**).
+- **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
+- **--vni-ips**: ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the ips property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
 - **--vni-name**: The name for this virtual network interface.
 - **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface. Required if subnet is not specified. The reserved IP must be unbound.
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface. Requires subnet to be specified.
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
-- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP that is in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
+- **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
 - **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7083,7 +7083,7 @@ ibmcloud is bare-metal-server-network-attachment-update SERVER NAC --name NEW_NA
 #### Command examples
 {: #command-examples-bare-metal-server-network-attachment-update}
 
-- `ibmcloud is bm-nacu cli-bm-1-scheduler-requirement-fake-node cli-pnac-1-primary --name nac-2`
+- `ibmcloud is bm-nacu my-bare-metal-server-nw-att cli-pnac-1-primary --name nac-2`
 - `ibmcloud is bm-nacu 2302-f097c96c-c092-4929-b093-b9d4a481c20d 2302-9688e589-ec0d-4611-9984-4bf88082414b --name nac-1 --allowed-vlans 10,20-50`
 
 #### Command options
@@ -7352,7 +7352,7 @@ Create an instance with a network attachment and an existing virtual network int
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip bee-olympics-perplexed-briskness --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]`
 Create an instance with a network attachment and new virtual network interface with existing reserved IP.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"},{"address": "10.240.128.13", "auto_delete" : true, "name": "vni-pnac-sip-1"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip-address 10.240.128.13 --pnac-vni-rip-auto-delete true --pnac-vni-rip-name pnac-vni-rip-1 --pnac-vni-sgs r134-8e0e4ad9-4ca3-4d5f-b9d8-7a967693d231`
-Create an instance with a network attachment and a new virtual network interface with existing reserved IP.
+Create an instance with a network attachment and new virtual network interface with existing reserved IP.
 
 #### Command options
 {: #command-options-instance-template-create}
@@ -7382,18 +7382,18 @@ Create an instance with a network attachment and a new virtual network interface
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--pnac-name**: Name of the primary network attachment.
-- **--pnac-vni**: ID or name of virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
-- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, it must always be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-ips**: ips                                          VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property that is in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
-- **--pnac-vni-name**: The name for this virtual network interface that is associated with primary network attachment.
+- **--pnac-vni-ein**: Enable infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, the value needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically delete when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
-- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration in JSON or JSON file. For the data schema, see the **network_attachments** property that is in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
@@ -7401,7 +7401,7 @@ Create an instance with a network attachment and a new virtual network interface
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--interactive, -i**:
+- **--interactive, -i**: 
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -7456,19 +7456,19 @@ Create instance template by overriding a source template with primary network in
 - **--primary-network-interface**: PRIMARY_NETWORK_INTERFACE_JSON|@PRIMARY_NETWORK_INTERFACE_JSON_FILE, primary network interface in JSON or JSON file. For the data schema, see the **primary_network_interface** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--network-interface**: NETWORK_INTERFACE_JSON|@NETWORK_INTERFACE_JSON_FILE, network interface attachment in JSON or JSON file. For the data schema, see the **network_interfaces** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--pnac-name**: Name of the primary network attachment.
-- **--pnac-vni**: ID or name of virtual network interface that is associated with the primary network attachment.
+- **--pnac-vni**: ID or name of the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-subnet**: The associated subnet.
 - **--pnac-vni-ais**: Allow IP Spoofing (AIS). Indicates whether source IP spoofing is allowed on this virtual network interface that is associated with primary network attachment. One of: **false**, **true**. (default: **false**).
-- **--pnac-vni-ein**: Enable Infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, it needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI and allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. It can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment, automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
-- **--pnac-vni-ips**: ips                                          VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property that is in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
+- **--pnac-vni-ein**: Enable infrastructure NAT (EIN). If **true**, the VPC infrastructure performs any needed NAT operations on the VNI. To attach a VNI to an instance, the value needs to be true. Floating_ips must not have more than one floating IP. If **false**, the packet is passed unmodified to or from the VNI, which allows it to perform any needed NAT operations. Allow_ip_spoofing must be false. Can be attached only to a target with a resource_type of bare_metal_server_network_attachment. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-auto-delete**: Indicates whether this virtual network interface that is associated with primary network attachment automatically deletes when target is deleted. One of: **true**, **false**. (default: **true**).
+- **--pnac-vni-ips**: VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses is in JSON or JSON file, to bind to the virtual network interface. For the data schema, see the IPS property in the [API documentation](/apidocs/virtual-network-interfaces#create-virtual-network-interface). One of: **VNI_RESERVED_IPS_JSON**, **@VNI_RESERVED_IPS_JSON_FILE**.
 - **--pnac-vni-name**: The name for this virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip**: ID or name of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with primary network attachment.
-- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration in JSON or JSON file. For the data schema, see the **network_attachments** property that is in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
@@ -9297,7 +9297,7 @@ ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete tru
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface.
 - **--subnet**: The subnet that is associated with this file share mount target.
-- **--vni-sgs**: IDs or Names of the security groups to use for the virtual network interface.
+- **--vni-sgs**: IDs or names of the security groups to use for the virtual network interface.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--vpc**: ID or name of the VPC to which this share mount target allows to mount the file share.
