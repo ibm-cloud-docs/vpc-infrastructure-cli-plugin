@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-02-14"
+lastupdated: "2024-03-21"
 
 ---
 
@@ -21,6 +21,31 @@ lastupdated: "2024-02-14"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v10.1.0
+{: #v10.1.0}
+
+Version 10.1.0 was released on 2024-03-21.
+
+### New commands
+
+* New commands `vpc-dns-resolution-binding-create`, `vpc-dns-resolution-binding`, `vpc-dns-resolution-binding-update`, `vpc-dns-resolution-binding-delete` and `vpc-dns-resolution-bindings` are introduced to support VPC DNS resolution binding.
+* New commands `reservation-create`, `reservation-update`, `reservation-activate`, `reservation-delete`,`reservation` and `reservations` are introduced to support virtual server reservations.
+
+### Updated commands
+
+* Added support for dns-enable-hub, dns-resolver-type, and dns-resolver-manual-servers in `vpc-create` command.
+* Added support for dns-enable-hub, dns-resolver-type, dns-resolver-manual-servers and delegate-to-vpc in  `vpc-update` command.
+Added support for allow-dns-resolution-binding in `endpoint-gateway-create` and `endpoint-gateway-update` commands.
+Added support for reservation-affinity-policy, reservation-affinity-pool in `instance-create`, `instance-create-from-template`. `instance-update`, `instance-template-create` and `instance-template-create-override-source-template` commands.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v10.0.1
 {: #v10.0.1}
