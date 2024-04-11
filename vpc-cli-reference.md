@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-03-21"
+lastupdated: "2024-03-26"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -9263,8 +9263,8 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--zone**: Name of the zone.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--user-tags**: Tags for this resource.
-- **--profile**: The profile that the file share uses.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--profile**: The profile that the file share uses. All file shares are created based on the high-performance `dp2` profile.
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--size**: The size of the file share rounded up to the next gigabyte.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
@@ -9272,7 +9272,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
-- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--replica-share-user-tags**: Tags for this resource.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
 - **--replica-share-name**: The user-defined name for this file share.
@@ -9373,7 +9373,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - **--name**: New name of the file share.
 - **--size**: The size of the file share rounded up to the next gigabyte. Size can be only increased, not decreased.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
@@ -9435,7 +9435,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - **--replica-share-user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. This property must be specified whether the source_share encryption type is user_managed, and must not be specified otherwise.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. It is applicable only for custom profile file share. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-file-storage-profiles#custom).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
