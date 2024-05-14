@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-03-21"
+lastupdated: "2024-05-02"
 
 ---
 
@@ -21,6 +21,65 @@ lastupdated: "2024-03-21"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.0.0
+{: #v11.0.0}
+
+Version 11.0.0 was released on 2024-05-02.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+- The `--peer-cidr` and `--local-cidr` flags are now optional in the `vpn-gateway-connection-create` command.
+- The `vpn-gateway-connection-create` command now supports `--local-ike-identity-type`, `--local-ike-identity-value`, `--local-ike-identities`, `--peer-ike-identity-type`, `--peer-ike-identity-value`, and `--establish-mode`.
+- The `vpn-gateway-connection-update` command now supports `--peer-fqdn` and `--establish-mode`.
+- The `vpn-gateway-connection-local-cidr-add`, `vpn-gateway-connection-local-cidr-delete`, `vpn-gateway-connection-peer-cidr-add`, and `vpn-gateway-connection-peer-cidr-delete` commands now support `CIDR` (`PREFIX_ADDRESS/PREFIX_LENGTH`) as a single argument. This change means that using `PREFIX_ADDRESS` and `PREFIX_LENGTH` as separate arguments is now deprecated.
+- The `PEER_ADDRESS` argument in the `vpn-gateway-connection-create` command was renamed to `PEER`, which accepts both IP address and FQDN.
+- The `reservations` command now supports `resource-group-name` and `all-resource-groups` filter.
+- The `instances` command now supports the reservation filter.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+The previous plug-in versions up to 10.2.0 are compatible with the older API response and are available to download for six months. However, we recommend that you upgrade the plug-in to version 11.0.0 to use the most recent VPN gateway connection capabilities. We also suggest that you update the scripts according to the new API response.
+
+### Breaking Changes
+
+- The `vpn-gateway-connection-local-cidr-add`, `vpn-gateway-connection-local-cidr-delete`, `vpn-gateway-connection-peer-cidr-add`, and `vpn-gateway-connection-peer-cidr-delete` commands now support `CIDR` (`PREFIX_ADDRESS/PREFIX_LENGTH`) as a single argument. This means that using `PREFIX_ADDRESS` and `PREFIX_LENGTH` as separate arguments is now deprecated. The depricated arguments are removed within 6 months or in a major release.
+	- On or before `10.2.0` plugin version.
+		`ibmcloud is vpn-gateway-connection-local-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 1.168.0.0 22`
+	- On or after `11.0.0` plugin version.
+		`ibmcloud is vpn-gateway-connection-local-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 1.168.0.0/22`
+
+- Significant changes in the JSON output of several commands were made. Specifically, the `ike-connections`, `ipsec-connections`, `vpn-gateway-connections`, `vpn-gateway-connection`, `vpn-gateway-connection-create`, and `vpn-gateway-connection-update` commands now use a new property called `peer` instead of the previous `peer_address`. The `peer` property has two subproperties: `address` and `fqdn`, and it's crucial to check the `peer.type` property in the response to know which subproperty to use. If the type is `address`, then the response has `peer.address`. Conversely, if the type is `fqdn`, then the response has `peer.fqdn`.
+
+## v10.2.0
+{: #v10.2.0}
+
+Version 10.2.0 was released on 2024-04-22.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Added support for resource-group-name and all-resource-groups filter introduced in `list reservations` command.
+* Added support for reservation filter introduced in `instances` command.
 
 ## v10.1.0
 {: #v10.1.0}
