@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-03-26"
+lastupdated: "2024-04-29"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -3171,7 +3171,7 @@ Update an endpoint gateway and allow to participate in DNS resolution bindings w
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--name**: New name of the endpoint gateway.
-- **--allow-dns-resolution-binding**: Allow DNS resolution binding. One of: **false**, **true**.
+- **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3924,7 +3924,7 @@ ibmcloud is vpn-gateway-connection VPN_GATEWAY (CONNECTION1 CONNECTION2 ...) [--
 Create a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRESS PRESHARED_KEY --local-cidr CIDR1 --local-cidr CIDR2 ... --peer-cidr CIDR1 --peer-cidr CIDR2 ... [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESHARED_KEY [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--peer-cidr CIDR1 --peer-cidr CIDR2 ... --local-cidr CIDR1 --local-cidr CIDR2 ...] [[--local-ike-identity-type fqdn | hostname | ipv4_address | key_id --local-ike-identity-value VALUE] | [--local-ike-identities LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE]] [--peer-ike-identity-type fqdn | hostname | ipv4_address | key_id --peer-ike-identity-value VALUE] [--establish-mode bidirectional | peer_only] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3944,13 +3944,17 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRE
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only --local-ike-identities '[{"type":"ipv4_address","value":"2.2.2.2"},{"type":"fqdn","value":"sadsadasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
+create VPN gateway connection with local ike_identities using it as JSON structure
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only  --local-ike-identity-type fqdn --local-ike-identity-value sadsadasd.com --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
+create VPN gateway connection with local ike_identities using it as flag structure
 
 #### Command options
 {: #command-options-vpn-gateway-connection-create}
 
 - **CONNECTION_NAME**: Name of the connection.
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
-- **PEER_ADDRESS**: The IP address of the peer VPN gateway.
+- **PEER**: The IP address or FQDN of the peer VPN gateway.
 - **PRESHARED_KEY**: The preshared key.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--admin-state-up**: If set to false, the VPN gateway connection is shut down. One of: **true**, **false**. (default: **true**).
@@ -3959,8 +3963,14 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER_ADDRE
 - **--dead-peer-detection-timeout**: Dead Peer Detection timeout in seconds (default: **10**).
 - **--ike-policy**: ID or name of the IKE policy.
 - **--ipsec-policy**: ID or name of the IPsec policy.
-- **--local-cidr**: Local CIDR for the resource.
 - **--peer-cidr**: Peer CIDRs for the resource.
+- **--local-cidr**: Local CIDR for the resource.
+- **--local-ike-identity-type**: The Local IKE identity type.
+- **--local-ike-identity-value**: The Local IKE identity FQDN value.
+- **--local-ike-identities**: LOCAL_IKE_IDENTITIES_JSON | @LOCAL_IKE_IDENTITIES_JSON_FILE, local ike identities in JSON or JSON file.
+- **--peer-ike-identity-type**: The Peer IKE identity type.
+- **--peer-ike-identity-value**: The Peer IKE identity FQDN value.
+- **--establish-mode**: The establish mode of the VPN gateway connection. One of: **bidirectional**, **peer_only**. (default: **bidirectional**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3994,16 +4004,21 @@ ibmcloud is vpn-gateway-connection-delete VPN_GATEWAY (CONNECTION1 CONNECTION2 .
 Add a local CIDR to a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-local-cidr-add VPN_GATEWAY CONNECTION PREFIX_ADDRESS PREFIX_LENGTH [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-local-cidr-add VPN_GATEWAY CONNECTION CIDR [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-vpn-gateway-connection-local-cidr-add}
+
+- `ibmcloud is vpn-gateway-connection-local-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 1.168.0.0/22`
+- `ibmcloud is vpn-gateway-connection-local-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 1.168.0.0/22 --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-local-cidr-add}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
-- **PREFIX_ADDRESS**: The prefix address part of the CIDR.
-- **PREFIX_LENGTH**: The prefix length part of the CIDR.
+- **CIDR**: The IP address range in CIDR block notation.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4016,16 +4031,21 @@ ibmcloud is vpn-gateway-connection-local-cidr-add VPN_GATEWAY CONNECTION PREFIX_
 Remove a local CIDR from the VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-local-cidr-delete VPN_GATEWAY CONNECTION PREFIX_ADDRESS PREFIX_LENGTH [--vpc VPC] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-local-cidr-delete VPN_GATEWAY CONNECTION CIDR [--vpc VPC] [-f, --force] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-vpn-gateway-connection-local-cidr-delete}
+
+- `ibmcloud is vpn-gateway-connection-local-cidr-delete 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 1.168.0.0/22`
+- `ibmcloud is vpn-gateway-connection-local-cidr-delete 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 1.168.0.0/22 --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-local-cidr-delete}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
-- **PREFIX_ADDRESS**: The prefix address part of the CIDR.
-- **PREFIX_LENGTH**: The prefix length part of the CIDR.
+- **CIDR**: The IP address range in CIDR block notation.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -4038,16 +4058,21 @@ ibmcloud is vpn-gateway-connection-local-cidr-delete VPN_GATEWAY CONNECTION PREF
 Add a peer CIDR to a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-peer-cidr-add VPN_GATEWAY CONNECTION PREFIX_ADDRESS PREFIX_LENGTH [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-peer-cidr-add VPN_GATEWAY CONNECTION CIDR [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-vpn-gateway-connection-peer-cidr-add}
+
+- `ibmcloud is vpn-gateway-connection-peer-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 10.45.0.0/24`
+- `ibmcloud is vpn-gateway-connection-peer-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 10.45.0.0/24 --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-peer-cidr-add}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
-- **PREFIX_ADDRESS**: The prefix address part of the CIDR.
-- **PREFIX_LENGTH**: The prefix length part of the CIDR.
+- **CIDR**: The IP address range in CIDR block notation.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4060,16 +4085,21 @@ ibmcloud is vpn-gateway-connection-peer-cidr-add VPN_GATEWAY CONNECTION PREFIX_A
 Remove a peer CIDR from the VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-peer-cidr-delete VPN_GATEWAY CONNECTION PREFIX_ADDRESS PREFIX_LENGTH [--vpc VPC] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-peer-cidr-delete VPN_GATEWAY CONNECTION CIDR [--vpc VPC] [-f, --force] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-vpn-gateway-connection-peer-cidr-delete}
+
+- `ibmcloud is vpn-gateway-connection-peer-cidr-delete 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 10.45.0.0/24`
+- `ibmcloud is vpn-gateway-connection-peer-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf 0726-0d642e87-b868-4a22-83f4-a35a19390b5c 10.45.0.0/24 --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-peer-cidr-delete}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
-- **PREFIX_ADDRESS**: The prefix address part of the CIDR.
-- **PREFIX_LENGTH**: The prefix length part of the CIDR.
+- **CIDR**: The IP address range in CIDR block notation.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -4082,7 +4112,7 @@ ibmcloud is vpn-gateway-connection-peer-cidr-delete VPN_GATEWAY CONNECTION PREFI
 Update a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID | --reset-ike-policy] [--ipsec-policy IPSEC_POLICY_ID | --reset-ipsec-policy] [--peer-address ADDRESS] [--psk PSK] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID | --reset-ike-policy] [--ipsec-policy IPSEC_POLICY_ID | --reset-ipsec-policy] [--peer-address ADDRESS] [--peer-fqdn FQDN] [--psk PSK] [--establish-mode bidirectional | peer_only] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4090,6 +4120,8 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 
 - `ibmcloud is vpn-gateway-connection-update fee82deba12e4c0fb69c3b09d1f12345 gfe82deba12e4c0fb69c3b09d1f23456 --admin-state-up true --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100  --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479  --ipsec-policy 05251a2e-d6c5-42b4-97b0-b5f8e8d1f445 --peer-address 234.3.4.5 -psk rweirjgiort --name my-new-connection --output JSON`
 - `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --admin-state-up true --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100  --ike-policy my-ike-policy  --ipsec-policy my-ipsec-policy --peer-address 234.3.4.5 -psk rweirjgiort --name my-new-connection --output JSON`
+- `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --admin-state-up true --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100  --ike-policy my-ike-policy  --ipsec-policy my-ipsec-policy --peer-address 234.3.4.5 -psk rweirjgiort --name my-new-connection --establish-mode peer_only --output JSON`
+- `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --admin-state-up true --ike-policy my-ike-policy  --ipsec-policy my-ipsec-policy --peer-fqdn my-service.example.com -psk rweirjgiort --name my-new-connection --establish-mode peer_only --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-update}
@@ -4106,7 +4138,9 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 - **--ipsec-policy**: ID or name of the IPsec policy.
 - **--reset-ipsec-policy**: Remove IPsec policy.
 - **--peer-address**: The IP address of the peer VPN gateway.
+- **--peer-fqdn**: The FQDN of the peer VPN gateway.
 - **--psk**: The preshared key.
+- **--establish-mode**: The establish mode of the VPN gateway connection. One of: **bidirectional**, **peer_only**.
 - **--name**: New name of the connection.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -5062,7 +5096,7 @@ ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_F
 List all virtual server instances.
 
 ```
-ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -5071,6 +5105,7 @@ ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--reservation**: ID or name of the reservation.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5146,7 +5181,7 @@ Create an instance with reservation affinity.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --default-trusted-profile Profile-c9fe8182-870a-49df-8308-c8bb7394c4c3 --default-trusted-profile-auto-link true`
 Create an instance with the default trusted profile
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --host-failure-policy restart`
-Create an instance with an availability policy on host failure
+Create an instance with an availability policy on host failure.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --volume-attach '[{"volume": {"name":"my-vol-1"}}]'`
 Create an instance with existing volume in volume attachment by using resource name.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 mx2-2x16 my-subnet --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --dedicated-host my-dedicated-host`
@@ -5204,8 +5239,8 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
-- **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy will default to manual if pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
-- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of reservation available for use by this virtual server instance.
+- **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if the pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
+- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of the reservation that is available for use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--sgs**: Comma-separated security group IDs or names for primary network interface.
 - **--rip**: ID or name of the existing reserved IP.
@@ -5231,7 +5266,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -5279,7 +5314,7 @@ Create an instance from an instance template with metadata service enabled or di
 - `ibmcloud is instance-create-from-template --template my-template --name new-instance-name --vpc my-vpc --zone us-south-1 --subnet my-subnet --reserved-ip my-reserved-ip --sgs my-security-group --allow-ip-spoofing true`
 Create an instance from an instance template with the primary network interface configuration by using resource name.
 - `ibmcloud is instance-create-from-template --template my-template --name my-instance --vpc my-vpc --zone us-south-1 --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet"}, "primary_ip": {"name": "my-reserved-ip"}, "security_groups": [{"name": "my-security-group"}]}'`
-Create an instance from instance template with the primary network interface configuration in json format by using resource name.
+Create an instance from an instance template with the primary network interface configuration in JSON format by using resource name.
 - `ibmcloud is instance-create-from-template --template my-template --name my-instance --network-interface '[{"name": "secondary-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet-1"}, "primary_ip": {"name": "my-reserved-ip"}, "security_groups": [{"id": "my-security-group-1"}]}, {"name": "third-nic", "allow_ip_spoofing": true, "subnet": {"id":"my-subnet-1"}, "primary_ip": {"name": "my-reserved-ip-2"}, "security_groups": [{"id": "my-security-group-2"}]}]'`
 Create an instance from instance template with the second network interfaces configuration by using resource name.
 - `ibmcloud is instance-create-from-template --template my-template --name new-instance-name  --subnet my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --volume-attach '[{"volume": {"name":"my-vol-1"}}]'`
@@ -5306,7 +5341,7 @@ Create an instance from an instance template with the primary network interface 
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if the pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
-- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of a reservation that is available for use by this virtual server instance.
+- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of the reservation that is available for use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet**: ID or name of the subnet.
 - **--rip**: ID or name of the existing reserved IP.
@@ -5334,7 +5369,7 @@ Create an instance from an instance template with the primary network interface 
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -5795,7 +5830,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if the pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
 - **--reservation-affinity-pool, --res-pool**: ID, name or CRN of the reservation that is available for use by this virtual server instance.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https** (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -7414,7 +7449,7 @@ ibmcloud is reservation RESERVATION [--output JSON] [-q, --quiet]
 List all reservations.
 
 ```
-ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID] [--zone ZONE] [--output JSON] [-q, --quiet]
+ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7427,7 +7462,9 @@ ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID] [--zone ZONE] [
 #### Command options
 {: #command-options-reservations}
 
-- **--resource-group-id**: Filters the collection to resources with a resource group ID property that matches the specified identifier.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
 - **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7690,8 +7727,8 @@ Create an instance with a network attachment and new virtual network interface w
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
-- **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy will default to manual if pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
-- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of reservation available for use by this virtual server instance.
+- **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if the pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
+- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of the reservation that is available for use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--sgs**: Comma-separated security group IDs or names for primary network interface.
 - **--rip**: ID or name of the existing reserved IP.
@@ -7715,7 +7752,7 @@ Create an instance with a network attachment and new virtual network interface w
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -7769,8 +7806,8 @@ Create an instance template by overriding a source template with the primary net
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
-- **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy will default to manual if pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
-- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of reservation available for use by this virtual server instance.
+- **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if the pool is not empty, and disabled otherwise. The policy must be disabled if placement_target is specified. One of: **disabled**, **manual**.
+- **--reservation-affinity-pool, --res-pool**: ID, name or CRN of the reservation that is available for use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet**: ID or name of the subnet.
 - **--rip**: ID or name of the existing reserved IP.
@@ -7796,7 +7833,7 @@ Create an instance template by overriding a source template with the primary net
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
-- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. Applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
+- **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -9264,7 +9301,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses. All file shares are created based on the high-performance `dp2` profile.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--size**: The size of the file share rounded up to the next gigabyte.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
@@ -9272,7 +9309,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
-- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--replica-share-user-tags**: Tags for this resource.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
 - **--replica-share-name**: The user-defined name for this file share.
@@ -9373,7 +9410,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - **--name**: New name of the file share.
 - **--size**: The size of the file share rounded up to the next gigabyte. Size can be only increased, not decreased.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
@@ -9435,7 +9472,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - **--replica-share-user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. This property must be specified whether the source_share encryption type is user_managed, and must not be specified otherwise.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
