@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-04-29"
+lastupdated: "2024-05-30"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -586,7 +586,7 @@ When the action is _forward_, the pool ID or name is required to specify which p
 When the action is _forward_, the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://www.redirect.com"`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 4 --rules '[{"rules": { "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}}]'`
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 4 --rules '[{ "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 3 --name my-policy --output JSON`
 - `ibmcloud is lb-lpc f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 --priority 3 --action https_redirect --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 303`
@@ -2055,7 +2055,7 @@ ibmcloud is security-group-rule GROUP RULE_ID [--vpc VPC] [--output JSON] [-q, -
 Add a rule to a security group.
 
 ```
-ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--local LOCAL_ADDRESS | CIDR_BLOCK] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2069,6 +2069,7 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--remo
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is security-group-rule-add my-sg inbound all --remote my-sg`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol all --local 192.168.3.0`
 
 #### Command options
 {: #command-options-security-group-rule-add}
@@ -2077,6 +2078,7 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--remo
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **PROTOCOL**: Protocol to enforce. One of: **all**, **icmp**, **tcp**, **udp**.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
 - **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
@@ -2121,7 +2123,7 @@ ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--vpc VPC]
 Update a rule of a security group.
 
 ```
-ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE | --reset-icmp-type] [--icmp-code ICMP_CODE | --reset-icmp-code] [--port-min PORT_MIN | --reset-port-min] [--port-max PORT_MAX | --reset-port-max] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--local LOCAL_ADDRESS | CIDR_BLOCK] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE | --reset-icmp-type] [--icmp-code ICMP_CODE | --reset-icmp-code] [--port-min PORT_MIN | --reset-port-min] [--port-max PORT_MAX | --reset-port-max] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2133,6 +2135,7 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 - `ibmcloud is security-group-rule-update my-sg 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --remote 12.2.2.3`
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --reset-icmp-code --reset-icmp-type`
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --output JSON`
+- `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --local 192.168.3.4`
 
 #### Command options
 {: #command-options-security-group-rule-update}
@@ -2141,6 +2144,7 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 - **RULE_ID**: ID of the security group rule.
 - **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
+- **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
 - **--reset-icmp-type**: Reset an existing ICMP traffic type value.
@@ -3301,7 +3305,7 @@ ibmcloud is virtual-network-interfaces [--resource-group-id RESOURCE_GROUP_ID | 
 Update a virtual network interface.
 
 ```
-ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NEW_NAME [--allow-ip-spoofing false | true] [--auto-delete false | true] [--enable-infrastructure-nat false | true] [--output JSON] [-q, --quiet]
+ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NEW_NAME [--allow-ip-spoofing false | true] [--auto-delete false | true] [--enable-infrastructure-nat false | true] [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3311,6 +3315,7 @@ ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NE
 - `ibmcloud is virtual-network-interface-update new-vni --name new-share`
 - `ibmcloud is virtual-network-interface-update 7208-8918786e-5958-42fc-9e4b-410c5a58b164 --name cli-vni-1 --allow-ip-spoofing false --auto-delete false --enable-infrastructure-nat false`
 - `ibmcloud is virtual-network-interface-update cli-vni-1 --name cli-vni-2 --allow-ip-spoofing false --auto-delete true --enable-infrastructure-nat false`
+- `ibmcloud is virtual-network-interface-update cli-vni-1 --name cli-vni-2 --allow-ip-spoofing false --protocol-state-filtering-mode enabled --auto-delete true --enable-infrastructure-nat false`
 
 #### Command options
 {: #command-options-virtual-network-interface-update}
@@ -3320,6 +3325,7 @@ ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NE
 - **--allow-ip-spoofing**: Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this interface. If true, source IP spoofing is allowed on this interface. One of: **false**, **true**.
 - **--auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. Must be false if the virtual network interface is unbound. One of: **false**, **true**.
 - **--enable-infrastructure-nat**: If true: The VPC infrastructure performs any needed NAT operations. If false: Packets are passed unchanged to and from the network interface, which allows the workload to perform any needed NAT operations. One of: **false**, **true**.
+- **--protocol-state-filtering-mode**: auto,--psfm auto  The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3331,7 +3337,7 @@ ibmcloud is virtual-network-interface-update VIRTUAL_NETWORK_INTERFACE --name NE
 Create a virtual network interface.
 
 ```
-ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing false | true] [--auto-delete false | true] [--enable-infrastructure-nat false | true] [[--rip RIP | [--rip-address RIP_ADDRESS --rip-auto-delete RIP_AUTO_DELETE --rip-name RIP_NAME]]] [--subnet SUBNET] [--ips RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE] [--sgs SGS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing false | true] [--auto-delete false | true] [--enable-infrastructure-nat false | true] [[--rip RIP | [--rip-address RIP_ADDRESS --rip-auto-delete RIP_AUTO_DELETE --rip-name RIP_NAME]]] [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] [--subnet SUBNET] [--ips RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE] [--sgs SGS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3341,6 +3347,7 @@ ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing 
 - `ibmcloud is virtual-network-interface-create --name cli-vni-2 --allow-ip-spoofing true --auto-delete true --enable-infrastructure-nat true --rip cli-rip-1 --subnet my-subnet --vpc vpc-cli-1 --ips '[{"id":"7208-d83b7e58-3c3d-47d0-89c5-02d9a20c72fd"},{"address":"10.240.64.14", "auto_delete": false, "name": "srip3"}]' --sgs cli-sg,sanctity-contest-only-filing --resource-group-name Default`
 - `ibmcloud is virtual-network-interface-create --name cli-vni-4 --allow-ip-spoofing false --auto-delete false --enable-infrastructure-nat false --subnet 7208-bfe017e7-6e71-415a-8615-0ee787fbeef9 --rip-address 10.240.64.15 --rip-auto-delete false --rip-name primar-ip-1  --ips '[{"id":"7208-2772a45f-c062-4e22-bafb-32ea792da56b"},{"address":"10.240.64.17", "auto_delete": false, "name": "sec-ip-2"}]' --sgs r134-aa7c7658-e503-4456-b342-8d6a89e05115,r134-4fb388f1-2b6e-4013-b279-7a8748f4d6ca --resource-group-id 11caaa983d9c4beb82690daab08717e9`
 - `ibmcloud is virtual-network-interface-create --name cli-vni-3 --allow-ip-spoofing true --auto-delete false --enable-infrastructure-nat true --subnet my-subnet --vpc vpc-cli-1 --rip-address 10.240.64.18 --rip-auto-delete true --rip-name primar-ip-2  --ips '[{"id":"7208-d42716a5-6df2-416c-979d-f26330b9d0b1"},{"address":"10.240.64.19", "auto_delete": true, "name": "sec-ip-3"}]' --sgs cli-sg,sanctity-contest-only-filing  --resource-group-name Default`
+- `ibmcloud is virtual-network-interface-create --name cli-vni-3 --allow-ip-spoofing true --auto-delete false --protocol-state-filtering-mode disabled --enable-infrastructure-nat true --subnet my-subnet --vpc vpc-cli-1 --rip-address 10.240.64.18 --rip-auto-delete true --rip-name primar-ip-2  --ips '[{"id":"7208-d42716a5-6df2-416c-979d-f26330b9d0b1"},{"address":"10.240.64.19", "auto_delete": true, "name": "sec-ip-3"}]' --sgs cli-sg,sanctity-contest-only-filing  --resource-group-name Default`
 
 #### Command options
 {: #command-options-virtual-network-interface-create}
@@ -3353,6 +3360,7 @@ ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing 
 - **--rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
 - **--rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or the reserved IP is unbound.
 - **--rip-name**: The name for this reserved IP to bind to the virtual network interface.
+- **--protocol-state-filtering-mode**: auto,--psfm auto  The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--subnet**: The associated subnet.
 - **--ips**: IPS RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the IPS property in the [API documentation](/apidocs/vpc/latest#create-virtual-network-interface). One of: **RESERVED_IPS_JSON**, **@RESERVED_IPS_JSON_FILE**.
 - **--sgs**: IDs or names of the security groups to use for the virtual network interface.
@@ -4714,13 +4722,14 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 List all images in the region.
 
 ```
-ibmcloud is images [--visibility all | public | private] [--owner-type all | provider | user] [--status STATUS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is images [--visibility all | public | private] [--owner-type all | provider | user] [--status STATUS] [--user-data-format USER_DATA_FORMAT] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-images}
+#### Command examples
+{: #command-examples-images}
 
 - `ibmcloud is images --status deprecated,obsolete`
+- `ibmcloud is images --user-data-format esxi_kickstart,ipxe`
 
 #### Command options
 {: #command-options-images}
@@ -4728,6 +4737,7 @@ ibmcloud is images [--visibility all | public | private] [--owner-type all | pro
 - **--visibility**: List images with given visibility. Valid visibility is: **public** or **private**.
 - **--owner-type**: Filters images with given owner type. Default is `all`. One of: **all**, **provider**, **user**.
 - **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, pending, unusable.
+- **--user-data-format**: Filters the collection to images with the comma-separated list of user-data-format values. Available values: cloud_init, esxi_kickstart, ipxe.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -5135,7 +5145,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5202,6 +5212,8 @@ Create an instance from an existing boot volume by using resource name.
 Create an instance from a catalog offering.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
 Create an instance from a catalog offering version.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1 --catalog-offering-plan crn:v1:bluemix:public:globalcatalog-collection:global:a/123456:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e`
+Create instance from catalog offering version and plan.
 - `ibmcloud is instance-create --interactive`
 Create an instance interactively.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}] --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
@@ -5232,6 +5244,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-plan**: The CRN for billing plan of a IBM Cloud catalog offering. If unspecified, no billing plan is used (free). Must be specified for catalog offering versions that require a billing plan.
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
@@ -5262,6 +5275,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
@@ -5283,7 +5297,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5333,6 +5347,7 @@ Create an instance from an instance template with the primary network interface 
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-plan**: The CRN for billing plan of a IBM Cloud catalog offering. If unspecified, no billing plan is used (free). Must be specified for catalog offering versions that require a billing plan.
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
@@ -5365,6 +5380,7 @@ Create an instance from an instance template with the primary network interface 
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--default-trusted-profile**: ID or name of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
@@ -5907,7 +5923,7 @@ Add an existing volume to a virtual server instance by using resource name.
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes.
 - **--tags**: Comma-separated tags for the volume.
-- **--source-snapshot**: ID or name of the snapshot to clone volume.
+- **--source-snapshot**: ID, name, or CRN of the snapshot to clone volume.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6008,7 +6024,7 @@ ibmcloud is instance-network-attachment INSTANCE NAC [--output JSON] [-q, --quie
 Create a network attachment for an instance.
 
 ```
-ibmcloud is instance-network-attachment-create INSTANCE [--vni VNI | ((--vni-subnet VNI_SUBNET [--vpc VPC]) --vni-ais false | true --vni-ein true | false --vni-auto-delete true | false --vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete true | false --vni-rip-name VNI_RIP_NAME)] --vni-sgs VNI_SGS)] [--name NAC_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-network-attachment-create INSTANCE [--vni VNI | ((--vni-subnet VNI_SUBNET [--vpc VPC]) --vni-ais false | true --vni-ein true | false --vni-auto-delete true | false --vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete true | false --vni-rip-name VNI_RIP_NAME)] [--vni-psfm auto | enabled | disabled] --vni-sgs VNI_SGS)] [--name NAC_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6037,6 +6053,7 @@ ibmcloud is instance-network-attachment-create INSTANCE [--vni VNI | ((--vni-sub
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface. Requires subnet to be specified.
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
+- **--vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6586,7 +6603,7 @@ ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
 Create a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6655,6 +6672,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. One of: **false**, **true**. (default: **false**).
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
@@ -7136,6 +7154,25 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 
 ---
 
+### ibmcloud is bare-metal-server-firmware-update
+{: #bare-metal-server-firmware-update}
+
+[Beta] Update a bare metal server to the latest available firmware.
+
+```
+ibmcloud is bare-metal-server-firmware-update SERVER [--auto-start true | false] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-bare-metal-server-firmware-update}
+
+- **SERVER**: ID or name of the server.
+- **--auto-start**: Indicates whether to automatically start the bare metal server after the firmware update is successful. One of: **true**, **false**. (default: **true**).
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ### ibmcloud is bare-metal-server-network-interface-reserved-ips
 {: #bare-metal-server-network-interface-reserved-ips-list}
 
@@ -7218,7 +7255,7 @@ ibmcloud is bare-metal-server-network-attachment SERVER NAC [--output JSON] [-q,
 Create a network attachment for a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type pci | vlan) [--vni VNI | ((--vni-subnet VNI_SUBNET [--vpc VPC]) --vni-ais false | true --vni-ein true | false --vni-auto-delete true | false --vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --vni-sgs VNI_SGS)] [--name NAC_NAME] [--allowed-vlans ALLOWED_VLANS] [--allow-to-float ALLOW_TO_FLOAT] [--vlan VLAN] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type pci | vlan) [--vni VNI | ((--vni-subnet VNI_SUBNET [--vpc VPC]) --vni-ais false | true --vni-ein true | false --vni-auto-delete true | false --vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] [--vni-psfm auto | enabled | disabled] --vni-sgs VNI_SGS)] [--name NAC_NAME] [--allowed-vlans ALLOWED_VLANS] [--allow-to-float ALLOW_TO_FLOAT] [--vlan VLAN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7227,6 +7264,7 @@ ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type
 - `ibmcloud is bare-metal-server-network-attachment-create my-bare-metal-server-nw-att --interface-type pci --vni bm-cli-vni-2 --name bm-nac-3 --allowed-vlans 10-50`
 - `ibmcloud is bare-metal-server-network-attachment-create 2302-f097c96c-c092-4929-b093-b9d4a481c20d --interface-type pci --vni-subnet 2302-a31b7225-c513-481b-be6b-9df9396f69ae  --vni-ais false --vni-ein false --vni-auto-delete true --vni-ips  '[{"id": "2302-8e9060c3-90d8-4c73-b07c-215f60c87a2e"},{"address": "10.240.133.22"}]' --vni-name bm-vni-2 --vni-rip-address 10.240.133.22 --vni-rip-auto-delete true --vni-rip-name bm-rip-11 --vni-sgs r134-61c9d87e-0a7d-4a5f-9c8a-a7475ebf182e,r134-244e457e-59ef-43de-9317-dba6de040ced  --name bm-nac-10  --allowed-vlans 10-50`
 - `ibmcloud is bare-metal-server-network-attachment-create my-bare-metal-server-nw-att --interface-type vlan   --vni-subnet subnet-us-3 --vpc travis-long-run-vpc --vni-ais true --vni-ein true  --vni-auto-delete true --vni-ips '[{"id": "2302-4bc26be6-2d4a-4090-a645-f50c22091902"}]' --vni-name bm-vni-1 --vni-rip rip-cli-12 --vni-sgs abundantly-gangly-aspire-discuss,travis-long-run-sg1 --name bm-nac-30  --allow-to-float true --vlan 10`
+- `ibmcloud is bare-metal-server-network-attachment-create cli-bm-1 --interface-type vlan   --vni-subnet subnet-us-3 --vpc cli-vpc --vni-ais true --vni-ein true --vni-psfm disabled --vni-auto-delete true --vni-ips '[{"id": "2302-4bc26be6-2d4a-4090-a645-f50c22091902"}]' --vni-name bm-vni-1 --vni-rip rip-cli-12 --vni-sgs abundantly-gangly-aspire-discuss,travis-long-run-sg1 --name bm-nac-30  --allow-to-float true --vlan 10`
 
 #### Command options
 {: #command-options-bare-metal-server-network-attachment-create}
@@ -7249,6 +7287,7 @@ ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface. Requires subnet to be specified.
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
+- **--vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7477,7 +7516,7 @@ ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 Create a reservation.
 
 ```
-ibmcloud is reservation-create --capacity CAPACITY (--term one_year | three_year) --profile PROFILE_NAME (--profile-resource-type instance_profile) --zone ZONE_NAME [--name NEW_NAME] [--affinity-policy AFFINITY_POLICY] [--expiration-policy release | renew] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is reservation-create --capacity CAPACITY (--term one_year | three_year) --profile PROFILE_NAME (--profile-resource-type instance_profile) --zone ZONE_NAME [--name NEW_NAME] [--affinity-policy restricted] [--expiration-policy release | renew] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7496,7 +7535,7 @@ ibmcloud is reservation-create --capacity CAPACITY (--term one_year | three_year
 - **--profile**: The name of the profile to use for this reservation.
 - **--profile-resource-type**: The resource type of the profile. One of: **instance_profile**.
 - **--zone**: Name of the zone.
-- **--affinity-policy**: The affinity policy to use for this reservation.
+- **--affinity-policy**: The affinity policy to use for this reservation. One of: **restricted**. (default: **restricted**).
 - **--expiration-policy**: The policy to apply when the committed use term expires. One of: **release**, **renew**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -7635,7 +7674,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7700,6 +7739,8 @@ Create an instance from an existing boot volume by using resource name.
 Create an instance template with a catalog offering.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1`
 Create an instance template with a catalog offering version.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --catalog-offering-version crn:v1:bluemix:public:globalcatalog-collection:global:a/efe5afc483594adaa8325e2b4d1290df:2497ae83-40cb-46ba-ac7f-5303514a2669:offering:54372a73-7a0a-4799-ac9c-8736620c67f1 --catalog-offering-plan crn:v1:bluemix:public:globalcatalog-collection:global:a/123456:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e`
+Create instance from catalog offering version and plan.
 - `ibmcloud is instance-template-create --interactive`
 Create an instance template interactively.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"name": "instance-snac-1","virtual_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}] --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8`
@@ -7720,6 +7761,7 @@ Create an instance with a network attachment and new virtual network interface w
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-plan**: The CRN for billing plan of a IBM Cloud catalog offering. If unspecified, no billing plan is used (free). Must be specified for catalog offering versions that require a billing plan.
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
@@ -7750,6 +7792,7 @@ Create an instance with a network attachment and new virtual network interface w
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
@@ -7769,7 +7812,7 @@ Create an instance with a network attachment and new virtual network interface w
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS)] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | --catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7799,6 +7842,7 @@ Create an instance template by overriding a source template with the primary net
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
+- **--catalog-offering-plan**: The CRN for billing plan of a IBM Cloud catalog offering. If unspecified, no billing plan is used (free). Must be specified for catalog offering versions that require a billing plan.
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
@@ -7831,6 +7875,7 @@ Create an instance template by overriding a source template with the primary net
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
@@ -8710,7 +8755,7 @@ Create a volume from snapshot with capacity
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes. After source snapshot is provided, the capacity value must be at least snapshot's **minimum_capacity**, and the default capacity value is source snapshot's **minimum_capacity**. (default: **100**).
 - **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
-- **--snapshot**: ID or name of the snapshot.
+- **--snapshot**: ID, name, or CRN of the snapshot.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
@@ -9300,7 +9345,7 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - **--zone**: Name of the zone.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--user-tags**: Tags for this resource.
-- **--profile**: The profile that the file share uses. All file shares are created based on the high-performance `dp2` profile.
+- **--profile**: The profile that the file share uses. All file shares are created based on the high-performance dp2 profile.
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--size**: The size of the file share rounded up to the next gigabyte.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
@@ -9636,7 +9681,7 @@ ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--outp
 Create a file share mount target.
 
 ```
-ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete true | false --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption user_managed | none] [--output JSON] [-q, --quiet]
+ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete true | false [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption user_managed | none] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9645,6 +9690,7 @@ ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete tru
 - `ibmcloud is share-mount-target-create r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 --vpc vpc-1006-01`
 - `ibmcloud is share-mount-target-create r042-3afab254-82b7-4627-94b2-35d8bdfcd306 --subnet 02u7-62c52bfc-6075-4dad-a588-bdb6a42d925b --vni-name cli-vni --vni-rip-auto-delete true --name my-cli-target --transit-encryption user_managed`
 - `ibmcloud is share-mount-target-create cli-share-1 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
+- `ibmcloud is share-mount-target-create cli-share-1 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --psfm enabled --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
 
 #### Command options
 {: #command-options-share-mount-target-create}
@@ -9654,6 +9700,7 @@ ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete tru
 - **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **user_managed**, **none**.
 - **--vni**: ID or name of the virtual network interface.
 - **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
+- **--protocol-state-filtering-mode**: auto,--psfm auto  The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--vni-name**: The name for this virtual network interface.
 - **--vni-rip**: ID or name of the reserved IP to bind to the virtual network interface.
 - **--vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface.
