@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-05-02"
+lastupdated: "2024-05-30"
 
 ---
 
@@ -21,6 +21,71 @@ lastupdated: "2024-05-02"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.3.0
+{: #v11.3.0}
+
+Version 11.3.0 was released on 2024-05-30.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for user-data-format in `images` command.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
+
+## v11.2.0
+{: #v11.2.0}
+
+Version 11.2.0 was released on 2024-05-24.
+
+### New commands
+
+* New command `bare-metal-server-firmware-update` is introduced to support bare metal server firmware update.
+
+### Updated commands
+
+* Added support for protocol-state-filtering-mode in `virtual-network-interface-create`, `virtual-network-interface-update`, and `share-mount-target-create` commands.
+* Added support for pnac-vni-psfm in `instance-create`, `instance-create-from-template`, `bare-metal-server-create`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+* Added support for vni-psfm in `instance-network-attachment-create` and `bare-metal-server-network-attachment-create` commands.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
+
+## v11.1.0
+{: #v11.1.0}
+
+Version 11.1.0 was released on 2024-05-16.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* The `security-group-rule-add` and `security-group-rule-update` commands now support `--local`.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v11.0.0
 {: #v11.0.0}
