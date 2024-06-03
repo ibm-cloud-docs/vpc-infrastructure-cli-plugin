@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-05-30"
+lastupdated: "2024-06-03"
 
 ---
 
@@ -34,6 +34,7 @@ Version 11.3.0 was released on 2024-05-30.
 ### Updated commands
 
 * Added support for user-data-format in `images` command.
+* * Added support for catalog-offering-plan in `instance-create`, `instance-create-from-template`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
 
 ### Removed commands
 
