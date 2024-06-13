@@ -34,7 +34,7 @@ Version 11.3.0 was released on 2024-05-30.
 ### Updated commands
 
 * Added support for user-data-format in `images` command.
-* * Added support for catalog-offering-plan in `instance-create`, `instance-create-from-template`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+* Added support for catalog-offering-plan in `instance-create`, `instance-create-from-template`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
 
 ### Removed commands
 

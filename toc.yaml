@@ -8,7 +8,6 @@ toc:
     product-page: https://www.ibm.com/cloud/vpc
     path: vpc-infrastructure-cli-plugin
     label: CLI Plugin for Virtual Private Cloud (VPC)
-
   entries:
   - navgroup:
         id: reference
