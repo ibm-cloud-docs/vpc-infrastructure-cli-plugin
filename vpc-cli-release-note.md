@@ -22,6 +22,29 @@ lastupdated: "2024-06-03"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v11.4.0
+{: #v11.4.0}
+
+Version 11.4.0 was released on 2024-06-21.
+
+### New commands
+
+* New commands `share-accessor-bindings`, `share-accessor-binding` and `share-accessor-binding-delete` are added to manage file share accessor bindings.
+
+### Updated commands
+
+* Added support for allowed-transit-encryption-modes in `share-create`, `share-update`, `share-replica-create` commands.
+* Added support for origin-share in `share-create` command.
+* Added support for bandwidth in `bare-metal-server-create` and `bare-metal-server-update` commands.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
+
 ## v11.3.0
 {: #v11.3.0}
 
@@ -34,7 +57,7 @@ Version 11.3.0 was released on 2024-05-30.
 ### Updated commands
 
 * Added support for user-data-format in `images` command.
-* * Added support for catalog-offering-plan in `instance-create`, `instance-create-from-template`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+* Added support for catalog-offering-plan in `instance-create`, `instance-create-from-template`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
 
 ### Removed commands
 

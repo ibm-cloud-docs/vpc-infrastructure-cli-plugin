@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-05-30"
+lastupdated: "2024-06-21"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -586,6 +586,10 @@ When the action is _forward_, the pool ID or name is required to specify which p
 When the action is _forward_, the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://www.redirect.com"`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://redirect.com:443/new/{path}?{query}"`
+When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://test.{host}/search?q=watson"`
+When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 4 --rules '[{ "condition": "equals", "type": "header", "field": "My-app-header", "value": "value"}]'`
 Possible values for _condition_ are "contains", "equals", or "matches_regex". Possible values for _type_ are "header", "hostname", or "path". _field_ is an HTTP header field that is applicable only to the "header" rule type. The _value_ parameter is the value to match the rule condition.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action reject --priority 3 --name my-policy --output JSON`
@@ -608,7 +612,7 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 - **--target-listener-http-status-code**: The HTTP status code that is returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
 - **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
 - **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
-- **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set this option.
+- **--target-url**: The redirect target URL, specified with **redirect** action. The URL supports RFC 6570 level 1 expressions for the variables protocol, host, port, path, and query. Which expands to values from the originally requested URL (or the indicated defaults if the request did not include them).
 - **--rules**: **LISTENER_POLICY_RULES_JSON** | **@LISTENER_POLICY_RULES_JSON_FILE**, listener policy rules in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -788,6 +792,8 @@ When the action is _forward_, the pool ID or name is required to specify which p
 When the action is _forward_, the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-http-status-code 301 --target-url "https://www.redirect.com"`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
+- `ibmcloud is load-balancer-listener-policy-update r134-dd7cfd16-7a73-4921-bee2-ec9522879ac6 r134-23458256-1b39-4216-96bb-94111ed13a66 r134-59fb9ea6-c23c-4e62-887d-0dba384dc7ab --target-url  {protocol}://test.{host}:80/{path} --target-http-status-code 301`
+When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-policy-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --name my-policy --output JSON`
 - `ibmcloud is lb-lpu f5b20e9b-a77b-43e9-aa2d-a3a5ac9fe8fd 5cb08c12-004f-4587-87f4-ef46e799da50 c7d2c434-9202-48aa-837b-0661c4299c28 --name demo-policy --priority 2 --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 301`
 - `ibmcloud is lb-lpu my-lb 5cb08c12-004f-4587-87f4-ef46e799da50 my-lblp --name demo-policy --priority 2 --target-listener-id d7e0543c-4e0f-4c0d-89aa-73f0f028ec61 --target-listener-http-status-code 301`
@@ -804,7 +810,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **--priority**: Priority of the policy. Lower value indicates higher priority, for example: **5**, range: [**1-10**].
 - **--target**: ID or name of the target load balancer pool that is specified with **forward** action.
 - **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
-- **--target-url**: The redirect target URL, specified with **redirect** action. This setting is optional and must start with "/" if you set this option.
+- **--target-url**: The redirect target URL, specified with **redirect** action. The URL supports RFC 6570 level 1 expressions for the variables protocol, host, port, path, and query. Which expands to values from the originally requested URL (or the indicated defaults if the request did not include them).
 - **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
 - **--target-listener-http-status-code**: The HTTP status code that is returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
 - **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
@@ -6603,7 +6609,7 @@ ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
 Create a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--bandwidth BANDWIDTH] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [-i, --interactive] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6625,15 +6631,17 @@ Create bare metal server with a network attachment and existing virtual network 
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans -10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoorfing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]`
 Create bare metal server with a network attachment and existing virtual network interface.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d`
-Create a bare metal server with a pre-created reserved IP ID.
+Create a bare metal server with a precreated reserved IP ID.
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d --bandwidth 10000`
+Create a bare metal server with a precreated reserved IP ID and bandwidth.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip cli-rip-1`
-Create a bare metal server with a pre-created reserved IP by NAME.
+Create a bare metal server with a precreated reserved IP by NAME.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip-address 10.240.128.38  --pnic-rip-auto-delete true --pnic-rip-name cli-rip1`
 Create a bare metal server with a primary network interface with new reserved IP.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"}, "primary_ip":{"id": "2302-2b09dd0a-9cfb-4639-a2ac-cc6c154ab461"}}]`
-Create a bare metal server with a secondary network interface with pre-created reserved IP ID. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+Create a bare metal server with a secondary network interface with precreated reserved IP ID. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip cli-rip-1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"},"primary_ip":{"name": "cli-rip-byname"}}]`
-Create a bare metal server with a secondary network interface with pre-created reserved IP by Name. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
+Create a bare metal server with a secondary network interface with precreated reserved IP by Name. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip-address 10.240.128.38  --pnic-rip-auto-delete true --pnic-rip-name cli-rip1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-d368b797-2955-464b-aa42-588edd4c389f"}, "primary_ip":{"address": "10.240.128.41"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create a bare metal server with a secondary network interface with new reserved IP. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 
@@ -6676,6 +6684,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. One of: **false**, **true**. (default: **false**).
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
+- **--bandwidth**: The total bandwidth (in megabits per second) that is shared across the bare metal server's network interfaces. If unspecified, the default value from the profile is used. You can use command **ibmcloud is bare-metal-server-profile** to get valid bandwidth values.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--interactive, -i**: 
@@ -7112,7 +7121,7 @@ ibmcloud is bare-metal-server-stop SERVER [--type soft | hard] [-f, --force] [-q
 Update a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--bandwidth BANDWIDTH] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7120,6 +7129,7 @@ ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-b
 
 - `ibmcloud is bare-metal-server-update 7d317c32-71f8-4060-9bdc-6c971b0317d4 --name my-server --enable-secure-boot true --tpm-mode tpm_2`
 - `ibmcloud is bare-metal-server-update 7d317c32-71f8-4060-9bdc-6c971b0317d4 --name my-server --output JSON`
+- `ibmcloud is bare-metal-server-update 7d317c32-71f8-4060-9bdc-6c971b0317d4 --bandwidth 25000 --output JSON`
 - `ibmcloud is bare-metal-server-update my-baremetal-1 --name my-bm-server --output JSON`
 
 #### Command options
@@ -7129,6 +7139,7 @@ ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-b
 - **--name**: New name of the bare metal server.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. The status of the bare metal server must be stopped before you change this configuration. One of: **false**, **true**.
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
+- **--bandwidth**: The total bandwidth (in megabits per second) that is shared across the bare metal server's network interfaces. If unspecified, the default value from the profile is used. You can use command **ibmcloud is bare-metal-server-profile** to get valid bandwidth values.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7157,7 +7168,7 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 ### ibmcloud is bare-metal-server-firmware-update
 {: #bare-metal-server-firmware-update}
 
-[Beta] Update a bare metal server to the latest available firmware.
+Update a bare metal server to the most recent firmware.
 
 ```
 ibmcloud is bare-metal-server-firmware-update SERVER [--auto-start true | false] [-f, --force] [-q, --quiet]
@@ -8685,7 +8696,7 @@ ibmcloud is volumes [--attachment-state attached | unattached | unusable] [--enc
 
 - **--attachment-state**: Filters the collection to volumes with the specified attachment state. One of: **attached**, **unattached**, **unusable**.
 - **--encryption**: Filters the collection to resources with the specified encryption type One of: **provider_managed**, **user_managed**.
-- **--operating-system-family**: null        Filters the collection to resources with the exact specified operating system family. This option also supports the values null and `not:null` that filters the collection to resources that have no operating system or any operating system.
+- **--operating-system-family**: Filters the collection to resources with the exact specified operating system family. This option also supports the values null and `not:null` that filters the collection to resources that have no operating system or any operating system.
 - **--operating-system-architecture**: null  Filters the collection to resources with the exact specified operating system architecture. This option also supports the values null and `not:null` that filters the collection to resources that have no operating system or any operating system.
 - **--zone**: Filters the collection to resources in the zone with the exact specified name.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -9322,7 +9333,7 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 Create a file share.
 
 ```
-ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--access-control-mode security_group | vpc] [--user-tags USER_TAGS] [--iops IOPS] [--size SIZE [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] [--output JSON] [-q, --quiet]
+ibmcloud is share-create (--zone ZONE_NAME --profile PROFILE --size SIZE [--access-control-mode security_group | vpc] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem none,user_managed] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem none,user_managed] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9337,30 +9348,35 @@ ibmcloud is share-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--acc
 - `ibmcloud is share-create --name my-file-share --zone us-south-2 --profile dp2 --size 1000 --iops 1000`
 - `ibmcloud is share-create --zone us-east-1 --profile dp2 --size 40 --encryption_key crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
 - `ibmcloud is share-create --name my-fs-cli-1 --zone us-south-1 --profile dp2 --size 40 --mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni","primary_ip":{"id":"0716-d2a60008-84ca-4345-86f9-23a65dc75a32"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-a2f82965-1b8d-4bfe-9949-fe79e47daa86"}]}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-2  --replica-share-name my-fs-cli-1-replica  --replica-share-mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni-2","primary_ip":{"address":"10.240.66.20","auto-delete":true,"name":"rip-vni-target"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-bd0f8527-c45c-496e-8d34-63bda6dd829b"}],"subnet":{"id":"0726-cf6d55db-284e-40c6-aea7-67dbabfa5542"}}}]'`
+- `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40 --atem user_managed,none`
+- `ibmcloud is share-create --name my-file-accessor-share --origin-share crn:v1:bluemix:public:is:au-syd-1:a/1431ea2a7958ad20f0fee592ff85f746::share:r026-02aea1c7-adb6-4072-9799-6ca495561661`
 
 #### Command options
 {: #command-options-share-create}
 
+- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
 - **--name**: The user-defined name for this file share.
-- **--zone**: Name of the zone.
-- **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--user-tags**: Tags for this resource.
+- **--zone**: Name of the zone.
 - **--profile**: The profile that the file share uses. All file shares are created based on the high-performance dp2 profile.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--size**: The size of the file share rounded up to the next gigabyte.
+- **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--initial-owner-uid**: The initial owner user identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--replica-share-user-tags**: Tags for this resource.
+- **--replica-share-allowed-transit-encryption-modes, --rs-atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
 - **--replica-share-name**: The user-defined name for this file share.
 - **--replica-share-profile**: The profile that the file share uses.
 - **--replica-share-cron-spec**: The cron specification for the file share replication schedule.
 - **--replica-share-zone**: The zone that this replica file share is to reside in. Must be a different zone in the same region as the source share.
+- **--origin-share**: The ID, name or CRN of the origin share for the accessor share.
+- **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -9432,7 +9448,7 @@ ibmcloud is share-profiles [--output JSON] [-q, --quiet]
 Update a file share.
 
 ```
-ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--output JSON] [-q, --quiet]
+ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--allowed-transit-encryption-modes, --atem none,user_managed] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9447,6 +9463,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - `ibmcloud is share-update my-file-share-1 --iops 1000`
 - `ibmcloud is share-update p-share-32 --user-tags env:dev,env:prod`
 - `ibmcloud is share-update my-fs-2-cli --access-control-mode security_group`
+- `ibmcloud is share-update my-fs-2-cli --allowed-transit-encryption-modes user_managed,none`
 
 #### Command options
 {: #command-options-share-update}
@@ -9459,6 +9476,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
+- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -9497,7 +9515,7 @@ ibmcloud is shares [--replication-role none | replica | source] [--resource-grou
 Create a replica file share from an existing file share.
 
 ```
-ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE] [--allowed-transit-encryption-modes, --atem none,user_managed] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9521,6 +9539,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
+- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -9711,6 +9730,79 @@ ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete tru
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--vpc**: ID or name of the VPC to which this share mount target allows to mount the file share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-accessor-bindings
+{: #share-accessor-bindings-list}
+
+List all accessor bindings of a share.
+
+```
+ibmcloud is share-accessor-bindings SHARE [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-accessor-bindings}
+
+- `ibmcloud is share-accessor-bindings r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-share-accessor-bindings}
+
+- **SHARE**: ID or name of the file share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-accessor-binding
+{: #share-accessor-binding-view}
+
+View details of an accessor binding.
+
+```
+ibmcloud is share-accessor-binding SHARE ACCESSOR_BINDING [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-accessor-binding}
+
+- `ibmcloud is share-accessor-binding my-cli-accessor-share r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-share-accessor-binding}
+
+- **SHARE**: ID or name of the file share.
+- **ACCESSOR_BINDING**: ID of the file share accessor binding.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-accessor-binding-delete
+{: #share-accessor-binding-delete}
+
+Delete one or more file share accessor bindings.
+
+```
+ibmcloud is share-accessor-binding-delete SHARE ACCESSOR_BINDING [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-accessor-binding-delete}
+
+- `ibmcloud is share-accessor-binding-delete  my-file-share-99  r006-866fc826-6f30-444f-b55e-0d697cf8b4bb`
+- `ibmcloud is share-accessor-binding-delete  r006-866fc826-6f30-444f-b55e-0d697cf8b4bb r006-866fc826-6f30-444f-b55e-0d697cf8b4bc`
+
+#### Command options
+{: #command-options-share-accessor-binding-delete}
+
+- **SHARE**: ID or name of the file share.
+- **ACCESSOR_BINDING**: ID of the file share accessor binding.
+- **--force, -f**: Force the operation without confirmation.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
