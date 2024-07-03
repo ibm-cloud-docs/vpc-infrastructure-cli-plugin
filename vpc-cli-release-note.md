@@ -22,10 +22,10 @@ lastupdated: "2024-06-03"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
-## v11.4.0
-{: #v11.4.0}
+## v11.4.1
+{: #v11.4.1}
 
-Version 11.4.0 was released on 2024-06-21.
+Version 11.4.1 was released on 2024-06-21.
 
 ### New commands
 
