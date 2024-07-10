@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-06-21"
+lastupdated: "2024-07-10"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -2728,7 +2728,7 @@ ibmcloud is vpc-address-prefix-create PREFIX_NAME VPC ZONE_NAME CIDR [--default 
 - **PREFIX_NAME**: Name of the VPC address prefix.
 - **VPC**: ID or name of the VPC.
 - **ZONE_NAME**: Name of the zone.
-- **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (eight addresses).
+- **CIDR**: The IPv4 range of the address prefix, expressed in CIDR format. It must not overlap with any existing address prefixes in the VPC, and must fall within the [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918) address ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (eight addresses).
 - **--default**: This flag indicates whether this is the default prefix for this zone in this VPC. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
