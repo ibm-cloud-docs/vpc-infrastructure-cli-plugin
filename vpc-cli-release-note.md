@@ -2,25 +2,38 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-06-03"
+lastupdated: "2024-07-23"
 
 ---
 
-{:shortdesc: .shortdesc}
-{:new_window: target="_blank"}
-{:codeblock: .codeblock}
-{:pre: .pre}
-{:screen: .screen}
-{:tip: .tip}
-{:note: .note}
-{:important: .important}
-{:download: .download}
+{{site.data.keyword.attribute-definition-list}}
 
 # VPC CLI release notes
 {: #vpc-cli-rn}
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.5.0
+{: #v11.5.0}
+
+Version 11.5.0 was released on 2024-07-18.
+
+### New commands
+
+* New command `ibmcloud is bare-metal-server-initialization-replace` added for bare metal server reintialization.
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v11.4.1
 {: #v11.4.1}
