@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-07-10"
+lastupdated: "2024-07-23"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -6840,11 +6840,11 @@ Create a PCI network interface and specify JSON as the output format.
 - `ibmcloud is bm-nicc bm-cli-1 --subnet cli-subnet-1 --name bm-cli-nic-secondary --allowed-vlans 210,510,500,3001-1001`
 Create a PCI network interface. Allowed VLANs are comma-separated values that can be passed as separate values or as any range of numbers.
 - `ibmcloud is bm-nicc cli-bm --subnet alex-subnet --name cli-snic-3 --rip 2302-aef75588-7b87-46b7-bca4-0d6893d2593e`
-Create bare metal NIC with pre-created reserved IP.
+Create a bare metal NIC with precreated reserved IP.
 - `ibmcloud is bm-nicc cli-bm --subnet alex-subnet --name cli-snic-3 --rip cli-rip-byname3`
-Create bare metal NIC with pre-created reserved IP by Name.
+Create a bare metal NIC with precreated reserved IP by Name.
 - `ibmcloud is bm-nicc cli-bm --subnet 2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f --name cli-snic --address 10.240.128.51  --auto-delete true --ip-name cli-snicip`
-Create bare metal NIC with new reserved IP.
+Create a bare metal NIC with new reserved IP.
 
 #### Command options
 {: #command-options-bare-metal-server-network-interface-create}
@@ -7349,6 +7349,33 @@ ibmcloud is bare-metal-server-network-attachment-delete SERVER (NAC1 NAC2 ...) [
 - **NAC2**: ID or name of the network attachment.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is bare-metal-server-initialization-replace
+{: #bare-metal-server-initialization-replace-view}
+
+Reinitializes a bare metal server with the specified image and SSH keys.
+
+```
+ibmcloud is bare-metal-server-initialization-replace SERVER --image IMAGE --keys KEYS [--user-data DATA] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-bare-metal-server-initialization-replace}
+
+- `ibmcloud is bare-metal-server-initialization-replace server-name --image r006-ed3f775f-ad7e-4e37-ae62-7199b4988b00 --keys r006-02a07b78-6e5f-40a2-86a2-99e01916128c,r006-29e19fb1-e2b9-49d0-ab6e-9702e99f5021 --user-data @/tmp/userdata.sh`
+Reinitializes a bare metal server with the specified image and SSH keys. The server must be in stopped state for it to reinitialize.
+
+#### Command options
+{: #command-options-bare-metal-server-initialization-replace}
+
+- **SERVER**: ID or name of the server.
+- **--image**: ID or name of the image.
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--user-data**: data|@data-file. User data to transfer to the bare metal server.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
