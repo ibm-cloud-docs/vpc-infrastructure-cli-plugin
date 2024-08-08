@@ -14,7 +14,7 @@ subcollection: vpc-infrastructure-cli-plugin
 # VPC CLI reference
 {: #vpc-reference}
 
-Use the following information as a reference of the command-line interface (CLI) commands that are available for {{site.data.keyword.vpc_full}} (VPC).
+Use the following information as a reference for the command-line interface (CLI) commands that are available for {{site.data.keyword.vpc_full}} (VPC).
 {: shortdesc}
 
 This CLI reference is organized into the following sections:
@@ -26,7 +26,7 @@ This CLI reference is organized into the following sections:
 ## Prerequisites
 {: #cli-ref-prereqs}
 
-1. Install the [IBM Cloud CLI](/docs/cli){: external}.
+1. Install the [IBM Cloud CLI](/docs/cli?topic=cli-install-ibmcloud-cli){: external}.
 
 2. Install or update the VPC infrastructure service plug-in.
 
