@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-07-23"
+lastupdated: "2024-08-08"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -26,7 +26,7 @@ This CLI reference is organized into the following sections:
 ## Prerequisites
 {: #cli-ref-prereqs}
 
-1. Install the [IBM Cloud CLI ![External link icon](../icons/launch-glyph.svg "External link icon")](/docs/cli){: external}.
+1. Install the [IBM Cloud CLI](/docs/cli){: external}.
 
 2. Install or update the VPC infrastructure service plug-in.
 
