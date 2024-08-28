@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-07-23"
+lastupdated: "2024-08-28"
 
 ---
 
@@ -13,6 +13,27 @@ lastupdated: "2024-07-23"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.6.0
+{: #v11.6.0}
+
+Version 11.6.0 was released on 2024-08-27.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* Bug fixes
 
 ## v11.5.0
 {: #v11.5.0}

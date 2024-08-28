@@ -2,8 +2,8 @@
 
 copyright:
   years: 2018, 2024
+lastupdated: "2024-08-28"
 
-lastupdated: "2024-08-08"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1734,7 +1734,7 @@ ibmcloud is vpc-routing-table-create VPC [--name NAME] [--direct-link-ingress fa
 - `ibmcloud is vpc-routing-table-create 979b4bc6-f018-40a2-92f5-0b1cf777b55d --name test-vpc-cli-routing-tb1 --direct-link-ingress false --internet-ingress false   --transit-gateway-ingress false  --vpc-zone-ingress true`
 - `ibmcloud is vpc-routing-table-create my-vpc --name my-vpc-routing-table --accept-routes-from-resource-type-filters vpn_server,vpn_gateway`
 Create a routing table with resource type filter.
-- `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table--direct-link-ingress true  --transit-gateway-ingress true --advertise-routes-to direct_link,transit_gateway`
+- `ibmcloud is vpc-routing-table-create 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-vpc-routing-table --direct-link-ingress true  --transit-gateway-ingress true --advertise-routes-to direct_link,transit_gateway`
 
 #### Command options
 {: #command-options-vpc-routing-table-create}
@@ -5254,7 +5254,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
-- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can either be of type RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
@@ -5357,7 +5357,7 @@ Create an instance from an instance template with the primary network interface 
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
-- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can either be of type RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
@@ -6652,7 +6652,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--zone**: Name of the zone.
 - **--profile**: Name of the bare metal server profile.
 - **--image**: ID or name of the image.
-- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can either be of type RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
 - **--user-data**: data|@data-file. User data to transfer to the bare metal server.
 - **--pnic-name**: Name of the primary network interface.
 - **--pnic-subnet**: Subnet ID or name for the primary network interface.
@@ -7526,7 +7526,7 @@ ibmcloud is reservation RESERVATION [--output JSON] [-q, --quiet]
 List all reservations.
 
 ```
-ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--output JSON] [-q, --quiet]
+ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--profile-resource-type instance_profile] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7543,6 +7543,7 @@ ibmcloud is reservations [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
 - **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
+- **--profile-resource-type**: The resource type of the profile. One of: **instance_profile**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7803,7 +7804,7 @@ Create an instance with a network attachment and new virtual network interface w
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
-- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can either be of type RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
@@ -7884,7 +7885,7 @@ Create an instance template by overriding a source template with the primary net
 - **--total-volume-bandwidth**: The amount of bandwidth (in megabits per second) that is allocated exclusively to instance storage volumes. An increase in this value results in a corresponding decrease to total network bandwidth.
 - **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
 - **--volume-attach**: VOLUME_ATTACH_JSON|@VOLUME_ATTACH_JSON_FILE, volume attachment in JSON or JSON file, list of volumes. For the data schema, see the **volume_attachments** property in the [API documentation](/apidocs/vpc#create-instance).
-- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can either be of type RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
