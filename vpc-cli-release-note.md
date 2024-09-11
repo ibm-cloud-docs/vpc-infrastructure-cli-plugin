@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-08-28"
+lastupdated: "2024-09-11"
 
 ---
 
@@ -13,6 +13,27 @@ lastupdated: "2024-08-28"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.8.0
+{: #v11.8.0}
+
+Version 11.8.0 was released on 2024-09-06.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for data center and universal names in the `zone` and `zones` commands.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v11.6.0
 {: #v11.6.0}
