@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2024
-lastupdated: "2024-08-28"
+lastupdated: "2024-09-24"
 
 
 subcollection: vpc-infrastructure-cli-plugin
@@ -2418,7 +2418,7 @@ ibmcloud is subnet-create SUBNET_NAME VPC ((--zone ZONE_NAME --ipv4-address-coun
 - **--zone**: Name of the zone.
 - **--acl**: The ID or name of the network ACL.
 - **--pgw**: The ID or name of the public gateway.
-- **--rt**: The ID or name of the routing table.
+- **--rt**: The ID, name, or CRN of the routing table.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2476,7 +2476,7 @@ ibmcloud is subnet-update SUBNET [--vpc VPC] [--name NEW_NAME] [--acl ACL] [--pg
 - **--name**: New name of the subnet.
 - **--acl**: The ID or name of the network ACL.
 - **--pgw**: The ID or name of the public gateway.
-- **--rt**: The ID or name of the routing table.
+- **--rt**: The ID, name, or CRN of the routing table.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 

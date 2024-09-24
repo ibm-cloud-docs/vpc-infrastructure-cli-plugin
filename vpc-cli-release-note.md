@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-09-11"
+lastupdated: "2024-09-24"
 
 ---
 
@@ -13,6 +13,27 @@ lastupdated: "2024-09-11"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.9.0
+{: #v11.9.0}
+
+Version 11.9.0 was released on 2024-09-23.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Flag `--rt` in commands `subnet-rtr`, `subnet-create` now accepts `crn` of the routing table.
+
+### Removed commands
+
+* N/A
+
+### Notes
+
+* N/A
 
 ## v11.8.0
 {: #v11.8.0}
