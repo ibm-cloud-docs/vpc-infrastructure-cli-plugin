@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-10-11"
+lastupdated: "2024-10-16"
 
 ---
 
@@ -14,10 +14,27 @@ lastupdated: "2024-10-11"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v11.11.0
+{: #v11.11.0}
+
+Version 11.11.0 was released on 2024-10-16.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for distribute-traffic in `vpn-gateway-connection-create` and `vpn-gateway-connection-update` commands
+
+### Removed commands
+
+* N/A
+
 ## v11.10.0
 {: #v11.10.0}
 
-Version 11.10.0 was released on 2024-11-08.
+Version 11.10.0 was released on 2024-10-08.
 
 ### New commands
 
