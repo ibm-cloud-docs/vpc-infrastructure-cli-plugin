@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2024
-lastupdated: "2024-10-16"
+lastupdated: "2024-11-05"
 
 
 subcollection: vpc-infrastructure-cli-plugin
@@ -314,7 +314,7 @@ ibmcloud is flow-log FLOW_LOG [--output JSON] [-q, --quiet]
 List all flow logs in the region.
 
 ```
-ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--target TARGET] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -323,6 +323,8 @@ ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--vpc**: ID, name, or CRN of the VPC.
+- **--target**: The ID or resource type of the target.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1685,13 +1687,14 @@ ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
 List all routing tables for a VPC.
 
 ```
-ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-tables VPC [--is-default true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpc-routing-tables}
 
 - **VPC**: ID or name of the VPC.
+- **--is-default**: Filters the collection to routing tables with the `is_default` property that matches the specified value. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2488,7 +2491,7 @@ ibmcloud is subnet-update SUBNET [--vpc VPC] [--name NEW_NAME] [--acl ACL] [--pg
 List all subnets.
 
 ```
-ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--rt ROUTING_TABLE] [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -2497,6 +2500,9 @@ ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-na
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
+- **--rt**: The ID or name of the routing table.
+- **--vpc**: ID, name, or CRN of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2515,7 +2521,7 @@ ibmcloud is subnet-public-gateway SUBNET [--vpc VPC] [--output JSON] [-q, --quie
 {: #command-options-subnet-public-gateway}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2534,7 +2540,7 @@ ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, -
 {: #command-options-subnet-public-gateway-detach}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2546,14 +2552,16 @@ ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, -
 List all reserved IPs in the subnet.
 
 ```
-ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--target TARGET] [--trt endpoint_gateway | virtual_network_interface] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-reserved-ips}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--target**: The ID, name, or CRN of the target resource.
+- **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2813,7 +2821,6 @@ ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management 
 #### Command examples
 {: #command-examples-vpc-create}
 
-- `ibmcloud is vpc-create my-vpc --classic-access`
 - `ibmcloud is vpc-create my-vpc --address-prefix-management auto`
 - `ibmcloud is vpc-create my-vpc --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 - `ibmcloud is vpc-create my-vpc --resource-group-name Default --output JSON`
@@ -2825,8 +2832,8 @@ ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management 
 {: #command-options-vpc-create}
 
 - **VPC_NAME**: Name of the VPC.
-- **--classic-access**: This flag indicates whether the VPC must be connected to Classic Infrastructure. The default value is false.
-- **--address-prefix-management**: This flag indicates if a default address prefix is automatically created for each zone in this VPC. If **manual**, this VPC is created with no default address prefixes. One of: **auto**, **manual**. (default: **auto**).
+- **--classic-access**: [Deprecated] Instead, you can use Transit Gateway to connect your VPCs to the Classic network. This flag indicates whether the VPC must be connected to Classic infrastructure. The default value is false.
+- **--address-prefix-management**: This flag indicates whether a default address prefix is automatically created for each zone in this VPC. If **manual**, this VPC is created with no default address prefixes. One of: **auto**, **manual**. (default: **auto**).
 - **--dns-enable-hub**: Indicates whether this VPC is enabled as a DNS name resolution hub. One of: **false**, **true**.
 - **--dns-resolver-type**: The type of the DNS resolver to use. One of: **manual**, **system**.
 - **--dns-resolver-manual-servers**: MANUAL_SERVERS|@MANUAL_SERVERS, manual servers in JSON or JSON file.
@@ -2924,7 +2931,7 @@ ibmcloud is vpcs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name 
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
-- **--classic-access**: This flag lists VPCs that have classic access enabled. If unspecified, it returns all VPCs with and without classic access enabled. One of: **true**, **false**.
+- **--classic-access**: [Deprecated] Instead, Transit Gateway can be used to connect your VPCs to the Classic network. This flag lists VPCs that have classic access enabled. If unspecified, it returns all VPCs with and without classic access enabled. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3028,13 +3035,14 @@ ibmcloud is vpc-dns-resolution-binding-delete VPC (DNS_RESOLUTION_BINDING1 DNS_R
 List all DNS resolution bindings.
 
 ```
-ibmcloud is vpc-dns-resolution-bindings VPC [--output JSON] [-q, --quiet]
+ibmcloud is vpc-dns-resolution-bindings VPC [--account-id ACCOUNT_ID] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpc-dns-resolution-bindings}
 
 - **VPC**: ID or name of the VPC.
+- **--account-id**: ID of the account for this access policy.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3087,7 +3095,7 @@ ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, -
 List all endpoint gateways in the region.
 
 ```
-ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--allow-dns-resolution-binding false | true] [--lifecycle-state LIFECYCLE_STATE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -3096,6 +3104,9 @@ ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resourc
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--vpc**: ID, name, or CRN of the VPC.
+- **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
+- **--lifecycle-state**: Filters the collection to resources with the `lifecycle_state` property that matches one of the specified comma-separated values of: deleting, failed, pending, stable, suspended, updating, waiting.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3958,7 +3969,7 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESH
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --distribute-traffic true --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --distribute-traffic true --local-ike-identities '[{"type":"fqdn","value":"sadsadasd.com"},{"type":"fqdn","value":"sadsadasdasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd --output JSON`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only --local-ike-identities '[{"type":"ipv4_address","value":"2.2.2.2"},{"type":"fqdn","value":"sadsadasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
 create VPN gateway connection with local ike_identities using it as JSON structure
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only  --local-ike-identity-type fqdn --local-ike-identity-value sadsadasd.com --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
@@ -5116,7 +5127,7 @@ ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_F
 List all virtual server instances.
 
 ```
-ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--output JSON] [-q, --quiet]
+ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--vpc VPC] [--dh DH] [--pg PG] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -5126,6 +5137,9 @@ ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
 - **--reservation**: ID or name of the reservation.
+- **--vpc**: ID, name, or CRN of the VPC.
+- **--dh**: ID, name, or CRN of the dedicated host.
+- **--pg**: ID, name, or CRN of the placement group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6291,7 +6305,7 @@ ibmcloud is dedicated-host-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 List all host groups.
 
 ```
-ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -6300,6 +6314,7 @@ ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --res
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6403,7 +6418,7 @@ ibmcloud is dedicated-host-group-delete (HOST_GROUP1 HOST_GROUP2 ...) [--output 
 List all hosts.
 
 ```
-ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--dhg DHG] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -6412,6 +6427,8 @@ ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
+- **--dhg**: ID or name of the host group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7155,7 +7172,7 @@ ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-b
 List all bare metal servers.
 
 ```
-ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -7164,6 +7181,7 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--vpc**: ID, name, or CRN of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8896,7 +8914,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Block Storage for VPC profiles](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
+- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
 - **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
