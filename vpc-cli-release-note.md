@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-10-16"
+lastupdated: "2024-11-13"
 
 ---
 
@@ -13,6 +13,45 @@ lastupdated: "2024-10-16"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v11.13.0
+{: #v11.13.0}
+
+Version 11.13.0 was released on 2024-11-13.
+
+### New commands
+
+* New commands `private-path-service-gateways`, `private-path-service-gateway`, `private-path-service-gateway-create`, `private-path-service-gateway-update`, `private-path-service-gateway-delete`, `private-path-service-gateway-publish`, 
+`private-path-service-gateway-unpublish`  are added for private path service gateway.
+* New commands `private-path-service-gateway-account-policy-create`, `private-path-service-gateway-account-policies`, `private-path-service-gateway-account-policy`, `private-path-service-gateway-account-policy-update`, `private-path-service-gateway-account-policy-delete` are added for private path service gateway account policies.
+* New commands `private-path-service-gateway-endpoint-gateway-bindings`, `private-path-service-gateway-endpoint-gateway-binding`, `private-path-service-gateway-endpoint-gateway-binding-deny`, `private-path-service-gateway-endpoint-gateway-binding-permit`, `private-path-service-gateway-endpoint-gateway-binding-revoke` are added for private path service gateway endpoint binding.
+
+### Updated commands
+
+- LOAD_BALANCER_ACCESS_TYPE `private-path` is added to `load-balancer-create` command.
+- `--target-type` flag is introduced in `endpoint-gateway-create` command.
+
+### Removed commands
+
+* N/A
+
+## v11.12.0
+{: #v11.12.0}
+
+Version 11.12.0 was released on 2024-10-30.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+- The `--classic-access` flag is deprecated in the `vpc-create` and `vpcs` commands.
+- Added support for more filters across list commands of multiple resources as specified in the VPC API specification.
+
+### Removed commands
+
+* N/A
 
 ## v11.11.0
 {: #v11.11.0}

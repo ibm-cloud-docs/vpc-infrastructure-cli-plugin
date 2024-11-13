@@ -2,8 +2,8 @@
 
 copyright:
   years: 2018, 2024
-lastupdated: "2024-10-16"
 
+lastupdated: "2024-11-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -314,7 +314,7 @@ ibmcloud is flow-log FLOW_LOG [--output JSON] [-q, --quiet]
 List all flow logs in the region.
 
 ```
-ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--target TARGET] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -323,6 +323,8 @@ ibmcloud is flow-logs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--vpc**: ID, name, or CRN of the VPC.
+- **--target**: The ID or resource type of the target.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -376,6 +378,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (-
 - `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
 - `ibmcloud is load-balancer-create my-lb private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
 Create a load balancer with route mode enabled
+- `ibmcloud is load-balancer-create my-lb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
+Create a Private Path network load balancer.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
 Create Private DNS support for Load Balancer.
 
@@ -383,7 +387,7 @@ Create Private DNS support for Load Balancer.
 {: #command-options-load-balancer-create}
 
 - **LOAD_BALANCER_NAME**: Name of the load balancer.
-- **LOAD_BALANCER_ACCESS_TYPE**: Access type of the load balancer. One of: **public**, **private**.
+- **LOAD_BALANCER_ACCESS_TYPE**: Access type of the load balancer. Only load balancer in the network family supports 'private-path' access type. One of: **public**, **private**, **private-path**.
 - **--subnet**: ID or name of the subnets to provision this load balancer. This option can be specified multiple times to provision load balancer in multiple subnets. Only one subnet can be specified for network load balancer.
 - **--vpc**: ID or name of the VPC. This ID or name is required only to specify the unique subnet by name inside this VPC.
 - **--family**: The load balancer family type. One of: **application**, **network**.
@@ -1685,13 +1689,14 @@ ibmcloud is vpc-default-routing-table VPC [--output JSON] [-q, --quiet]
 List all routing tables for a VPC.
 
 ```
-ibmcloud is vpc-routing-tables VPC [--output JSON] [-q, --quiet]
+ibmcloud is vpc-routing-tables VPC [--is-default true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpc-routing-tables}
 
 - **VPC**: ID or name of the VPC.
+- **--is-default**: Filters the collection to routing tables with the `is_default` property that matches the specified value. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2488,7 +2493,7 @@ ibmcloud is subnet-update SUBNET [--vpc VPC] [--name NEW_NAME] [--acl ACL] [--pg
 List all subnets.
 
 ```
-ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--rt ROUTING_TABLE] [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -2497,6 +2502,9 @@ ibmcloud is subnets [--resource-group-id RESOURCE_GROUP_ID | --resource-group-na
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
+- **--rt**: The ID or name of the routing table.
+- **--vpc**: ID, name, or CRN of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2515,7 +2523,7 @@ ibmcloud is subnet-public-gateway SUBNET [--vpc VPC] [--output JSON] [-q, --quie
 {: #command-options-subnet-public-gateway}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2534,7 +2542,7 @@ ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, -
 {: #command-options-subnet-public-gateway-detach}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2546,14 +2554,16 @@ ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, -
 List all reserved IPs in the subnet.
 
 ```
-ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
+ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--target TARGET] [--trt endpoint_gateway | virtual_network_interface] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-subnet-reserved-ips}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is only required to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--target**: The ID, name, or CRN of the target resource.
+- **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2813,7 +2823,6 @@ ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management 
 #### Command examples
 {: #command-examples-vpc-create}
 
-- `ibmcloud is vpc-create my-vpc --classic-access`
 - `ibmcloud is vpc-create my-vpc --address-prefix-management auto`
 - `ibmcloud is vpc-create my-vpc --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 - `ibmcloud is vpc-create my-vpc --resource-group-name Default --output JSON`
@@ -2825,8 +2834,8 @@ ibmcloud is vpc-create VPC_NAME [--classic-access] [--address-prefix-management 
 {: #command-options-vpc-create}
 
 - **VPC_NAME**: Name of the VPC.
-- **--classic-access**: This flag indicates whether the VPC must be connected to Classic Infrastructure. The default value is false.
-- **--address-prefix-management**: This flag indicates if a default address prefix is automatically created for each zone in this VPC. If **manual**, this VPC is created with no default address prefixes. One of: **auto**, **manual**. (default: **auto**).
+- **--classic-access**: [Deprecated] Instead, you can use Transit Gateway to connect your VPCs to the Classic infrastructure network. This flag indicates whether the VPC must be connected to Classic Infrastructure. The default value is false.
+- **--address-prefix-management**: This flag indicates whether a default address prefix is automatically created for each zone in this VPC. If **manual**, this VPC is created with no default address prefixes. One of: **auto**, **manual**. (default: **auto**).
 - **--dns-enable-hub**: Indicates whether this VPC is enabled as a DNS name resolution hub. One of: **false**, **true**.
 - **--dns-resolver-type**: The type of the DNS resolver to use. One of: **manual**, **system**.
 - **--dns-resolver-manual-servers**: MANUAL_SERVERS|@MANUAL_SERVERS, manual servers in JSON or JSON file.
@@ -2924,7 +2933,7 @@ ibmcloud is vpcs [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name 
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
-- **--classic-access**: This flag lists VPCs that have classic access enabled. If unspecified, it returns all VPCs with and without classic access enabled. One of: **true**, **false**.
+- **--classic-access**: [Deprecated] Instead, Transit Gateway can be used to connect your VPCs to the Classic network. This flag lists VPCs that have classic access enabled. If unspecified, it returns all VPCs with and without classic access enabled. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3028,13 +3037,14 @@ ibmcloud is vpc-dns-resolution-binding-delete VPC (DNS_RESOLUTION_BINDING1 DNS_R
 List all DNS resolution bindings.
 
 ```
-ibmcloud is vpc-dns-resolution-bindings VPC [--output JSON] [-q, --quiet]
+ibmcloud is vpc-dns-resolution-bindings VPC [--account-id ACCOUNT_ID] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-vpc-dns-resolution-bindings}
 
 - **VPC**: ID or name of the VPC.
+- **--account-id**: ID of the account for this access policy.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3087,7 +3097,7 @@ ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, -
 List all endpoint gateways in the region.
 
 ```
-ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--allow-dns-resolution-binding false | true] [--lifecycle-state LIFECYCLE_STATE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -3096,6 +3106,9 @@ ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resourc
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--vpc**: ID, name, or CRN of the VPC.
+- **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
+- **--lifecycle-state**: Filters the collection to resources with the `lifecycle_state` property that matches one of the specified comma-separated values of: deleting, failed, pending, stable, suspended, updating, waiting.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3107,7 +3120,7 @@ ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resourc
 Create an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-create --target TARGET [--vpc VPC] [--name NAME] [--rip RIP --subnet SUBNET | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--allow-dns-resolution-binding false | true] [--sg SG] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-create --target TARGET [--target-type private_path_service_gateway | provider_cloud_service | provider_infrastructure_service] [--vpc VPC] [--name NAME] [--rip RIP --subnet SUBNET | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--allow-dns-resolution-binding false | true] [--sg SG] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3133,6 +3146,8 @@ Create endpoint gateway with binding existing reserved IP IDs.
 Create endpoint gateway with binding existing reserved IP name.
 - `ibmcloud is egc --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --vpc b224ead6-b835-473c-ad6b-bc91840829c3  --allow-dns-resolution-binding false --name my-cli-egw`
 Create endpoint gateway and allow to participate in DNS resolution bindings with a VPC
+- `ibmcloud is endpoint-gateway-create --target-type private_path_service_gateway --target crn:v1:staging:public:is:us-south:aefe5afc483594adaa8325e2b4d1290df::private-path-service-gateway:r134-f5926633-81d0-429e-bcf8-91151ade00bf --vpc cli-vpc`
+Create endpoint gateway for a Private Path service gateway.
 - `ibmcloud is endpoint-gateway-create --vpc 417f1275-b11a-4077-8755-84e795bc3172 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1 --sg r006-dfd5e7a2-0f6d-47d3-b46a-567430f1d70c,r006-e60eba9b-7c88-49ae-b8e1-05bd76d39d66`
 Create endpoint gateway with security groups.
 - `ibmcloud is endpoint-gateway-create --vpc my-vpc --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1 --sg my-sg,my-sg2`
@@ -3145,6 +3160,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 #### Command options
 {: #command-options-endpoint-gateway-create}
 
+- **--target-type**: The type of target for this endpoint gateway. One of: **private_path_service_gateway**, **provider_cloud_service**, **provider_infrastructure_service**.
 - **--vpc**: ID or name of the VPC.
 - **--target**: The name of the provider infrastructure service or the CRN for a provider cloud service instance. You can use command **ibmcloud is endpoint-gateway-targets** to list the provider cloud and infrastructure services that are qualified to be set as endpoint gateway target.
 - **--name**: New name of the endpoint gateway.
@@ -3601,6 +3617,458 @@ ibmcloud is virtual-network-interface-reserved-ip-unbind VIRTUAL_NETWORK_INTERFA
 
 ---
 
+## Private Path service gateways
+{: #ppsg-clis}
+
+The following section gives details about the CLI commands that are available for working with Private Path service gateways.
+
+### ibmcloud is private-path-service-gateways
+{: #private-path-service-gateways-list}
+
+List all Private Path service gateways.
+
+```
+ibmcloud is private-path-service-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-private-path-service-gateways}
+
+- `ibmcloud is private-path-service-gateways`
+
+#### Command options
+{: #command-options-private-path-service-gateways}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway
+{: #private-path-service-gateway-view}
+
+View details of a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway PRIVATE_PATH_SERVICE_GATEWAY [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway}
+
+- `ibmcloud is ppsg r134-2e671f14-19fc-4089-9ad3-973176711259`
+- `ibmcloud is private-path-service-gateway cli-ppsg-0`
+
+#### Command options
+{: #command-options-private-path-service-gateway}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-create
+{: #private-path-service-gateway-create}
+
+Create a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-create --load-balancer LOAD_BALANCER --service-endpoints SERVICE_ENDPOINTS [--default-access-policy deny | permit | review] [--name NAME] [--zonal-affinity false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-create}
+
+- `ibmcloud is private-path-service-gateway-create --load-balancer my-cli-nlb  --service-endpoints cli.domain.com --default-access-policy permit --name cli-ppsg-1 --zonal-affinity true`
+- `ibmcloud is private-path-service-gateway-create --load-balancer r134-d-439744e1-81d7-43fb-95d5-2356774240bb  --service-endpoints clidemo.domain.com --default-access-policy deny --name cli-ppsg-2 --zonal-affinity true`
+
+#### Command options
+{: #command-options-private-path-service-gateway-create}
+
+- **--default-access-policy**: The policy to use for bindings from accounts without an explicit account policy. One of: **deny**, **permit**, **review**. (default: **deny**).
+- **--load-balancer**: ID or name of load balancer for this Private Path gateway.
+- **--name**: The name for this Private Path service gateway.
+- **--service-endpoints**: The fully qualified domain names for this Private Path service gateway. Any uppercase letters will be converted to lowercase.
+- **--zonal-affinity**: Indicates whether this Private Path service gateway has zonal affinity. One of: **false**, **true**.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-update
+{: #private-path-service-gateway-update}
+
+Update a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-update PRIVATE_PATH_SERVICE_GATEWAY [--default-access-policy deny | permit | review] [--load-balancer LOAD_BALANCER] [--zonal-affinity false | true] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-update}
+
+- `ibmcloud is private-path-service-gateway-update r134-2e671f14-19fc-4089-9ad3-973176711259 --name cli-ppsg-2 --default-access-policy deny --load-balancer r134-d-740be75d-be41-48bd-b6e4-89946ddcac4a  --zonal-affinity false`
+- `ibmcloud is private-path-service-gateway-update cli-ppsg-2 --name cli-ppsg-0 --default-access-policy review --load-balancer my-cli-nlb-1  --zonal-affinity false`
+
+#### Command options
+{: #command-options-private-path-service-gateway-update}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **--default-access-policy**: The policy to use for bindings from accounts without an explicit account policy. One of: **deny**, **permit**, **review**. (default: **deny**).
+- **--load-balancer**: ID or name of load balancer for this Private Path gateway.
+- **--zonal-affinity**: Indicates whether this Private Path service gateway has zonal affinity. One of: **false**, **true**.
+- **--name**: New name of the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-delete
+{: #private-path-service-gateway-delete}
+
+Delete one or more Private Path service gateways.
+
+```
+ibmcloud is private-path-service-gateway-delete (PRIVATE_PATH_SERVICE_GATEWAY1 PRIVATE_PATH_SERVICE_GATEWAY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-delete}
+
+- `ibmcloud is ppsgd r134-01cd30f7-e6f2-432f-9520-76247b1fbbe1 r134-72940467-a4db-487f-b57e-b7141ac40e32`
+- `ibmcloud is private-path-service-gateway-delete cli-ppsg-0 cli-ppsg-1`
+
+#### Command options
+{: #command-options-private-path-service-gateway-delete}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY1**: ID or name of the Private Path service gateway.
+- **PRIVATE_PATH_SERVICE_GATEWAY2**: ID or name of the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-publish
+{: #private-path-service-gateway-publish-view}
+
+Publish a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-publish PRIVATE_PATH_SERVICE_GATEWAY [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-publish}
+
+- `ibmcloud is ppsgp r134-01cd30f7-e6f2-432f-9520-76247b1fbbe1`
+- `ibmcloud is private-path-service-gateway-publish cli-ppsg-0`
+
+#### Command options
+{: #command-options-private-path-service-gateway-publish}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-unpublish
+{: #private-path-service-gateway-unpublish-view}
+
+Unpublish a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-unpublish PRIVATE_PATH_SERVICE_GATEWAY [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-unpublish}
+
+- `ibmcloud is ppsgunp r134-01cd30f7-e6f2-432f-9520-76247b1fbbe1`
+- `ibmcloud is private-path-service-gateway-unpublish cli-ppsg-0`
+
+#### Command options
+{: #command-options-private-path-service-gateway-unpublish}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-account-policies
+{: #private-path-service-gateway-account-policies-list}
+
+List all account policies for Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-account-policies (PRIVATE_PATH_SERVICE_GATEWAY1 PRIVATE_PATH_SERVICE_GATEWAY2 ...) [--account-id ACCOUNT_ID] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-account-policies}
+
+- `ibmcloud is ppsg-aps cli-ppsg-0`
+- `ibmcloud is ppsg-aps r134-f5926633-81d0-429e-bcf8-91151ade00bf`
+
+#### Command options
+{: #command-options-private-path-service-gateway-account-policies}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY1**: ID or name of the Private Path service gateway.
+- **PRIVATE_PATH_SERVICE_GATEWAY2**: ID or name of the Private Path service gateway.
+- **--account-id**: ID of the account for this access policy.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-account-policy
+{: #private-path-service-gateway-account-policy-view}
+
+View details of an account policy for a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-account-policy PRIVATE_PATH_SERVICE_GATEWAY ACCOUNT_POLICY [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-account-policy}
+
+- `ibmcloud is ppsg-ap cli-ppsg-0 2d1bace7b46e4815a81e52c6ffeba5cf`
+- `ibmcloud is private-path-service-gateway-account-policy r134-f5926633-81d0-429e-bcf8-91151ade00bf e13b4574db1743b1b7897bebca551db1`
+
+#### Command options
+{: #command-options-private-path-service-gateway-account-policy}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **ACCOUNT_POLICY**: ID of the account policy for the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-account-policy-create
+{: #private-path-service-gateway-account-policy-create}
+
+Create an account policy for a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-account-policy-create PRIVATE_PATH_SERVICE_GATEWAY --account-id ACCOUNT_ID [--access-policy deny | permit | review] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-account-policy-create}
+
+- `ibmcloud is private-path-service-gateway-account-policy-create r134-f5926633-81d0-429e-bcf8-91151ade00bf --account-id e13b4574db1743b1b7897bebca551db1 --access-policy deny`
+- `ibmcloud is private-path-service-gateway-account-policy-create cli-ppsg-0 --account-id 2d1bace7b46e4815a81e52c6ffeba5cf --access-policy review`
+
+#### Command options
+{: #command-options-private-path-service-gateway-account-policy-create}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **--access-policy**: The access policy for the account. One of: **deny**, **permit**, **review**.
+- **--account-id**: ID of the account for this access policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-account-policy-update
+{: #private-path-service-gateway-account-policy-update}
+
+Update an account policy for a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-account-policy-update PRIVATE_PATH_SERVICE_GATEWAY ACCOUNT_POLICY [--access-policy deny | permit | review] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-account-policy-update}
+
+- `ibmcloud is ppsg-apu r134-f5926633-81d0-429e-bcf8-91151ade00bf 2d1bace7b46e4815a81e52c6ffeba5cf --access-policy permit`
+- `ibmcloud is ppsg-apu cli-ppsg-0 e13b4574db1743b1b7897bebca551db1 --access-policy review`
+
+#### Command options
+{: #command-options-private-path-service-gateway-account-policy-update}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **ACCOUNT_POLICY**: ID of the account policy for the Private Path service gateway.
+- **--access-policy**: The access policy for the account. One of: **deny**, **permit**, **review**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-account-policy-delete
+{: #private-path-service-gateway-account-policy-delete}
+
+Delete one or more account policy for Private Path service gateways.
+
+```
+ibmcloud is private-path-service-gateway-account-policy-delete PRIVATE_PATH_SERVICE_GATEWAY (ACCOUNT_POLICY1 ACCOUNT_POLICY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-account-policy-delete}
+
+- `ibmcloud is ppsg-apd r134-2e671f14-19fc-4089-9ad3-973176711259 efe5afc483594adaa8325e2b4d1290df`
+- `ibmcloud is private-path-service-gateway-account-policy-delete cli-ppsg-0 2d1bace7b46e4815a81e52c6ffeba5cf e13b4574db1743b1b7897bebca551db1`
+
+#### Command options
+{: #command-options-private-path-service-gateway-account-policy-delete}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **ACCOUNT_POLICY1**: ID of the account policy for the Private Path service gateway.
+- **ACCOUNT_POLICY2**: ID of the account policy for the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-endpoint-gateway-bindings
+{: #private-path-service-gateway-endpoint-gateway-bindings-list}
+
+List all endpoint gateway bindings for Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-endpoint-gateway-bindings (PRIVATE_PATH_SERVICE_GATEWAY1 PRIVATE_PATH_SERVICE_GATEWAY2 ...) [--account-id ACCOUNT_ID] [--status STATUS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-endpoint-gateway-bindings}
+
+- `ibmcloud is ppsg-egbs r134-2e671f14-19fc-4089-9ad3-973176711259`
+- `ibmcloud is ppsg-egbs cli-ppsg-0`
+
+#### Command options
+{: #command-options-private-path-service-gateway-endpoint-gateway-bindings}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY1**: ID or name of the Private Path service gateway.
+- **PRIVATE_PATH_SERVICE_GATEWAY2**: ID or name of the Private Path service gateway.
+- **--account-id**: ID of the account for this access policy.
+- **--status**: Status of the endpoint gateway bindings.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-endpoint-gateway-binding
+{: #private-path-service-gateway-endpoint-gateway-binding-view}
+
+View details of an endpoint gateway binding for a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-endpoint-gateway-binding PRIVATE_PATH_SERVICE_GATEWAY ENDPOINT_GATEWAY_BINDING [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-endpoint-gateway-binding}
+
+- `ibmcloud is private-path-service-gateway-endpoint-gateway-binding r134-2e671f14-19fc-4089-9ad3-973176711259 r134-17635273-0702-4a31-b406-a0014c291fbb`
+- `ibmcloud is private-path-service-gateway-endpoint-gateway-binding cli-ppsg-0 r134-3aabeae6-830c-40d6-b67e-4b08382989e9`
+
+#### Command options
+{: #command-options-private-path-service-gateway-endpoint-gateway-binding}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **ENDPOINT_GATEWAY_BINDING**: ID of the endpoint gateway binding for the Private Path service gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-endpoint-gateway-binding-deny
+{: #private-path-service-gateway-endpoint-gateway-binding-deny-view}
+
+Deny an endpoint gateway binding for a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-endpoint-gateway-binding-deny PRIVATE_PATH_SERVICE_GATEWAY ENDPOINT_GATEWAY_BINDING (--set-account-policy true | false) [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-endpoint-gateway-binding-deny}
+
+- `ibmcloud is private-path-service-gateway-endpoint-gateway-binding-deny r134-2e671f14-19fc-4089-9ad3-973176711259 r134-17635273-0702-4a31-b406-a0014c291fbb --set-account-policy true`
+- `ibmcloud is ppsg-egb-deny cli-ppsg r134-f7e2b651-0d02-46e1-8811-16ea2157b547 --set-account-policy true`
+
+#### Command options
+{: #command-options-private-path-service-gateway-endpoint-gateway-binding-deny}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **ENDPOINT_GATEWAY_BINDING**: ID of the endpoint gateway binding for the Private Path service gateway.
+- **--set-account-policy**: Indicates whether this will become the access policy for any pending and future endpoint gateway bindings from the same account. One of: **true**, **false**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-endpoint-gateway-binding-permit
+{: #private-path-service-gateway-endpoint-gateway-binding-permit-view}
+
+Permit an endpoint gateway binding for a Private Path service gateway.
+
+```
+ibmcloud is private-path-service-gateway-endpoint-gateway-binding-permit PRIVATE_PATH_SERVICE_GATEWAY ENDPOINT_GATEWAY_BINDING (--set-account-policy true | false) [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-endpoint-gateway-binding-permit}
+
+- `ibmcloud is ppsg-egb-permit r134-e64dab2d-8fd2-43bd-8390-229ba66e53c4 r134-0dcc2105-14a1-4501-9b43-29632e910e4b --set-account-policy true`
+- `ibmcloud is ppsg-egb-permit cli-ppsg r134-3a30c0b3-8c4b-4a64-bb93-3f3e17459363 --set-account-policy true`
+
+#### Command options
+{: #command-options-private-path-service-gateway-endpoint-gateway-binding-permit}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
+- **ENDPOINT_GATEWAY_BINDING**: ID of the endpoint gateway binding for the Private Path service gateway.
+- **--set-account-policy**: Indicates whether this will become the access policy for any pending and future endpoint gateway bindings from the same account. One of: **true**, **false**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is private-path-service-gateway-endpoint-gateway-binding-revoke
+{: #private-path-service-gateway-endpoint-gateway-binding-revoke-view}
+
+Revoke access to a Private Path service gateway for an account.
+
+```
+ibmcloud is private-path-service-gateway-endpoint-gateway-binding-revoke (PRIVATE_PATH_SERVICE_GATEWAY1 PRIVATE_PATH_SERVICE_GATEWAY2 ...) --account-id ACCOUNT_ID [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-private-path-service-gateway-endpoint-gateway-binding-revoke}
+
+- `ibmcloud is ppsg-ar r134-e64dab2d-8fd2-43bd-8390-229ba66e53c4 --account-id efe5afc483594adaa8325e2b4d1290df`
+- `ibmcloud is ppsg-ar cli-ppsg --account-id efe5afc483594adaa8325e2b4d1290df`
+
+#### Command options
+{: #command-options-private-path-service-gateway-endpoint-gateway-binding-revoke}
+
+- **PRIVATE_PATH_SERVICE_GATEWAY1**: ID or name of the Private Path service gateway.
+- **PRIVATE_PATH_SERVICE_GATEWAY2**: ID or name of the Private Path service gateway.
+- **--account-id**: ID of the account for this access policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Virtual private network (VPN) gateways
 {: #vpn-clis}
 
@@ -3958,7 +4426,7 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESH
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ipsec-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
-- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --distribute-traffic true --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --distribute-traffic true --local-ike-identities '[{"type":"fqdn","value":"sadsadasd.com"},{"type":"fqdn","value":"sadsadasdasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd --output JSON`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only --local-ike-identities '[{"type":"ipv4_address","value":"2.2.2.2"},{"type":"fqdn","value":"sadsadasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
 create VPN gateway connection with local ike_identities using it as JSON structure
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only  --local-ike-identity-type fqdn --local-ike-identity-value sadsadasd.com --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
@@ -5116,7 +5584,7 @@ ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_F
 List all virtual server instances.
 
 ```
-ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--output JSON] [-q, --quiet]
+ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--vpc VPC] [--dh DH] [--pg PG] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -5126,6 +5594,9 @@ ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
 - **--reservation**: ID or name of the reservation.
+- **--vpc**: ID, name, or CRN of the VPC.
+- **--dh**: ID, name, or CRN of the dedicated host.
+- **--pg**: ID, name, or CRN of the placement group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6291,7 +6762,7 @@ ibmcloud is dedicated-host-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 List all host groups.
 
 ```
-ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -6300,6 +6771,7 @@ ibmcloud is dedicated-host-groups [--resource-group-id RESOURCE_GROUP_ID | --res
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6403,7 +6875,7 @@ ibmcloud is dedicated-host-group-delete (HOST_GROUP1 HOST_GROUP2 ...) [--output 
 List all hosts.
 
 ```
-ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--zone ZONE] [--dhg DHG] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -6412,6 +6884,8 @@ ibmcloud is dedicated-hosts [--resource-group-id RESOURCE_GROUP_ID | --resource-
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--zone**: Filters the collection to resources with a zone name property that matches the exact specified name.
+- **--dhg**: ID or name of the host group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7155,7 +7629,7 @@ ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-b
 List all bare metal servers.
 
 ```
-ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -7164,6 +7638,7 @@ ibmcloud is bare-metal-servers [--resource-group-id RESOURCE_GROUP_ID | --resour
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--vpc**: ID, name, or CRN of the VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8896,7 +9371,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Block Storage for VPC profiles](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
+- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
 - **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
