@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-11-13"
+lastupdated: "2024-11-20"
 
 ---
 
@@ -14,6 +14,30 @@ lastupdated: "2024-11-13"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v12.0.0
+{: #v12.0.0}
+
+Version 12.0.0 was released on 2024-11-19.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+- Added support for reservation-affinity-policy, reservation-affinity-pool in the ` bare-metal-server-create` and `bare-metal-server-update` commands.
+- A new affinity-policy option `automatic` was added in the `reservation-create` and `reservation-update` commands.
+- A new reservation-affinity-policy option `automatic` was added in the `instance-create`, `instance-create-from-template`. `instance-update`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+- The `affinity-policy` of the reservation is set to `automatic` by default if a policy is not specified in the `reservation-create` command.
+- The `images` command now lists images only with a status of `available` as opposed to listing all images. To list images with desired status values, use the `--status` option with comma-separated list of status values.
+
 ## v11.13.0
 {: #v11.13.0}
 
@@ -22,14 +46,14 @@ Version 11.13.0 was released on 2024-11-13.
 ### New commands
 
 * New commands `private-path-service-gateways`, `private-path-service-gateway`, `private-path-service-gateway-create`, `private-path-service-gateway-update`, `private-path-service-gateway-delete`, `private-path-service-gateway-publish`, 
-`private-path-service-gateway-unpublish`  are added for private path service gateway.
-* New commands `private-path-service-gateway-account-policy-create`, `private-path-service-gateway-account-policies`, `private-path-service-gateway-account-policy`, `private-path-service-gateway-account-policy-update`, `private-path-service-gateway-account-policy-delete` are added for private path service gateway account policies.
-* New commands `private-path-service-gateway-endpoint-gateway-bindings`, `private-path-service-gateway-endpoint-gateway-binding`, `private-path-service-gateway-endpoint-gateway-binding-deny`, `private-path-service-gateway-endpoint-gateway-binding-permit`, `private-path-service-gateway-endpoint-gateway-binding-revoke` are added for private path service gateway endpoint binding.
+`private-path-service-gateway-unpublish` were added for the private path service gateway.
+* New commands `private-path-service-gateway-account-policy-create`, `private-path-service-gateway-account-policies`, `private-path-service-gateway-account-policy`, `private-path-service-gateway-account-policy-update`, `private-path-service-gateway-account-policy-delete` were added for the private path service gateway account policies.
+* New commands `private-path-service-gateway-endpoint-gateway-bindings`, `private-path-service-gateway-endpoint-gateway-binding`, `private-path-service-gateway-endpoint-gateway-binding-deny`, `private-path-service-gateway-endpoint-gateway-binding-permit`, `private-path-service-gateway-endpoint-gateway-binding-revoke` were added for the private path service gateway endpoint binding.
 
 ### Updated commands
 
-- LOAD_BALANCER_ACCESS_TYPE `private-path` is added to `load-balancer-create` command.
-- `--target-type` flag is introduced in `endpoint-gateway-create` command.
+- LOAD_BALANCER_ACCESS_TYPE `private-path` was added to the `load-balancer-create` command.
+- `--target-type` flag was introduced in the `endpoint-gateway-create` command.
 
 ### Removed commands
 
