@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-11-20"
+lastupdated: "2024-12-10"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -489,7 +489,7 @@ Create an application load balancer listener with idle connection timeout.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support TCP, HTTP, and HTTPS. Load balancers in the network family support TCP and UDP.
 - **--port**: The listener port number. Range 1-65535.
-- **--port-min**: The inclusive lower bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
+- **--port-min**: The inclusive lesser bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode are enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
@@ -608,7 +608,7 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
-- **--priority**: Priority of the policy. Less value indicates greater priority, for example: **5**, range: [**1-10**].
+- **--priority**: Priority of the policy. Lesser value indicates greater priority, for example: **5**, range: [**1-10**].
 - **--action**: The policy action. One of: **forward**, **redirect**, **reject**, **https_redirect**.
 - **--name**: The new name of the policy.
 - **--target**: ID or name of the target load balancer pool that is specified with **forward** action.
@@ -955,7 +955,7 @@ Create network load balancer pool for the network load balancer listener with ud
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **TCP**, **HTTP**, and **HTTPS**. Load balancers in the network family support **TCP** and **HTTP**.
+- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **TCP**, **HTTP**, and **HTTPS**. Load balancers in the network family support **tcp** and **http**.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
@@ -2263,9 +2263,9 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 - **GROUP**: ID or name of the security group.
 - **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is required on;y if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
-- **--in**: The ID or name of the instance to be bound. It is required only if you use the network interface name instead of ID.
-- **--bm**: The ID or name of the bare metal server to be bound. It is required only if the network interface name is used instead of ID.
+- **--trt**: The bound target resource type, this option is required only if you use the target name instead of an ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
+- **--in**: The ID or name of the instance to be bound. It is required only if you use the network interface name instead of an ID.
+- **--bm**: The ID or name of the bare metal server to be bound. It is required only if the network interface name is used instead of an ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2334,9 +2334,9 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 - **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
-- **--trt**: The bound target resource type, this option is only required if you use the target name instead of ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
-- **--in**: The ID or name of the instance to be bound. It is only required if you use the network interface name instead of ID.
-- **--bm**: The ID or name of the bare metal server to be bound. It is only required if the network interface name is used instead of ID.
+- **--trt**: The bound target resource type, this option is required only if you use the target name instead of an ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
+- **--in**: The ID or name of the instance to be bound. It is required only if you use the network interface name instead of an ID.
+- **--bm**: The ID or name of the bare metal server to be bound. It is required only if the network interface name is used instead of an ID.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -3165,7 +3165,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 - **--target**: The name of the provider infrastructure service or the CRN for a provider cloud service instance. You can use command **ibmcloud is endpoint-gateway-targets** to list the provider cloud and infrastructure services that are qualified to be set as endpoint gateway target.
 - **--name**: New name of the endpoint gateway.
 - **--rip**: Comma-separated IDs of the reserved IP to be bound to the endpoint gateway. At most, one reserved IP per zone is allowed. It can also be reserved IP name, but only one reserved IP name is allowed and subnet option for this reserved IP name also must be supplied.
-- **--subnet**: ID or name of the subnet. This name is only required if the supplied reserved IP is in name format.
+- **--subnet**: ID or name of the subnet. This name is required only if the supplied reserved IP is in name format.
 - **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved IP configuration in JSON or JSON file.
 - **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
 - **--sg**: Comma-separated security group IDs or names for the endpoint gateway.
@@ -3240,7 +3240,7 @@ ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY ((--rip RIP [--
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--address**: The reserved IP address to be unbound.
 - **--rip**: ID or name of the reserved IP address to be unbound.
-- **--subnet**: ID or name of the subnet. This name is only required if the supplied reserved IP is in name format.
+- **--subnet**: ID or name of the subnet. This name is required only if the supplied reserved IP is in name format.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3400,7 +3400,7 @@ ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing 
 Delete one or more virtual network interfaces.
 
 ```
-ibmcloud is virtual-network-interface-delete (VIRTUAL_NETWORK_INTERFACE1 VIRTUAL_NETWORK_INTERFACE2 ...) [-f, --force] [-q, --quiet]
+ibmcloud is virtual-network-interface-delete (VIRTUAL_NETWORK_INTERFACE1 VIRTUAL_NETWORK_INTERFACE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3414,6 +3414,7 @@ ibmcloud is virtual-network-interface-delete (VIRTUAL_NETWORK_INTERFACE1 VIRTUAL
 
 - **VIRTUAL_NETWORK_INTERFACE1**: ID or name of the virtual network interface.
 - **VIRTUAL_NETWORK_INTERFACE2**: ID or name of the virtual network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4011,7 +4012,7 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-binding-deny PRIVATE_P
 
 - **PRIVATE_PATH_SERVICE_GATEWAY**: ID or name of the Private Path service gateway.
 - **ENDPOINT_GATEWAY_BINDING**: ID of the endpoint gateway binding for the Private Path service gateway.
-- **--set-account-policy**: Indicates whether this policy become the access policy for any pending and future endpoint gateway bindings from the same account. One of: **true**, **false**.
+- **--set-account-policy**: Indicates whether this policy becomes the access policy for any pending and future endpoint gateway bindings from the same account. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4980,7 +4981,7 @@ ibmcloud is vpn-server-client VPN_SERVER CLIENT_ID [--vpc VPC] [--output JSON] [
 Delete one or more VPN clients for a VPN server.
 
 ```
-ibmcloud is vpn-server-client-delete VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [-f, --force] [-q, --quiet]
+ibmcloud is vpn-server-client-delete VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
@@ -4990,6 +4991,7 @@ ibmcloud is vpn-server-client-delete VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) [--v
 - **CLIENT_ID1**: ID of the VPN client.
 - **CLIENT_ID2**: ID of the VPN client.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5626,7 +5628,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5703,6 +5705,10 @@ Create an instance with a network attachment and an existing virtual network int
 Create an instance with a network attachment and new virtual network interface with existing reserved IP.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"},{"address": "10.240.128.13", "auto_delete" : true, "name": "vni-pnac-sip-1"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip-address 10.240.128.13 --pnac-vni-rip-auto-delete true --pnac-vni-rip-name pnac-vni-rip-1 --pnac-vni-sgs r134-8e0e4ad9-4ca3-4d5f-b9d8-7a967693d231`
 Create an instance with a network attachment and new virtual network interface with existing reserved IP.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cluster-network-attachments '[{"name": "instance-cnac-1","cluster_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]'`
+Create an instance with a cluster network attachment with existing cluster network interface with existing reserved IP.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cluster-network-attachments '[{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]'`
+Create an instance with a cluster network attachment.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
 Create an instance from a snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -5734,7 +5740,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
-- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available for use by this virtual server instance.
+- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--sgs**: Comma-separated security group IDs or names for primary network interface.
 - **--rip**: ID or name of the existing reserved IP.
@@ -5766,6 +5772,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -5778,7 +5785,7 @@ Create an instance with a boot volume attachment from a volume snapshot by using
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5816,6 +5823,10 @@ Create an instance from instance template with the second network interfaces con
 Create an instance from instance template with an existing volume in volume attachment by using resource name.
 - `ibmcloud is instance-create-from-template --template my-template --name new-instance-name --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"name":"my-subnet"}, "primary_ip": {"name": "my-reserved-ip"}, "security_groups": [{"name": "my-security-group-1"}, {"name": "my-security-group-2"}]}'`
 Create an instance from an instance template with the primary network interface configuration by using resource name.
+- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --cluster-network-attachments [{"name": "instance-cnac-1","cluster_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]`
+Create an instance from an instance template with a cluster network attachment that has an existing cluster network interface and an existing reserved IP.
+- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --cluster-network-attachments [{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]`
+Create an instance from an instance template with a cluster network attachment.
 
 #### Command options
 {: #command-options-instance-create-from-template}
@@ -5837,7 +5848,7 @@ Create an instance from an instance template with the primary network interface 
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
-- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available for use by this virtual server instance.
+- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet**: ID or name of the subnet.
 - **--rip**: ID or name of the existing reserved IP.
@@ -5871,6 +5882,7 @@ Create an instance from an instance template with the primary network interface 
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6325,7 +6337,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--dedicated-host**: ID or name of the host destination where the instance is placed.
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
-- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available for use by this virtual server instance.
+- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--metadata-service, --ms**: Enable or disable the Instance Metadata Service. One of: **true**, **false**.
 - **--metadata-service-protocol, --msp**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--metadata-service-response-hop-limit, --msrhl**: The hop limit (IP time to live) for IP response packets from the metadata service.
@@ -6583,6 +6595,127 @@ ibmcloud is instance-network-attachment-delete INSTANCE (NAC1 NAC2 ...) [--outpu
 - **NAC1**: ID or name of the network attachment.
 - **NAC2**: ID or name of the network attachment.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-cluster-network-attachments
+{: #instance-cluster-network-attachments-list}
+
+List all cluster network attachments of an instance.
+
+```
+ibmcloud is instance-cluster-network-attachments INSTANCE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-cluster-network-attachments}
+
+- **INSTANCE**: ID or name of the instance.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-cluster-network-attachment
+{: #instance-cluster-network-attachment-view}
+
+View details of a cluster network attachment of an instance.
+
+```
+ibmcloud is instance-cluster-network-attachment INSTANCE CNAC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-cluster-network-attachment}
+
+- **INSTANCE**: ID or name of the instance.
+- **CNAC**: ID or name of the cluster network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-cluster-network-attachment-update
+{: #instance-cluster-network-attachment-update}
+
+Update a cluster network attachment of an instance.
+
+```
+ibmcloud is instance-cluster-network-attachment-update INSTANCE CNAC --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-cluster-network-attachment-update}
+
+- `ibmcloud is ins-cnacu cli-instance-1 empty-ribcage-jiffy-stitch --name cli-instance-cnac`
+- `ibmcloud is ins-cnacu 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 02h7-a5c765f9-ebcd-41a0-89df-c6512d7f0147 --name in-cl-net-attch-1`
+
+#### Command options
+{: #command-options-instance-cluster-network-attachment-update}
+
+- **INSTANCE**: ID or name of the instance.
+- **CNAC**: ID or name of the cluster network attachment.
+- **--name**: New name of the cluster network attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-cluster-network-attachment-create
+{: #instance-cluster-network-attachment-create}
+
+Create a cluster network attachment for an instance.
+
+```
+ibmcloud is instance-cluster-network-attachment-create INSTANCE [(--cni CNI [--cluster-network CLUSTER_NETWORK]) | ((--cni-subnet CNI_SUBNET [--cluster-network CLUSTER_NETWORK]) --cni-auto-delete true | false --cni-name CNI_NAME [(--cni-primary-ip CNI_PRIMARY_IP [--cluster-network CLUSTER_NETWORK]) | (--cni-primary-ip-address CNI_PRIMARY_IP_ADDRESS --cni-primary-ip-auto-delete true | false --cni-primary-ip-name CNI_PRIMARY_IP_NAME)])] [--name CNAC_NAME] [--cnac CNAC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-cluster-network-attachment-create}
+
+- `ibmcloud is  instance-cluster-network-attachment-create my-instance --cni 02h7-f9203bfc-ea46-4431-9b66-a9ae223e9076 --name my-ins-cnat`
+- `ibmcloud is  instance-cluster-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 --cni my-cluster-network-interface --cluster-network my-cluster-network`
+- `ibmcloud is  instance-cluster-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 --cni-auto-delete true --cni-subnet my-cluster-network-subnet --cluster-network my-cluster-network --cni-primary-ip  02h7-f9203bfc-ea46-4431-9b66-a9ae223e9076`
+- `ibmcloud is  ins-cnacc my-instance --cni-auto-delete true --cni-subnet 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 --cni-primary-ip-address 10.245.0.34 --cni-primary-ip-auto-delete true --cni-primary-ip-name my-cni-ip`
+- `ibmcloud is  instance-cluster-network-attachment-create 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 --cni my-cluster-network-interface  --cluster-network 02h7-f9203bfc-ea46-4431-9b66-a9ae223e9076 --cnac my-cnac-before-this-cnac --name my-cnac --output json`
+
+#### Command options
+{: #command-options-instance-cluster-network-attachment-create}
+
+- **INSTANCE**: ID or name of the instance.
+- **--name**: The name for this instance cluster network attachment.
+- **--cnac**: ID or name of the instance cluster network attachment to insert this instance cluster network attachment immediately before.
+- **--cni**: ID or name of the cluster network interface that is for this intance cluster network attachment.
+- **--cluster-network**: ID or name for the cluster network.
+- **--cni-auto-delete**: Indicates whether this cluster network interface automatically deletes when the target is deleted. One of: **true**, **false**.
+- **--cni-name**: The name for this cluster network interface.
+- **--cni-subnet**: ID or name of the associated cluster network subnet.
+- **--cni-primary-ip**: ID or name of the cluster network subnet reserved IP to bind to the cluster network interface.
+- **--cni-primary-ip-address**: The IP address of the reserved IP to bind to the cluster network interface. Requires subnet to be specified.
+- **--cni-primary-ip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**.
+- **--cni-primary-ip-name**: The name for this reserved IP to bind to the cluster network interface. The name must not be used by another reserved IP in the cluster subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-cluster-network-attachment-delete
+{: #instance-cluster-network-attachment-delete}
+
+Remove one or more cluster network attachments from an instance.
+
+```
+ibmcloud is instance-cluster-network-attachment-delete INSTANCE (CNAC1 CNAC2 ...) [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-cluster-network-attachment-delete}
+
+- **INSTANCE**: ID or name of the instance.
+- **CNAC1**: ID or name of the cluster network attachment.
+- **CNAC2**: ID or name of the cluster network attachment.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7627,7 +7760,7 @@ ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-b
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
 - **--bandwidth**: The total bandwidth (in megabits per second) that is shared across the bare metal server's network interfaces. If unspecified, the default value from the profile is used. You can use command **ibmcloud is bare-metal-server-profile** to get valid bandwidth values.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this bare metal server. The policy defaults to manual if the pool is not empty. Otherwise the policy defaults to automatic. One of: **disabled**, **manual**, **automatic**.
-- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available for this bare metal server.
+- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this bare metal server.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7866,6 +7999,510 @@ Reinitializes a bare metal server with the specified image and SSH keys. The ser
 - **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
 - **--user-data**: data|@data-file. User data to transfer to the bare metal server.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Cluster network
+{: #cluster-network-clis}
+
+The following section gives details about the CLI commands that are available for working with cluster network.
+
+### ibmcloud is cluster-network-profiles
+{: #cluster-network-profiles-list}
+
+List all the cluster network profiles in a region.
+
+```
+ibmcloud is cluster-network-profiles [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-profiles}
+
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-profile
+{: #cluster-network-profile-view}
+
+View details of a cluster network profile.
+
+```
+ibmcloud is cluster-network-profile PROFILE_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-profile}
+
+- **PROFILE_NAME**: Name of the cluster network profile.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-networks
+{: #cluster-networks-list}
+
+List all cluster networks.
+
+```
+ibmcloud is cluster-networks [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-networks}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network
+{: #cluster-network-view}
+
+View details of a cluster network.
+
+```
+ibmcloud is cluster-network CLUSTER_NETWORK [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-create
+{: #cluster-network-create}
+
+Create a cluster network.
+
+```
+ibmcloud is cluster-network-create --vpc VPC --zone ZONE --profile PROFILE [--name NAME] [--subnet-prefixes-cidr SUBNET_PREFIXES_CIDR] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-cluster-network-create}
+
+- `ibmcloud is cluster-network-create --vpc my-vpc --zone us-south-1 --profile profile-name`
+- `ibmcloud is cluster-network-create --vpc my-vpc --zone us-south-1 --profile profile-name --name my-cl-net`
+- `ibmcloud is cluster-network-create --vpc my-vpc --zone us-south-1 --profile profile-name --name my-cl-net --subnet-prefixes-cidr 10.0.0.24/24`
+- `ibmcloud is cluster-network-create --vpc my-vpc --zone us-south-1 --profile profile-name`
+- `ibmcloud is cluster-network-create --vpc my-vpc --zone us-south-1 --profile profile-name --name my-cl-net`
+- `ibmcloud is cluster-network-create --vpc my-vpc --zone us-south-1 --profile profile-name --name my-cl-net --subnet-prefixes-cidr 10.0.0.24/24 --output JSON`
+
+#### Command options
+{: #command-options-cluster-network-create}
+
+- **--vpc**: The ID or name of the VPC.
+- **--zone**: The zone that this cluster network resides in. The zone must be listed as supported in the specified cluster network profile.
+- **--profile**: Name of the profile to use for this cluster network.
+- **--name**: Name for the cluster network.
+- **--subnet-prefixes-cidr**: The IPv4 range of the cluster network's subnet prefix, expressed in CIDR format.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-update
+{: #cluster-network-update}
+
+Update a cluster network.
+
+```
+ibmcloud is cluster-network-update CLUSTER_NETWORK [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-cluster-network-update}
+
+- `ibmcloud is cluster-network-update my-cl-network --name my-updated-cl-net`
+- `ibmcloud is cluster-network-update r006-345545d8-798c-4dbc-112g-5c34a1e75e45 --name my-updated-cl-net`
+
+#### Command options
+{: #command-options-cluster-network-update}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **--name**: New name of the cluster network.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-delete
+{: #cluster-network-delete}
+
+Delete one or more cluster networks.
+
+```
+ibmcloud is cluster-network-delete (CLUSTER_NETWORK1 CLUSTER_NETWORK2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-delete}
+
+- **CLUSTER_NETWORK1**: ID or name for the cluster network.
+- **CLUSTER_NETWORK2**: ID or name for the cluster network.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-interfaces
+{: #cluster-network-interfaces-list}
+
+List all cluster network interfaces.
+
+```
+ibmcloud is cluster-network-interfaces CLUSTER_NETWORK [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-interfaces}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-interface
+{: #cluster-network-interface-view}
+
+View details of a cluster network interface.
+
+```
+ibmcloud is cluster-network-interface CLUSTER_NETWORK CLUSTER_NETWORK_INTERFACE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-interface}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_INTERFACE**: ID or name for the cluster network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-interface-create
+{: #cluster-network-interface-create}
+
+Create a cluster network interface.
+
+```
+ibmcloud is cluster-network-interface-create CLUSTER_NETWORK --subnet SUBNET (--rip RIP | (--rip-address RIP_ADDRESS --rip-auto-delete true | false --rip-name RIP_NAME)) [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-cluster-network-interface-create}
+
+- `ibmcloud is cluster-network-interface-create my-cl-net --rip r134-2fbe71a8-126e-4a05-80ad-dad45df491a5 --subnet r124-72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+Create a cluster network interface by using RIP ID.
+- `ibmcloud is cluster-network-interface-create my-cl-net --rip r134-2fbe71a8-126e-4a05-80ad-dad45df491a5 --subnet my-subnet`
+Create a cluster network interface by using RIP ID.
+- `ibmcloud is cluster-network-interface-create my-cl-net --rip r134-2fbe71a8-126e-4a05-80ad-dad45df491a5 --subnet my-subnet --name my-cl-net-intf`
+Create a cluster network interface by using RIP ID.
+- `ibmcloud is cluster-network-interface-create --rip-address 10.2.0.1 --rip-auto-delete true --rip-name my-subnet-rip --subnet r124-72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-cl-net-intf`
+Create a cluster network interface with RIP prototype.
+- `ibmcloud is cluster-network-interface-create --rip-address 10.2.0.1 --rip-auto-delete true --rip-name my-subnet-rip --subnet my-subnet --name my-cl-net-intf`
+Create a cluster network interface with RIP prototype.
+
+#### Command options
+{: #command-options-cluster-network-interface-create}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **--subnet**: ID or name for the cluster network subnet.
+- **--rip**: ID or name of the reserved IP to bind primary IP address to the cluster network interface.
+- **--rip-address**: The IP address of the reserved IP to bind to the cluster network interface, which must not already be reserved on the subnet.
+- **--rip-auto-delete**: Indicates whether this cluster network subnet reserved IP member automatically deletes when either target is deleted, or the cluster network subnet reserved IP is unbound. One of: **true**, **false**.
+- **--rip-name**: The name for this cluster network subnet reserved IP.
+- **--name**: Name for the cluster network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-interface-update
+{: #cluster-network-interface-update}
+
+Update a cluster network interface.
+
+```
+ibmcloud is cluster-network-interface-update CLUSTER_NETWORK CLUSTER_NETWORK_INTERFACE [--name NEW_NAME] [--auto-delete true | false] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-interface-update}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_INTERFACE**: ID or name for the cluster network interface.
+- **--name**: New name of the cluster network.
+- **--auto-delete**: Indicates whether this cluster network subnet reserved IP member automatically deletes when either target is deleted, or the cluster network subnet reserved IP is unbound. One of: **true**, **false**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-interface-delete
+{: #cluster-network-interface-delete}
+
+Delete one or more cluster network interfaces.
+
+```
+ibmcloud is cluster-network-interface-delete CLUSTER_NETWORK (CLUSTER_NETWORK_INTERFACE1 CLUSTER_NETWORK_INTERFACE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-interface-delete}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_INTERFACE1**: ID or name for the cluster network interface.
+- **CLUSTER_NETWORK_INTERFACE2**: ID or name for the cluster network interface.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnets
+{: #cluster-network-subnets-list}
+
+List all cluster network subnets.
+
+```
+ibmcloud is cluster-network-subnets CLUSTER_NETWORK [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnets}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet
+{: #cluster-network-subnet-view}
+
+View details of a cluster network subnet.
+
+```
+ibmcloud is cluster-network-subnet CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnet}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-create
+{: #cluster-network-subnet-create}
+
+Create a cluster network subnet.
+
+```
+ibmcloud is cluster-network-subnet-create CLUSTER_NETWORK (--total-ipv4-address-count TOTAL_IPV4_ADDRESS_COUNT | --ipv4-cidr-block IPV4_CIDR_BLOCK) [--name NAME] [--ip-version ipv4] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-cluster-network-subnet-create}
+
+- `ibmcloud is cluster-network-subnet-create --total-ipv4-address-count 256 --name my-cl-net-sub --ip-version ipv4`
+Create a cluster network subnet by using total IPv4 address count.
+- `ibmcloud is cluster-network-subnet-create --ipv4-cidr-block 10.0.0.0/24 --name my-cl-net-sub --ip-version ipv4`
+Create a cluster network subnet using ipv4 cidr block.
+
+#### Command options
+{: #command-options-cluster-network-subnet-create}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **--total-ipv4-address-count**: The total number of IPv4 addresses required. Must be a power of 2.
+- **--ipv4-cidr-block**: The IPv4 range of the cluster network subnet, expressed in CIDR format.
+- **--name**: The name for this cluster network subnet.
+- **--ip-version**: The IP versions to support for this cluster network subnet. One of: **ipv4**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-update
+{: #cluster-network-subnet-update}
+
+Update a cluster network subnet.
+
+```
+ibmcloud is cluster-network-subnet-update CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-cluster-network-subnet-update}
+
+- `ibmcloud is cluster-network-subnet-update my-cl-net-sub --name my-updated-cl-net-sub`
+- `ibmcloud is cluster-network-subnet-update r006-345545d8-798c-4dbc-112g-5c34a1e75e45 --name my-updated-cl-net-sub`
+
+#### Command options
+{: #command-options-cluster-network-subnet-update}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **--name**: New name of the cluster network subnet.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-delete
+{: #cluster-network-subnet-delete}
+
+Delete one or more cluster network subnets.
+
+```
+ibmcloud is cluster-network-subnet-delete CLUSTER_NETWORK (CLUSTER_NETWORK_SUBNET1 CLUSTER_NETWORK_SUBNET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnet-delete}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET1**: ID or name for the cluster network subnet.
+- **CLUSTER_NETWORK_SUBNET2**: ID or name for the cluster network subnet.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-reserved-ips
+{: #cluster-network-subnet-reserved-ips-list}
+
+List all cluster network subnet reserved IPs.
+
+```
+ibmcloud is cluster-network-subnet-reserved-ips CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnet-reserved-ips}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-reserved-ip
+{: #cluster-network-subnet-reserved-ip-view}
+
+View details of a cluster network subnet reserved IP.
+
+```
+ibmcloud is cluster-network-subnet-reserved-ip CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET CLUSTER_NETWORK_SUBNET_RESERVED_IP [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnet-reserved-ip}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **CLUSTER_NETWORK_SUBNET_RESERVED_IP**: ID or name for the cluster network subnet reserved IPs.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-reserved-ip-create
+{: #cluster-network-subnet-reserved-ip-create}
+
+Create a cluster network subnet reserved IP.
+
+```
+ibmcloud is cluster-network-subnet-reserved-ip-create CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET [--name NAME] [--address ADDRESS] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-cluster-network-subnet-reserved-ip-create}
+
+- `ibmcloud is cluster-network-subnet-reserved-ip-create my-cnet my-cnet-sub`
+Create a cluster network subnet reserved IP.
+- `ibmcloud is cluster-network-subnet-reserved-ip-create r134-2fbe71a8-126e-4a05-80ad-dad45df491a5 r124-72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name NAME my-cl-net-sub-rip`
+Create a cluster network subnet reserved IP.
+- `ibmcloud is cluster-network-subnet-reserved-ip-create my-cl-net my-cl-net-sub --name NAME my-cl-net-sub-rip --address 192.168.3.4`
+Create a cluster network subnet reserved IP.
+- `ibmcloud is cluster-network-subnet-reserved-ip-create r134-2fbe71a8-126e-4a05-80ad-dad45df491a5 r124-72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name NAME my-cl-net-sub-rip --address 192.168.3.4`
+Create a cluster network subnet reserved IP.
+
+#### Command options
+{: #command-options-cluster-network-subnet-reserved-ip-create}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **--name**: The name for this cluster network subnet reserved IP.
+- **--address**: The IP address to reserve, which must not already be reserved on the subnet.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-reserved-ip-update
+{: #cluster-network-subnet-reserved-ip-update}
+
+Update a cluster network.
+
+```
+ibmcloud is cluster-network-subnet-reserved-ip-update CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET CLUSTER_NETWORK_SUBNET_RESERVED_IP [--auto-delete AUTO_DELETE] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnet-reserved-ip-update}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **CLUSTER_NETWORK_SUBNET_RESERVED_IP**: ID or name for the cluster network subnet reserved IPs.
+- **--auto-delete**: Indicates whether this cluster network subnet reserved IP member automatically deletes when either target is deleted, or the cluster network subnet reserved IP is unbound. Must be false if the cluster network subnet reserved IP is unbound.
+- **--name**: New name of the cluster network subnet reserved IP.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is cluster-network-subnet-reserved-ip-delete
+{: #cluster-network-subnet-reserved-ip-delete}
+
+Delete one or more cluster network subnet reserved IPs.
+
+```
+ibmcloud is cluster-network-subnet-reserved-ip-delete CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET (CLUSTER_NETWORK_SUBNET_RESERVED_IP1 CLUSTER_NETWORK_SUBNET_RESERVED_IP2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-cluster-network-subnet-reserved-ip-delete}
+
+- **CLUSTER_NETWORK**: ID or name for the cluster network.
+- **CLUSTER_NETWORK_SUBNET**: ID or name for the cluster network subnet.
+- **CLUSTER_NETWORK_SUBNET_RESERVED_IP1**: ID or name for the cluster network subnet reserved IPs.
+- **CLUSTER_NETWORK_SUBNET_RESERVED_IP2**: ID or name for the cluster network subnet reserved IPs.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -8207,7 +8844,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--sgs SGS] [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8282,6 +8919,10 @@ Create an instance with a network attachment and an existing virtual network int
 Create an instance with a network attachment and new virtual network interface with existing reserved IP.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --pnac-name cli-pnac-1 --pnac-vni-ais true --pnac-vni-ein true --pnac-vni-auto-delete true --pnac-vni-ips [{"id": "7322-f61b85bd-d963-4069-bb72-b58ed9ebc9f5"},{"address": "10.240.128.13", "auto_delete" : true, "name": "vni-pnac-sip-1"}] --pnac-vni-name cli-panc-vni-1 --pnac-vni-rip-address 10.240.128.13 --pnac-vni-rip-auto-delete true --pnac-vni-rip-name pnac-vni-rip-1 --pnac-vni-sgs r134-8e0e4ad9-4ca3-4d5f-b9d8-7a967693d231`
 Create an instance with a network attachment and new virtual network interface with existing reserved IP.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cluster-network-attachments '[{"name": "instance-cnac-1","cluster_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]'`
+Create an instance template with a cluster network attachment with existing cluster network interface with existing reserved IP.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cluster-network-attachments '[{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]'`
+Create an instance template with a cluster network attachment.
 
 #### Command options
 {: #command-options-instance-template-create}
@@ -8303,7 +8944,7 @@ Create an instance with a network attachment and new virtual network interface w
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
-- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available for use by this virtual server instance.
+- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--sgs**: Comma-separated security group IDs or names for primary network interface.
 - **--rip**: ID or name of the existing reserved IP.
@@ -8333,6 +8974,7 @@ Create an instance with a network attachment and new virtual network interface w
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**. (default: **restart**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**: 
 - **-q, --quiet**: Suppress verbose output.
@@ -8345,7 +8987,7 @@ Create an instance with a network attachment and new virtual network interface w
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--sgs SGS] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8354,7 +8996,7 @@ ibmcloud is instance-template-create-override-source-template --source-template 
 - `ibmcloud is instance-template-create-override-source-template --source-template e4a29d1a-2ef0-42a6-8fd2-350deb1c647e`
 Create an instance template by copying from a source template.
 - `ibmcloud is instance-template-create-override-source-template --source-template e4a29d1a-2ef0-42a6-8fd2-350deb1c647e --name my-template-name --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --profile bx2-2x8`
-Create an instance template by overriding a source template and providing overriding options.
+Create an instance template by overriding a source template and by providing overriding options.
 - `ibmcloud is instance-template-create-override-source-template --source-template my-template --name my-instance  --subnet my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --volume-attach '[{"volume": {"name":"my-vol-1"}}]'`
 Create instance template by overriding a source template with an existing volume in a volume attachment by using resource name.
 - `ibmcloud is instance-template-create-override-source-template --source-template my-template --name my-instance  --subnet my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --reservation-affinity-policy manual --reservation-affinity-pool r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2s`
@@ -8362,7 +9004,11 @@ Create an instance template by overriding a source template with a reservation a
 - `ibmcloud is instance-template-create-override-source-template --source-template my-template --name my-instance  --subnet my-subnet --image ibm-ubuntu-20-04-2-minimal-amd64-1 --reservation-affinity-policy manual --reservation-affinity-pool crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b`
 Create an instance template by overriding a source template with a reservation affinity pool CRN.
 - `ibmcloud is instance-template-create-override-source-template --source-template my-template --name my-instance --primary-network-interface '{"name": "primary-nic", "allow_ip_spoofing": true, "subnet": {"name":"my-subnet"}, "primary_ip": {"name": "my-reserved-ip"}, "security_groups": [{"name": "my-security-group-1"}, {"name": "my-security-group-2"}]}'`
-Create an instance template by overriding a source template with the primary network interface configuration by using resource name.
+Create an instance template by overriding a source template with the primary network interface configuration by using the resource name.
+- `ibmcloud is instance-template-create-override-source-template --source-template e4a29d1a-2ef0-42a6-8fd2-350deb1c647e --cluster-network-attachments [{"name": "instance-cnac-1","cluster_network_interface": {"id":"02h7-56705448-c9d9-43dc-aa11-20d42333cd87"}}]`
+Create an instance template by overriding a source template with a cluster network attachment that has an existing cluster network interface and an existing reserved IP.
+- `ibmcloud is instance-template-create-override-source-template --source-template e4a29d1a-2ef0-42a6-8fd2-350deb1c647e --cluster-network-attachments [{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]`
+Create an instance template by overriding a source template with a cluster network attachment.
 
 #### Command options
 {: #command-options-instance-template-create-override-source-template}
@@ -8384,7 +9030,7 @@ Create an instance template by overriding a source template with the primary net
 - **--dedicated-host-group**: ID or name of the host group destination where the instance is placed.
 - **--placement-group**: ID or name of the placement group. The placement group restrictions for the virtual server instance.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
-- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available for use by this virtual server instance.
+- **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
 - **--subnet**: ID or name of the subnet.
 - **--rip**: ID or name of the existing reserved IP.
@@ -8416,6 +9062,7 @@ Create an instance template by overriding a source template with the primary net
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8610,13 +9257,14 @@ ibmcloud is instance-group-delete (INSTANCE_GROUP1 INSTANCE_GROUP2 ...) [--outpu
 Delete an instance group load balancer.
 
 ```
-ibmcloud is instance-group-load-balancer-delete INSTANCE_GROUP [-f, --force] [-q, --quiet]
+ibmcloud is instance-group-load-balancer-delete INSTANCE_GROUP [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-instance-group-load-balancer-delete}
 
 - **INSTANCE_GROUP**: ID or name of the instance group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8737,7 +9385,7 @@ ibmcloud is instance-group-manager-update INSTANCE_GROUP MANAGER [--aggregation-
 Delete one or more managers.
 
 ```
-ibmcloud is instance-group-manager-delete INSTANCE_GROUP (MANAGER1 MANAGER2 ...) [-f, --force] [-q, --quiet]
+ibmcloud is instance-group-manager-delete INSTANCE_GROUP (MANAGER1 MANAGER2 ...) [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
@@ -8746,6 +9394,7 @@ ibmcloud is instance-group-manager-delete INSTANCE_GROUP (MANAGER1 MANAGER2 ...)
 - **INSTANCE_GROUP**: ID or name of the instance group.
 - **MANAGER1**: ID or name of the manager.
 - **MANAGER2**: ID or name of the manager.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -9101,13 +9750,14 @@ ibmcloud is instance-group-memberships INSTANCE_GROUP [--output JSON] [-q, --qui
 Delete all memberships of an instance group.
 
 ```
-ibmcloud is instance-group-memberships-delete INSTANCE_GROUP [-f, --force] [-q, --quiet]
+ibmcloud is instance-group-memberships-delete INSTANCE_GROUP [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command options
 {: #command-options-instance-group-memberships-delete}
 
 - **INSTANCE_GROUP**: ID or name of the instance group.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -9910,7 +10560,7 @@ ibmcloud is share-create (--zone ZONE_NAME --profile PROFILE --size SIZE [--acce
 Delete one or more file shares.
 
 ```
-ibmcloud is share-delete (SHARE1 SHARE2 ...) [-f, --force] [-q, --quiet]
+ibmcloud is share-delete (SHARE1 SHARE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9924,6 +10574,7 @@ ibmcloud is share-delete (SHARE1 SHARE2 ...) [-f, --force] [-q, --quiet]
 
 - **SHARE1**: ID or name of the file share.
 - **SHARE2**: ID or name of the file share.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
