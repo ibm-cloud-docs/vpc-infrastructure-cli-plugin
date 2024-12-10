@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-11-20"
+lastupdated: "2024-12-10"
 
 ---
 
@@ -13,6 +13,24 @@ lastupdated: "2024-11-20"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v12.1.0
+{: #v12.1.0}
+
+Version 12.1.0 was released on 2024-12-06.
+
+### New commands
+
+* New commands `cluster-network`, `cluster-network-create`, `cluster-network-delete`, `cluster-network-interface`,`cluster-network-interface-create`, `cluster-network-interface-delete`, `cluster-network-interface-update`, `cluster-network-interfaces`, `cluster-network-profile`, `cluster-network-profiles`, `cluster-network-subnet`, `cluster-network-subnet-create`, `cluster-network-subnet-delete`, `cluster-network-subnet-reserved-ip`, `cluster-network-subnet-reserved-ip-create`, `cluster-network-subnet-reserved-ip-delete`, `cluster-network-subnet-reserved-ip-update`, `cluster-network-subnet-reserved-ips`, `cluster-network-subnet-update`, `cluster-network-subnets`, `cluster-network-update`, `cluster-networks`, `instance-cluster-network-attachment`, `instance-cluster-network-attachment-create`, `instance-cluster-network-attachment-delete`, `instance-cluster-network-attachment-update`, and `instance-cluster-network-attachments` are introduced to cluster network.
+
+### Updated commands
+
+* Added support for the `--cluster-network-attachments` flag in the `instance-create`, `instance-create-from-template`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+* Added support for the `--output JSON` flag in the `virtual-network-interface-delete`, `vpn-server-client-delete`, `instance-group-load-balancer-delete`, `instance-group-manager-delete`, `instance-group-memberships-delete`, and `share-delete` commands.
+
+### Removed commands
+
+* N/A
 
 ## v12.0.0
 {: #v12.0.0}
