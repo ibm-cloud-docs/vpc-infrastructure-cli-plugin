@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2024
-lastupdated: "2024-12-10"
+lastupdated: "2024-12-13"
 
 ---
 
@@ -13,6 +13,25 @@ lastupdated: "2024-12-10"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v12.2.0
+{: #v12.2.0}
+
+Version 12.2.0 was released on 2024-12-12.
+
+### New commands
+
+* New commands `share-snapshot`, `share-snapshot-create`, `share-snapshot-delete`, `share-snapshot-update`, and `share-snapshots` are introduced to support file share snapshots.
+
+### Updated commands
+
+* Added support for the `--snapshot` flag in `share-create`.
+* The `--size` flag is now optional in `share-create`.
+* Added support for the `--pools` flag in the `load-balancer-create` command.
+
+### Removed commands
+
+* N/A
 
 ## v12.1.0
 {: #v12.1.0}

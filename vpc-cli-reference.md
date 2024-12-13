@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2024
 
-lastupdated: "2024-12-10"
+lastupdated: "2024-12-13"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -360,7 +360,7 @@ ibmcloud is load-balancer LOAD_BALANCER [--vpc VPC] [--output JSON] [-q, --quiet
 Create a load balancer.
 
 ```
-ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (--subnet SUBNET1 --subnet SUBNET2 ... [--vpc VPC]) (--dns-instance-crn DNS_INSTANCE_CRN --dns-zone-id DNS_ZONE_ID) [--family application | network] [--route-mode false | true] [--sg SG] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (--subnet SUBNET1 --subnet SUBNET2 ... [--vpc VPC]) (--dns-instance-crn DNS_INSTANCE_CRN --dns-zone-id DNS_ZONE_ID) [--family application | network] [--route-mode false | true] [--sg SG] [--logging-datapath-active false | true] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--pools POOLS_JSON | @POOLS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -376,6 +376,8 @@ ibmcloud is load-balancer-create LOAD_BALANCER_NAME LOAD_BALANCER_ACCESS_TYPE (-
 - `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --sg 3428abaa-788b-439b-9404-ca386f2f3f79,f0e26f91-851a-4fc9-b32b-da24ad218b4e`
 - `ibmcloud is load-balancer-create my-lb public --subnet my-subnet --sg my-sg1,my-sg2 --vpc my-vpc`
 - `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --logging-datapath-active true`
+- `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --pools '[{"algorithm": "round_robin", "protocol": "tcp", "health_monitor": {"delay": 2, "max_retries": 2, "type": "tcp", "timeout": 1}}]'`
+Create a load balancer with pools
 - `ibmcloud is load-balancer-create my-lb private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
 Create a load balancer with route mode enabled
 - `ibmcloud is load-balancer-create my-lb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
@@ -398,6 +400,7 @@ Create Private DNS support for Load Balancer.
 - **--dns-zone-id**: ID of the DNS Zone.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--pools**: POOLS_JSON|@POOLS_JSON_FILE, pools in JSON or JSON file One of: **POOLS_JSON**, **@POOLS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -487,7 +490,7 @@ Create an application load balancer listener with idle connection timeout.
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
-- **--protocol**: The listener protocol. Load balancers in the application family support TCP, HTTP, and HTTPS. Load balancers in the network family support TCP and UDP.
+- **--protocol**: The listener protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lesser bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode are enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -858,7 +861,7 @@ The range of ports that are used by this listener.
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
-- **--protocol**: The listener protocol. Load balancers in the application family support TCP, HTTP, and HTTPS. Load balancers in the network family support TCP and UDP.
+- **--protocol**: The listener protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lesser bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode are enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -951,11 +954,11 @@ Create network load balancer pool for the network load balancer listener with ud
 - **POOL_NAME**: Name of the pool.
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **ALGORITHM**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**.
-- **PROTOCOL**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
+- **PROTOCOL**: The pool protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support **TCP**, **HTTP**, and **HTTPS**. Load balancers in the network family support **tcp** and **http**.
+- **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `http`.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
@@ -1153,11 +1156,11 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
-- **--health-type**: The health check protocol. Load balancers in the application family support **tcp**, **http**, and **https**. Load balancers in the network family support **tcp** and **http**.
+- **--health-type**: The health check protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `http`.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--reset-health-monitor-port**: Reset health monitor port.
-- **--protocol**: The pool protocol. Load balancers in the application family support **tcp**, **http**, **https**. Load balancers in the network family support **tcp**, **udp**.
+- **--protocol**: The pool protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**, **none**.
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Proxy protocol is supported only for application load balancers. One of: **disabled**, **v1**, **v2**.
@@ -3913,7 +3916,7 @@ ibmcloud is private-path-service-gateway-account-policy-update PRIVATE_PATH_SERV
 ### ibmcloud is private-path-service-gateway-account-policy-delete
 {: #private-path-service-gateway-account-policy-delete}
 
-Delete one or more account policies a for Private Path service gateway.
+Delete one or more account policies for a Private Path service gateway.
 
 ```
 ibmcloud is private-path-service-gateway-account-policy-delete PRIVATE_PATH_SERVICE_GATEWAY (ACCOUNT_POLICY1 ACCOUNT_POLICY2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -7304,7 +7307,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this bare metal server. The policy defaults to manual if the pool is not empty. Otherwise the policy defaults to automatic. One of: **disabled**, **manual**, **automatic**.
 - **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this bare metal server.
-- **--interactive, -i**: 
+- **--interactive, -i**:
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8976,7 +8979,7 @@ Create an instance template with a cluster network attachment.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--interactive, -i**: 
+- **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -10505,7 +10508,7 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 Create a file share.
 
 ```
-ibmcloud is share-create (--zone ZONE_NAME --profile PROFILE --size SIZE [--access-control-mode security_group | vpc] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem none,user_managed] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem none,user_managed] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is share-create (--profile PROFILE (--zone ZONE_NAME [--access-control-mode security_group | vpc] | [--snapshot SNAPSHOT --share SHARE]) [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem none,user_managed] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem none,user_managed] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10522,6 +10525,9 @@ ibmcloud is share-create (--zone ZONE_NAME --profile PROFILE --size SIZE [--acce
 - `ibmcloud is share-create --name my-fs-cli-1 --zone us-south-1 --profile dp2 --size 40 --mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni","primary_ip":{"id":"0716-d2a60008-84ca-4345-86f9-23a65dc75a32"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-a2f82965-1b8d-4bfe-9949-fe79e47daa86"}]}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-2  --replica-share-name my-fs-cli-1-replica  --replica-share-mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni-2","primary_ip":{"address":"10.240.66.20","auto-delete":true,"name":"rip-vni-target"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-bd0f8527-c45c-496e-8d34-63bda6dd829b"}],"subnet":{"id":"0726-cf6d55db-284e-40c6-aea7-67dbabfa5542"}}}]'`
 - `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40 --atem user_managed,none`
 - `ibmcloud is share-create --name my-file-accessor-share --origin-share crn:v1:bluemix:public:is:au-syd-1:a/1431ea2a7958ad20f0fee592ff85f746::share:r026-02aea1c7-adb6-4072-9799-6ca495561661`
+- `ibmcloud is share-create --profile dp2 --snapshot r134-6ce54f3b-8971-4b5d-95a7-7dfa897ddfb3`
+- `ibmcloud is share-create --profile dp2 --snapshot cli-share-snapshot --share my-file-share --user-tags "dev:tags"`
+- `ibmcloud is share-create --profile dp2 --snapshot crn:v1:staging:public:is:us-south-1:a/efe5afc483594adaa8325e2b4d1290df::share-snapshot:r134-2ae87eb2-b26c-4126-ab34-e6e64f6f1773/r134-6ce54f3b-8971-4b5d-95a7-7dfa897ddfb3 --user-tags "dev:tags"`
 
 #### Command options
 {: #command-options-share-create}
@@ -10530,9 +10536,11 @@ ibmcloud is share-create (--zone ZONE_NAME --profile PROFILE --size SIZE [--acce
 - **--name**: The user-defined name for this file share.
 - **--user-tags**: Tags for this resource.
 - **--zone**: Name of the zone.
-- **--profile**: The profile that the file share uses. All file shares are created based on the high-performance dp2 profile.
-- **--size**: The size of the file share rounded up to the next gigabyte.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
+- **--snapshot**: The ID, name, or CRN of the source snapshot for this file share.
+- **--share**: ID or name of the file share.
+- **--size**: The size of the file share is round up to the next gigabyte.
+- **--profile**: The profile that the file share uses. All file shares are created are based on the high-performance dp2 profile.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--initial-owner-uid**: The initial owner user identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
@@ -10981,6 +10989,133 @@ ibmcloud is share-accessor-binding-delete SHARE ACCESSOR_BINDING [-f, --force] [
 
 ---
 
+### ibmcloud is share-snapshot
+{: #share-snapshot-view}
+
+View details of a file share snapshot.
+
+```
+ibmcloud is share-snapshot SHARE SNAPSHOT [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-snapshot}
+
+- `ibmcloud is share-snapshot my-cli-share r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-share-snapshot}
+
+- **SHARE**: ID or name of the file share.
+- **SNAPSHOT**: ID or name of the file share snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-snapshots
+{: #share-snapshots-list}
+
+List all snapshots of a file share.
+
+```
+ibmcloud is share-snapshots [--share SHARE] [--backup-policy-plan BACKUP_POLICY_PLAN [--backup-policy BACKUP_POLICY]] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-snapshots}
+
+- `ibmcloud is share-snapshots --share r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-share-snapshots}
+
+- **--share**: ID or name of the file share.
+- **--backup-policy-plan**: ID or name of the backup policy plan.
+- **--backup-policy**: ID or name of the backup policy.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-snapshot-delete
+{: #share-snapshot-delete}
+
+Delete one or more file share snapshots.
+
+```
+ibmcloud is share-snapshot-delete SHARE (SNAPSHOT1 SNAPSHOT2 ...) [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-snapshot-delete}
+
+- `ibmcloud is share-snapshot-delete my-file-share-99  r006-866fc826-6f30-444f-b55e-0d697cf8b4bb`
+- `ibmcloud is share-snapshot-delete r006-866fc826-6f30-444f-b55e-0d697cf8b4bb r006-866fc826-6f30-444f-b55e-0d697cf8b4bc`
+
+#### Command options
+{: #command-options-share-snapshot-delete}
+
+- **SHARE**: ID or name of the file share.
+- **SNAPSHOT1**: ID or name of the file share snapshot.
+- **SNAPSHOT2**: ID or name of the file share snapshot.
+- **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-snapshot-update
+{: #share-snapshot-update}
+
+Update a file share snapshot.
+
+```
+ibmcloud is share-snapshot-update SHARE SNAPSHOT [--user-tags USER_TAGS] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-share-snapshot-update}
+
+- `ibmcloud is share-snapshot-update my-cli-share r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --user-tags dev:tags`
+
+#### Command options
+{: #command-options-share-snapshot-update}
+
+- **SHARE**: ID or name of the file share.
+- **SNAPSHOT**: ID or name of the file share snapshot.
+- **--user-tags**: The user tags associated with this file share snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is share-snapshot-create
+{: #share-snapshot-create}
+
+Create a snapshot for a file share.
+
+```
+ibmcloud is share-snapshot-create SHARE [--name NAME] [--user-tags USER_TAGS] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-share-snapshot-create}
+
+- `ibmcloud is share-snapshot-create r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 --name cli-share-snapshot --user-tags env:dev,env:prod`
+- `ibmcloud is share-snapshot-create cli-share-1  --name cli-share-snapshot --user-tags env:dev,env:prod`
+
+#### Command options
+{: #command-options-share-snapshot-create}
+
+- **SHARE**: ID or name of the file share.
+- **--name**: The user-defined name for this share shanpshot.
+- **--user-tags**: The user tags associated with this file share snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Backup policy
 {: #backup-policy}
 
@@ -11019,7 +11154,7 @@ ibmcloud is backup-policies [--tag TAG_NAME] [--resource-group-id RESOURCE_GROUP
 Create a backup policy.
 
 ```
-ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [--match-resource-type volume | instance [--included-content data_volumes | boot_volume | boot_volume,data_volumes]] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--scope SCOPE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-create --match-tags MATCH_TAGS [--name NAME] [--match-resource-type volume | share | instance [--included-content data_volumes | boot_volume | boot_volume,data_volumes]] [[--plans PLANS_JSON | @PLANS_JSON_FILE] | --plan-cron-spec PLAN_CRON_SPEC [--plan-name PLAN_NAME] --plan-active [--plan-attach-tags PLAN_ATTACH_TAGS] [--plan-copy-tags true | false] [[--plan-delete-after PLAN_DELETE_AFTER] [--plan-delete-over-count PLAN_DELETE_OVER_COUNT]] [[--plan-clone-policy-zones  ZONE1,ZONE2,...] [--plan-clone-policy-max-snapshots PLAN_CLONE_POLICY_MAX_SNAPSHOTS]]] [--scope SCOPE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11045,12 +11180,14 @@ Create backup-policy for match resource type instance and include only boot volu
 Create backup-policy for match resource type instance and default full backup (include both data and boot volumes)
 - `ibmcloud is backup-policy-create --match-tags dev:test --name backup-scope-1 --scope crn:v1:bluemix:public:enterprise::a/e92d45e305dc4ee0b13e29be392f1c0c::enterprise:ebc2b430240943458b9e91e1432cfcce`
 Create backup-policy for enterprise support
+- `ibmcloud is backup-policy-create --match-tags dev:tags  --match-resource-type share --name demo-bkp-policy-share --plan-name demo-bkp-plan-2 --plan-cron-spec '1 * * * *'`
+Create backup-policy for shares
 
 #### Command options
 {: #command-options-backup-policy-create}
 
 - **--name**: New name for the backup policy.
-- **--match-resource-type**: A resource type that this backup policy applies to. One of: **volume**, **instance**. (default: **volume**).
+- **--match-resource-type**: A resource type that this backup policy applies to. One of: **volume**, **share**, **instance**. (default: **volume**).
 - **--included-content**: The included content for backups that were created by using this policy. One of: **data_volumes**, **boot_volume**, **boot_volume,data_volumes**. (default: **boot_volume,data_volumes**).
 - **--match-tags**: The user tags that this backup policy applies to.
 - **--plans**: PLANS_JSON|@PLANS_JSON_FILE, plans in JSON or JSON file, list of policy plans. For the data schema, check the **plans** property in the [API documentation](/apidocs/vpc#create-backup-policy). One of: **PLANS_JSON**, **@PLANS_JSON_FILE**.
@@ -11326,7 +11463,6 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots r134-f1d9b974-14e5-4a2e-8e38-c023164be316,r134-b11f1540-288d-4331-97ab-f565ca15a3b8,r134-ab3147a3-715f-4017-8fed-ea3ddadeeb1d,r134-435b8414-dae2-4026-847f-a73162105e5f`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots bkp-plan-do-not-delete-31addff28e2b-422b,bkp-plan-do-not-delete-f37bc1f19123-4995`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b,crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c10755ee-db71-472e-bf80-01e21229fda0`
-- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots-crns  crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b,crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c10755ee-db71-472e-bf80-01e21229fda0`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete  --source r134-71757aee-5e90-40f5-bd7d-0a538c084efb`
 
 #### Command options
