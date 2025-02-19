@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2020, 2024
-lastupdated: "2024-12-13"
+  years: 2020, 2025
+lastupdated: "2025-02-19"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2024-12-13"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v12.3.0
+{: #v12.3.0}
+
+Version 12.3.0 was released on 2025-02-14.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* The response of `volume`, `volumes`, `volume-create`, `volume-update`, `volume-profile`, `volume-profiles`, `snapshot`, `snapshots`, `snapshot-create`, and `snapshot-update` commands now have the new `Storage Generation` property.
+
+### Removed commands
+
+* N/A
 
 ## v12.2.0
 {: #v12.2.0}

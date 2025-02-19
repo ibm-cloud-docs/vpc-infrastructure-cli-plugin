@@ -6,6 +6,4 @@ The CLI team creates PRs to update this content. The documentation team reviews,
 ## VPC infrastructure CLI plugin repo contacts
 
 * Documentation: Sterling Milstead
-* CLI SME: Pooja Mittal
-
-
+* CLI SME: Deepak Selvakumar
