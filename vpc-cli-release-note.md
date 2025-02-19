@@ -17,7 +17,7 @@ The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) com
 ## v12.3.0
 {: #v12.3.0}
 
-Version 12.3.0 was released on 2025-02-14.
+Version 12.3.0 was released on 2025-02-19.
 
 ### New commands
 
@@ -38,7 +38,7 @@ Version 12.2.0 was released on 2024-12-12.
 
 ### New commands
 
-* New commands `share-snapshot`, `share-snapshot-create`, `share-snapshot-delete`, `share-snapshot-update`, and `share-snapshots` are introduced to support file share snapshots.
+* New commands `share-snapshot`, `share-snapshot-create`, `share-snapshot-delete`, `share-snapshot-update`, and `share-snapshots` were added to support file share snapshots.
 
 ### Updated commands
 
