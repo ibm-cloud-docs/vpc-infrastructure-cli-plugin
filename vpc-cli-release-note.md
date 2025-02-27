@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-02-19"
+lastupdated: "2025-02-27"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2025-02-19"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v12.4.0
+{: #v12.4.0}
+
+Version 12.4.0 was released on 2025-02-27.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for the `--failsafe-policy-action` and `--failsafe-policy-target` flags in the `load-balancer-pool-create` and `load-balancer-pool-update` commands.
+
+### Removed commands
+
+* N/A
 
 ## v12.3.0
 {: #v12.3.0}
