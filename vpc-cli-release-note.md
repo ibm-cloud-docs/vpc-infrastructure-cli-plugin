@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-02-27"
+lastupdated: "2025-03-19"
 
 ---
 
@@ -13,6 +13,25 @@ lastupdated: "2025-02-27"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v12.5.0
+{: #v12.5.0}
+
+Version 12.5.0 was released on 2025-03-18.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for the `--bandwidth` flag in the `volume-create` and `volume-update` commands.
+* Added support for the `--confidential-compute-mode` and `--enable-secure-boot` flags in the `instance-create`, `instance-create-from-template`, `instance-update`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+
+
+### Removed commands
+
+* N/A
 
 ## v12.4.0
 {: #v12.4.0}
