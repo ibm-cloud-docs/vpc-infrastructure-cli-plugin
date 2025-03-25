@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-03-19"
+lastupdated: "2025-03-25"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2025-03-19"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v12.6.0
+{: #v12.6.0}
+
+Version 12.6.0 was released on 2025-03-21.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for the `tdx` value for `--confidential-compute-mode` flag in the `instance-create`, `instance-create-from-template`, `instance-update`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+
+### Removed commands
+
+* N/A
 
 ## v12.5.0
 {: #v12.5.0}
