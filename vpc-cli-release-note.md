@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-03-25"
+lastupdated: "2025-04-11"
 
 ---
 
@@ -13,6 +13,28 @@ lastupdated: "2025-03-25"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v13.0.0
+{: #v13.0.0}
+
+Version 13.0.0 was released on 2025-04-10.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for the `forward_to_pool` and `forward_to_listener` value for `--action` flag in the `load-balancer-listener-policy-create` command.
+* Added support for the `sni_hostname` value for `--type` flag in the `load-balancer-listener-policy-rule-create` and `load-balancer-listener-policy-rule-update` commands.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+The `--action` flag in the load balancer listener policy create command accepts `forward_to_pool` instead of `forward`.
 
 ## v12.6.0
 {: #v12.6.0}

@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-03-25"
+lastupdated: "2025-04-11"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -577,7 +577,7 @@ ibmcloud is load-balancer-listener-policy LOAD_BALANCER LISTENER_ID POLICY [--vp
 Create a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER LISTENER_ID --priority PRIORITY (--action forward | redirect | reject | https_redirect) [--vpc VPC] [--name NEW_NAME] [(--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code 301 | 302 | 303 | 307 | 308 [--target-uri TARGET_URI]) | (--target-http-status-code 301 | 302 | 303 | 307 | 308 --target-url TARGET_URL) | --target TARGET] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER LISTENER_ID --priority PRIORITY (--action forward_to_pool | forward_to_listener | redirect | reject | https_redirect) [--vpc VPC] [--name NEW_NAME] [(--target-listener-id TARGET_LISTENER_ID --target-listener-http-status-code 301 | 302 | 303 | 307 | 308 [--target-uri TARGET_URI]) | (--target-http-status-code 301 | 302 | 303 | 307 | 308 --target-url TARGET_URL) | --target TARGET] [--rules LISTENER_POLICY_RULES_JSON | @LISTENER_POLICY_RULES_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -587,10 +587,14 @@ ibmcloud is load-balancer-listener-policy-create LOAD_BALANCER LISTENER_ID --pri
 The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", or "reject".
 - `ibmcloud is load-balancer-listener-policy-create my-lb 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --name my-policy --action reject --priority 5`
 The priority of the policy can have a range of 1 to 10, where a lower value indicates a higher priority. The possible values for _action_ are "forward", "redirect", or "reject".
-- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward --priority 2 --target 70294e14-4e61-11e8-bcf4-0242ac110004`
-When the action is _forward_, the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
-- `ibmcloud is load-balancer-listener-policy-create my-lb 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward --priority 2 --target my-pool`
-When the action is _forward_, the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward_to_listener --priority 2 --target my-pool`
+When the action is "forward_to_listener", the listener ID or name is required to specify which listener the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward_to_listener --priority 2 --target 70294e14-4e61-11e8-bcf4-0242ac110004`
+When the action is "forward_to_listener", the listener ID or name is required to specify which listener the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward_to_pool --priority 2 --target my-pool`
+When the action is "forward_to_pool", the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
+- `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action forward_to_pool --priority 2 --target 70294e14-4e61-11e8-bcf4-0242ac110004`
+When the action is "forward_to_pool", the pool ID or name is required to specify which pool the load balancer forwards the traffic to.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://www.redirect.com"`
 When the action is _redirect_, the "url" and "http_status_code" are required. Possible values for _http_status_code_ are "301", "302", "303", "307", or "308". The "url" is the redirect target URL.
 - `ibmcloud is load-balancer-listener-policy-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --action redirect --priority 1 --target-http-status-code 301 --target-url "https://redirect.com:443/new/{path}?{query}"`
@@ -612,9 +616,9 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 - **LISTENER_ID**: ID of the listener.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--priority**: Priority of the policy. Lesser value indicates greater priority, for example: **5**, range: [**1-10**].
-- **--action**: The policy action. One of: **forward**, **redirect**, **reject**, **https_redirect**.
+- **--action**: The policy action. One of: **forward_to_pool**, **forward_to_listener**, **redirect**, **reject**, **https_redirect**.
 - **--name**: The new name of the policy.
-- **--target**: ID or name of the target load balancer pool that is specified with **forward** action.
+- **--target**: ID or name of the target load balancer pool that is specified with **forward_to_pool** or load balancer listener ID that is specified with **forward_to_listener** action.
 - **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
 - **--target-listener-http-status-code**: The HTTP status code that is returned in the redirect response, specified with **https_redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
 - **--target-uri**: Target URI where traffic is redirected, specified with **https_redirect** action. This setting is optional and must start with "/" if you set.
@@ -677,7 +681,7 @@ ibmcloud is load-balancer-listener-policy-rule LOAD_BALANCER LISTENER_ID POLICY 
 Create a load balancer listener policy rule.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID POLICY (--condition contains | equals | matches_regex) (--type header | hostname | path | query | body) --value VALUE [--vpc VPC] [--field FIELD] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID POLICY (--condition contains | equals | matches_regex) (--type header | hostname | path | query | body | sni_hostname) --value VALUE [--vpc VPC] [--field FIELD] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -694,7 +698,7 @@ ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID 
 - **POLICY**: ID or name of the policy.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
-- **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**.
+- **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**, **sni_hostname**.
 - **--value**: Value to match the rule condition.
 - **--field**: The HTTP field. This field is applicable to "header", "query", and "body" rule types. For rule type "header", this field is required. For rule types "query" or "body", this field is optional.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -732,7 +736,7 @@ ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER LISTENER_ID 
 Update a rule of a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID POLICY RULE_ID [--vpc VPC] [--condition contains | equals | matches_regex] [--type header | hostname | path | query | body] [--value VALUE] [--field FIELD] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID POLICY RULE_ID [--vpc VPC] [--condition contains | equals | matches_regex] [--type header | hostname | path | query | body | sni_hostname] [--value VALUE] [--field FIELD] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -750,7 +754,7 @@ ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID 
 - **RULE_ID**: ID of the rule.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
-- **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**.
+- **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**, **sni_hostname**.
 - **--value**: Value to match the rule condition.
 - **--field**: The HTTP field. This field is applicable to "header", "query", and "body" rule types. For rule type "header", this field is required. For rule types "query" or "body", this field is optional.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -815,7 +819,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this policy. Policy names must be unique within the load balancer listener.
 - **--priority**: Priority of the policy. Lesser value indicates greater priority, for example: **5**, range: [**1-10**].
-- **--target**: ID or name of the target load balancer pool that is specified with **forward** action.
+- **--target**: ID or name of the target load balancer pool that is specified with **forward_to_pool** or load balancer listener ID that is specified with **forward_to_listener** action.
 - **--target-http-status-code**: The HTTP status code in the redirect response, specified with **redirect** action. One of: **301**, **302**, **303**, **307**, **308**.
 - **--target-url**: The redirect target URL, specified with **redirect** action. The URL supports RFC 6570 level 1 expressions for the variables protocol, host, port, path, and query. Which expands to values from the originally requested URL (or the indicated defaults if the request did not include them).
 - **--target-listener-id**: ID of the listener that you want to implement https-redirect on, specified with **https_redirect** action.
