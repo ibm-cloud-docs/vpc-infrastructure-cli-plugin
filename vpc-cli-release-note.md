@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-04-11"
+lastupdated: "2025-04-16"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2025-04-11"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v13.1.0
+{: #v13.1.0}
+
+Version 13.1.0 was released on 2025-04-16.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+- `--target-type` flag was introduced in the `load-balancer-pool-member-create`  and `load-balancer-pool-member-update` commands.
+
+### Removed commands
+
+* N/A
 
 ## v13.0.0
 {: #v13.0.0}

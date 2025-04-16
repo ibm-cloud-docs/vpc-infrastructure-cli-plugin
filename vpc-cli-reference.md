@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-04-11"
+lastupdated: "2025-04-16"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -381,9 +381,13 @@ Create a load balancer with pools
 - `ibmcloud is load-balancer-create my-lb private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
 Create a load balancer with route mode enabled
 - `ibmcloud is load-balancer-create my-lb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
-Create a Private Path network load balancer.
+Create a private path network load balancer.
+- `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]}]'`
+Create a private path network load balancer with application load balancer ID as the pool member target.
+- `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]}]'`
+Create a private path network load balancer with application load balancer name as the pool member target.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
-Create Private DNS support for Load Balancer.
+Create private DNS support for a load balancer.
 
 #### Command options
 {: #command-options-load-balancer-create}
@@ -947,14 +951,18 @@ Create a application load balancer pool with members
 Create a network load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port": 80, "target": { "name": "my-instance"}}, {"port": 80, "target": { "name": "my-instance2"}}]'`
 Create a network load balancer pool with members and supply the member target by name.
+- `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]'`
+Create a private path network load balancer with application the load balancer ID as the pool member target.
+- `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]'`
+Create a private path network load balancer with application the load balancer name as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin udp 20 2 5 http`
 Create a network load balancer pool for the network load balancer listener with UDP protocol.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --failsafe-policy-action forward --failsafe-policy-target my-lb`
-Create a network load balancer pool for the network load balancer listener with a failsafe policy.
+Create a network load balancer pool for the network load balancer listener with a fail-safe policy.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --failsafe-policy-action forward --failsafe-policy-target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-Create a network load balancer pool for the network load balancer listener with a failsafe policy.
+Create a network load balancer pool for the network load balancer listener with a fail-safe policy.
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -1030,7 +1038,7 @@ ibmcloud is load-balancer-pool-member LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [
 Create a load balancer pool member.
 
 ```
-ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--vpc VPC] [--weight WEIGHT] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--vpc VPC] [--weight WEIGHT] [--target-type instance | load_balancer] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1040,6 +1048,8 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 9e692608-3b3a-4cfb-9f46-efb6b711876d`
 - `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-instance`
 - `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 192.168.100.5 --weight 100 --output JSON`
+- `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-instance --target-type instance`
+- `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-lb --target-type load_balancer`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-create}
@@ -1047,9 +1057,10 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
 - **PORT**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
-- **TARGET**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **TARGET**: The IP address of the pool member for the load balancers that are in the application family, or the ID or name of an ALB or the instance for the load balancers that are in the network family.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
+- **--target-type**: The type of target for this pool member. Required only when the target is specified by name. One of: **instance**, **load_balancer**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1061,7 +1072,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 Update a member of a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [--target-address TARGET_ADDRESS | --target TARGET] [--port PORT] [--weight WEIGHT] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [--target-address TARGET_ADDRESS | --target TARGET] [--port PORT] [--weight WEIGHT] [--target-type instance | load_balancer] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1073,6 +1084,8 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --vpc my-vpc --target my-instance --port 3001`
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001`
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001 --weight 100 --output JSON`
+- `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target my-instance --target-type instance`
+- `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target my-lb --target-type load_balancer`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-update}
@@ -1082,9 +1095,10 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **MEMBER_ID**: ID of the member.
 - **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
 - **--target-address**: The IP address of the pool member.
-- **--target**: The IP address of the pool member for load balancers in the application family, or the instance ID or name of the pool member for load balancers in the network family.
+- **--target**: The IP address of the pool member for load balancers that are in the application family, or the ID or name of an ALB or the instance for load balancers in the network family.
 - **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
+- **--target-type**: The type of target for this pool member. Required only when the target is specified by name. One of: **instance**, **load_balancer**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
