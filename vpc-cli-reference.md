@@ -160,7 +160,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - **--name**: New name of the floating IP.
 - **--nic**: The ID or name of the network interface to be bound.
 - **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
-- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of an ID.
 - **--vni**: ID or name of the virtual network interface.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
