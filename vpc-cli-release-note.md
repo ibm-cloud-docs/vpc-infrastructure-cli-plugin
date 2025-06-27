@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-04-16"
+lastupdated: "2025-06-27"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2025-04-16"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v13.2.0
+{: #v13.2.0}
+
+Version 13.2.0 was released on 2025-06-24.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
 
 ## v13.1.0
 {: #v13.1.0}

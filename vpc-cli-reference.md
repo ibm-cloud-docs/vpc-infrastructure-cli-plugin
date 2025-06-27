@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-04-16"
+lastupdated: "2025-06-27"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -159,8 +159,8 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - **FLOATING_IP**: ID of the floating IP.
 - **--name**: New name of the floating IP.
 - **--nic**: The ID or name of the network interface to be bound.
-- **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
-- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of an ID.
+- **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of the ID.
+- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of the ID.
 - **--vni**: ID or name of the virtual network interface.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -228,7 +228,7 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrNam
 - **--bucket**: Name of COS bucket.
 - **--target**: Target ID or name for flow log.
 - **--target-type**: Target type for flow log. This option is only required if target is passed as name of the resource. One of: **vpc**, **subnet**, **instance**, **nic**, **vni**, **nac**.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--in**: ID or name of the INSTANCE. It is required only to specify the unique resource by name inside this INSTANCE.
 - **--name**: New name for the flow log.
 - **--active**: Indicates whether this collector is active. One of: **TRUE**, **FALSE**.
@@ -253,7 +253,7 @@ ibmcloud is flow-log-delete (FLOW_LOG1 FLOW_LOG2 ...) [--vpc VPC] [--output JSON
 
 - **FLOW_LOG1**: ID or name of the flow log.
 - **FLOW_LOG2**: ID or name of the flow log.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -348,7 +348,7 @@ ibmcloud is load-balancer LOAD_BALANCER [--vpc VPC] [--output JSON] [-q, --quiet
 {: #command-options-load-balancer}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -381,11 +381,11 @@ Create a load balancer with pools
 - `ibmcloud is load-balancer-create my-lb private --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network --route-mode true`
 Create a load balancer with route mode enabled
 - `ibmcloud is load-balancer-create my-lb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
-Create a private path network load balancer.
+Create a Private Path network load balancer.
 - `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]}]'`
-Create a private path network load balancer with application load balancer ID as the pool member target.
+Create a Private Path network load balancer with the application load balancer ID as the pool member target.
 - `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]}]'`
-Create a private path network load balancer with application load balancer name as the pool member target.
+Create a Private Path network load balancer with the application load balancer name as the pool member target.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
 Create private DNS support for a load balancer.
 
@@ -424,7 +424,7 @@ ibmcloud is load-balancer-delete (LOAD_BALANCER1 LOAD_BALANCER2 ...) [--vpc VPC]
 
 - **LOAD_BALANCER1**: ID or name of the load balancer.
 - **LOAD_BALANCER2**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -445,7 +445,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -493,7 +493,7 @@ Create an application load balancer listener with idle connection timeout.
 {: #command-options-load-balancer-listener-create}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lesser bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode are enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -527,7 +527,7 @@ ibmcloud is load-balancer-listener-delete LOAD_BALANCER (LISTENER_ID1 LISTENER_I
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID1**: ID of the listener.
 - **LISTENER_ID2**: ID of the listener.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -548,7 +548,7 @@ ibmcloud is load-balancer-listener-policies LOAD_BALANCER LISTENER_ID [--vpc VPC
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -569,7 +569,7 @@ ibmcloud is load-balancer-listener-policy LOAD_BALANCER LISTENER_ID POLICY [--vp
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -618,7 +618,7 @@ When the action is "https_redirect", the "target-listener-id" and "http_status_c
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--priority**: Priority of the policy. Lesser value indicates greater priority, for example: **5**, range: [**1-10**].
 - **--action**: The policy action. One of: **forward_to_pool**, **forward_to_listener**, **redirect**, **reject**, **https_redirect**.
 - **--name**: The new name of the policy.
@@ -650,7 +650,7 @@ ibmcloud is load-balancer-listener-policy-delete LOAD_BALANCER LISTENER_ID (POLI
 - **LISTENER_ID**: ID of the listener.
 - **POLICY1**: ID or name of the policy.
 - **POLICY2**: ID or name of the policy.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -673,7 +673,7 @@ ibmcloud is load-balancer-listener-policy-rule LOAD_BALANCER LISTENER_ID POLICY 
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
 - **RULE_ID**: ID of the rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -700,7 +700,7 @@ ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
 - **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**, **sni_hostname**.
 - **--value**: Value to match the rule condition.
@@ -727,7 +727,7 @@ ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER LISTENER_ID 
 - **POLICY**: ID or name of the policy.
 - **RULE_ID1**: ID of the rule.
 - **RULE_ID2**: ID of the rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -756,7 +756,7 @@ ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID 
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
 - **RULE_ID**: ID of the rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
 - **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**, **sni_hostname**.
 - **--value**: Value to match the rule condition.
@@ -781,7 +781,7 @@ ibmcloud is load-balancer-listener-policy-rules LOAD_BALANCER LISTENER_ID POLICY
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -820,7 +820,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this policy. Policy names must be unique within the load balancer listener.
 - **--priority**: Priority of the policy. Lesser value indicates greater priority, for example: **5**, range: [**1-10**].
 - **--target**: ID or name of the target load balancer pool that is specified with **forward_to_pool** or load balancer listener ID that is specified with **forward_to_listener** action.
@@ -868,7 +868,7 @@ The range of ports that are used by this listener.
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **LISTENER_ID**: ID of the listener.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--protocol**: The listener protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **--port**: The listener port number. Range 1-65535.
 - **--port-min**: The inclusive lesser bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode are enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
@@ -902,7 +902,7 @@ ibmcloud is load-balancer-listeners LOAD_BALANCER [--vpc VPC] [--output JSON] [-
 {: #command-options-load-balancer-listeners}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -922,7 +922,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER POOL [--vpc VPC] [--output JSON] [-
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -952,9 +952,9 @@ Create a network load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port": 80, "target": { "name": "my-instance"}}, {"port": 80, "target": { "name": "my-instance2"}}]'`
 Create a network load balancer pool with members and supply the member target by name.
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]'`
-Create a private path network load balancer with application the load balancer ID as the pool member target.
+Create a Private Path network load balancer with the application load balancer ID as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]'`
-Create a private path network load balancer with application the load balancer name as the pool member target.
+Create a Private Path network load balancer with the application load balancer name as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin udp 20 2 5 http`
@@ -975,7 +975,7 @@ Create a network load balancer pool for the network load balancer listener with 
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **HEALTH_TIMEOUT**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
 - **HEALTH_TYPE**: The health check protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `http`.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--health-monitor-url**: The health check URL path. Applicable only if the **HEALTH_TYPE** is http or https.
 - **--health-monitor-port**: The health check port number. If specified, the specified ports in the server member resources are overridden.
 - **--session-persistence-type**: The session persistence type. One of: **source_ip**, **http_cookie**, **app_cookie**.
@@ -1004,7 +1004,7 @@ ibmcloud is load-balancer-pool-delete LOAD_BALANCER (POOL1 POOL2 ...) [--vpc VPC
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL1**: ID or name of the pool.
 - **POOL2**: ID or name of the pool.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -1026,7 +1026,7 @@ ibmcloud is load-balancer-pool-member LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
 - **MEMBER_ID**: ID of the member.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1093,9 +1093,9 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
 - **MEMBER_ID**: ID of the member.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--target-address**: The IP address of the pool member.
-- **--target**: The IP address of the pool member for load balancers that are in the application family, or the ID or name of an ALB or the instance for load balancers in the network family.
+- **--target**: The IP address of the pool member for the load balancers that are in the application family, or the ID or name of an ALB or the instance for the load balancers that are in the network family.
 - **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--target-type**: The type of target for this pool member. Required only when the target is specified by name. One of: **instance**, **load_balancer**.
@@ -1120,7 +1120,7 @@ ibmcloud is load-balancer-pool-member-delete LOAD_BALANCER POOL (MEMBER_ID1 MEMB
 - **POOL**: ID or name of the pool.
 - **MEMBER_ID1**: ID of the member.
 - **MEMBER_ID2**: ID of the member.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -1141,7 +1141,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER POOL [--vpc VPC] [--output 
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1176,7 +1176,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--algorithm**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**.
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
@@ -1210,7 +1210,7 @@ ibmcloud is load-balancer-pools LOAD_BALANCER [--vpc VPC] [--output JSON] [-q, -
 {: #command-options-load-balancer-pools}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1229,7 +1229,7 @@ ibmcloud is load-balancer-statistics LOAD_BALANCER [--vpc VPC] [--output JSON] [
 {: #command-options-load-balancer-statistics}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1259,7 +1259,7 @@ ibmcloud is load-balancer-update LOAD_BALANCER --subnets SUBNETS [--vpc VPC] [--
 {: #command-options-load-balancer-update}
 
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the Load balancer.
 - **--logging-datapath-active**: Enable or disable datapath logging for this load balancer. Datapath logging is applicable only for application load balancer. One of: **false**, **true**.
 - **--subnets**: Comma-separated ID or name of the subnets to provision this load balancer. Load balancer availability depends on the availability of the zones that the specified subnets reside in. Currently, only the load balancer in the application family supports this option.
@@ -1327,7 +1327,7 @@ ibmcloud is network-acl ACL [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-network-acl}
 
 - **ACL**: ID or name of the network ACL.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1389,7 +1389,7 @@ ibmcloud is network-acl-update ACL --name NEW_NAME [--vpc VPC] [--output JSON] [
 {: #command-options-network-acl-update}
 
 - **ACL**: ID or name of the network ACL.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the network ACL.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1410,7 +1410,7 @@ ibmcloud is network-acl-delete (ACL1 ACL2 ...) [--vpc VPC] [--output JSON] [-f, 
 
 - **ACL1**: ID or name of the network ACL.
 - **ACL2**: ID or name of the network ACL.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -1430,7 +1430,7 @@ ibmcloud is network-acl-rules ACL [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-network-acl-rules}
 
 - **ACL**: ID or name of the network ACL.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1450,7 +1450,7 @@ ibmcloud is network-acl-rule ACL RULE [--vpc VPC] [--output JSON] [-q, --quiet]
 
 - **ACL**: ID or name of the network ACL.
 - **RULE**: ID or name of the rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1483,10 +1483,10 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 - **ACL**: ID or name of the network ACL.
 - **ACTION**: One of: **allow**, **deny**.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: Protocol to enforce. One of: **all**, **icmp**, **tcp**, **udp**.
+- **PROTOCOL**: Protocol to enforce. One of: **icmp**, **tcp**, **udp**.
 - **SOURCE**: Source IP address or CIDR block.
 - **DESTINATION**: Destination IP address or CIDR block.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: The name of the ACL rule.
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
 - **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
@@ -1527,7 +1527,7 @@ ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--di
 
 - **ACL**: ID or name of the network ACL.
 - **RULE**: ID or name of the rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the rule.
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **--action**: One of: **allow**, **deny**.
@@ -1561,7 +1561,7 @@ ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output 
 - **ACL**: ID or name of the network ACL.
 - **RULE1**: ID or name of the rule.
 - **RULE2**: ID or name of the rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -1584,7 +1584,7 @@ ibmcloud is public-gateway GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-public-gateway}
 
 - **GATEWAY**: ID or name of the public gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1637,7 +1637,7 @@ ibmcloud is public-gateway-delete (GATEWAY1 GATEWAY2 ...) [--vpc VPC] [--output 
 
 - **GATEWAY1**: ID or name of the public gateway.
 - **GATEWAY2**: ID or name of the public gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -1663,7 +1663,7 @@ ibmcloud is public-gateway-update GATEWAY --name NEW_NAME [--vpc VPC] [--output 
 {: #command-options-public-gateway-update}
 
 - **GATEWAY**: ID or name of the public gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the public gateway.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1991,7 +1991,7 @@ ibmcloud is subnet-routing-table SUBNET [--vpc VPC] [--output JSON] [-q, --quiet
 {: #command-options-subnet-routing-table}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2013,7 +2013,7 @@ ibmcloud is security-group GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-security-group}
 
 - **GROUP**: ID or name of the security group.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2063,7 +2063,7 @@ ibmcloud is security-group-delete (GROUP1 GROUP2 ...) [--vpc VPC] [--output JSON
 
 - **GROUP1**: ID or name of the security group.
 - **GROUP2**: ID or name of the security group.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2084,7 +2084,7 @@ ibmcloud is security-group-rule GROUP RULE_ID [--vpc VPC] [--output JSON] [-q, -
 
 - **GROUP**: ID or name of the security group.
 - **RULE_ID**: ID of the security group rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2117,8 +2117,8 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 
 - **GROUP**: ID or name of the security group.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: Protocol to enforce. One of: **all**, **icmp**, **tcp**, **udp**.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **PROTOCOL**: Protocol to enforce. One of: **icmp**, **tcp**, **udp**.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
 - **--icmp-type**: ICMP traffic type to allow. Valid values from **0** to **254**. This option is specified only when protocol is set to **icmp**. If unspecified, all types are allowed.
@@ -2151,7 +2151,7 @@ ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--vpc VPC]
 - **GROUP**: ID or name of the security group.
 - **RULE_ID1**: ID of the security group rule.
 - **RULE_ID2**: ID of the security group rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2183,7 +2183,7 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 
 - **GROUP**: ID or name of the security group.
 - **RULE_ID**: ID of the security group rule.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--direction**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
 - **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
@@ -2213,7 +2213,7 @@ ibmcloud is security-group-rules GROUP [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-security-group-rules}
 
 - **GROUP**: ID or name of the security group.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2239,7 +2239,7 @@ ibmcloud is security-group-update GROUP [--vpc VPC] [--name NEW_NAME] [--output 
 {: #command-options-security-group-update}
 
 - **GROUP**: ID or name of the security group.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the security group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2292,7 +2292,7 @@ ibmcloud is security-group-target GROUP TARGET [--vpc VPC] [(--trt load_balancer
 
 - **GROUP**: ID or name of the security group.
 - **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is required only if you use the target name instead of an ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
 - **--in**: The ID or name of the instance to be bound. It is required only if you use the network interface name instead of an ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is required only if the network interface name is used instead of an ID.
@@ -2327,7 +2327,7 @@ ibmcloud is security-group-target-add GROUP TARGET [--vpc VPC] [(--trt load_bala
 
 - **GROUP**: ID or name of the security group.
 - **TARGET**: ID or name of the bound target resource for security group. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is required only if you use the target name instead of an ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
 - **--in**: The ID or name of the instance to be bound. It is required only if you use the network interface name instead of an ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is required only if the network interface name is used instead of an ID.
@@ -2363,7 +2363,7 @@ ibmcloud is security-group-target-remove GROUP (TARGET1 TARGET2 ...) [--vpc VPC]
 - **GROUP**: ID or name of the security group.
 - **TARGET1**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
 - **TARGET2**: ID or name of the bound target resource for security group. If you use the name format, only the resources under the same resource type are supplied. And for network interface by name, all the network interface names must be under the same instance. The following types are supported target resource types: _network_interface_, _load_balancer_, _endpoint_gateway_, _vpn_server_, _virtual_network_interface_.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--trt**: The bound target resource type, this option is required only if you use the target name instead of an ID. One of: **load_balancer**, **endpoint_gateway**, **vpn_server**, **virtual_network_interface**.
 - **--in**: The ID or name of the instance to be bound. It is required only if you use the network interface name instead of an ID.
 - **--bm**: The ID or name of the bare metal server to be bound. It is required only if the network interface name is used instead of an ID.
@@ -2392,7 +2392,7 @@ ibmcloud is security-group-targets GROUP [--vpc VPC] [--output JSON] [-q, --quie
 {: #command-options-security-group-targets}
 
 - **GROUP**: ID or name of the security group.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2414,7 +2414,7 @@ ibmcloud is subnet SUBNET [--vpc VPC] [--show-attached] [--output JSON] [-q, --q
 {: #command-options-subnet}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--show-attached**: View details of resources (instances, load balancers, VPN gateways) attached to the subnet.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -2475,7 +2475,7 @@ ibmcloud is subnet-delete (SUBNET1 SUBNET2 ...) [--vpc VPC] [--output JSON] [-f,
 
 - **SUBNET1**: ID or name of the subnet.
 - **SUBNET2**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -2507,7 +2507,7 @@ ibmcloud is subnet-update SUBNET [--vpc VPC] [--name NEW_NAME] [--acl ACL] [--pg
 {: #command-options-subnet-update}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the subnet.
 - **--acl**: The ID or name of the network ACL.
 - **--pgw**: The ID or name of the public gateway.
@@ -2553,7 +2553,7 @@ ibmcloud is subnet-public-gateway SUBNET [--vpc VPC] [--output JSON] [-q, --quie
 {: #command-options-subnet-public-gateway}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2572,7 +2572,7 @@ ibmcloud is subnet-public-gateway-detach SUBNET [--vpc VPC] [-f, --force] [-q, -
 {: #command-options-subnet-public-gateway-detach}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2591,7 +2591,7 @@ ibmcloud is subnet-reserved-ips SUBNET [--vpc VPC] [--target TARGET] [--trt endp
 {: #command-options-subnet-reserved-ips}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--target**: The ID, name, or CRN of the target resource.
 - **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2613,7 +2613,7 @@ ibmcloud is subnet-reserved-ip SUBNET RESERVED_IP [--vpc VPC] [--output JSON] [-
 
 - **SUBNET**: ID or name of the subnet.
 - **RESERVED_IP**: ID or name of the reserved IP.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2643,7 +2643,7 @@ ibmcloud is subnet-reserved-ip-create SUBNET [--vpc VPC] [--name NAME] [--addres
 {: #command-options-subnet-reserved-ip-create}
 
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: The user-defined name for this reserved IP. Names must be unique within the subnet that the reserved IP resides in. Names beginning with **ibm-** are reserved for provider-owned resources.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet. If not specified, an available address on the subnet is automatically selected.
 - **--trt**: Supported target resource types. One of: **endpoint_gateway**, **virtual_network_interface**. (default: **endpoint_gateway**).
@@ -2676,7 +2676,7 @@ ibmcloud is subnet-reserved-ip-update SUBNET RESERVED_IP [--vpc VPC] [--name NEW
 
 - **SUBNET**: ID or name of the subnet.
 - **RESERVED_IP**: ID or name of the reserved IP.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: The new name of the reserved IP.
 - **--auto-delete**: Indicates whether this reserved IP member automatically deletes when either target is deleted, or the reserved IP is unbound. Must be false if the reserved IP is unbound. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -2699,7 +2699,7 @@ ibmcloud is subnet-reserved-ip-delete SUBNET (RESERVED_IP1 RESERVED_IP2 ...) [--
 - **SUBNET**: ID or name of the subnet.
 - **RESERVED_IP1**: ID or name of the reserved IP.
 - **RESERVED_IP2**: ID or name of the reserved IP.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -3115,7 +3115,7 @@ ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, -
 {: #command-options-endpoint-gateway}
 
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3225,7 +3225,7 @@ Update an endpoint gateway and allow to participate in DNS resolution bindings w
 {: #command-options-endpoint-gateway-update}
 
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the endpoint gateway.
 - **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3246,7 +3246,7 @@ ibmcloud is endpoint-gateway-reserved-ip-bind ENDPOINT_GATEWAY (--rip RIP [--sub
 {: #command-options-endpoint-gateway-reserved-ip-bind}
 
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--rip**: ID or name of the reserved IP address to be bound.
 - **--subnet**: ID or name of the subnet. This name is required only if the supplied reserved IP is in name format.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -3267,7 +3267,7 @@ ibmcloud is endpoint-gateway-reserved-ip-unbind ENDPOINT_GATEWAY ((--rip RIP [--
 {: #command-options-endpoint-gateway-reserved-ip-unbind}
 
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--address**: The reserved IP address to be unbound.
 - **--rip**: ID or name of the reserved IP address to be unbound.
 - **--subnet**: ID or name of the subnet. This name is required only if the supplied reserved IP is in name format.
@@ -3290,7 +3290,7 @@ ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [-
 
 - **ENDPOINT_GATEWAY1**: ID or name of the endpoint gateway.
 - **ENDPOINT_GATEWAY2**: ID or name of the endpoint gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -3648,7 +3648,7 @@ ibmcloud is virtual-network-interface-reserved-ip-unbind VIRTUAL_NETWORK_INTERFA
 
 ---
 
-## Private path service gateways
+## Private Path service gateways
 {: #ppsg-clis}
 
 The following section gives details about the CLI commands that are available for working with Private Path service gateways.
@@ -4404,7 +4404,7 @@ ibmcloud is vpn-gateway VPN_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-vpn-gateway}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4425,7 +4425,7 @@ ibmcloud is vpn-gateway-connection VPN_GATEWAY (CONNECTION1 CONNECTION2 ...) [--
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION1**: ID or name of the VPN connection.
 - **CONNECTION2**: ID or name of the VPN connection.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4470,7 +4470,7 @@ create VPN gateway connection with local ike_identities using it as flag structu
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **PEER**: The IP address or FQDN of the peer VPN gateway.
 - **PRESHARED_KEY**: The preshared key.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--admin-state-up**: If set to false, the VPN gateway connection is shut down. One of: **true**, **false**. (default: **true**).
 - **--dead-peer-detection-action**: Dead Peer Detection actions. One of: **restart**, **clear**, **hold**, **none**. (default: **restart**).
 - **--dead-peer-detection-interval**: Dead Peer Detection interval in seconds (default: **2**).
@@ -4506,7 +4506,7 @@ ibmcloud is vpn-gateway-connection-delete VPN_GATEWAY (CONNECTION1 CONNECTION2 .
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION1**: ID or name of the VPN connection.
 - **CONNECTION2**: ID or name of the VPN connection.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -4534,7 +4534,7 @@ ibmcloud is vpn-gateway-connection-local-cidr-add VPN_GATEWAY CONNECTION CIDR [-
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
 - **CIDR**: The IP address range in CIDR block notation.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4561,7 +4561,7 @@ ibmcloud is vpn-gateway-connection-local-cidr-delete VPN_GATEWAY CONNECTION CIDR
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
 - **CIDR**: The IP address range in CIDR block notation.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4588,7 +4588,7 @@ ibmcloud is vpn-gateway-connection-peer-cidr-add VPN_GATEWAY CONNECTION CIDR [--
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
 - **CIDR**: The IP address range in CIDR block notation.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4615,7 +4615,7 @@ ibmcloud is vpn-gateway-connection-peer-cidr-delete VPN_GATEWAY CONNECTION CIDR 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
 - **CIDR**: The IP address range in CIDR block notation.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4644,7 +4644,7 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **CONNECTION**: ID or name of the VPN connection.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--admin-state-up**: If set to false, the VPN gateway connection is shut down. One of: **true**, **false**.
 - **--dead-peer-detection-action**: Dead Peer Detection actions. One of: **restart**, **clear**, **hold**, **none**.
 - **--dead-peer-detection-interval**: Dead Peer Detection interval in seconds.
@@ -4677,7 +4677,7 @@ ibmcloud is vpn-gateway-connections VPN_GATEWAY [--vpc VPC] [--output JSON] [-q,
 {: #command-options-vpn-gateway-connections}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4729,7 +4729,7 @@ ibmcloud is vpn-gateway-delete (VPN_GATEWAY1 VPN_GATEWAY2 ...) [--vpc VPC] [--ou
 
 - **VPN_GATEWAY1**: ID or name of the VPN gateway.
 - **VPN_GATEWAY2**: ID or name of the VPN gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -4755,7 +4755,7 @@ ibmcloud is vpn-gateway-update VPN_GATEWAY [--vpc VPC] [--name NEW_NAME] [--outp
 {: #command-options-vpn-gateway-update}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the VPN gateway.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -4821,7 +4821,7 @@ ibmcloud is vpn-server VPN_SERVER [--vpc VPC] [--output JSON] [-q, --quiet]
 {: #command-options-vpn-server}
 
 - **VPN_SERVER**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4851,7 +4851,7 @@ ibmcloud is vpn-server-create --client-ip-pool CLIENT_IP_POOL --cert CERT (--cli
 {: #command-options-vpn-server-create}
 
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
 - **--cert**: The secret CRN from the secret manager for this VPN server.
 - **--client-auth-methods**: Comma-separated of client authentication methods. One of: **certificate**, **username**, **certificate,username**, **username,certificate**.
@@ -4900,7 +4900,7 @@ Update the VPN server with a subnet either to change the subnet of the VPN serve
 {: #command-options-vpn-server-update}
 
 - **VPN_SERVER**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--subnet**: Comma-separated IDs or names of the subnets to provision this VPN server. Use subnets in different zones for high availability and at most, you can set two subnets.
 - **--client-ip-pool**: The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address prefixes in the VPC or any of the following reserved address ranges: 127.0.0.0/8 (IPv4 loopback addresses), 161.26.0.0/16 (IBM services), 166.8.0.0/14 (Cloud Service Endpoints), 169.254.0.0/16 (IPv4 link-local addresses), 224.0.0.0/4 (IPv4 multicast addresses). The prefix length of the client IP address pool's CIDR must be between /9 (8,388,608 addresses) and /22 (1024 addresses). A CIDR block that contains twice the number of IP addresses that are required to enable the maximum number of concurrent connections is recommended.
 - **--cert**: The secret CRN from the secret manager for this VPN server.
@@ -4933,7 +4933,7 @@ ibmcloud is vpn-server-delete (VPN_SERVER1 VPN_SERVER2 ...) [--vpc VPC] [--outpu
 
 - **VPN_SERVER1**: ID or name of the VPN server.
 - **VPN_SERVER2**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -4960,7 +4960,7 @@ ibmcloud is vpn-server-client-configuration VPN_SERVER [--vpc VPC] [--file FILE]
 {: #command-options-vpn-server-client-configuration}
 
 - **VPN_SERVER**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--file**: Save the client configuration to the specified file path name.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4979,7 +4979,7 @@ ibmcloud is vpn-server-clients VPN_SERVER [--vpc VPC] [--output JSON] [-q, --qui
 {: #command-options-vpn-server-clients}
 
 - **VPN_SERVER**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4999,7 +4999,7 @@ ibmcloud is vpn-server-client VPN_SERVER CLIENT_ID [--vpc VPC] [--output JSON] [
 
 - **VPN_SERVER**: ID or name of the VPN server.
 - **CLIENT_ID**: ID of the VPN client.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5020,7 +5020,7 @@ ibmcloud is vpn-server-client-delete VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) [--v
 - **VPN_SERVER**: ID or name of the VPN server.
 - **CLIENT_ID1**: ID of the VPN client.
 - **CLIENT_ID2**: ID of the VPN client.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -5042,7 +5042,7 @@ ibmcloud is vpn-server-client-disconnect VPN_SERVER (CLIENT_ID1 CLIENT_ID2 ...) 
 - **VPN_SERVER**: ID or name of the VPN server.
 - **CLIENT_ID1**: ID of the VPN client.
 - **CLIENT_ID2**: ID of the VPN client.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5061,7 +5061,7 @@ ibmcloud is vpn-server-routes VPN_SERVER [--vpc VPC] [--output JSON] [-q, --quie
 {: #command-options-vpn-server-routes}
 
 - **VPN_SERVER**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5081,7 +5081,7 @@ ibmcloud is vpn-server-route VPN_SERVER ROUTE_ID [--vpc VPC] [--output JSON] [-q
 
 - **VPN_SERVER**: ID or name of the VPN server.
 - **ROUTE_ID**: ID or name of the VPN route.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5107,7 +5107,7 @@ ibmcloud is vpn-server-route-create VPN_SERVER --destination DESTINATION_CIDR [-
 {: #command-options-vpn-server-route-create}
 
 - **VPN_SERVER**: ID or name of the VPN server.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--action**: The action to perform with a packet that matches the route. One of: **translate**, **deliver**, **drop**. (default: **deliver**).
 - **--destination**: The destination to use for this VPN route in the VPN server. Must be unique within the VPN server. If an incoming packet does not match any destination, the packet is dropped.
 - **--name**: Name of the VPN route.
@@ -5136,7 +5136,7 @@ ibmcloud is vpn-server-route-update VPN_SERVER ROUTE_ID [--vpc VPC] [--name NAME
 
 - **VPN_SERVER**: ID or name of the VPN server.
 - **ROUTE_ID**: ID or name of the VPN route.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the VPN route.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -5158,7 +5158,7 @@ ibmcloud is vpn-server-route-delete VPN_SERVER (ROUTE_ID1 ROUTE_ID2 ...) [--vpc 
 - **VPN_SERVER**: ID or name of the VPN server.
 - **ROUTE_ID1**: ID or name of the VPN route.
 - **ROUTE_ID2**: ID or name of the VPN route.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
@@ -6047,7 +6047,7 @@ Create a network interface for a virtual server instance with security group by 
 - **NIC_NAME**: Name of the network interface.
 - **INSTANCE**: ID or name of the instance.
 - **SUBNET**: ID or name of the subnet.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--rip**: ID or name of the existing reserved IP.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
@@ -9234,7 +9234,7 @@ ibmcloud is instance-group-create INSTANCE_GROUP_NAME --instance-template INSTAN
 - **--lb**: ID or name of the load balancer.
 - **--lb-pool**: ID or name of the load balancer pool.
 - **--application-port**: The application port to route load balancer traffic.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -9274,7 +9274,7 @@ ibmcloud is instance-group-update INSTANCE_GROUP [--instance-template INSTANCE_T
 - **--lb**: ID or name of the load balancer.
 - **--lb-pool**: ID or name of the load balancer pool.
 - **--application-port**: The application port to route load balancer traffic.
-- **--vpc**: ID or name of the VPC. It is required only to specify the unique resource by name inside this VPC.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
