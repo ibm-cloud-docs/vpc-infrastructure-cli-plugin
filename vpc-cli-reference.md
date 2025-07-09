@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-06-27"
+lastupdated: "2025-07-09"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1468,14 +1468,14 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 #### Command examples
 {: #command-examples-network-acl-rule-add}
 
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add my-acl allow inbound all 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add my-acl allow inbound all 10.2.2.2 10.2.2.3 --vpc my-vpc`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3 --name my-acl-rule`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound tcp 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound tcp 10.2.2.2 10.2.2.3 --vpc my-vpc`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --name my-acl-rule`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp 10.2.2.2 10.2.2.3 --icmp-type 8 --icmp-code 0`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --source-port-min 555  --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound all 10.2.2.2 10.2.2.3 --output JSON`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --output JSON`
 
 #### Command options
 {: #command-options-network-acl-rule-add}
@@ -1513,14 +1513,14 @@ ibmcloud is network-acl-rule-update ACL RULE [--vpc VPC] [--name NEW_NAME] [--di
 #### Command examples
 {: #command-examples-network-acl-rule-update}
 
-- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3`
-- `ibmcloud is network-acl-rule-update my-acl my-acl-rule --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3`
+- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3`
+- `ibmcloud is network-acl-rule-update my-acl my-acl-rule --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3`
 - `ibmcloud is network-acl-rule-update my-acl my-acl-rule --vpc my-vpc --name my-acl-renamed-rule`
-- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3 --name my-acl`
-- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol icmp --source 10.2.2.2 --dest 10.2.2.3 --icmp-type 8 --icmp-code 0`
-- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol tcp --source 10.2.2.2 --dest 10.2.2.3 --source-port-min 555 --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
-- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --protocol all --source 10.2.2.2 --dest 10.2.2.3 --output JSON`
+- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3 --name my-acl`
+- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3 --icmp-type 8 --icmp-code 0`
+- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3 --source-port-min 555 --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
+- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is network-acl-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --action allow --direction inbound --source 10.2.2.2 --dest 10.2.2.3 --output JSON`
 
 #### Command options
 {: #command-options-network-acl-rule-update}
@@ -2102,15 +2102,15 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 #### Command examples
 {: #command-examples-security-group-rule-add}
 
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all`
-- `ibmcloud is security-group-rule-add my-sg inbound all`
-- `ibmcloud is security-group-rule-add my-sg inbound all --vpc my-vpc`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp`
+- `ibmcloud is security-group-rule-add my-sg inbound tcp`
+- `ibmcloud is security-group-rule-add my-sg inbound tcp --vpc my-vpc`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp --icmp-type 8 --icmp-code 0`
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all --remote 12.2.2.3`
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound all --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is security-group-rule-add my-sg inbound all --remote my-sg`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --remote 12.2.2.3`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is security-group-rule-add my-sg inbound tcp --remote my-sg`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
-- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol all --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol tcp --local 192.168.3.0`
 
 #### Command options
 {: #command-options-security-group-rule-add}
@@ -5232,7 +5232,7 @@ ibmcloud is image IMAGE [--output JSON] [-q, --quiet]
 List all images in the region.
 
 ```
-ibmcloud is images [--visibility all | public | private] [--owner-type all | provider | user] [--status STATUS] [--user-data-format USER_DATA_FORMAT] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is images [--visibility all | public | private] [--status STATUS] [--user-data-format USER_DATA_FORMAT] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [--remote-account-id provider | user] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5240,18 +5240,20 @@ ibmcloud is images [--visibility all | public | private] [--owner-type all | pro
 
 - `ibmcloud is images --status deprecated,obsolete`
 - `ibmcloud is images --user-data-format esxi_kickstart,ipxe`
+- `ibmcloud is images --remote-account-id provider`
+- `ibmcloud is images --remote-account-id 2d1bace7b46e4815a81e52c6ffeba5cf`
 
 #### Command options
 {: #command-options-images}
 
 - **--visibility**: List images with given visibility. Valid visibility is: **public** or **private**.
-- **--owner-type**: Filters images with given owner type. Default is `all`. One of: **all**, **provider**, **user**.
 - **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, pending, unusable.
 - **--user-data-format**: Filters the collection to images with the comma-separated list of user-data-format values. Available values: cloud_init, esxi_kickstart, ipxe.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--remote-account-id**: Filters the collection to images with a `remote.account.id` property that matches the specified account. Users can also provide ACCOUNT_ID or one of: **provider**, **user**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -11420,7 +11422,7 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 - **--attach-tags**: User tags to attach to each resource that was created by this plan.
 - **--copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--cron-spec**: The cron specification for the backup schedule.
-- **--delete-after**: The maximum number of days to keep each backup after creation.
+- **--delete-after**: The maximum number of days to keep each backup after its created.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones. (default: **5**).
 - **--clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.

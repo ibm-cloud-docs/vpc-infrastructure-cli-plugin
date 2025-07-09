@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-06-27"
+lastupdated: "2025-07-09"
 
 ---
 
@@ -13,6 +13,27 @@ lastupdated: "2025-06-27"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v14.0.0
+{: #v14.0.0}
+
+Version 14.0.0 was released on 2025-07-09.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* In the `images` command, the `--owner-type` flag was removed and replaced with `--remote-account-id`.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+The `--owner-type` flag was removed from the image list command. It is replaced by the `--remote-account-id` flag, which accepts `provider` and `user` as valid values.
 
 ## v13.2.0
 {: #v13.2.0}
@@ -30,6 +51,11 @@ Version 13.2.0 was released on 2025-06-24.
 ### Removed commands
 
 * N/A
+
+### Notes
+
+- `Owner Type` was replaced by `Remote Account ID` in output of get and list of image. 
+- `owner_type` was replaced by `remote.account` in the JSON output of get image.
 
 ## v13.1.0
 {: #v13.1.0}
@@ -59,8 +85,8 @@ Version 13.0.0 was released on 2025-04-10.
 
 ### Updated commands
 
-* Added support for the `forward_to_pool` and `forward_to_listener` value for `--action` flag in the `load-balancer-listener-policy-create` command.
-* Added support for the `sni_hostname` value for `--type` flag in the `load-balancer-listener-policy-rule-create` and `load-balancer-listener-policy-rule-update` commands.
+* Added support for the `forward_to_pool` and `forward_to_listener` values for the `--action` flag in the `load-balancer-listener-policy-create` command.
+* Added support for the `sni_hostname` value for the `--type` flag in the `load-balancer-listener-policy-rule-create` and `load-balancer-listener-policy-rule-update` commands.
 
 ### Removed commands
 
@@ -68,7 +94,7 @@ Version 13.0.0 was released on 2025-04-10.
 
 ### Breaking changes
 
-The `--action` flag in the load balancer listener policy create command accepts `forward_to_pool` instead of `forward`.
+The `--action` flag in the load balancer listener policy create command now accepts `forward_to_pool` instead of `forward`.
 
 ## v12.6.0
 {: #v12.6.0}
