@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-07-09"
+lastupdated: "2025-07-15"
 
 ---
 
@@ -13,6 +13,28 @@ lastupdated: "2025-07-09"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v14.1.0
+{: #v14.1.0}
+
+Version 14.1.0 was released on 2025-07-14.
+
+### New commands
+
+* New commands `ibmcloud is image-instance-profiles`, `ibmcloud is image-bare-metal-server-profiles`, `ibmcloud is snapshot-instance-profiles`, and `ibmcloud is volume-instance-profiles` were added.
+
+### Updated commands
+
+* Added support for `--allowed-use-api-version`, `--allowed-use-bare-metal-server`, and `--allowed-use-instance` flags in commands `ibmcloud is image-create`, `ibmcloud is image-update`, `ibmcloud is instance-volume-attachment-add`, `ibmcloud is volume-create`, `ibmcloud is volume-update`,`ibmcloud is snapshot-create`, and `ibmcloud is snapshot-update`.
+* The `--boot-volume` and `--volume-attach` options now accept the `allowed_use` property in JSON format in commands `ibmcloud is instance-create`,`ibmcloud is instance-template-create-override-source-template`,`ibmcloud is instance-template-create`.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v14.0.0
 {: #v14.0.0}
@@ -54,8 +76,8 @@ Version 13.2.0 was released on 2025-06-24.
 
 ### Notes
 
-- `Owner Type` was replaced by `Remote Account ID` in output of get and list of image. 
-- `owner_type` was replaced by `remote.account` in the JSON output of get image.
+- `Owner Type` was replaced by `Remote Account ID` in output of `ibmcloud is image` and `ibmcloud is images`. 
+- `owner_type` was replaced by `remote.account` in the JSON output of `ibmcloud is image`.
 
 ## v13.1.0
 {: #v13.1.0}

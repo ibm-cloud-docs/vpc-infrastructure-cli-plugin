@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-07-09"
+lastupdated: "2025-07-15"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -5264,7 +5264,7 @@ ibmcloud is images [--visibility all | public | private] [--status STATUS] [--us
 Create an image.
 
 ```
-ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--deprecate-at DEPRECATE_AT] [--obsolete-at OBSOLETE_AT] [--output JSON] [-q, --quiet]
+ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERATING_SYSTEM_NAME [--encrypted-data-key ENCRYPTED_DATA_KEY --encryption-key ENCRYPTION_KEY]] | [--source-volume SOURCE_VOLUME --encryption-key-volume ENCRYPTION_KEY_VOLUME]) [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--deprecate-at DEPRECATE_AT] [--obsolete-at OBSOLETE_AT] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5278,6 +5278,8 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e`
 - `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --encryption-key-volume crn:v1:bluemix:public:kms:us-south:a/823bd195e9fd4f0db40ac2e1bffef3e0:2479bd12-1e8e-4506-88d9-bdb9512ac317:key:404f662d-1e18-40b1-aabf-d6c25bca22ea`
 - `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --deprecate-at "2023-03-01T00:45:00Z" --obsolete-at "2023-03-02T00:50:00Z"`
+- `ibmcloud is image-create my-ubuntu-16-amd64 --file cos://us-south/custom-image-vpc-bucket/customImage-0.qcow2 --os-name ubuntu-16-amd64 --allowed-use-api-version "2024-10-29" --allowed-use-bare-metal-server "enable_secure_boot==true" --allowed-use-instance true`
+- `ibmcloud is image-create my-image-from-volume --source-volume r006-c95c2317-6336-45b4-b67d-087312895a4e --allowed-use-api-version "2024-10-29" --allowed-use-bare-metal-server "enable_secure_boot==true" --allowed-use-instance true`
 
 #### Command options
 {: #command-options-image-create}
@@ -5289,6 +5291,9 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - **--encryption-key**: The CRN of the root key that was used to wrap the data key (which is ultimately represented as **encrypted_data_key**). Additionally, the root key is used to encrypt volumes created from this image (unless an alternate **encryption_key** is provided at volume creation).
 - **--source-volume**: ID or name of the volume. The volume from which to create the image. The specified volume must originate from image. The volume's active and busy property value must be **false**, and the volume attached instance must be in stopped status.
 - **--encryption-key-volume**: A reference to the root key to that is used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with this image. If unspecified, the expression is set to `true`.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this image. If unspecified, the expression is set to `true`.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
@@ -5304,7 +5309,7 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 Update an image.
 
 ```
-ibmcloud is image-update IMAGE --name NEW_NAME [--deprecate-at DEPRECATE_AT | --reset-deprecate-at] [--obsolete-at OBSOLETE_AT | --reset-obsolete-at] [--output JSON] [-q, --quiet]
+ibmcloud is image-update IMAGE --name NEW_NAME [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS] [--deprecate-at DEPRECATE_AT | --reset-deprecate-at] [--obsolete-at OBSOLETE_AT | --reset-obsolete-at] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5315,12 +5320,16 @@ ibmcloud is image-update IMAGE --name NEW_NAME [--deprecate-at DEPRECATE_AT | --
 - `ibmcloud is image-update my-image-from-volume-cli-do-not-delete --deprecate-at "2023-03-03T04:20:00+05:30"`
 - `ibmcloud is image-update  my-image-from-volume-cli-do-not-delete --reset-deprecate-at`
 - `ibmcloud is image-update  my-image-from-volume-cli-do-not-delete --reset-obsolete-at`
+- `ibmcloud is image-update  my-image-from-volume-cli-do-not-delete --allowed-use-api-version "2024-10-31" --allowed-use-bare-metal-server enable_secure_boot==true --allowed-use-instance true`
 
 #### Command options
 {: #command-options-image-update}
 
 - **IMAGE**: ID or name of the image.
 - **--name**: New name of the image.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by a bare metal server that is provisioned with this image.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by a virtual server instance that is provisioned with this image.
 - **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
 - **--reset-deprecate-at**: Specify this flag to remove an existing deprecation date and time. If the image status is "deprecated", it becomes "available".
 - **--obsolete-at**: The obsolescence date and time to set for this image. The date and time must not be in the past, and must be later than "deprecate_at". Date and time must be in ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
@@ -5518,6 +5527,58 @@ ibmcloud is image-obsolete IMAGE [--output JSON] [-q, --quiet]
 
 #### Command options
 {: #command-options-image-obsolete}
+
+- **IMAGE**: ID or name of the image.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-instance-profiles
+{: #image-instance-profiles-list}
+
+List instance profiles that are compatible with an image.
+
+```
+ibmcloud is image-instance-profiles IMAGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-instance-profiles}
+
+- `ibmcloud is image-instance-profiles my-image-from-volume-cli-do-not-delete`
+- `ibmcloud is image-instance-profiles my-image-from-volume-cli-do-not-delete --output JSON`
+- `ibmcloud is image-instance-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751`
+- `ibmcloud is image-instance-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751 --output JSON`
+
+#### Command options
+{: #command-options-image-instance-profiles}
+
+- **IMAGE**: ID or name of the image.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is image-bare-metal-server-profiles
+{: #image-bare-metal-server-profiles-list}
+
+List bare metal server profiles that are compatible with an image.
+
+```
+ibmcloud is image-bare-metal-server-profiles IMAGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-image-bare-metal-server-profiles}
+
+- `ibmcloud is image-bare-metal-server-profiles my-image`
+- `ibmcloud is image-bare-metal-server-profiles my-image --output JSON`
+- `ibmcloud is image-bare-metal-server-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751`
+- `ibmcloud is image-bare-metal-server-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751 --output JSON`
+
+#### Command options
+{: #command-options-image-bare-metal-server-profiles}
 
 - **IMAGE**: ID or name of the image.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -5755,6 +5816,8 @@ Create an instance with volume attachment from a volume snapshot by using the re
 Create an instance with a volume attachment from a volume snapshot.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "my-snapshot-name"}}}'`
 Create an instance with a boot volume attachment from a volume snapshot by using the resource name.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "test-cli"}, "allowed_use":{"instance":"true","bare_metal_server":"true","api_version":"2025-06-30"}}}' --volume-attach '[{"volume": {"name":"my-volume-name", "capacity":100, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "r006-523cf6c7-0591-43b9-b4ff-6663791e2814"}, "allowed_use":{"instance":"true","bare_metal_server":"true","api_version":"2025-06-30"}}}]'`
+Create an instance with allowed use in boot-volume and volume-attachment.
 
 #### Command options
 {: #command-options-instance-create}
@@ -6432,7 +6495,7 @@ ibmcloud is instance-volume-attachments INSTANCE [--output JSON] [-q, --quiet]
 Create a volume attachment, connecting a volume to an instance.
 
 ```
-ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PROFILE --new-volume-name NEW_VOLUME_NAME --iops IOPS --encryption-key ENCRYPTION_KEY --capacity CAPACITY --bandwidth BANDWIDTH --tags TAGS --source-snapshot SOURCE_SNAPSHOT) [--auto-delete false | true] [--output JSON] [-q, --quiet]
+ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PROFILE --new-volume-name NEW_VOLUME_NAME --iops IOPS --encryption-key ENCRYPTION_KEY --capacity CAPACITY --bandwidth BANDWIDTH --tags TAGS --source-snapshot SOURCE_SNAPSHOT [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS]) [--auto-delete false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6445,6 +6508,7 @@ ibmcloud is instance-volume-attachment-add NAME INSTANCE (VOLUME | --profile PRO
 - `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --profile general-purpose ---capacity 10 --auto-delete true --tags my-tag-1,my-tag-2`
 - `ibmcloud is instance-volume-attachment-add data-vol-name my-instance my-volume --auto-delete true`
 Add an existing volume to a virtual server instance by using resource name.
+- `ibmcloud is instance-volume-attachment-add data-vol-name 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --profile general-purpose --source-snapshot eaf9d6ca-35bf-4ac7-bc45-d0f2507f2830 --allowed-use-api-version "2024-10-31" --allowed-use-bare-metal-server enable_secure_boot==true --allowed-use-instance true --auto-delete true --output JSON`
 
 #### Command options
 {: #command-options-instance-volume-attachment-add}
@@ -6460,6 +6524,9 @@ Add an existing volume to a virtual server instance by using resource name.
 - **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
 - **--tags**: Comma-separated tags for the volume.
 - **--source-snapshot**: ID, name, or CRN of the snapshot to clone volume.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume. If unspecified, the expression is set to `true`.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume. If unspecified, the expression is set to `true`.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -9058,6 +9125,8 @@ Create an instance template by overriding a source template with the primary net
 Create an instance template by overriding a source template with a cluster network attachment that has an existing cluster network interface and an existing reserved IP.
 - `ibmcloud is instance-template-create-override-source-template --source-template e4a29d1a-2ef0-42a6-8fd2-350deb1c647e --cluster-network-attachments [{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]`
 Create an instance template by overriding a source template with a cluster network attachment.
+- `ibmcloud is instance-template-create-override-source-template --source-template 0717-9ac0ceaf-f10e-4500-98f6-978d83a7d3d4 --name cli-template --profile bx2-2x8 --vpc r006-1e635d53-6cd2-460f-917d-0737a3664d07 --subnet 0717-53d45c63-d61b-41f3-a784-249b856e7517  --zone us-south-1 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name-0", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "test-cli"}, "allowed_use":{"instance":"true","bare_metal_server":"true","api_version":"2025-05-25"}}}' --volume-attach '[{"volume": {"name":"my-volume-name-0", "capacity":100, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "r006-523cf6c7-0591-43b9-b4ff-6663791e2814"}, "allowed_use":{"instance":"true","bare_metal_server":"true","api_version":"2025-05-25"}}}]'`
+Create an instance template by overriding a source template with allowed use in boot-volume and volume-attachment.
 
 #### Command options
 {: #command-options-instance-template-create-override-source-template}
@@ -9960,7 +10029,7 @@ ibmcloud is volume VOLUME [--output JSON] [-q, --quiet]
 Create a volume.
 
 ```
-ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACITY] [--iops IOPS] [--encryption-key ENCRYPTION_KEY] [--snapshot SNAPSHOT] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--bandwidth BANDWIDTH] [--output JSON] [-q, --quiet]
+ibmcloud is volume-create VOLUME_NAME PROFILE_NAME ZONE_NAME [--capacity CAPACITY] [--iops IOPS] [--encryption-key ENCRYPTION_KEY] [--snapshot SNAPSHOT [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--bandwidth BANDWIDTH] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9980,6 +10049,7 @@ Create a volume from snapshot with capacity
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --resource-group-name Default`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --output JSON`
 - `ibmcloud is volume-create my-volume general-purpose us-south-1 --bandwidth 1000`
+- `ibmcloud is volume-create my-volume general-purpose us-south-1 --snapshot my-snapshot --capacity 500 --allowed-use-api-version "2024-10-31" --allowed-use-bare-metal-server enable_secure_boot==true --allowed-use-instance true`
 
 #### Command options
 {: #command-options-volume-create}
@@ -9991,6 +10061,9 @@ Create a volume from snapshot with capacity
 - **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--snapshot**: ID, name, or CRN of the snapshot.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
@@ -10067,7 +10140,7 @@ ibmcloud is volume-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 Update a volume.
 
 ```
-ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile PROFILE --iops IOPS | --bandwidth BANDWIDTH] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
+ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile PROFILE --iops IOPS | --bandwidth BANDWIDTH] [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10078,6 +10151,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - `ibmcloud is volume-update my-volume-demo-1 --name my-volume --output JSON`
 - `ibmcloud is volume-update my-volume-demo-1 --capacity 250`
 - `ibmcloud is volume-update cli-vol-acadia --iops 32000 --profile sdp`
+- `ibmcloud is volume-update my-volume-demo-1 --allowed-use-api-version "2024-10-31" --allowed-use-bare-metal-server enable_secure_boot==true --allowed-use-instance true`
 - `ibmcloud is volume-update cli-vol-acadia --bandwidth 8192`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --profile 10iops-tier`
 - `ibmcloud is volume-update 64bec87d-d175-4fa5-b240-b092fdbcedd6 --iops 5000`
@@ -10093,7 +10167,36 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
 - **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
 - **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume.
 - **--tags**: Tags for this resource.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-instance-profiles
+{: #volume-instance-profiles-list}
+
+List instance profiles that are compatible with a volume.
+
+```
+ibmcloud is volume-instance-profiles VOLUME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-instance-profiles}
+
+- `ibmcloud is volume-instance-profiles my-volume`
+- `ibmcloud is volume-instance-profiles my-volume --output JSON`
+- `ibmcloud is volume-instance-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751`
+- `ibmcloud is volume-instance-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751 --output JSON`
+
+#### Command options
+{: #command-options-volume-instance-profiles}
+
+- **VOLUME**: ID or name of the volume.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -10191,7 +10294,7 @@ ibmcloud is snapshot SNAPSHOT [--output JSON] [-q, --quiet]
 Create a snapshot from a volume.
 
 ```
-ibmcloud is snapshot-create (--volume VOLUME | --source-snapshot-crn SOURCE_SNAPSHOT_CRN [--encryption-key ENCRYPTION_KEY]) [--name NAME] [--clone-zones CLONE_ZONES] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-create (--volume VOLUME | --source-snapshot-crn SOURCE_SNAPSHOT_CRN [--encryption-key ENCRYPTION_KEY]) [--name NAME] [--clone-zones CLONE_ZONES] [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10207,6 +10310,7 @@ ibmcloud is snapshot-create (--volume VOLUME | --source-snapshot-crn SOURCE_SNAP
 - `ibmcloud is snapshot-create --volume cf88cf1a-6f93-4cf6-bacf-62cafd3de857 --name my-ss70 --tags env:test,env:dev`
 - `ibmcloud is snapshot-create --volume test5-3zwxlnzgqk-9vk99 --name my-ss70 --tags env:test`
 - `ibmcloud is snapshot-create --name my-snapshot --source-snapshot-crn crn:v1:bluemix:public:is:us-south:a/123456::snapshot:r134-f6bfa329-0e36-433f-a3bb-0df632e79263 --encryption-key crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
+- `ibmcloud is snapshot-create --name my-snapshot --source-snapshot-crn crn:v1:bluemix:public:is:us-south:a/123456::snapshot:r134-f6bfa329-0e36-433f-a3bb-0df632e79263 --encryption-key crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179 --allowed-use-api-version "2024-10-31" --allowed-use-bare-metal-server true --allowed-use-instance enable_secure_boot==true`
 
 #### Command options
 {: #command-options-snapshot-create}
@@ -10216,6 +10320,9 @@ ibmcloud is snapshot-create (--volume VOLUME | --source-snapshot-crn SOURCE_SNAP
 - **--encryption-key**: The root key to use to wrap the data encryption key for the snapshot. If unspecified, the encryption_key from the most recent snapshot with the same source volume is used. If this snapshot is the first snapshot of the source volume, the encryption_key from the source volume is used.
 - **--name**: New name for the snapshot.
 - **--clone-zones**: Comma-separated zone names that you want the snapshot clones to reside in. Snapshot fast restore is enabled in the cloned zones.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this snapshot. If unspecified, the expression is set to true.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this snapshot. If unspecified, the expression is set to true.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
@@ -10256,7 +10363,7 @@ ibmcloud is snapshot-delete (SNAPSHOT1 SNAPSHOT2 ...) [--output JSON] [-f, --for
 Update a snapshot.
 
 ```
-ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--allowed-use-api-version, --au-api-version ALLOWED_USE_API_VERSION, AU_API_VERSION] [--allowed-use-bare-metal-server, --au-bms ALLOWED_USE_BARE_METAL_SERVER, AU_BMS] [--allowed-use-instance, --au-ins ALLOWED_USE_INSTANCE, AU_INS] [--tags  TAG_NAME1,TAG_NAME2,...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10267,12 +10374,16 @@ ibmcloud is snapshot-update SNAPSHOT --name NEW_NAME [--tags  TAG_NAME1,TAG_NAME
 - `ibmcloud is snapshot-update f8d51ab0-961f-4c23-8976-b1e48cc4f260 --name mysnapshot60 --tags env:tfp`
 - `ibmcloud is snapshot-update f8d51ab0-961f-4c23-8976-b1e48cc4f260 --name mysnapshot60 --tags env:tfp,env:cli`
 - `ibmcloud is snapshot-update my-snapshot-2 --name mysnapshot60 --tags env:tfp`
+- `ibmcloud is snapshot-update my-snapshot-2 --allowed-use-api-version "2024-10-31" --allowed-use-bare-metal-server true --allowed-use-instance enable_secure_boot==true`
 
 #### Command options
 {: #command-options-snapshot-update}
 
 - **SNAPSHOT**: ID or name of the snapshot.
 - **--name**: New name of the snapshot.
+- **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
+- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this snapshot. If unspecified, the expression is set to true.
+- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this snapshot. If unspecified, the expression is set to true.
 - **--tags**: Tags for this resource.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -10380,6 +10491,32 @@ ibmcloud is snapshot-clones SNAPSHOT [--output JSON] [-q, --quiet]
 
 ---
 
+### ibmcloud is snapshot-instance-profiles
+{: #snapshot-instance-profiles-list}
+
+List instance profiles that are compatible with a snapshot.
+
+```
+ibmcloud is snapshot-instance-profiles SNAPSHOT [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-instance-profiles}
+
+- `ibmcloud is snapshot-instance-profiles my-snapshot`
+- `ibmcloud is snapshot-instance-profiles my-snapshot --output JSON`
+- `ibmcloud is snapshot-instance-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751`
+- `ibmcloud is snapshot-instance-profiles r134-064dcec0-5e15-42cf-8b28-a9d27f9cd751 --output JSON`
+
+#### Command options
+{: #command-options-snapshot-instance-profiles}
+
+- **SNAPSHOT**: ID or name of the snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ### ibmcloud is snapshot-consistency-groups
 {: #snapshot-consistency-groups-list}
 
@@ -10466,7 +10603,7 @@ ibmcloud is snapshot-consistency-group-create ((--snapshots SNAPSHOTS_JSON | @SN
 - **--snapshot-name**: The name for this snapshot.
 - **--user-tags**: The user tags associated with this snapshot.
 - **--name**: Name for the snapshot consistency group.
-- **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group will also delete the snapshots in the group. One of: **false**, **true**. (default: **true**).
+- **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group also deletes the snapshots in the group. One of: **false**, **true**. (default: **true**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -10494,7 +10631,7 @@ ibmcloud is snapshot-consistency-group-update [--name NEW_NAME] [--delete-snapsh
 {: #command-options-snapshot-consistency-group-update}
 
 - **--name**: New name for the snapshot-consistency-group.
-- **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group will also delete the snapshots in the group. One of: **false**, **true**. (default: **true**).
+- **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group also deletes the snapshots in the group. One of: **false**, **true**. (default: **true**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -10592,15 +10729,15 @@ ibmcloud is share-create (--profile PROFILE (--zone ZONE_NAME [--access-control-
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--snapshot**: The ID, name, or CRN of the source snapshot for this file share.
 - **--share**: ID or name of the file share.
-- **--size**: The size of the file share is round up to the next gigabyte.
-- **--profile**: The profile that the file share uses. All file shares are created are based on the high-performance dp2 profile.
+- **--size**: The size of the file share is rounded up to the next gigabyte.
+- **--profile**: The profile that the file share uses. All file shares that are created are based on the high-performance dp2 profile.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
 - **--initial-owner-gid**: The initial owner group identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
 - **--initial-owner-uid**: The initial owner user identifier for the file share at creation. Subsequent changes to the owner must be performed by a virtual server instance that mounted the file share.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--replica-share-user-tags**: Tags for this resource.
 - **--replica-share-allowed-transit-encryption-modes, --rs-atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
@@ -10706,7 +10843,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - **--name**: New name of the file share.
 - **--size**: The size of the file share rounded up to the next gigabyte. Size can be only increased, not decreased.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
@@ -10769,7 +10906,7 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 - **--replica-share-user-tags**: Tags for this resource.
 - **--profile**: The profile that the file share uses.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. This property must be specified whether the source_share encryption type is user_managed, and must not be specified otherwise.
-- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable only for custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
+- **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
@@ -10800,7 +10937,7 @@ ibmcloud is share-replica-failover REPLICA_SHARE [--fallback-policy fail | split
 {: #command-options-share-replica-failover}
 
 - **REPLICA_SHARE**: ID or name of the replica file share.
-- **--fallback-policy**: The action to take if the failover request is accepted but cannot be performed or times out. One of: **fail**, **split**.
+- **--fallback-policy**: The action to take if the failover request is accepted but can't be performed or times out. One of: **fail**, **split**.
 - **--timeout**: The failover timeout in seconds. The minimum timeout is 300 seconds and the maximum 3600 seconds. If the timeout is reached, the fallback_policy is triggered.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
