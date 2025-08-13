@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-07-15"
+lastupdated: "2025-08-13"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -159,8 +159,8 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - **FLOATING_IP**: ID of the floating IP.
 - **--name**: New name of the floating IP.
 - **--nic**: The ID or name of the network interface to be bound.
-- **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of the ID.
-- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of the ID.
+- **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
+- **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--vni**: ID or name of the virtual network interface.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -5253,7 +5253,7 @@ ibmcloud is images [--visibility all | public | private] [--status STATUS] [--us
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **--remote-account-id**: Filters the collection to images with a `remote.account.id` property that matches the specified account. Users can also provide ACCOUNT_ID or one of: **provider**, **user**.
+- **--remote-account-id**: remote.account.id  Filters the collection to images with a remote.account.id property that matches the specified account. Users can also provide ACCOUNT_ID or One of: **provider**, **user**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -5292,8 +5292,8 @@ ibmcloud is image-create IMAGE_NAME ([--file IMAGE_FILE_LOCATION --os-name OPERA
 - **--source-volume**: ID or name of the volume. The volume from which to create the image. The specified volume must originate from image. The volume's active and busy property value must be **false**, and the volume attached instance must be in stopped status.
 - **--encryption-key-volume**: A reference to the root key to that is used to wrap the system-generated data encryption key for the image. If this property is not provided, the root key from source volume is used.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
-- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with this image. If unspecified, the expression is set to `true`.
-- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this image. If unspecified, the expression is set to `true`.
+- **--allowed-use-bare-metal-server**: true,--au-bms true - The expression that must be satisfied by the properties of a bare metal server that is provisioned with this image. If unspecified, the expression is set to true.
+- **--allowed-use-instance**: true,--au-ins true - The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this image. If unspecified, the expression is set to true.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--deprecate-at**: The deprecation date and time to set for this image. The date and time must not be in the past, and must be earlier than "obsolete_at". Date and time must be in the ISO 8601 format: **2024-03-05T15:31:50.701Z** or **2024-03-05T15:31:50.701+8:00**.
@@ -6525,8 +6525,8 @@ Add an existing volume to a virtual server instance by using resource name.
 - **--tags**: Comma-separated tags for the volume.
 - **--source-snapshot**: ID, name, or CRN of the snapshot to clone volume.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
-- **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume. If unspecified, the expression is set to `true`.
-- **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume. If unspecified, the expression is set to `true`.
+- **--allowed-use-bare-metal-server**: true,--au-bms true - The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume. If unspecified, the expression is set to true.
+- **--allowed-use-instance**: true,--au-ins true 0 The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume. If unspecified, the expression is set to true.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -10886,7 +10886,7 @@ ibmcloud is shares [--replication-role none | replica | source] [--resource-grou
 Create a replica file share from an existing file share.
 
 ```
-ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE] [--allowed-transit-encryption-modes, --atem none,user_managed] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is share-replica-create --profile PROFILE --zone ZONE_NAME --replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--allowed-transit-encryption-modes, --atem none,user_managed] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10901,15 +10901,15 @@ ibmcloud is share-replica-create --zone ZONE_NAME --profile PROFILE [--name NAME
 #### Command options
 {: #command-options-share-replica-create}
 
+- **--profile**: The profile that the file share uses.
 - **--name**: The user-defined name for this file share.
 - **--zone**: Name of the zone.
 - **--replica-share-user-tags**: Tags for this resource.
-- **--profile**: The profile that the file share uses.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. This property must be specified whether the source_share encryption type is user_managed, and must not be specified otherwise.
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
-- **--source-share**: Name or ID of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
+- **--source-share**: The ID, name, or CRN of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
 - **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -11071,7 +11071,7 @@ ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--outp
 Create a file share mount target.
 
 ```
-ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete true | false [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption user_managed | none] [--output JSON] [-q, --quiet]
+ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete true | false [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption none | user_managed] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11087,7 +11087,7 @@ ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete tru
 
 - **SHARE**: ID or name of the file share.
 - **--name**: The user-defined name for this file share mount target.
-- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **user_managed**, **none**.
+- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **none**, **user_managed**.
 - **--vni**: ID or name of the virtual network interface.
 - **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
 - **--protocol-state-filtering-mode**: auto,--psfm auto  The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
