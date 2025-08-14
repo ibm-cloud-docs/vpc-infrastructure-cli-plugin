@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-08-13"
+lastupdated: "2025-08-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -11559,7 +11559,7 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 - **--attach-tags**: User tags to attach to each resource that was created by this plan.
 - **--copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--cron-spec**: The cron specification for the backup schedule.
-- **--delete-after**: The maximum number of days to keep each backup after its created.
+- **--delete-after**: The maximum number of days to keep each backup after it's created.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones. (default: **5**).
 - **--clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
