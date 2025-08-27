@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-08-14"
+lastupdated: "2025-08-27"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -384,8 +384,6 @@ Create a load balancer with route mode enabled
 Create a Private Path network load balancer.
 - `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]}]'`
 Create a Private Path network load balancer with the application load balancer ID as the pool member target.
-- `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]}]'`
-Create a Private Path network load balancer with the application load balancer name as the pool member target.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
 Create private DNS support for a load balancer.
 
@@ -4437,7 +4435,7 @@ ibmcloud is vpn-gateway-connection VPN_GATEWAY (CONNECTION1 CONNECTION2 ...) [--
 Create a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESHARED_KEY [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--distribute-traffic true | false] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--peer-cidr CIDR1 --peer-cidr CIDR2 ... --local-cidr CIDR1 --local-cidr CIDR2 ...] [[--local-ike-identity-type fqdn | hostname | ipv4_address | key_id --local-ike-identity-value VALUE] | [--local-ike-identities LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE]] [--peer-ike-identity-type fqdn | hostname | ipv4_address | key_id --peer-ike-identity-value VALUE] [--establish-mode bidirectional | peer_only] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESHARED_KEY [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--peer-cidr CIDR1 --peer-cidr CIDR2 ... --local-cidr CIDR1 --local-cidr CIDR2 ...] [[--local-ike-identity-type fqdn | hostname | ipv4_address | key_id --local-ike-identity-value VALUE] | [--local-ike-identities LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE]] [--peer-ike-identity-type fqdn | hostname | ipv4_address | key_id --peer-ike-identity-value VALUE] [--establish-mode bidirectional | peer_only] [--distribute-traffic true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4475,7 +4473,6 @@ create VPN gateway connection with local ike_identities using it as flag structu
 - **--dead-peer-detection-action**: Dead Peer Detection actions. One of: **restart**, **clear**, **hold**, **none**. (default: **restart**).
 - **--dead-peer-detection-interval**: Dead Peer Detection interval in seconds (default: **2**).
 - **--dead-peer-detection-timeout**: Dead Peer Detection timeout in seconds (default: **10**).
-- **--distribute-traffic**: Indicates whether the traffic is distributed between the up tunnels of the VPN gateway connection. One of: **true**, **false**.
 - **--ike-policy**: ID or name of the IKE policy.
 - **--ipsec-policy**: ID or name of the IPsec policy.
 - **--peer-cidr**: Peer CIDRs for the resource.
@@ -4486,6 +4483,7 @@ create VPN gateway connection with local ike_identities using it as flag structu
 - **--peer-ike-identity-type**: The Peer IKE identity type.
 - **--peer-ike-identity-value**: The Peer IKE identity FQDN value.
 - **--establish-mode**: The establish mode of the VPN gateway connection. One of: **bidirectional**, **peer_only**. (default: **bidirectional**).
+- **--distribute-traffic**: Indicates whether the traffic is distributed between the up tunnels of the VPN gateway connection. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6526,7 +6524,7 @@ Add an existing volume to a virtual server instance by using resource name.
 - **--source-snapshot**: ID, name, or CRN of the snapshot to clone volume.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
 - **--allowed-use-bare-metal-server**: true,--au-bms true - The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume. If unspecified, the expression is set to true.
-- **--allowed-use-instance**: true,--au-ins true 0 The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume. If unspecified, the expression is set to true.
+- **--allowed-use-instance**: true,--au-ins true - The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume. If unspecified, the expression is set to true.
 - **--auto-delete**: The attached volume is deleted when the instance is deleted. One of: **false**, **true**. (default: **false**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7330,7 +7328,7 @@ ibmcloud is bare-metal-server-console SERVER [--vnc] [-q, --quiet]
 Create a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--bandwidth BANDWIDTH] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [-i, --interactive] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-create --zone ZONE_NAME --profile PROFILE --image IMAGE --keys KEYS (((--pnic-subnet PRIMARY_NIC_SUBNET [--vpc VPC]) [--pnic-name PRIMARY_NIC_NAME] [--pnic-rip PNIC_RIP | (--pnic-rip-address PNIC_RIP_ADDRESS --pnic-rip-auto-delete true | false --pnic-rip-name PNIC_RIP_NAME)] [--pnic-sgs PNIC_SGS] [--pnic-allowed-vlans PNIC_ALLOWED_VLANS] [--pnic-ein true | false] [--pnic-ais false | true] [--network-interfaces NETWORK_INTERFACES_JSON | @NETWORK_INTERFACES_JSON_FILE]) | ([--pnac-name PRIMARY_NAC_NAME] [--pnac-allowed-vlans PNAC_ALLOWED_VLANS] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE])) [--name NAME] [--user-data DATA] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--bandwidth BANDWIDTH] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service true | false [--metadata-service-protocol http | https]] [-i, --interactive] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7414,6 +7412,10 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this bare metal server. The policy defaults to manual if the pool is not empty. Otherwise the policy defaults to automatic. One of: **disabled**, **manual**, **automatic**.
 - **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this bare metal server.
+- **--default-trusted-profile**: ID, name, or CRN of the trusted profile.
+- **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during server creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it is automatically deleted when the server is deleted. One of: **true,false**. (default: **true**).
+- **--metadata-service**: Enable or disable the baremetal server metadata service. One of: **true**, **false**.
+- **--metadata-service-protocol**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--interactive, -i**:
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7848,7 +7850,7 @@ ibmcloud is bare-metal-server-stop SERVER [--type soft | hard] [-f, --force] [-q
 Update a bare metal server.
 
 ```
-ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--bandwidth BANDWIDTH] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-boot false | true] [--tpm-mode tpm_2 | disabled] [--bandwidth BANDWIDTH] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--metadata-service true | false [--metadata-service-protocol http | https]] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -7870,6 +7872,8 @@ ibmcloud is bare-metal-server-update SERVER [--name NEW_NAME] [--enable-secure-b
 - **--tpm-mode**: The mode for the trusted platform module (TPM). One of: **tpm_2**, **disabled**.
 - **--bandwidth**: The total bandwidth (in megabits per second) that is shared across the bare metal server's network interfaces. If unspecified, the default value from the profile is used. You can use command **ibmcloud is bare-metal-server-profile** to get valid bandwidth values.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this bare metal server. The policy defaults to manual if the pool is not empty. Otherwise the policy defaults to automatic. One of: **disabled**, **manual**, **automatic**.
+- **--metadata-service**: Enable or disable the bare metal server metadata service. One of: **true**, **false**.
+- **--metadata-service-protocol**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this bare metal server.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -8092,7 +8096,7 @@ ibmcloud is bare-metal-server-network-attachment-delete SERVER (NAC1 NAC2 ...) [
 Reinitializes a bare metal server with the specified image and SSH keys.
 
 ```
-ibmcloud is bare-metal-server-initialization-replace SERVER --image IMAGE --keys KEYS [--user-data DATA] [--output JSON] [-q, --quiet]
+ibmcloud is bare-metal-server-initialization-replace SERVER --image IMAGE --keys KEYS [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--user-data DATA] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -8107,6 +8111,8 @@ Reinitializes a bare metal server with the specified image and SSH keys. The ser
 - **SERVER**: ID or name of the server.
 - **--image**: ID or name of the image.
 - **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used only if the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--default-trusted-profile**: ID, name, or CRN of the trusted profile.
+- **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during server creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it is automatically deleted when the server is deleted. One of: **true,false**. (default: **true**).
 - **--user-data**: data|@data-file. User data to transfer to the bare metal server.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -11386,7 +11392,7 @@ Create backup-policy for shares
 - **--plan-attach-tags**: User tags to attach to each resource that was created by this plan.
 - **--plan-copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--plan-cron-spec**: The cron specification for the backup schedule.
-- **--plan-delete-after**: The maximum number of days to keep each backup after creation. (default: **30**).
+- **--plan-delete-after**: The maximum number of days to keep each backup after it's created. (default: **30**).
 - **--plan-delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--plan-clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones. (default: **5**).
 - **--plan-clone-policy-zones**: The zone that this backup policy plan creates snapshot clones in.
@@ -11624,7 +11630,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 - **--attach-tags**: User tags to attach to each resource that was created by this plan.
 - **--copy-tags**: Indicates whether to copy the source user tags to the created resource. One of: **true**, **false**.
 - **--cron-spec**: The cron specification for the backup schedule.
-- **--delete-after**: The maximum number of days to keep each backup after creation.
+- **--delete-after**: The maximum number of days to keep each backup after it's created.
 - **--delete-over-count**: The maximum number of recent backups to keep. If unspecified, all backups are kept.
 - **--reset-delete-over-count**: Remove any existing maximum number of recent backups to keep.
 - **--clone-policy-max-snapshots**: The maximum number of recent snapshots (per source) that keep clones.

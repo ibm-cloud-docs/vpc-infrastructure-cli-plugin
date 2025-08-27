@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-08-13"
+lastupdated: "2025-08-27"
 
 ---
 
@@ -13,6 +13,28 @@ lastupdated: "2025-08-13"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v14.4.0
+{: #v14.4.0}
+
+Version 14.4.0 was released on 2025-08-25.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* Added support for `--default-trusted-profile`, `--default-trusted-profile-auto-link`, `--metadata-service`, and `--metadata-service-protocol` flags in command `ibmcloud is bare-metal-server-create` to support bare metal identity server functionality.
+* Added support for `--metadata-service`, and `--metadata-service-protocol` flags in command `ibmcloud is bare-metal-server-update` to support bare metal identity server functionality.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v14.3.0
 {: #v14.3.0}
