@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-08-27"
+lastupdated: "2025-09-23"
 
 ---
 
@@ -13,6 +13,37 @@ lastupdated: "2025-08-27"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v15.0.0
+{: #v15.0.0}
+
+Version 15.0.0 was released on 2025-09-23.
+
+### New commands
+
+* New commands `public-address-ranges`, `public-address-range`, `public-address-range-create`, `public-address-range-update`,`public-address-range-delete` were added to support public address range feature.
+
+### Updated commands
+
+* `--reserved-ip-subnet` and `--reserved-ip-vpc` flags are introduced in the `load-balancer-pool-member-create` and `load-balancer-pool-member-update` commands.
+* `--volume-bandwidth-qos-mode` flag is introduced in `instance-create`, `instance-update`, `instance-template-create`, `instance-create-from-template`, and `instance-template-create-override-source-template` command.
+* `--zone` changed from required to optional in `share-create` and `share-replica-create`.
+* `--bandwidth` and `--allowed-access-protocols` can now be specified when a share with `size` and `source-snapshot` is created.
+* `--bandwidth` and `--allowed-access-protocols` can also be updated by using `share-update`.
+
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* In `share-create`, the `access_protocol` and `transit_encryption` properties are now required in `--replica-share-mount-targets` and `--mount-targets` json.
+* In `share-create`, the `--allowed-transit-encryption-modes` and `--replica-share-allowed-transit-encryption-modes` values changed from `none, user_managed` to `stunnel, ipsec, none`.
+* In `share-replica-create`, the `access_protocol` and `transit_encryption` properties are now required in `--mount-targets` json.
+* In `share-replica-create`, the `--allowed-transit-encryption-modes` values changed from `none, user_managed` to `stunnel, ipsec, none`.
+* In `share-mount-target-create`, the `--access_protocol` is now required.
+* In `share-mount-target-create`, and `--transit_encryption` is now required and values changed from `none, user_managed` to `stunnel, ipsec, none`.
 
 ## v14.4.0
 {: #v14.4.0}

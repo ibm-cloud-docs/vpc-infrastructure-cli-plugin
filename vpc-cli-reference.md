@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-08-27"
+lastupdated: "2025-09-23"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -384,6 +384,8 @@ Create a load balancer with route mode enabled
 Create a Private Path network load balancer.
 - `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]}]'`
 Create a Private Path network load balancer with the application load balancer ID as the pool member target.
+- `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f474"}}]}]'`
+Create a private path network load balancer with the reserved IP ID as the pool member target.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
 Create private DNS support for a load balancer.
 
@@ -953,6 +955,8 @@ Create a network load balancer pool with members and supply the member target by
 Create a Private Path network load balancer with the application load balancer ID as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]'`
 Create a Private Path network load balancer with the application load balancer name as the pool member target.
+- `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f474"}}]'`
+Create a private path network load balancer with the reserved IP ID as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin udp 20 2 5 http`
@@ -1036,7 +1040,7 @@ ibmcloud is load-balancer-pool-member LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [
 Create a load balancer pool member.
 
 ```
-ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--vpc VPC] [--weight WEIGHT] [--target-type instance | load_balancer] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--vpc VPC] [--weight WEIGHT] [--target-type instance | load_balancer | reserved_ip [--reserved-ip-subnet RESERVED_IP_SUBNET [--reserved-ip-vpc RESERVED_IP_VPC]]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1048,6 +1052,8 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 192.168.100.5 --weight 100 --output JSON`
 - `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-instance --target-type instance`
 - `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-lb --target-type load_balancer`
+- `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-reserved-ip --target-type reserved_ip --reserved-ip-subnet my-subnet-name --reserved-ip-vpc my-vpc`
+- `ibmcloud is load-balancer-pool-member-create my-nlb my-pool  3000 my-reserved-ip --target-type reserved_ip --reserved-ip-subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f4`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-create}
@@ -1058,7 +1064,9 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - **TARGET**: The IP address of the pool member for the load balancers that are in the application family, or the ID or name of an ALB or the instance for the load balancers that are in the network family.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
-- **--target-type**: The type of target for this pool member. Required only when the target is specified by name. One of: **instance**, **load_balancer**.
+- **--target-type**: The type of target for this pool member. One of: **instance**, **load_balancer**, **reserved_ip**.
+- **--reserved-ip-subnet**: This option is applicable only when the target type is reserved IP.
+- **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and reserved IP subnet is named.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1070,7 +1078,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 Update a member of a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [--target-address TARGET_ADDRESS | --target TARGET] [--port PORT] [--weight WEIGHT] [--target-type instance | load_balancer] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [--target-address TARGET_ADDRESS | --target TARGET] [--port PORT] [--weight WEIGHT] [--target-type instance | load_balancer | reserved_ip [--reserved-ip-subnet RESERVED_IP_SUBNET [--reserved-ip-vpc RESERVED_IP_VPC]]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1084,6 +1092,9 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-address 192.168.100.5 --port 3001 --weight 100 --output JSON`
 - `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target my-instance --target-type instance`
 - `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target my-lb --target-type load_balancer`
+- `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --port 3001 --target my-instance --target-type instance`
+- `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --port 3001 --target my-reserved-ip --target-type reserved_ip --reserved-ip-subnet my-subnet-name --reserved-ip-vpc my-vpc`
+- `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --port 3001 --target my-reserved-ip --target-type reserved_ip --reserved-ip-subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f4`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-update}
@@ -1096,7 +1107,9 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **--target**: The IP address of the pool member for the load balancers that are in the application family, or the ID or name of an ALB or the instance for the load balancers that are in the network family.
 - **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
-- **--target-type**: The type of target for this pool member. Required only when the target is specified by name. One of: **instance**, **load_balancer**.
+- **--target-type**: The type of target for this pool member. One of: **instance**, **load_balancer**, **reserved_ip**.
+- **--reserved-ip-subnet**: This option is applicable only when the target type is reserved IP.
+- **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and reserved IP subnet is named.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5245,7 +5258,7 @@ ibmcloud is images [--visibility all | public | private] [--status STATUS] [--us
 {: #command-options-images}
 
 - **--visibility**: List images with given visibility. Valid visibility is: **public** or **private**.
-- **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, pending, unusable.
+- **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, pending, unusable, all.
 - **--user-data-format**: Filters the collection to images with the comma-separated list of user-data-format values. Available values: cloud_init, esxi_kickstart, ipxe.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -5719,7 +5732,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5804,6 +5817,8 @@ Create an instance with a network attachment and new virtual network interface w
 Create an instance with a cluster network attachment with existing cluster network interface with existing reserved IP.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cluster-network-attachments '[{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]'`
 Create an instance with a cluster network attachment.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-bandwidth-qos-mode pooled`
+Create an instance with specific volume bandwidth QoS mode.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
 Create an instance from a snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -5872,6 +5887,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -5884,7 +5900,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5926,6 +5942,8 @@ Create an instance from an instance template with the primary network interface 
 Create an instance from an instance template with a cluster network attachment that has an existing cluster network interface and an existing reserved IP.
 - `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --cluster-network-attachments [{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]`
 Create an instance from an instance template with a cluster network attachment.
+- `ibmcloud is instance-create-from-template --template 0737-b7c965c7-2c26-4457-85c4-52e7156f570d --volume-bandwidth-qos-mode pooled`
+Create an instance template with specific volume bandwidth QoS mode.
 
 #### Command options
 {: #command-options-instance-create-from-template}
@@ -5984,6 +6002,7 @@ Create an instance from an instance template with a cluster network attachment.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6410,7 +6429,7 @@ ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q
 Update a virtual server instance.
 
 ```
-ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--metadata-service, --ms true | false] [--metadata-service-protocol, --msp http | https] [--metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--output JSON] [-q, --quiet]
+ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--metadata-service, --ms true | false] [--metadata-service-protocol, --msp http | https] [--metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--volume-bandwidth-qos-mode pooled | weighted] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6445,6 +6464,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--host-failure-policy**: The action to perform if the compute host experiences a failure. One of: **restart**, **stop**.
 - **--confidential-compute-mode**: The confidential compute mode to use for this virtual server instance. If unspecified, the default confidential compute mode from the profile is used. One of: **disabled**, **sgx**, **tdx**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
+- **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7414,7 +7434,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this bare metal server.
 - **--default-trusted-profile**: ID, name, or CRN of the trusted profile.
 - **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during server creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it is automatically deleted when the server is deleted. One of: **true,false**. (default: **true**).
-- **--metadata-service**: Enable or disable the baremetal server metadata service. One of: **true**, **false**.
+- **--metadata-service**: Enable or disable the bare metal server metadata service. One of: **true**, **false**.
 - **--metadata-service-protocol**: The communication protocol for the metadata service endpoint. The protocol applies only when the metadata service is enabled. One of: **http**, **https**. (default: **http**).
 - **--interactive, -i**:
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -8623,6 +8643,142 @@ ibmcloud is cluster-network-subnet-reserved-ip-delete CLUSTER_NETWORK CLUSTER_NE
 
 ---
 
+## Public-address-range
+{: #public-address-range}
+
+### ibmcloud is public-address-ranges
+{: #public-address-ranges-list}
+
+List all public address ranges.
+
+```
+ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-ranges}
+
+- `ibmcloud is public address ranges`
+- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+
+#### Command options
+{: #command-options-public-address-ranges}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range
+{: #public-address-range-view}
+
+View details of a public address range.
+
+```
+ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range}
+
+- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is public-address-range my-public-address-range-name`
+
+#### Command options
+{: #command-options-public-address-range}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-create
+{: #public-address-range-create}
+
+Create a public address range.
+
+```
+ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-create}
+
+- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
+- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-create}
+
+- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
+- **--zone**: The zone that you want this public address range to reside in. While specifying  flag, --vpc flag is required.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-update
+{: #public-address-range-update}
+
+Update a public address range.
+
+```
+ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-update}
+
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
+
+#### Command options
+{: #command-options-public-address-range-update}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
+- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
+- **--reset-target**: Remove target from public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-delete
+{: #public-address-range-delete}
+
+Delete one or more public address ranges.
+
+```
+ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-public-address-range-delete}
+
+- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-public-address-range-delete}
+
+- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
+- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
+- **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Placement group
 {: #placement-group}
 
@@ -8960,7 +9116,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9043,6 +9199,8 @@ Create an instance with a network attachment and new virtual network interface w
 Create an instance template with a cluster network attachment with existing cluster network interface with existing reserved IP.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --cluster-network-attachments '[{"name":"cli-cnac-1", "cluster_network_interface": {"auto_delete": true, "name": "cni-1",  "primary_ip": { "auto-delete": true, "name": "my-reserved-ip"}, "subnet": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]'`
 Create an instance template with a cluster network attachment.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 mx2-2x16 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --volume-bandwidth-qos-mode pooled`
+Create an instance with specific volume bandwidth QoS mode.
 
 #### Command options
 {: #command-options-instance-template-create}
@@ -9097,6 +9255,7 @@ Create an instance template with a cluster network attachment.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -9109,7 +9268,7 @@ Create an instance template with a cluster network attachment.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9189,6 +9348,7 @@ Create an instance template by overriding a source template with allowed use in 
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -10458,8 +10618,8 @@ ibmcloud is snapshot-clone-delete SNAPSHOT (ZONE_NAME1 ZONE_NAME2 ...) [--output
 #### Command examples
 {: #command-examples-snapshot-clone-delete}
 
-- `ibmcloud is snaphost-clone-delete r134-77e21079-7291-44c2-866a-8f1848bc10f0 --zone us-south-2`
-- `ibmcloud is snapshot-clone-delete aaa-default-snapshot-2 us-east-1`
+- `ibmcloud is snaphost-clone-delete r134-77e21079-7291-44c2-866a-8f1848bc10f0 us-south-2`
+- `ibmcloud is snapshot-clone-delete aaa-default-snapshot-2 us-east-1 us-east-2`
 
 #### Command options
 {: #command-options-snapshot-clone-delete}
@@ -10598,7 +10758,7 @@ ibmcloud is snapshot-consistency-group-create ((--snapshots SNAPSHOTS_JSON | @SN
 - `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output json`
 - `ibmcloud is snapshot-consistency-group-create --source-volume r006-1772e102-0671-48c7-a97a-504247e61e48 --delete-snapshot-on-delete false --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output json`
 - `ibmcloud is snapshot-consistency-group-create --snapshots '[{"source_volume":"r006-1772e102-0671-48c7-a97a-504247e61e48"}]'`
-- `ibmcloud is snapshot-consistency-group-create --snapshots '[{"source_volume":"r006-1772e102-0671-48c7-a97a-504247e61e48","user_tags":["env:test,env:stage"],"snapshot_name":"snapshot1"}]' --name multi-snapshot-consistency-group --delete-snapshot-on-delete false`
+- `ibmcloud is snapshot-consistency-group-create --snapshots '[{"source_volume":"r006-1772e102-0671-48c7-a97a-504247e61e48","user_tags":["env:test,env:stage"],"name":"snapshot1"}]' --name multi-snapshot-consistency-group --delete-snapshot-on-delete false`
 - `ibmcloud is snapshot-consistency-group-create --snapshots @snapshots.json --name multi-snapshot-consistency-group --delete-snapshot-on-delete false`
 
 #### Command options
@@ -10623,7 +10783,7 @@ ibmcloud is snapshot-consistency-group-create ((--snapshots SNAPSHOTS_JSON | @SN
 Update a snapshot consistency group.
 
 ```
-ibmcloud is snapshot-consistency-group-update [--name NEW_NAME] [--delete-snapshot-on-delete false | true] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-consistency-group-update SNAPSHOT_CONSISTENCY_GROUP [--name NEW_NAME] [--delete-snapshot-on-delete false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10636,6 +10796,7 @@ ibmcloud is snapshot-consistency-group-update [--name NEW_NAME] [--delete-snapsh
 #### Command options
 {: #command-options-snapshot-consistency-group-update}
 
+- **SNAPSHOT_CONSISTENCY_GROUP**: ID or name of the snapshot consistency group.
 - **--name**: New name for the snapshot-consistency-group.
 - **--delete-snapshot-on-delete**: Indicates whether deleting the snapshot consistency group also deletes the snapshots in the group. One of: **false**, **true**. (default: **true**).
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -10677,7 +10838,7 @@ The following section provides information about CLI commands for file shares.
 ### ibmcloud is share
 {: #share-view}
 
-View details of a file share.
+View details of a file share. The details include the share’s zone, size, IOPS or bandwidth, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-vpc-about&interface=ui').
 
 ```
 ibmcloud is share SHARE [--output JSON] [-q, --quiet]
@@ -10701,10 +10862,10 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 ### ibmcloud is share-create
 {: #share-create}
 
-Create a file share.
+Create a file share with a capacity that ranges from 10 to 32,000 GB. For zonal shares, specify IOPS. For regional shares, specify the bandwidth. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli').
 
 ```
-ibmcloud is share-create (--profile PROFILE (--zone ZONE_NAME [--access-control-mode security_group | vpc] | [--snapshot SNAPSHOT --share SHARE]) [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC --replica-share-zone ZONE_NAME [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem none,user_managed] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem none,user_managed] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-control-mode security_group | vpc] [--bandwidth BANDWIDTH] | [--snapshot SNAPSHOT --share SHARE]) [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--allowed-access-protocols, --aacp nfs4] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC [--replica-share-zone ZONE_NAME] [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem stunnel,ipsec,none] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10713,26 +10874,29 @@ ibmcloud is share-create (--profile PROFILE (--zone ZONE_NAME [--access-control-
 - `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40`
 - `ibmcloud is share-create --name my-file-share-1 --zone us-south-1 --profile dp2 --size 40 --initial-owner-gid 100 --initial-owner-uid 200`
 - `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40 --output JSON`
-- `ibmcloud is share-create --name p-share-3 --zone us-south-1 --profile dp2 --replica-share-profile dp2 --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-3  --replica-share-name replica-p-share-3 --replica-share-mount-targets '[{"name": "my-target1", "vpc": {"id": "r134-fa7c3b16-8a59-4434-8c2c-3230e916d441"}}]' --size 40`
-- `ibmcloud is share-create --zone us-south-1 --profile dp2 --name my-file-share --user-tags env:dev,env:test --mount-targets '[{"name": "my-target121","vpc": {"name": "test-vpc-18-1"}},{"name": "my-target122","vpc": {"name": "vpc-0413"}}]' --replica-share-profile dp2 --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-3 --replica-share-user-tags env:dev,env:prod --replica-share-name my-file-share-replica --replica-share-mount-targets '[{"name": "my-target1", "vpc": {"id": "r006-9265c6c2-13e7-4268-b4e9-658d4df1e2f6"}}]' --size 40`
-- `ibmcloud is share-create --name my-file-share-3 --zone au-syd-1 --profile dp2 --size 40 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone au-syd-2  --replica-share-name replica-p-share-3 --replica-share-mount-targets '[{"name": "my-replica-target1", "vpc": {"name": "vpc-1006-01"}}]'`
 - `ibmcloud is share-create --name my-file-share --zone us-south-2 --profile dp2 --size 1000 --iops 1000`
 - `ibmcloud is share-create --zone us-east-1 --profile dp2 --size 40 --encryption_key crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179`
-- `ibmcloud is share-create --name my-fs-cli-1 --zone us-south-1 --profile dp2 --size 40 --mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni","primary_ip":{"id":"0716-d2a60008-84ca-4345-86f9-23a65dc75a32"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-a2f82965-1b8d-4bfe-9949-fe79e47daa86"}]}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-2  --replica-share-name my-fs-cli-1-replica  --replica-share-mount-targets '[{"name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni-2","primary_ip":{"address":"10.240.66.20","auto-delete":true,"name":"rip-vni-target"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-bd0f8527-c45c-496e-8d34-63bda6dd829b"}],"subnet":{"id":"0726-cf6d55db-284e-40c6-aea7-67dbabfa5542"}}}]'`
-- `ibmcloud is share-create --name my-file-share --zone us-south-1 --profile dp2 --size 40 --atem user_managed,none`
 - `ibmcloud is share-create --name my-file-accessor-share --origin-share crn:v1:bluemix:public:is:au-syd-1:a/1431ea2a7958ad20f0fee592ff85f746::share:r026-02aea1c7-adb6-4072-9799-6ca495561661`
 - `ibmcloud is share-create --profile dp2 --snapshot r134-6ce54f3b-8971-4b5d-95a7-7dfa897ddfb3`
 - `ibmcloud is share-create --profile dp2 --snapshot cli-share-snapshot --share my-file-share --user-tags "dev:tags"`
 - `ibmcloud is share-create --profile dp2 --snapshot crn:v1:staging:public:is:us-south-1:a/efe5afc483594adaa8325e2b4d1290df::share-snapshot:r134-2ae87eb2-b26c-4126-ab34-e6e64f6f1773/r134-6ce54f3b-8971-4b5d-95a7-7dfa897ddfb3 --user-tags "dev:tags"`
+- `ibmcloud is share-create --name p-share-3 --zone us-south-1 --profile dp2 --replica-share-profile dp2 --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-3  --replica-share-name replica-p-share-3 --replica-share-mount-targets '[{"access-protocol": "nfs4","name": "my-target1", "transit_encryption":"stunnel", "vpc": {"id": "r134-fa7c3b16-8a59-4434-8c2c-3230e916d441"}}]' --size 40`
+- `ibmcloud is share-create --zone us-south-1 --profile dp2 --name my-file-share --user-tags env:dev,env:test --mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name": "my-target121","vpc": {"name": "test-vpc-18-1"}},{"name": "my-target122","vpc": {"name": "vpc-0413"}}]' --replica-share-profile dp2 --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-3 --replica-share-user-tags env:dev,env:prod --replica-share-name my-file-share-replica --replica-share-mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name": "my-target1", "vpc": {"id": "r006-9265c6c2-13e7-4268-b4e9-658d4df1e2f6"}}]' --size 40`
+- `ibmcloud is share-create --name my-file-share-3 --zone au-syd-1 --profile dp2 --size 40 --mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone au-syd-2  --replica-share-name replica-p-share-3 --replica-share-mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name": "my-replica-target1", "vpc": {"name": "vpc-1006-01"}}]'`
+- `ibmcloud is share-create --name my-fs-cli-1 --zone us-south-1 --profile dp2 --size 40 --atem ipsec,none --mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni","primary_ip":{"id":"0716-d2a60008-84ca-4345-86f9-23a65dc75a32"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-a2f82965-1b8d-4bfe-9949-fe79e47daa86"}]}}]' --replica-share-profile dp2  --replica-share-cron-spec '55 09 * * *' --replica-share-zone us-south-2  --replica-share-name my-fs-cli-1-replica  --replica-share-mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-1-vni-2","primary_ip":{"address":"10.240.66.20","auto-delete":true,"name":"rip-vni-target"},"resource_group":{"id":"11caaa983d9c4beb82690daab08717e9"},"security_groups":[{"id":"r134-bd0f8527-c45c-496e-8d34-63bda6dd829b"}],"subnet":{"id":"0726-cf6d55db-284e-40c6-aea7-67dbabfa5542"}}}]'`
+- `ibmcloud is share-create --profile dp2 --snapshot cli-share-snapshot --allowed-access-protocols nfs4 --share my-file-share --user-tags "dev:tags"`
+- `ibmcloud is share-create --name my-file-share --profile rfs --size 40 --allowed-access-protocols nfs4 --bandwidth 1000 --atem stunnel,none`
+- `ibmcloud is share-create --name my-fs-cli-1 --profile rfs --size 40 --bandwidth 125 --allowed-access-protocols nfs4 --atem stunnel,none --mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"stunnel", "name":"my-target1","virtual_network_interface":{"name":"my-fs-cli-vni", "primary_ip":{"address":"10.240.64.51","auto-delete":true,"name":"vni-target-1"},"security_groups":[{"id":"r134-bfa4dea5-3e09-4a76-90ef-cee3b840936b"}],"subnet":{"id":"0726-c5941a73-2e07-46e6-b0c8-db306259341f"}}}]'`
 
 #### Command options
 {: #command-options-share-create}
 
-- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
+- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: stunnel, ipsec, none.
 - **--name**: The user-defined name for this file share.
 - **--user-tags**: Tags for this resource.
 - **--zone**: Name of the zone.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the file share.
 - **--snapshot**: The ID, name, or CRN of the source snapshot for this file share.
 - **--share**: ID or name of the file share.
 - **--size**: The size of the file share is rounded up to the next gigabyte.
@@ -10743,9 +10907,10 @@ ibmcloud is share-create (--profile PROFILE (--zone ZONE_NAME [--access-control-
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--allowed-access-protocols, --aacp**: The access protocols to allow for this share. One or more comma separated values of: nfs4.
 - **--replica-share-iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--replica-share-user-tags**: Tags for this resource.
-- **--replica-share-allowed-transit-encryption-modes, --rs-atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
+- **--replica-share-allowed-transit-encryption-modes, --rs-atem**: Allowed transit encryption modes. One or more comma separated values of: stunnel, ipsec, none.
 - **--replica-share-mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file One of: **MOUNT_TARGETS_JSON**, **@MOUNT_TARGETS_JSON_FILE**.
 - **--replica-share-name**: The user-defined name for this file share.
 - **--replica-share-profile**: The profile that the file share uses.
@@ -10761,7 +10926,7 @@ ibmcloud is share-create (--profile PROFILE (--zone ZONE_NAME [--access-control-
 ### ibmcloud is share-delete
 {: #share-delete}
 
-Delete one or more file shares.
+Delete one or more file shares. You can't undo this deletion. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-file-share-cli').
 
 ```
 ibmcloud is share-delete (SHARE1 SHARE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -10787,7 +10952,7 @@ ibmcloud is share-delete (SHARE1 SHARE2 ...) [--output JSON] [-f, --force] [-q, 
 ### ibmcloud is share-profile
 {: #share-profile-view}
 
-View details of a file share profile.
+View details of a file share profile. The details include capacity, IOPS, bandwidth, allowed transit encryption mode, availability modes, and allowed access protocols. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles').
 
 ```
 ibmcloud is share-profile PROFILE_NAME [--output JSON] [-q, --quiet]
@@ -10805,7 +10970,7 @@ ibmcloud is share-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 ### ibmcloud is share-profiles
 {: #share-profiles-list}
 
-List all file share profiles in the region.
+List all file share profiles in the region. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles').
 
 ```
 ibmcloud is share-profiles [--output JSON] [-q, --quiet]
@@ -10822,10 +10987,10 @@ ibmcloud is share-profiles [--output JSON] [-q, --quiet]
 ### ibmcloud is share-update
 {: #share-update}
 
-Update a file share.
+Edit a file share’s name, size, profile, IOPS, and more. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#file-storage-manage-cli').
 
 ```
-ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--allowed-transit-encryption-modes, --atem none,user_managed] [--output JSON] [-q, --quiet]
+ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--allowed-access-protocols, --aacp nfs4] [--bandwidth BANDWIDTH] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10840,7 +11005,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - `ibmcloud is share-update my-file-share-1 --iops 1000`
 - `ibmcloud is share-update p-share-32 --user-tags env:dev,env:prod`
 - `ibmcloud is share-update my-fs-2-cli --access-control-mode security_group`
-- `ibmcloud is share-update my-fs-2-cli --allowed-transit-encryption-modes user_managed,none`
+- `ibmcloud is share-update my-cli --allowed-transit-encryption-modes none,stunnel --allowed-access-protocols nfs4 --bandwidth 1000`
 
 #### Command options
 {: #command-options-share-update}
@@ -10848,12 +11013,14 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 - **SHARE**: ID or name of the file share.
 - **--name**: New name of the file share.
 - **--size**: The size of the file share rounded up to the next gigabyte. Size can be only increased, not decreased.
+- **--allowed-access-protocols, --aacp**: The access protocols to allow for this share. One or more comma separated values of: nfs4.
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the file share.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
-- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
+- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: stunnel, ipsec, none.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -10862,7 +11029,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--replication-cr
 ### ibmcloud is shares
 {: #shares-list}
 
-List all file shares in the region.
+List all file shares in the region. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-all-shares-cli').
 
 ```
 ibmcloud is shares [--replication-role none | replica | source] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
@@ -10889,19 +11056,20 @@ ibmcloud is shares [--replication-role none | replica | source] [--resource-grou
 ### ibmcloud is share-replica-create
 {: #share-replica-create}
 
-Create a replica file share from an existing file share.
+Create a read-only replica of an existing zonal file share in another zone of the same geography. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create-replication&interface=cli').
 
 ```
-ibmcloud is share-replica-create --profile PROFILE --zone ZONE_NAME --replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--allowed-transit-encryption-modes, --atem none,user_managed] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is share-replica-create --profile PROFILE [--zone ZONE_NAME] --replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-share-replica-create}
 
 - `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --replication-cron-spec '10 05 * * *' --source-share r134-2b4c32f9-9d25-43df-9d59-3874a81ec46e`
-- `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r134-2f06ca6e-771e-40cc-9553-3838e2cc396d"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share`
 - `ibmcloud is share-replica-create --zone us-south-3 --profile dp2 --iops 1200 --name p-share-replica-32  --replica-share-user-tags env:dev,env:test --mount-targets  '[{"name": "my-target1", "vpc": {"name": "test-vpc-18-1"}}]' --replication-cron-spec '10 08 * * *' --source-share r006-0394a827-fe42-4341-b369-186e1a2288d3`
-- `ibmcloud is share-replica-create --zone au-syd-2 --profile dp2 --mount-targets '[{"name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share --name my-file-share-3-replica`
+- `ibmcloud is share-replica-create --zone au-syd-2 --profile dp2 --mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"ipsec", "name": "my-target1", "vpc": {"id": "r026-b403cfe8-917e-4fb8-a72c-bb490c735119"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share --name my-file-share-3-replica`
+- `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --mount-targets '[{"access-protocol": "nfs4", "transit_encryption":"ipsec", "name": "my-target1", "vpc": {"id": "r134-2f06ca6e-771e-40cc-9553-3838e2cc396d"}}]' --replication-cron-spec '10 05 * * *' --source-share my-file-share`
+- `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --replication-cron-spec '10 05 * * *' --source-share r134-2b4c32f9-9d25-43df-9d59-3874a81ec46e`
 - `ibmcloud is share-replica-create --name p-replica-share-3 --zone us-south-3 --profile dp2 --replication-cron-spec '10 05 * * *' --source-share crn:v1:staging:public:is:us-south-2:a/egq5afc483594adaa8325e2b4d1290df::share:r134-ee076f3c-9b82-4e33-953c-866205612fc9 --encryption-key crn:v1:staging:public:kms:us-south:a/efe5afc483594adaa8325e2b4d1290df:1be45161-6dae-44ca-b248-837f98004057:key:3dd21cc5-dc20-4f7c-bc62-8ec9a8a3d1bd`
 
 #### Command options
@@ -10916,7 +11084,7 @@ ibmcloud is share-replica-create --profile PROFILE --zone ZONE_NAME --replicatio
 - **--mount-targets**: MOUNT_TARGETS_JSON|@MOUNT_TARGETS_JSON_FILE, file share mount targets in JSON or JSON file.
 - **--replication-cron-spec**: The cron specification for the file share replication schedule.
 - **--source-share**: The ID, name, or CRN of source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
-- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: none, user_managed.
+- **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: stunnel, ipsec, none.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -10927,7 +11095,7 @@ ibmcloud is share-replica-create --profile PROFILE --zone ZONE_NAME --replicatio
 ### ibmcloud is share-replica-failover
 {: #share-replica-failover}
 
-Failover to replica file share.
+Failover to a replica file share to keep your data available if the source file share becomes unavailable. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-failover&interface=cli').
 
 ```
 ibmcloud is share-replica-failover REPLICA_SHARE [--fallback-policy fail | split] [--timeout TIMEOUT] [--output JSON] [-q, --quiet]
@@ -10953,7 +11121,7 @@ ibmcloud is share-replica-failover REPLICA_SHARE [--fallback-policy fail | split
 ### ibmcloud is share-replica-split
 {: #share-replica-split}
 
-Split the source file share from a replica share.
+Split the source file share from a replica share such that data is no longer synced between them. Both shares continue to exist independently. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-manage-replication&interface=cli#fs-remove-replication').
 
 ```
 ibmcloud is share-replica-split REPLICA_SHARE [-f, --force] [-q, --quiet]
@@ -10976,7 +11144,7 @@ ibmcloud is share-replica-split REPLICA_SHARE [-f, --force] [-q, --quiet]
 ### ibmcloud is share-mount-target
 {: #share-mount-target-view}
 
-View details of a file share mount target.
+View details of a file share mount target, The details include its VPC, virtual network interface, mount path, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-get-mountpath-cli').
 
 ```
 ibmcloud is share-mount-target SHARE MOUNT_TARGET [--output JSON] [-q, --quiet]
@@ -11000,7 +11168,7 @@ ibmcloud is share-mount-target SHARE MOUNT_TARGET [--output JSON] [-q, --quiet]
 ### ibmcloud is share-mount-targets
 {: #share-mount-targets-list}
 
-List all share mount targets for a file share.
+List all share mount targets for a file share. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-mount-shares-cli').
 
 ```
 ibmcloud is share-mount-targets SHARE [--output JSON] [-q, --quiet]
@@ -11023,7 +11191,7 @@ ibmcloud is share-mount-targets SHARE [--output JSON] [-q, --quiet]
 ### ibmcloud is share-mount-target-delete
 {: #share-mount-target-delete}
 
-Delete one or more file share mount targets.
+Delete one or more file share mount targets. You can't undo this deletion. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-mount-target-cli').
 
 ```
 ibmcloud is share-mount-target-delete SHARE (MOUNT_TARGET1 MOUNT_TARGET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -11049,7 +11217,7 @@ ibmcloud is share-mount-target-delete SHARE (MOUNT_TARGET1 MOUNT_TARGET2 ...) [-
 ### ibmcloud is share-mount-target-update
 {: #share-mount-target-update}
 
-Update a file share mount target.
+Edit a file share mount target’s name. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#rename-mount-target-cli').
 
 ```
 ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--output JSON] [-q, --quiet]
@@ -11074,26 +11242,28 @@ ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--outp
 ### ibmcloud is share-mount-target-create
 {: #share-mount-target-create}
 
-Create a file share mount target.
+Create a mount target to attach a file share to virtual server instances or Kubernetes clusters in the same region. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli#fs-create-mount-target-cli').
 
 ```
-ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete true | false [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--transit-encryption none | user_managed] [--output JSON] [-q, --quiet]
+ibmcloud is share-mount-target-create SHARE (--transit-encryption stunnel | ipsec | none) (--access-protocol nfs4) ([--vni VNI | (--vni-auto-delete true | false [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-share-mount-target-create}
 
-- `ibmcloud is share-mount-target-create r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 --vpc vpc-1006-01`
-- `ibmcloud is share-mount-target-create r042-3afab254-82b7-4627-94b2-35d8bdfcd306 --subnet 02u7-62c52bfc-6075-4dad-a588-bdb6a42d925b --vni-name cli-vni --vni-rip-auto-delete true --name my-cli-target --transit-encryption user_managed`
-- `ibmcloud is share-mount-target-create cli-share-1 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
-- `ibmcloud is share-mount-target-create cli-share-1 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --psfm enabled --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
+- `ibmcloud is share-mount-target-create r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 --transit-encryption none --vpc vpc-1006-01 --access-protocol nfs4`
+- `ibmcloud is share-mount-target-create r026-b72bae3c-630b-4e06-bdf8-c3b27b8013f7 --transit-encryption none --vpc vpc-1006-01 --access-protocol nfs4`
+- `ibmcloud is share-mount-target-create r042-3afab254-82b7-4627-94b2-35d8bdfcd306 --access-protocol nfs4 --subnet 02u7-62c52bfc-6075-4dad-a588-bdb6a42d925b --vni-name cli-vni --vni-rip-auto-delete true --name my-cli-target --transit-encryption ipsec`
+- `ibmcloud is share-mount-target-create cli-share-1 --transit-encryption stunnel --access-protocol nfs4 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
+- `ibmcloud is share-mount-target-create cli-share-1 --transit-encryption stunnel --access-protocol nfs4 --subnet cli-subnet-1 --name cli-share-mount-target-1 --vni-name cli-share-vni-1 --psfm enabled --vni-rip test --vni-sgs concrete-proudly-coastal-obvious,sg-vni --resource-group-name Default --vpc cli-vpc-1`
 
 #### Command options
 {: #command-options-share-mount-target-create}
 
 - **SHARE**: ID or name of the file share.
 - **--name**: The user-defined name for this file share mount target.
-- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **none**, **user_managed**.
+- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **stunnel**, **ipsec**, **none**.
+- **--access-protocol**: The protocol to use to access the share for this share mount target. One of: **nfs4**.
 - **--vni**: ID or name of the virtual network interface.
 - **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
 - **--protocol-state-filtering-mode**: auto,--psfm auto  The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
@@ -11115,7 +11285,7 @@ ibmcloud is share-mount-target-create SHARE ([--vni VNI | (--vni-auto-delete tru
 ### ibmcloud is share-accessor-bindings
 {: #share-accessor-bindings-list}
 
-List all accessor bindings of a share.
+List all accessor share bindings that are linked to an origin share. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-share-bindings-cli').
 
 ```
 ibmcloud is share-accessor-bindings SHARE [--output JSON] [-q, --quiet]
@@ -11138,7 +11308,7 @@ ibmcloud is share-accessor-bindings SHARE [--output JSON] [-q, --quiet]
 ### ibmcloud is share-accessor-binding
 {: #share-accessor-binding-view}
 
-View details of an accessor binding.
+View details of a specific accessor share binding. Details include the href, accessor, and more. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-share-binding-cli').
 
 ```
 ibmcloud is share-accessor-binding SHARE ACCESSOR_BINDING [--output JSON] [-q, --quiet]
@@ -11162,7 +11332,7 @@ ibmcloud is share-accessor-binding SHARE ACCESSOR_BINDING [--output JSON] [-q, -
 ### ibmcloud is share-accessor-binding-delete
 {: #share-accessor-binding-delete}
 
-Delete one or more file share accessor bindings.
+Delete one or more file share accessor bindings. You can't undo this deletion. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-bindings-cli').
 
 ```
 ibmcloud is share-accessor-binding-delete SHARE ACCESSOR_BINDING [-f, --force] [--output JSON] [-q, --quiet]
@@ -11188,7 +11358,7 @@ ibmcloud is share-accessor-binding-delete SHARE ACCESSOR_BINDING [-f, --force] [
 ### ibmcloud is share-snapshot
 {: #share-snapshot-view}
 
-View details of a file share snapshot.
+View details of a file share snapshot, including its fingerprint, minimum size, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-view&interface=cli#fs-snapshots-view-details-cli').
 
 ```
 ibmcloud is share-snapshot SHARE SNAPSHOT [--output JSON] [-q, --quiet]
@@ -11212,7 +11382,7 @@ ibmcloud is share-snapshot SHARE SNAPSHOT [--output JSON] [-q, --quiet]
 ### ibmcloud is share-snapshots
 {: #share-snapshots-list}
 
-List all snapshots of a file share.
+List all snapshots in the region or of a specific file share. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-view&interface=cli#fs-snapshots-view-all-snapshots-cli').
 
 ```
 ibmcloud is share-snapshots [--share SHARE] [--backup-policy-plan BACKUP_POLICY_PLAN [--backup-policy BACKUP_POLICY]] [--output JSON] [-q, --quiet]
@@ -11237,7 +11407,7 @@ ibmcloud is share-snapshots [--share SHARE] [--backup-policy-plan BACKUP_POLICY_
 ### ibmcloud is share-snapshot-delete
 {: #share-snapshot-delete}
 
-Delete one or more file share snapshots.
+Delete one or more file share snapshots. You can't undo this deletion. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-manage&interface=cli#fs-snapshots-delete-snapshot-cli').
 
 ```
 ibmcloud is share-snapshot-delete SHARE (SNAPSHOT1 SNAPSHOT2 ...) [-f, --force] [--output JSON] [-q, --quiet]
@@ -11264,7 +11434,7 @@ ibmcloud is share-snapshot-delete SHARE (SNAPSHOT1 SNAPSHOT2 ...) [-f, --force] 
 ### ibmcloud is share-snapshot-update
 {: #share-snapshot-update}
 
-Update a file share snapshot.
+Edit a file share snapshot’s user tags. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-manage&interface=cli#fs-snapshot-updatetags-cli').
 
 ```
 ibmcloud is share-snapshot-update SHARE SNAPSHOT [--user-tags USER_TAGS] [--output JSON] [-q, --quiet]
@@ -11289,7 +11459,7 @@ ibmcloud is share-snapshot-update SHARE SNAPSHOT [--user-tags USER_TAGS] [--outp
 ### ibmcloud is share-snapshot-create
 {: #share-snapshot-create}
 
-Create a snapshot for a file share.
+Create a file share snapshot to capture a share’s data at a specific date and time. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-create&interface=cli').
 
 ```
 ibmcloud is share-snapshot-create SHARE [--name NAME] [--user-tags USER_TAGS] [--output JSON] [-q, --quiet]
@@ -11581,7 +11751,7 @@ ibmcloud is backup-policy-plan-create POLICY --cron-spec CRON_SPEC [--name NAME]
 Delete one or more backup policy plans.
 
 ```
-ibmcloud is backup-policy-plan-delete (PLAN1 PLAN2 ...) [--output JSON] [-f, --force] [-q, --quiet]
+ibmcloud is backup-policy-plan-delete POLICY (PLAN1 PLAN2 ...) [--output JSON] [-f, --force] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11593,6 +11763,7 @@ ibmcloud is backup-policy-plan-delete (PLAN1 PLAN2 ...) [--output JSON] [-f, --f
 #### Command options
 {: #command-options-backup-policy-plan-delete}
 
+- **POLICY**: ID or name of the backup policy.
 - **PLAN1**: ID or name of the backup policy plan.
 - **PLAN2**: ID or name of the backup policy plan.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
