@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-09-23"
+lastupdated: "2025-09-25"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1575,6 +1575,142 @@ ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output 
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+## Public address range
+{: #public-address-range}
+
+### ibmcloud is public-address-ranges
+{: #public-address-ranges-list}
+
+List all public address ranges.
+
+```
+ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-ranges}
+
+- `ibmcloud is public address ranges`
+- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+
+#### Command options
+{: #command-options-public-address-ranges}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range
+{: #public-address-range-view}
+
+View details of a public address range.
+
+```
+ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range}
+
+- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is public-address-range my-public-address-range-name`
+
+#### Command options
+{: #command-options-public-address-range}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-create
+{: #public-address-range-create}
+
+Create a public address range.
+
+```
+ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-create}
+
+- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
+- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-create}
+
+- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
+- **--zone**: The zone that you want this public address range to reside in. While specifying  flag, --vpc flag is required.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-update
+{: #public-address-range-update}
+
+Update a public address range.
+
+```
+ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-update}
+
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
+
+#### Command options
+{: #command-options-public-address-range-update}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
+- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
+- **--reset-target**: Remove target from public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-delete
+{: #public-address-range-delete}
+
+Delete one or more public address ranges.
+
+```
+ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-public-address-range-delete}
+
+- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-public-address-range-delete}
+
+- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
+- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
+- **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -8639,142 +8775,6 @@ ibmcloud is cluster-network-subnet-reserved-ip-delete CLUSTER_NETWORK CLUSTER_NE
 - **CLUSTER_NETWORK_SUBNET_RESERVED_IP2**: ID or name for the cluster network subnet reserved IPs.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-## Public-address-range
-{: #public-address-range}
-
-### ibmcloud is public-address-ranges
-{: #public-address-ranges-list}
-
-List all public address ranges.
-
-```
-ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-ranges}
-
-- `ibmcloud is public address ranges`
-- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
-
-#### Command options
-{: #command-options-public-address-ranges}
-
-- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--all-resource-groups**: Query all resource groups.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range
-{: #public-address-range-view}
-
-View details of a public address range.
-
-```
-ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range}
-
-- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
-- `ibmcloud is public-address-range my-public-address-range-name`
-
-#### Command options
-{: #command-options-public-address-range}
-
-- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-create
-{: #public-address-range-create}
-
-Create a public address range.
-
-```
-ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range-create}
-
-- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
-- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
-
-#### Command options
-{: #command-options-public-address-range-create}
-
-- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
-- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
-- **--zone**: The zone that you want this public address range to reside in. While specifying  flag, --vpc flag is required.
-- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-update
-{: #public-address-range-update}
-
-Update a public address range.
-
-```
-ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range-update}
-
-- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
-- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
-
-#### Command options
-{: #command-options-public-address-range-update}
-
-- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
-- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
-- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
-- **--reset-target**: Remove target from public address range.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-delete
-{: #public-address-range-delete}
-
-Delete one or more public address ranges.
-
-```
-ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
-```
-
-#### Command example
-{: #command-example-public-address-range-delete}
-
-- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
-
-#### Command options
-{: #command-options-public-address-range-delete}
-
-- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
-- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
-- **--force, -f**: Force the operation without confirmation.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
