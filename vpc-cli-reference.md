@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-09-25"
+lastupdated: "2025-11-06"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1066,7 +1066,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--target-type**: The type of target for this pool member. One of: **instance**, **load_balancer**, **reserved_ip**.
 - **--reserved-ip-subnet**: This option is applicable only when the target type is reserved IP.
-- **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and reserved IP subnet is named.
+- **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and the reserved IP subnet is specified by name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1109,7 +1109,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--target-type**: The type of target for this pool member. One of: **instance**, **load_balancer**, **reserved_ip**.
 - **--reserved-ip-subnet**: This option is applicable only when the target type is reserved IP.
-- **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and reserved IP subnet is named.
+- **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and the reserved IP subnet is specified by name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1575,142 +1575,6 @@ ibmcloud is network-acl-rule-delete ACL (RULE1 RULE2 ...) [--vpc VPC] [--output 
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-## Public address range
-{: #public-address-range}
-
-### ibmcloud is public-address-ranges
-{: #public-address-ranges-list}
-
-List all public address ranges.
-
-```
-ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-ranges}
-
-- `ibmcloud is public address ranges`
-- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
-
-#### Command options
-{: #command-options-public-address-ranges}
-
-- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--all-resource-groups**: Query all resource groups.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range
-{: #public-address-range-view}
-
-View details of a public address range.
-
-```
-ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range}
-
-- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
-- `ibmcloud is public-address-range my-public-address-range-name`
-
-#### Command options
-{: #command-options-public-address-range}
-
-- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-create
-{: #public-address-range-create}
-
-Create a public address range.
-
-```
-ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range-create}
-
-- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
-- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
-
-#### Command options
-{: #command-options-public-address-range-create}
-
-- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
-- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
-- **--zone**: The zone that you want this public address range to reside in. While specifying  flag, --vpc flag is required.
-- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-update
-{: #public-address-range-update}
-
-Update a public address range.
-
-```
-ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range-update}
-
-- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
-- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
-
-#### Command options
-{: #command-options-public-address-range-update}
-
-- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
-- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
-- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
-- **--reset-target**: Remove target from public address range.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-delete
-{: #public-address-range-delete}
-
-Delete one or more public address ranges.
-
-```
-ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
-```
-
-#### Command example
-{: #command-example-public-address-range-delete}
-
-- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
-
-#### Command options
-{: #command-options-public-address-range-delete}
-
-- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
-- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
-- **--force, -f**: Force the operation without confirmation.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -4584,7 +4448,7 @@ ibmcloud is vpn-gateway-connection VPN_GATEWAY (CONNECTION1 CONNECTION2 ...) [--
 Create a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESHARED_KEY [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--peer-cidr CIDR1 --peer-cidr CIDR2 ... --local-cidr CIDR1 --local-cidr CIDR2 ...] [[--local-ike-identity-type fqdn | hostname | ipv4_address | key_id --local-ike-identity-value VALUE] | [--local-ike-identities LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE]] [--peer-ike-identity-type fqdn | hostname | ipv4_address | key_id --peer-ike-identity-value VALUE] [--establish-mode bidirectional | peer_only] [--distribute-traffic true | false] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESHARED_KEY [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID] [--ipsec-policy IPSEC_POLICY_ID] [--peer-cidr CIDR1 --peer-cidr CIDR2 ... --local-cidr CIDR1 --local-cidr CIDR2 ...] [[--local-ike-identity-type fqdn | hostname | ipv4_address | key_id --local-ike-identity-value VALUE] | [--local-ike-identities LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE]] [--peer-ike-identity-type fqdn | hostname | ipv4_address | key_id --peer-ike-identity-value VALUE] [--establish-mode bidirectional | peer_only] [--distribute-traffic true | false] [--peer-asn ASN] [--tunnels TUNNELS_JSON | @TUNNELS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4605,6 +4469,7 @@ ibmcloud is vpn-gateway-connection-create CONNECTION_NAME VPN_GATEWAY PEER PRESH
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --peer-cidr 192.168.1.0/24 --ike-policy 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --local-cidr 10.240.0.0/24 --local-cidr 10.240.1.0/24 --peer-cidr 192.168.1.0/24 --peer-cidr 192.168.2.0/24  --output JSON`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --distribute-traffic true --local-ike-identities '[{"type":"fqdn","value":"sadsadasd.com"},{"type":"fqdn","value":"sadsadasdasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd --output JSON`
+- `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --distribute-traffic true --local-ike-identities '[{"type":"fqdn","value":"sadsadasd.com"},{"type":"fqdn","value":"sadsadasdasd.com"}]' --peer-asn 65534 --tunnels '[{"neighbor_ip":{"address":"192.168.3.4"},"tunnel_interface_ip":{"address":"192.168.3.4"}},{"neighbor_ip":{"address":"192.168.3.5"},"tunnel_interface_ip":{"address":"192.168.3.5"}}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd --output JSON`
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only --local-ike-identities '[{"type":"ipv4_address","value":"2.2.2.2"},{"type":"fqdn","value":"sadsadasd.com"}]' --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
 create VPN gateway connection with local ike_identities using it as JSON structure
 - `ibmcloud is vpn-gateway-connection-create my-connection fee82deba12e4c0fb69c3b09d1f12345 169.21.50.5 lkj14b1oi0alcniejkso --establish-mode peer_only  --local-ike-identity-type fqdn --local-ike-identity-value sadsadasd.com --peer-ike-identity-type key_id --peer-ike-identity-value sampledd`
@@ -4633,6 +4498,8 @@ create VPN gateway connection with local ike_identities using it as flag structu
 - **--peer-ike-identity-value**: The Peer IKE identity FQDN value.
 - **--establish-mode**: The establish mode of the VPN gateway connection. One of: **bidirectional**, **peer_only**. (default: **bidirectional**).
 - **--distribute-traffic**: Indicates whether the traffic is distributed between the up tunnels of the VPN gateway connection. One of: **true**, **false**.
+- **--peer-asn**: The peer autonomous system number (ASN) for this VPN gateway connection.
+- **--tunnels**: TUNNELS_JSON | @TUNNELS_JSON_FILE, tunnels in JSON or JSON file. One of: **TUNNELS_JSON**, **@TUNNELS_JSON_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4774,7 +4641,7 @@ ibmcloud is vpn-gateway-connection-peer-cidr-delete VPN_GATEWAY CONNECTION CIDR 
 Update a VPN gateway connection.
 
 ```
-ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID | --reset-ike-policy] [--ipsec-policy IPSEC_POLICY_ID | --reset-ipsec-policy] [--peer-address ADDRESS] [--peer-fqdn FQDN] [--distribute-traffic true | false] [--psk PSK] [--establish-mode bidirectional | peer_only] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--admin-state-up true | false] [--dead-peer-detection-action restart | clear | hold | none] [--dead-peer-detection-interval INTERVAL] [--dead-peer-detection-timeout TIMEOUT] [--ike-policy IKE_POLICY_ID | --reset-ike-policy] [--ipsec-policy IPSEC_POLICY_ID | --reset-ipsec-policy] [--peer-address ADDRESS] [--peer-fqdn FQDN] [--distribute-traffic true | false] [--routing-protocol bgp | none] [--peer-asn ASN] [--tunnels TUNNELS_JSON | @TUNNELS_JSON_FILE] [--psk PSK] [--establish-mode bidirectional | peer_only] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4785,6 +4652,7 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 - `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --admin-state-up true --dead-peer-detection-action clear --dead-peer-detection-interval 33 --dead-peer-detection-timeout 100  --ike-policy my-ike-policy  --ipsec-policy my-ipsec-policy --peer-address 234.3.4.5 -psk rweirjgiort --name my-new-connection --establish-mode peer_only --output JSON`
 - `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --admin-state-up true --ike-policy my-ike-policy  --ipsec-policy my-ipsec-policy --peer-fqdn my-service.example.com -psk rweirjgiort --name my-new-connection --establish-mode peer_only --output JSON`
 - `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --distribute-traffic true --output JSON`
+- `ibmcloud is vpn-gateway-connection-update my-vpn-gateway my-connection --routing-protocol bgp --peer-asn 65534 —-tunnels '[{"neighbor_ip":{"address":"192.168.3.4"},"tunnel_interface_ip":{"address":"192.168.3.4"}},{"neighbor_ip":{"address":"192.168.3.5"},"tunnel_interface_ip":{"address":"192.168.3.5"}}]' --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-connection-update}
@@ -4803,6 +4671,9 @@ ibmcloud is vpn-gateway-connection-update VPN_GATEWAY CONNECTION [--vpc VPC] [--
 - **--peer-address**: The IP address of the peer VPN gateway.
 - **--peer-fqdn**: The FQDN of the peer VPN gateway.
 - **--distribute-traffic**: Indicates whether the traffic is distributed between the up tunnels of the VPN gateway connection. One of: **true**, **false**.
+- **--routing-protocol**: The enabled routing protocol for this VPN gateway connection, If specified, mode must be route. One of: **bgp**, **none**.
+- **--peer-asn**: The peer autonomous system number (ASN) for this VPN gateway connection.
+- **--tunnels**: TUNNELS_JSON | @TUNNELS_JSON_FILE, tunnels in JSON or JSON file. One of: **TUNNELS_JSON**, **@TUNNELS_JSON_FILE**.
 - **--psk**: The preshared key.
 - **--establish-mode**: The establish mode of the VPN gateway connection. One of: **bidirectional**, **peer_only**.
 - **--name**: New name of the connection.
@@ -4836,7 +4707,7 @@ ibmcloud is vpn-gateway-connections VPN_GATEWAY [--vpc VPC] [--output JSON] [-q,
 Create a VPN gateway.
 
 ```
-ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route [--advertised-cidrs ADVERTISED_CIDRS1 --advertised-cidrs ADVERTISED_CIDRS2 ...] [--local-asn ASN]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4848,6 +4719,8 @@ ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route] [
 - `ibmcloud is vpn-gateway-create my-vpn-gateway my-subnet --vpc my-vpc --mode policy`
 - `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --resource-group-name Default`
 - `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --advertised-cidrs 10.45.0.0/24`
+- `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --local-asn 64520`
 
 #### Command options
 {: #command-options-vpn-gateway-create}
@@ -4855,6 +4728,8 @@ ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route] [
 - **VPN_GATEWAY_NAME**: Name of the VPN gateway.
 - **SUBNET**: ID or name of the subnet.
 - **--mode**: The mode of the VPN gateway, if not specified the default mode of the VPN gateway is policy. One of: **policy**, **route**.
+- **--advertised-cidrs**: The IP address range in CIDR block notation.
+- **--local-asn**: The local autonomous system number (ASN) for this VPN gateway and its connections.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4889,7 +4764,7 @@ ibmcloud is vpn-gateway-delete (VPN_GATEWAY1 VPN_GATEWAY2 ...) [--vpc VPC] [--ou
 Update a VPN gateway.
 
 ```
-ibmcloud is vpn-gateway-update VPN_GATEWAY [--vpc VPC] [--name NEW_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-update VPN_GATEWAY [--vpc VPC] [--name NEW_NAME] [--local-asn ASN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4897,6 +4772,7 @@ ibmcloud is vpn-gateway-update VPN_GATEWAY [--vpc VPC] [--name NEW_NAME] [--outp
 
 - `ibmcloud is vpn-gateway-update fee82deba12e4c0fb69c3b09d1f12345 --name my-renamed-gateway --output JSON`
 - `ibmcloud is vpn-gateway-update my-vpn-gateway --name my-renamed-gateway --output JSON`
+- `ibmcloud is vpn-gateway-update my-vpn-gateway --name my-renamed-gateway --local-asn 64520 --output JSON`
 
 #### Command options
 {: #command-options-vpn-gateway-update}
@@ -4904,6 +4780,7 @@ ibmcloud is vpn-gateway-update VPN_GATEWAY [--vpc VPC] [--name NEW_NAME] [--outp
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the VPN gateway.
+- **--local-asn**: The local autonomous system number (ASN) for this VPN gateway and its connections.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4924,6 +4801,162 @@ ibmcloud is vpn-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-advertised-cidr
+{: #vpn-gateway-advertised-cidr-view}
+
+Check whether the specified advertised CIDR exists on a VPN gateway.
+
+```
+ibmcloud is vpn-gateway-advertised-cidr VPN_GATEWAY --cidr CIDR [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-advertised-cidr}
+
+- `ibmcloud is vpn-gateway-advertised-cidr 0726-59be5c84-1dc2-4191-b591-d506514563bf --cidr 10.45.0.0/24`
+- `ibmcloud is vpn-gateway-advertised-cidr 0726-59be5c84-1dc2-4191-b591-d506514563bf --cidr 10.45.0.0/24 --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-advertised-cidr}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--cidr**: The IP address range in CIDR block notation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-advertised-cidr-add
+{: #vpn-gateway-advertised-cidr-add}
+
+Add advertised CIDR to a VPN gateway.
+
+```
+ibmcloud is vpn-gateway-advertised-cidr-add VPN_GATEWAY --cidr CIDR [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-advertised-cidr-add}
+
+- `ibmcloud is vpn-gateway-advertised-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf --cidr 10.45.0.0/24`
+- `ibmcloud is vpn-gateway-advertised-cidr-add 0726-59be5c84-1dc2-4191-b591-d506514563bf --cidr 10.45.0.0/24 --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-advertised-cidr-add}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--cidr**: The IP address range in CIDR block notation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-advertised-cidr-delete
+{: #vpn-gateway-advertised-cidr-delete}
+
+Remove an advertised CIDR from a VPN gateway.
+
+```
+ibmcloud is vpn-gateway-advertised-cidr-delete VPN_GATEWAY (CIDR1 CIDR2 ...) [--vpc VPC] [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-advertised-cidr-delete}
+
+- `ibmcloud is vpn-gateway-advertised-cidr-delete 0726-59be5c84-1dc2-4191-b591-d506514563bf 10.45.0.0/24`
+- `ibmcloud is vpn-gateway-advertised-cidr-delete 0726-59be5c84-1dc2-4191-b591-d506514563bf 10.45.0.0/24 --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-advertised-cidr-delete}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **CIDR1**: The IP address range in CIDR block notation.
+- **CIDR2**: The IP address range in CIDR block notation.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-advertised-cidrs
+{: #vpn-gateway-advertised-cidrs-list}
+
+List all VPN gateways that are advertised CIDRs.
+
+```
+ibmcloud is vpn-gateway-advertised-cidrs VPN_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-advertised-cidrs}
+
+- `ibmcloud is vpn-gateway-advertised-cidrs 0726-59be5c84-1dc2-4191-b591-d506514563bf`
+- `ibmcloud is vpn-gateway-advertised-cidrs 0726-59be5c84-1dc2-4191-b591-d506514563bf --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-advertised-cidrs}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-service-connection
+{: #vpn-gateway-service-connection-view}
+
+Retrieve a VPN gateway service connection.
+
+```
+ibmcloud is vpn-gateway-service-connection VPN_GATEWAY --service-connection-id SERVICE_CONNECTION_ID [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-service-connection}
+
+- `ibmcloud is vpn-gateway-service-connection 0726-59be5c84-1dc2-4191-b591-d506514563bf --service-connection-id my-connection`
+- `ibmcloud is vpn-gateway-service-connection 0726-59be5c84-1dc2-4191-b591-d506514563bf --service-connection-id my-connection --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-service-connection}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--service-connection-id**: The VPN gateway connection identifier.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-service-connections
+{: #vpn-gateway-service-connections-list}
+
+List all VPN gateway service connections.
+
+```
+ibmcloud is vpn-gateway-service-connections VPN_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-service-connections}
+
+- `ibmcloud is vpn-gateway-service-connections 0726-59be5c84-1dc2-4191-b591-d506514563bf`
+- `ibmcloud is vpn-gateway-service-connections 0726-59be5c84-1dc2-4191-b591-d506514563bf --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-service-connections}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8779,6 +8812,142 @@ ibmcloud is cluster-network-subnet-reserved-ip-delete CLUSTER_NETWORK CLUSTER_NE
 
 ---
 
+## Public-address-range
+{: #public-address-range}
+
+### ibmcloud is public-address-ranges
+{: #public-address-ranges-list}
+
+List all public address ranges.
+
+```
+ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-ranges}
+
+- `ibmcloud is public address ranges`
+- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+
+#### Command options
+{: #command-options-public-address-ranges}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range
+{: #public-address-range-view}
+
+View details of a public address range.
+
+```
+ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range}
+
+- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is public-address-range my-public-address-range-name`
+
+#### Command options
+{: #command-options-public-address-range}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-create
+{: #public-address-range-create}
+
+Create a public address range.
+
+```
+ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-create}
+
+- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
+- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-create}
+
+- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
+- **--zone**: The zone that you want this public address range to reside in. While specifying flag, --vpc flag is required.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-update
+{: #public-address-range-update}
+
+Update a public address range.
+
+```
+ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-update}
+
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
+
+#### Command options
+{: #command-options-public-address-range-update}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
+- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
+- **--reset-target**: Remove target from public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-delete
+{: #public-address-range-delete}
+
+Delete one or more public address ranges.
+
+```
+ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-public-address-range-delete}
+
+- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-public-address-range-delete}
+
+- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
+- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
+- **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Placement group
 {: #placement-group}
 
@@ -10838,7 +11007,7 @@ The following section provides information about CLI commands for file shares.
 ### ibmcloud is share
 {: #share-view}
 
-View details of a file share. The details include the share’s zone, size, IOPS or bandwidth, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-vpc-about&interface=ui').
+View details of a file share. The details include the share's zone, size, IOPS or bandwidth, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-vpc-about&interface=ui').
 
 ```
 ibmcloud is share SHARE [--output JSON] [-q, --quiet]
@@ -10865,7 +11034,7 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 Create a file share with a capacity that ranges from 10 to 32,000 GB. For zonal shares, specify IOPS. For regional shares, specify the bandwidth. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli').
 
 ```
-ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-control-mode security_group | vpc] [--bandwidth BANDWIDTH] | [--snapshot SNAPSHOT --share SHARE]) [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--allowed-access-protocols, --aacp nfs4] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC [--replica-share-zone ZONE_NAME] [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem stunnel,ipsec,none] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-control-mode security_group | vpc] | [--snapshot SNAPSHOT --share SHARE]) [--bandwidth BANDWIDTH] [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--allowed-access-protocols, --aacp nfs4] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC [--replica-share-zone ZONE_NAME] [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem stunnel,ipsec,none] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -10896,9 +11065,9 @@ ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-contro
 - **--user-tags**: Tags for this resource.
 - **--zone**: Name of the zone.
 - **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
-- **--bandwidth**: The maximum bandwidth (in megabits per second) for the file share.
 - **--snapshot**: The ID, name, or CRN of the source snapshot for this file share.
 - **--share**: ID or name of the file share.
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the file share.
 - **--size**: The size of the file share is rounded up to the next gigabyte.
 - **--profile**: The profile that the file share uses. All file shares that are created are based on the high-performance dp2 profile.
 - **--encryption-key**: The root key to use to wrap the data encryption key for the share. If unspecified, the encryption type for the share is provider_managed.
@@ -11262,7 +11431,7 @@ ibmcloud is share-mount-target-create SHARE (--transit-encryption stunnel | ipse
 
 - **SHARE**: ID or name of the file share.
 - **--name**: The user-defined name for this file share mount target.
-- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, user_managed: encrypted in transit using an instance identity certificate. Applicable only with shares that have access-control-mode security_group. One of: **stunnel**, **ipsec**, **none**.
+- **--transit-encryption**: The transit encryption mode for this share mount target. none: no encryption in transit, ipsec: Encrypted in transit by using an instance identity certificate, stunnel: Encrypted in transit by using an stunnel connection. ipsec and stunnel are applicable with shares that have only access-control-mode security_group. One of: **stunnel**, **ipsec**, **none**.
 - **--access-protocol**: The protocol to use to access the share for this share mount target. One of: **nfs4**.
 - **--vni**: ID or name of the virtual network interface.
 - **--vni-auto-delete**: Indicates whether this virtual network interface automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).

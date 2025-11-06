@@ -1,4 +1,3 @@
----
 toc:
   properties:
     subcollection: vpc-infrastructure-cli-plugin
@@ -11,7 +10,7 @@ toc:
     label: CLI Plugin for Virtual Private Cloud (VPC)
   entries:
   - navgroup:
-        id: reference
-        topics:
-        - vpc-cli-reference.md
-        - vpc-cli-release-note.md
+      id: reference
+      topics:
+      - vpc-cli-reference.md
+      - vpc-cli-release-note.md

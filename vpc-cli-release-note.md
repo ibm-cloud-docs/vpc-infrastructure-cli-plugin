@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-09-23"
+lastupdated: "2025-11-06"
 
 ---
 
@@ -13,6 +13,30 @@ lastupdated: "2025-09-23"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v15.1.0
+{: #v15.1.0}
+
+Version 15.1.0 was released on 2025-11-05.
+
+### New commands
+
+* New commands `vpn-gateway-advertised-cidrs`, `vpn-gateway-advertised-cidr`, `vpn-gateway-advertised-cidr-add`, `vpn-gateway-advertised-cidr-delete`,`vpn-gateway-service-connection`, `vpn-gateway-service-connections` were added to support the VPN gateway feature.
+
+### Updated commands
+
+* `--advertised-cidrs` and `--local-asn` flags are introduced in the `vpn-gateway-create` command.
+* `--local-asn` flag is introduced in the `vpn-gateway-update` command.
+* `--peer-asn` and `--tunnels` flags are introduced in the `vpn-gateway-connection-create` command.
+* `--routing-protocol`, `--peer-asn`, and `--tunnels` flags are introduced in the `vpn-gateway-connection-update` command.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v15.0.0
 {: #v15.0.0}
