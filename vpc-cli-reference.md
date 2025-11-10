@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-11-06"
+lastupdated: "2025-11-10"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -11007,7 +11007,7 @@ The following section provides information about CLI commands for file shares.
 ### ibmcloud is share
 {: #share-view}
 
-View details of a file share. The details include the share's zone, size, IOPS or bandwidth, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-vpc-about&interface=ui').
+View details of a file share. The details include the share’s zone, size, IOPS or bandwidth, and more. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-vpc-about&interface=cli).
 
 ```
 ibmcloud is share SHARE [--output JSON] [-q, --quiet]
@@ -11031,7 +11031,7 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 ### ibmcloud is share-create
 {: #share-create}
 
-Create a file share with a capacity that ranges from 10 to 32,000 GB. For zonal shares, specify IOPS. For regional shares, specify the bandwidth. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli').
+Create a file share with a capacity that ranges from 10 to 32,000 GB. For zonal shares, specify IOPS. For regional shares, specify the bandwidth. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli).
 
 ```
 ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-control-mode security_group | vpc] | [--snapshot SNAPSHOT --share SHARE]) [--bandwidth BANDWIDTH] [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--allowed-access-protocols, --aacp nfs4] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC [--replica-share-zone ZONE_NAME] [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem stunnel,ipsec,none] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
@@ -11095,7 +11095,7 @@ ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-contro
 ### ibmcloud is share-delete
 {: #share-delete}
 
-Delete one or more file shares. You can't undo this deletion. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-file-share-cli').
+Delete one or more file shares. You can't undo this deletion. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-file-share-cli).
 
 ```
 ibmcloud is share-delete (SHARE1 SHARE2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -11121,7 +11121,7 @@ ibmcloud is share-delete (SHARE1 SHARE2 ...) [--output JSON] [-f, --force] [-q, 
 ### ibmcloud is share-profile
 {: #share-profile-view}
 
-View details of a file share profile. The details include capacity, IOPS, bandwidth, allowed transit encryption mode, availability modes, and allowed access protocols. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles').
+View details of a file share profile. The details include capacity, IOPS, bandwidth, allowed transit encryption mode, availability modes, and allowed access protocols. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles).
 
 ```
 ibmcloud is share-profile PROFILE_NAME [--output JSON] [-q, --quiet]
@@ -11139,7 +11139,7 @@ ibmcloud is share-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 ### ibmcloud is share-profiles
 {: #share-profiles-list}
 
-List all file share profiles in the region. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles').
+List all file share profiles in the region. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles).
 
 ```
 ibmcloud is share-profiles [--output JSON] [-q, --quiet]
@@ -11156,7 +11156,7 @@ ibmcloud is share-profiles [--output JSON] [-q, --quiet]
 ### ibmcloud is share-update
 {: #share-update}
 
-Edit a file share’s name, size, profile, IOPS, and more. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#file-storage-manage-cli').
+Edit a file share’s name, size, profile, IOPS, and more. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#file-storage-manage-cli).
 
 ```
 ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--allowed-access-protocols, --aacp nfs4] [--bandwidth BANDWIDTH] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--output JSON] [-q, --quiet]
@@ -11198,7 +11198,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--allowed-access
 ### ibmcloud is shares
 {: #shares-list}
 
-List all file shares in the region. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-all-shares-cli').
+List all file shares in the region. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-all-shares-cli).
 
 ```
 ibmcloud is shares [--replication-role none | replica | source] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
@@ -11225,7 +11225,7 @@ ibmcloud is shares [--replication-role none | replica | source] [--resource-grou
 ### ibmcloud is share-replica-create
 {: #share-replica-create}
 
-Create a read-only replica of an existing zonal file share in another zone of the same geography. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create-replication&interface=cli').
+Create a read-only replica of an existing zonal file share in another zone of the same geography. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create-replication&interface=cli).
 
 ```
 ibmcloud is share-replica-create --profile PROFILE [--zone ZONE_NAME] --replication-cron-spec REPLICATION_CRON_SPEC --source-share SOURCE_SHARE [--name NAME] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--encryption-key ENCRYPTION_KEY] [--iops IOPS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
@@ -11264,7 +11264,7 @@ ibmcloud is share-replica-create --profile PROFILE [--zone ZONE_NAME] --replicat
 ### ibmcloud is share-replica-failover
 {: #share-replica-failover}
 
-Failover to a replica file share to keep your data available if the source file share becomes unavailable. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-failover&interface=cli').
+Failover to a replica file share to keep your data available if the source file share becomes unavailable. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-failover&interface=cli).
 
 ```
 ibmcloud is share-replica-failover REPLICA_SHARE [--fallback-policy fail | split] [--timeout TIMEOUT] [--output JSON] [-q, --quiet]
@@ -11290,7 +11290,7 @@ ibmcloud is share-replica-failover REPLICA_SHARE [--fallback-policy fail | split
 ### ibmcloud is share-replica-split
 {: #share-replica-split}
 
-Split the source file share from a replica share such that data is no longer synced between them. Both shares continue to exist independently. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-manage-replication&interface=cli#fs-remove-replication').
+Split the source file share from a replica share such that data is no longer synced between them. Both shares continue to exist independently. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-manage-replication&interface=cli#fs-remove-replication).
 
 ```
 ibmcloud is share-replica-split REPLICA_SHARE [-f, --force] [-q, --quiet]
@@ -11313,7 +11313,7 @@ ibmcloud is share-replica-split REPLICA_SHARE [-f, --force] [-q, --quiet]
 ### ibmcloud is share-mount-target
 {: #share-mount-target-view}
 
-View details of a file share mount target, The details include its VPC, virtual network interface, mount path, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-get-mountpath-cli').
+View details of a file share mount target, The details include its VPC, virtual network interface, mount path, and more. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-get-mountpath-cli).
 
 ```
 ibmcloud is share-mount-target SHARE MOUNT_TARGET [--output JSON] [-q, --quiet]
@@ -11337,7 +11337,7 @@ ibmcloud is share-mount-target SHARE MOUNT_TARGET [--output JSON] [-q, --quiet]
 ### ibmcloud is share-mount-targets
 {: #share-mount-targets-list}
 
-List all share mount targets for a file share. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-mount-shares-cli').
+List all share mount targets for a file share. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-mount-shares-cli).
 
 ```
 ibmcloud is share-mount-targets SHARE [--output JSON] [-q, --quiet]
@@ -11360,7 +11360,7 @@ ibmcloud is share-mount-targets SHARE [--output JSON] [-q, --quiet]
 ### ibmcloud is share-mount-target-delete
 {: #share-mount-target-delete}
 
-Delete one or more file share mount targets. You can't undo this deletion. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-mount-target-cli').
+Delete one or more file share mount targets. You can't undo this deletion. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-mount-target-cli).
 
 ```
 ibmcloud is share-mount-target-delete SHARE (MOUNT_TARGET1 MOUNT_TARGET2 ...) [--output JSON] [-f, --force] [-q, --quiet]
@@ -11527,7 +11527,7 @@ ibmcloud is share-accessor-binding-delete SHARE ACCESSOR_BINDING [-f, --force] [
 ### ibmcloud is share-snapshot
 {: #share-snapshot-view}
 
-View details of a file share snapshot, including its fingerprint, minimum size, and more. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-view&interface=cli#fs-snapshots-view-details-cli').
+View details of a file share snapshot, including its fingerprint, minimum size, and more. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-view&interface=cli#fs-snapshots-view-details-cli).
 
 ```
 ibmcloud is share-snapshot SHARE SNAPSHOT [--output JSON] [-q, --quiet]
@@ -11551,7 +11551,7 @@ ibmcloud is share-snapshot SHARE SNAPSHOT [--output JSON] [-q, --quiet]
 ### ibmcloud is share-snapshots
 {: #share-snapshots-list}
 
-List all snapshots in the region or of a specific file share. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-view&interface=cli#fs-snapshots-view-all-snapshots-cli').
+List all snapshots in the region or of a specific file share. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-view&interface=cli#fs-snapshots-view-all-snapshots-cli).
 
 ```
 ibmcloud is share-snapshots [--share SHARE] [--backup-policy-plan BACKUP_POLICY_PLAN [--backup-policy BACKUP_POLICY]] [--output JSON] [-q, --quiet]
@@ -11576,7 +11576,7 @@ ibmcloud is share-snapshots [--share SHARE] [--backup-policy-plan BACKUP_POLICY_
 ### ibmcloud is share-snapshot-delete
 {: #share-snapshot-delete}
 
-Delete one or more file share snapshots. You can't undo this deletion. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-manage&interface=cli#fs-snapshots-delete-snapshot-cli').
+Delete one or more file share snapshots. You can't undo this deletion. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-manage&interface=cli#fs-snapshots-delete-snapshot-cli).
 
 ```
 ibmcloud is share-snapshot-delete SHARE (SNAPSHOT1 SNAPSHOT2 ...) [-f, --force] [--output JSON] [-q, --quiet]
@@ -11603,7 +11603,7 @@ ibmcloud is share-snapshot-delete SHARE (SNAPSHOT1 SNAPSHOT2 ...) [-f, --force] 
 ### ibmcloud is share-snapshot-update
 {: #share-snapshot-update}
 
-Edit a file share snapshot’s user tags. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-manage&interface=cli#fs-snapshot-updatetags-cli').
+Edit a file share snapshot’s user tags. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-manage&interface=cli#fs-snapshot-updatetags-cli).
 
 ```
 ibmcloud is share-snapshot-update SHARE SNAPSHOT [--user-tags USER_TAGS] [--output JSON] [-q, --quiet]
@@ -11628,7 +11628,7 @@ ibmcloud is share-snapshot-update SHARE SNAPSHOT [--user-tags USER_TAGS] [--outp
 ### ibmcloud is share-snapshot-create
 {: #share-snapshot-create}
 
-Create a file share snapshot to capture a share’s data at a specific date and time. For more information, see [API Documentation]('https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-create&interface=cli').
+Create a file share snapshot to capture a share’s data at a specific date and time. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-fs-snapshots-create&interface=cli).
 
 ```
 ibmcloud is share-snapshot-create SHARE [--name NAME] [--user-tags USER_TAGS] [--output JSON] [-q, --quiet]
