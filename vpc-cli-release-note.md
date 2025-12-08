@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-11-06"
+lastupdated: "2025-12-08"
 
 ---
 
@@ -13,6 +13,28 @@ lastupdated: "2025-11-06"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v15.2.0
+{: #v15.2.0}
+
+Version 15.2.0 was released on 2025-12-04.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* `--name` flag is introduced in the `security-group-rule-update` and`security-group-rule-add` command.
+* `--ig` flag is introduced in the `instances` command.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v15.1.0
 {: #v15.1.0}

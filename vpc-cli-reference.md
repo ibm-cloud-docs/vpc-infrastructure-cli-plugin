@@ -3,7 +3,7 @@
 copyright:
   years: 2018, 2025
 
-lastupdated: "2025-11-10"
+lastupdated: "2025-12-04"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -2107,7 +2107,7 @@ ibmcloud is security-group-rule GROUP RULE_ID [--vpc VPC] [--output JSON] [-q, -
 Add a rule to a security group.
 
 ```
-ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--local LOCAL_ADDRESS | CIDR_BLOCK] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--local LOCAL_ADDRESS | CIDR_BLOCK] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE [--icmp-code ICMP_CODE]] [--port-min PORT_MIN] [--port-max PORT_MAX] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2122,6 +2122,7 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 - `ibmcloud is security-group-rule-add my-sg inbound tcp --remote my-sg`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
 - `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol tcp --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound  --local 192.168.3.0 --name my-sg-rule-name-test`
 
 #### Command options
 {: #command-options-security-group-rule-add}
@@ -2136,6 +2137,7 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 - **--icmp-code**: ICMP traffic code to allow. Valid values from **0** to **255**. This option is specified only when protocol is set to **icmp**. If unspecified, all codes are allowed.
 - **--port-min**: Minimum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **1**).
 - **--port-max**: Maximum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **65535**).
+- **--name**: The name for this security group rule. The name must not be used by another rule in the security group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -2175,7 +2177,7 @@ ibmcloud is security-group-rule-delete GROUP (RULE_ID1 RULE_ID2 ...) [--vpc VPC]
 Update a rule of a security group.
 
 ```
-ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--local LOCAL_ADDRESS | CIDR_BLOCK] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE | --reset-icmp-type] [--icmp-code ICMP_CODE | --reset-icmp-code] [--port-min PORT_MIN | --reset-port-min] [--port-max PORT_MAX | --reset-port-max] [--output JSON] [-q, --quiet]
+ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction inbound | outbound] [--local LOCAL_ADDRESS | CIDR_BLOCK] [--remote REMOTE_ADDRESS | CIDR_BLOCK | SECURITY_GROUP] [--icmp-type ICMP_TYPE | --reset-icmp-type] [--icmp-code ICMP_CODE | --reset-icmp-code] [--port-min PORT_MIN | --reset-port-min] [--port-max PORT_MAX | --reset-port-max] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -2188,6 +2190,7 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --reset-icmp-code --reset-icmp-type`
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --output JSON`
 - `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --direction inbound --local 192.168.3.4`
+- `ibmcloud is security-group-rule-update 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 8daca77a-4980-4d33-8f3e-7038797be8f9 --name my-sg1`
 
 #### Command options
 {: #command-options-security-group-rule-update}
@@ -2206,6 +2209,7 @@ ibmcloud is security-group-rule-update GROUP RULE_ID [--vpc VPC] [--direction in
 - **--reset-port-min**: Reset minimum port number.
 - **--port-max**: Maximum port number. Valid values are from **1** to **65535**. This option is specified only when protocol is set to **tcp** or **udp**. If unspecified, all ports are allowed (default: **65535**).
 - **--reset-port-max**: Reset maximum port number.
+- **--name**: The name for this security group rule. The name must not be used by another rule in the security group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3223,7 +3227,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 Update an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY --name NEW_NAME [--vpc VPC] [--allow-dns-resolution-binding false | true] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY [--vpc VPC] [--name NEW_NAME] [--allow-dns-resolution-binding false | true] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4111,6 +4115,142 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-binding-revoke (PRIVAT
 
 ---
 
+## Public address range
+{: #public-address-range}
+
+### ibmcloud is public-address-ranges
+{: #public-address-ranges-list}
+
+List all public address ranges.
+
+```
+ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-ranges}
+
+- `ibmcloud is public address ranges`
+- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+
+#### Command options
+{: #command-options-public-address-ranges}
+
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range
+{: #public-address-range-view}
+
+View details of a public address range.
+
+```
+ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range}
+
+- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is public-address-range my-public-address-range-name`
+
+#### Command options
+{: #command-options-public-address-range}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-create
+{: #public-address-range-create}
+
+Create a public address range.
+
+```
+ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-create}
+
+- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
+- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-create}
+
+- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
+- **--zone**: The zone that you want this public address range to reside in. While specifying flag, --vpc flag is required.
+- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
+- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-update
+{: #public-address-range-update}
+
+Update a public address range.
+
+```
+ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-update}
+
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
+- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
+
+#### Command options
+{: #command-options-public-address-range-update}
+
+- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
+- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
+- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
+- **--reset-target**: Remove target from public address range.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-delete
+{: #public-address-range-delete}
+
+Delete one or more public address ranges.
+
+```
+ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command example
+{: #command-example-public-address-range-delete}
+
+- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+
+#### Command options
+{: #command-options-public-address-range-delete}
+
+- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
+- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
+- **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ## Virtual private network (VPN) gateways
 {: #vpn-clis}
 
@@ -4889,7 +5029,7 @@ ibmcloud is vpn-gateway-advertised-cidr-delete VPN_GATEWAY (CIDR1 CIDR2 ...) [--
 ### ibmcloud is vpn-gateway-advertised-cidrs
 {: #vpn-gateway-advertised-cidrs-list}
 
-List all VPN gateways that are advertised CIDRs.
+List all advertised VPN gateway CIDRs.
 
 ```
 ibmcloud is vpn-gateway-advertised-cidrs VPN_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
@@ -5859,7 +5999,7 @@ ibmcloud is instance-initialization-values INSTANCE [--private-key (KEY | @KEY_F
 List all virtual server instances.
 
 ```
-ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--vpc VPC] [--dh DH] [--pg PG] [--output JSON] [-q, --quiet]
+ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--reservation RESERVATION] [--vpc VPC] [--ig IG] [--dh DH] [--pg PG] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -5870,6 +6010,7 @@ ibmcloud is instances [--resource-group-id RESOURCE_GROUP_ID | --resource-group-
 - **--all-resource-groups**: Query all resource groups.
 - **--reservation**: ID or name of the reservation.
 - **--vpc**: ID, name, or CRN of the VPC.
+- **--ig**: ID, name or CRN of the instance group.
 - **--dh**: ID, name, or CRN of the dedicated host.
 - **--pg**: ID, name, or CRN of the placement group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -7534,9 +7675,9 @@ Create a bare metal server that enables trusted platform module with the `tpm_2`
 Create a bare metal server in the `Finance` resource group.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-allowed-vlans 100,200,300,400,700,710,1000,900-929,800-829`
 Create a bare metal server with a PCI network interface. Allowed VLANs are comma-separated values that can be passed as separate values or as any range of numbers.
-- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans -10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoorfing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]`
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans 10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments '[{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoofing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]}}]'`
 Create bare metal server with a network attachment and existing virtual network interface.
-- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans -10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments [{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoorfing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]`
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile mz2d-metal-2x32 --image sles15sp3-s390x-byol --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnac-name cli-pnac-1 --pnac-allowed-vlans 10 --pnac-vni 7322-1293a27a-7178-4e62-ba5b-272623c989aa --network-attachments '[{"interface_type": "pci", "name":"cli-snac-1", "virtual_network_interface": {"allow_ip_spoofing": true, "auto_delete": true, "enable_infrastructure_nat": true, "ips": [{"id": "7322-7594a7b8-dd7f-420c-ad09-a37646950edc"}, {"address": "10.240.128.15", "auto_delete": true, "name": "snac-sip-2"}]}}]'`
 Create bare metal server with a network attachment and existing virtual network interface.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --reservation-affinity-policy manual --reservation-affinity-pool r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
 Create bare metal server with reservation.
@@ -7550,9 +7691,9 @@ Create a bare metal server with a precreated reserved IP ID and bandwidth.
 Create a bare metal server with a precreated reserved IP by NAME.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip-address 10.240.128.38  --pnic-rip-auto-delete true --pnic-rip-name cli-rip1`
 Create a bare metal server with a primary network interface with new reserved IP.
-- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"}, "primary_ip":{"id": "2302-2b09dd0a-9cfb-4639-a2ac-cc6c154ab461"}}]`
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip 2302-74dd56cc-71c4-4461-95f0-4e5e3b57727d --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"}, "primary_ip":{"id": "2302-2b09dd0a-9cfb-4639-a2ac-cc6c154ab461"}}]'`
 Create a bare metal server with a secondary network interface with precreated reserved IP ID. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
-- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip cli-rip-1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"},"primary_ip":{"name": "cli-rip-byname"}}]`
+- `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip cli-rip-1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-531ad9fc-c86a-4504-b5cf-a46981fddb5f"},"primary_ip":{"name": "cli-rip-byname"}}]'`
 Create a bare metal server with a secondary network interface with precreated reserved IP by Name. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
 - `ibmcloud is bare-metal-server-create --name my-server-name --zone us-east-1 --profile bmx2d-24x384 --image cfdaf1a0-5350-4350-fcbc-97173b510844 --keys 7ab1ee27-564c-4730-a1ad-9b9466589250,9727e31a-74d4-45cd-8f39-1ef7484b5f3e --pnic-subnet bdea9c01-ada2-46ba-a314-4b3240477a5f  --pnic-rip-address 10.240.128.38  --pnic-rip-auto-delete true --pnic-rip-name cli-rip1 --network-interfaces '[{"name": "cli-snic", "allow_ip_spoofing": true, "enable_infrastructure_nat": true, "interface_type": "pci", "allowed_vlans": [1, 2, 3, 4], "subnet": {"id":"2302-d368b797-2955-464b-aa42-588edd4c389f"}, "primary_ip":{"address": "10.240.128.41"}, "security_groups": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb3"}]}]'`
 Create a bare metal server with a secondary network interface with new reserved IP. Configurations of the two secondary interfaces are specified in JSON format. See help text for '--network-interfaces' option.
@@ -8808,142 +8949,6 @@ ibmcloud is cluster-network-subnet-reserved-ip-delete CLUSTER_NETWORK CLUSTER_NE
 - **CLUSTER_NETWORK_SUBNET_RESERVED_IP2**: ID or name for the cluster network subnet reserved IPs.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-## Public-address-range
-{: #public-address-range}
-
-### ibmcloud is public-address-ranges
-{: #public-address-ranges-list}
-
-List all public address ranges.
-
-```
-ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-ranges}
-
-- `ibmcloud is public address ranges`
-- `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
-
-#### Command options
-{: #command-options-public-address-ranges}
-
-- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--all-resource-groups**: Query all resource groups.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range
-{: #public-address-range-view}
-
-View details of a public address range.
-
-```
-ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range}
-
-- `ibmcloud is public-address-range r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
-- `ibmcloud is public-address-range my-public-address-range-name`
-
-#### Command options
-{: #command-options-public-address-range}
-
-- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-create
-{: #public-address-range-create}
-
-Create a public address range.
-
-```
-ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range-create}
-
-- `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
-- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
-
-#### Command options
-{: #command-options-public-address-range-create}
-
-- **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
-- **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
-- **--zone**: The zone that you want this public address range to reside in. While specifying flag, --vpc flag is required.
-- **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
-- **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-update
-{: #public-address-range-update}
-
-Update a public address range.
-
-```
-ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
-```
-
-#### Command examples
-{: #command-examples-public-address-range-update}
-
-- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --vpc cli-test-vpc --zone us-south-1`
-- `ibmcloud is public-address-range-update r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --name public-address-range-1 --reset-target`
-
-#### Command options
-{: #command-options-public-address-range-update}
-
-- **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region.
-- **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
-- **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
-- **--reset-target**: Remove target from public address range.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
-- **-q, --quiet**: Suppress verbose output.
-
----
-
-### ibmcloud is public-address-range-delete
-{: #public-address-range-delete}
-
-Delete one or more public address ranges.
-
-```
-ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RANGE2 ...) [-f, --force] [--output JSON] [-q, --quiet]
-```
-
-#### Command example
-{: #command-example-public-address-range-delete}
-
-- `ibmcloud is public-address-range-delete r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
-
-#### Command options
-{: #command-options-public-address-range-delete}
-
-- **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
-- **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
-- **--force, -f**: Force the operation without confirmation.
-- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -11121,7 +11126,7 @@ ibmcloud is share-delete (SHARE1 SHARE2 ...) [--output JSON] [-f, --force] [-q, 
 ### ibmcloud is share-profile
 {: #share-profile-view}
 
-View details of a file share profile. The details include capacity, IOPS, bandwidth, allowed transit encryption mode, availability modes, and allowed access protocols. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles).
+View details of a file share profile, including capacity, IOPS, bandwidth, allowed transit encryption mode, availability modes, and allowed access protocols. For more information, see [CLI Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#fs-using-cli-iops-profiles).
 
 ```
 ibmcloud is share-profile PROFILE_NAME [--output JSON] [-q, --quiet]
@@ -11386,7 +11391,7 @@ ibmcloud is share-mount-target-delete SHARE (MOUNT_TARGET1 MOUNT_TARGET2 ...) [-
 ### ibmcloud is share-mount-target-update
 {: #share-mount-target-update}
 
-Edit a file share mount target’s name. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#rename-mount-target-cli').
+Edit a file share mount target’s name. For more information, see [VPC Documentation] (https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#rename-mount-target-cli).
 
 ```
 ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--output JSON] [-q, --quiet]
@@ -11411,7 +11416,7 @@ ibmcloud is share-mount-target-update SHARE MOUNT_TARGET --name NEW_NAME [--outp
 ### ibmcloud is share-mount-target-create
 {: #share-mount-target-create}
 
-Create a mount target to attach a file share to virtual server instances or Kubernetes clusters in the same region. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli#fs-create-mount-target-cli').
+Create a mount target to attach a file share to virtual server instances or Kubernetes clusters in the same region. For more information, see [VPC Documentation] (https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli#fs-create-mount-target-cli).
 
 ```
 ibmcloud is share-mount-target-create SHARE (--transit-encryption stunnel | ipsec | none) (--access-protocol nfs4) ([--vni VNI | (--vni-auto-delete true | false [--protocol-state-filtering-mode, --psfm auto | enabled | disabled] --vni-name VNI_NAME [--vni-rip VNI_RIP | (--vni-rip-address VNI_RIP_ADDRESS --vni-rip-auto-delete VNI_RIP_AUTO_DELETE --vni-rip-name VNI_RIP_NAME)] --subnet SUBNET --vni-sgs VNI_SGS --resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME)] | --vpc VPC) [--name NAME] [--output JSON] [-q, --quiet]
@@ -11454,7 +11459,7 @@ ibmcloud is share-mount-target-create SHARE (--transit-encryption stunnel | ipse
 ### ibmcloud is share-accessor-bindings
 {: #share-accessor-bindings-list}
 
-List all accessor share bindings that are linked to an origin share. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-share-bindings-cli').
+List all accessor share bindings that are linked to an origin share. For more information, see [VPC Documentation] (https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-share-bindings-cli).
 
 ```
 ibmcloud is share-accessor-bindings SHARE [--output JSON] [-q, --quiet]
@@ -11477,7 +11482,7 @@ ibmcloud is share-accessor-bindings SHARE [--output JSON] [-q, --quiet]
 ### ibmcloud is share-accessor-binding
 {: #share-accessor-binding-view}
 
-View details of a specific accessor share binding. Details include the href, accessor, and more. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-share-binding-cli').
+View details of a specific accessor share binding, including its href, accessor, and more. For more information, see [VPC Documentation] (https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-view&interface=cli#fs-view-share-binding-cli).
 
 ```
 ibmcloud is share-accessor-binding SHARE ACCESSOR_BINDING [--output JSON] [-q, --quiet]
@@ -11501,7 +11506,7 @@ ibmcloud is share-accessor-binding SHARE ACCESSOR_BINDING [--output JSON] [-q, -
 ### ibmcloud is share-accessor-binding-delete
 {: #share-accessor-binding-delete}
 
-Delete one or more file share accessor bindings. You can't undo this deletion. For more information, see [API Documentation] ('https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-bindings-cli').
+Delete one or more file share accessor bindings. This action cannot be undone. For more information, see [VPC Documentation] (https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#delete-bindings-cli).
 
 ```
 ibmcloud is share-accessor-binding-delete SHARE ACCESSOR_BINDING [-f, --force] [--output JSON] [-q, --quiet]
@@ -11987,7 +11992,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 List all jobs for the backup policy.
 
 ```
-ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,SNAPSHOT2, ...] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshot SNAPSHOT] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11995,10 +12000,10 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 
 - `ibmcloud is backup-policy-jobs backup-policy-1001`
 - `ibmcloud is backup-policy-jobs r134-7759199b-bc1f-448e-84fa-2aa42bde29af`
-- `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --volume r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshot r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status running --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
-- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots r134-f1d9b974-14e5-4a2e-8e38-c023164be316,r134-b11f1540-288d-4331-97ab-f565ca15a3b8,r134-ab3147a3-715f-4017-8fed-ea3ddadeeb1d,r134-435b8414-dae2-4026-847f-a73162105e5f`
-- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots bkp-plan-do-not-delete-31addff28e2b-422b,bkp-plan-do-not-delete-f37bc1f19123-4995`
-- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b,crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c10755ee-db71-472e-bf80-01e21229fda0`
+- `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --source r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshot r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status running --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots r134-f1d9b974-14e5-4a2e-8e38-c023164be316`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots bkp-plan-do-not-delete-31addff28e2b-422b`
+- `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete  --source r134-71757aee-5e90-40f5-bd7d-0a538c084efb`
 
 #### Command options
@@ -12006,7 +12011,7 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT1,S
 
 - **POLICY**: ID or name of the backup policy.
 - **--source**: ID or name of the source volume. Source name can be used only if the source exists inside the VPC.
-- **--snapshots**: IDs, names, or CRNs of target snapshots. Combinations of these three types are not supported. Passing is supported by only one of these three types.
+- **--snapshot**: ID, name, or CRN of target snapshot. Combinations of these three types are not supported. Passing is supported by only one of these three types.
 - **--status**: Status of the backup policy job. One of: **failed**, **running**, **succeeded**.
 - **--plan**: ID or name of backup policy plan.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
