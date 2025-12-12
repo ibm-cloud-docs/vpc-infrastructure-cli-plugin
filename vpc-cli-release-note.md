@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-12-08"
+lastupdated: "2025-12-12"
 
 ---
 
@@ -13,6 +13,29 @@ lastupdated: "2025-12-08"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.0.0
+{: #v16.0.0}
+
+Version 16.0.0 was released on 2025-12-09.
+
+### New commands
+
+* New commands `endpoint-gateway-resource-bindings`, `endpoint-gateway-resource-binding`, `endpoint-gateway-resource-binding-create`, `endpoint-gateway-resource-binding-update`,`endpoint-gateway-resource-binding-delete` were added to support endpoint gateway resource binding feature.
+
+### Updated commands
+
+* `--dns-resolution-binding-mode` flag is introduced in the `endpoint-gateway-create`, `endpoint-gateway-update`, and  `endpoint-gateways` commands.
+
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* In `endpoint-gateway-create`, `endpoint-gateway-update`, and `endpoint-gateways`, the `--allow-dns-resolution-binding` was removed and replaced with `--dns-resolution-binding-mode`.
+* In `network-acl-rule-add` , `network-acl-create`, and `security-group-rule-add`, the  `all` protocol was replaced with the `icmp_tcp_udp` command.
 
 ## v15.2.0
 {: #v15.2.0}

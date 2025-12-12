@@ -2,8 +2,7 @@
 
 copyright:
   years: 2018, 2025
-
-lastupdated: "2025-12-04"
+lastupdated: "2025-12-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1479,14 +1478,16 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 #### Command examples
 {: #command-examples-network-acl-rule-add}
 
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add my-acl allow inbound tcp 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add my-acl allow inbound tcp 10.2.2.2 10.2.2.3 --vpc my-vpc`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --name my-acl-rule`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound any 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound any 10.2.2.2 10.2.2.3 --vpc my-vpc`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3 --name my-acl-rule`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp 10.2.2.2 10.2.2.3 --icmp-type 8 --icmp-code 0`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --source-port-min 555  --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --output JSON`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3 --output JSON`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --output JSON`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound number_99 10.2.2.2 10.2.2.3 --output JSON`
 
 #### Command options
 {: #command-options-network-acl-rule-add}
@@ -1494,7 +1495,8 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 - **ACL**: ID or name of the network ACL.
 - **ACTION**: One of: **allow**, **deny**.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: Protocol to enforce. One of: **icmp**, **tcp**, **udp**.
+- **PROTOCOL**: The name of the network protocol. One of: **any**, **icmp_tcp_udp**, **icmp**, **tcp**, **udp**, **ah**, **gre**, **ip_in_ip**, **l2tp**, **rsvp**, **sctp**, **vrrp**. For other protocols, specify a value of number_<N>, where <N> is the protocol number in decimal from 0 to 255 (e.g., number_99).
+- **Note**: A selection of well-known protocols uses their standard names (e.g., tcp for protocol 6). For these, the corresponding number_<N> value must not be used (e.g., number_6 is invalid — use tcp instead). Each protocol has exactly one valid identifier, either a named protocol or a number_<N>.
 - **SOURCE**: Source IP address or CIDR block.
 - **DESTINATION**: Destination IP address or CIDR block.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
@@ -2113,23 +2115,24 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 #### Command examples
 {: #command-examples-security-group-rule-add}
 
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp`
-- `ibmcloud is security-group-rule-add my-sg inbound tcp`
-- `ibmcloud is security-group-rule-add my-sg inbound tcp --vpc my-vpc`
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp --icmp-type 8 --icmp-code 0`
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --remote 12.2.2.3`
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is security-group-rule-add my-sg inbound tcp --remote my-sg`
+- `ibmcloud is security-group-rule-add my-sg inbound any`
+- `ibmcloud is security-group-rule-add my-sg inbound any --vpc my-vpc`
+- `ibmcloud is security-group-rule-add my-sg inbound any --remote my-sg`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound any --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol any --local 192.168.3.0`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
-- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol tcp --local 192.168.3.0`
-- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound  --local 192.168.3.0 --name my-sg-rule-name-test`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp --icmp-type 8 --icmp-code 0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol icmp_tcp_udp --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol number_99 --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol any --local 192.168.3.0`
 
 #### Command options
 {: #command-options-security-group-rule-add}
 
 - **GROUP**: ID or name of the security group.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: Protocol to enforce. One of: **icmp**, **tcp**, **udp**.
+- **PROTOCOL**: The name of the network protocol. One of: **any**, **icmp_tcp_udp**, **icmp**, **tcp**, **udp**, **ah**, **gre**, **ip_in_ip**, **l2tp**, **rsvp**, **sctp**, **vrrp**. For other protocols, specify a value of number_<N>, where <N> is the protocol number in decimal from 0 to 255 (e.g., number_99).
+- **Note**: A selection of well-known protocols uses their standard names (e.g., tcp for protocol 6). For these, the corresponding number_<N> value must not be used (e.g., number_6 is invalid — use tcp instead). Each protocol has exactly one valid identifier, either a named protocol or a number_<N>.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
@@ -3142,7 +3145,7 @@ ibmcloud is endpoint-gateway ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, -
 List all endpoint gateways in the region.
 
 ```
-ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--allow-dns-resolution-binding false | true] [--lifecycle-state LIFECYCLE_STATE] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--vpc VPC] [--dns-resolution-binding-mode DNS_RESOLUTION_BINDING_MODE] [--lifecycle-state LIFECYCLE_STATE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command options
@@ -3152,8 +3155,8 @@ ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resourc
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
 - **--vpc**: ID, name, or CRN of the VPC.
-- **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
-- **--lifecycle-state**: Filters the collection to resources with the `lifecycle_state` property that matches one of the specified comma-separated values of: deleting, failed, pending, stable, suspended, updating, waiting.
+- **--dns-resolution-binding-mode**: Filters the collection to endpoint gateways with a dns_resolution_binding_mode property matching one of the specified comma-separated values of: disabled, per_resource_binding, primary.
+- **--lifecycle-state**: lifecycle_state    Filters the collection to resources with the lifecycle_state property that matches one of the specified comma-separated values of: deleting, failed, pending, stable, suspended, updating, waiting.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3165,7 +3168,7 @@ ibmcloud is endpoint-gateways [--resource-group-id RESOURCE_GROUP_ID | --resourc
 Create an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-create --target TARGET [--target-type private_path_service_gateway | provider_cloud_service | provider_infrastructure_service] [--vpc VPC] [--name NAME] [--rip RIP --subnet SUBNET | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--allow-dns-resolution-binding false | true] [--sg SG] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-create --target TARGET [--target-type private_path_service_gateway | provider_cloud_service | provider_infrastructure_service] [--vpc VPC] [--name NAME] [--rip RIP --subnet SUBNET | (--new-reserved-ip NEW_RESERVED_IP1 --new-reserved-ip NEW_RESERVED_IP2 ...)] [--dns-resolution-binding-mode disabled | primary | per_resource_binding] [--sg SG] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3189,8 +3192,8 @@ Create endpoint gateway with the provider infrastructure service 'ibm-ntp-server
 Create endpoint gateway with binding existing reserved IP IDs.
 - `ibmcloud is endpoint-gateway-create --vpc my-vpc --target ibm-ntp-server --name my-egw --rip my-rip --subnet my-subnet`
 Create endpoint gateway with binding existing reserved IP name.
-- `ibmcloud is egc --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --vpc b224ead6-b835-473c-ad6b-bc91840829c3  --allow-dns-resolution-binding false --name my-cli-egw`
-Create endpoint gateway and allow to participate in DNS resolution bindings with a VPC
+- `ibmcloud is endpoint-gateway-create --target crn:v1:staging:public:cloud-object-storage:global:::endpoint:s3.direct.us-west.cloud-object-storage.test.appdomain.cloud --name cli-egw-1 --vpc cli-vpc-3 --target-type provider_cloud_service --dns-resolution-binding-mode per_resource_binding`
+Create endpoint gateway with dns resolution binding mode
 - `ibmcloud is endpoint-gateway-create --target-type private_path_service_gateway --target crn:v1:staging:public:is:us-south:aefe5afc483594adaa8325e2b4d1290df::private-path-service-gateway:r134-f5926633-81d0-429e-bcf8-91151ade00bf --vpc cli-vpc`
 Create endpoint gateway for a Private Path service gateway.
 - `ibmcloud is endpoint-gateway-create --vpc 417f1275-b11a-4077-8755-84e795bc3172 --target crn:v1:bluemix:public:kms:us-south:a/86e1130a970148348271c47ed80ac3f3:7372408d-b68a-47f5-b5e5-4b64390aebff:: --name myegw1 --sg r006-dfd5e7a2-0f6d-47d3-b46a-567430f1d70c,r006-e60eba9b-7c88-49ae-b8e1-05bd76d39d66`
@@ -3212,7 +3215,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 - **--rip**: Comma-separated IDs of the reserved IP to be bound to the endpoint gateway. At most, one reserved IP per zone is allowed. It can also be reserved IP name, but only one reserved IP name is allowed and subnet option for this reserved IP name also must be supplied.
 - **--subnet**: ID or name of the subnet. This name is required only if the supplied reserved IP is in name format.
 - **--new-reserved-ip**: RESERVED_IP_JSON|@RESERVED_IP_JSON_FILE, new reserved IP configuration in JSON or JSON file.
-- **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
+- **--dns-resolution-binding-mode**: DNS resolution binding Mode One of: **disabled**, **primary**, **per_resource_binding**.
 - **--sg**: Comma-separated security group IDs or names for the endpoint gateway.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -3227,7 +3230,7 @@ Create endpoint gateway with binding-specified, new reserved IP configuration th
 Update an endpoint gateway.
 
 ```
-ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY [--vpc VPC] [--name NEW_NAME] [--allow-dns-resolution-binding false | true] [--output JSON] [-q, --quiet]
+ibmcloud is endpoint-gateway-update ENDPOINT_GATEWAY [--vpc VPC] [--name NEW_NAME] [--dns-resolution-binding-mode disabled | primary | per_resource_binding] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -3242,7 +3245,7 @@ Update an endpoint gateway and allow to participate in DNS resolution bindings w
 - **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--name**: New name of the endpoint gateway.
-- **--allow-dns-resolution-binding**: Allow DNS resolution binding One of: **false**, **true**.
+- **--dns-resolution-binding-mode**: DNS resolution binding Mode One of: **disabled**, **primary**, **per_resource_binding**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -3308,6 +3311,121 @@ ibmcloud is endpoint-gateway-delete (ENDPOINT_GATEWAY1 ENDPOINT_GATEWAY2 ...) [-
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-resource-binding
+{: #endpoint-gateway-resource-binding-view}
+
+View details of a resource binding.
+
+```
+ibmcloud is endpoint-gateway-resource-binding ENDPOINT_GATEWAY RESOURCE_BINDING [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-resource-binding}
+
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **RESOURCE_BINDING**: ID or name of the resource binding.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-resource-binding-create
+{: #endpoint-gateway-resource-binding-create}
+
+Create a resource binding for an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-resource-binding-create ENDPOINT_GATEWAY --target TARGET [--vpc VPC] [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-endpoint-gateway-resource-binding-create}
+
+- `ibmcloud is endpoint-gateway-resource-binding-create 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --name my-resource-binding --target crn:v1:staging:public:is:us-south:a/2d1bace7b46e4815a81e52c6ffeba5cf::vpc:r134-6c04d375-2a37-4bcc-93e6-68d7f9aa9f84`
+- `ibmcloud is endpoint-gateway-resource-binding-create my-endpoint-gateway --vpc my-vpc --target crn:v1:staging:public:is:us-south:a/2d1bace7b46e4815a81e52c6ffeba5cf::vpc:r134-6c04d375-2a37-4bcc-93e6-68d7f9aa9f84`
+
+#### Command options
+{: #command-options-endpoint-gateway-resource-binding-create}
+
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--name**: The name for this resource binding. The name must not be used by another resource binding for the endpoint gateway. If unspecified, the name will be a hyphenated list of randomly-selected words.
+- **--target**: The CRN of the resource to bind to the endpoint gateway.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-resource-binding-delete
+{: #endpoint-gateway-resource-binding-delete}
+
+Delete one or more resource bindings from an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-resource-binding-delete ENDPOINT_GATEWAY (RESOURCE_BINDING1 RESOURCE_BINDING2 ...) [--vpc VPC] [-f, --force] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-resource-binding-delete}
+
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **RESOURCE_BINDING1**: ID or name of the resource binding.
+- **RESOURCE_BINDING2**: ID or name of the resource binding.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-resource-binding-update
+{: #endpoint-gateway-resource-binding-update}
+
+Update an endpoint gateway resource binding.
+
+```
+ibmcloud is endpoint-gateway-resource-binding-update ENDPOINT_GATEWAY RESOURCE_BINDING [--vpc VPC] [--name NAME] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-endpoint-gateway-resource-binding-update}
+
+- `ibmcloud is endpoint-gateway-resource-binding-update 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 my-resource-binding --name my-resource-binding-new`
+- `ibmcloud is endpoint-gateway-resource-binding-update my-endpoint-gateway 2201-3f2e33d4-2140-44b4-843c-d73e03d585f1 --vpc my-vpc --name my-resource-binding-new`
+
+#### Command options
+{: #command-options-endpoint-gateway-resource-binding-update}
+
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **RESOURCE_BINDING**: ID or name of the resource binding.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--name**: The name for this resource binding. The name must not be used by another resource binding for the endpoint gateway. If unspecified, the name will be a hyphenated list of randomly-selected words.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is endpoint-gateway-resource-bindings
+{: #endpoint-gateway-resource-bindings-list}
+
+List resource bindings for an endpoint gateway.
+
+```
+ibmcloud is endpoint-gateway-resource-bindings ENDPOINT_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-endpoint-gateway-resource-bindings}
+
+- **ENDPOINT_GATEWAY**: ID or name of the endpoint gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -3430,7 +3548,7 @@ ibmcloud is virtual-network-interface-create [--name NAME] [--allow-ip-spoofing 
 - **--protocol-state-filtering-mode**: auto,--psfm auto  The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--subnet**: The associated subnet.
 - **--ips**: IPS RESERVED_IPS_JSON | @RESERVED_IPS_JSON_FILE, Secondary reserved IP addresses in JSON or JSON file, to bind to the virtual network interface. For the data schema, check the IPS property in the [API documentation](/apidocs/vpc/latest#create-virtual-network-interface). One of: **RESERVED_IPS_JSON**, **@RESERVED_IPS_JSON_FILE**.
-- **--sgs**: IDs or names of the security groups to use for the virtual network interface.
+- **--sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--vpc**: ID or name of the VPC to which this VNI is associated to.
@@ -6146,10 +6264,10 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 {: #command-options-instance-create}
 
 - **INSTANCE_NAME**: Name of the instance.
-- **VPC**: ID or name of the VPC.
-- **ZONE_NAME**: Name of the zone.
-- **PROFILE_NAME**: Name of the profile.
-- **SUBNET**: ID or name of the subnet.
+- **VPC**: ID or name of the VPC. Use the command 'ibmcloud is vpcs' to fetch VPCs.
+- **ZONE_NAME**: Name of the zone. Use the command 'ibmcloud is zones' to fetch available zones.
+- **PROFILE_NAME**: Name of the profile. Use the command 'ibmcloud is instance-profiles' to fetch instance profiles.
+- **SUBNET**: ID or name of the subnet. Use the command 'ibmcloud is subnets' to fetch a subnet ID or name.
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
@@ -6182,7 +6300,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--sgs**: Comma-separated security group ID or name for primary network interface or primary network attachment.
@@ -6196,7 +6314,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
@@ -6277,7 +6395,7 @@ Create an instance template with specific volume bandwidth QoS mode.
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
 - **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
-- **--subnet**: ID or name of the subnet.
+- **--subnet**: ID or name of the subnet. Use the command **ibmcloud is subnets** to fetch a subnet ID or a name.
 - **--rip**: ID or name of the existing reserved IP.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
@@ -6297,7 +6415,7 @@ Create an instance template with specific volume bandwidth QoS mode.
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--sgs**: Comma-separated security group ID or name for primary network interface or primary network attachment.
@@ -6311,7 +6429,7 @@ Create an instance template with specific volume bandwidth QoS mode.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -6649,7 +6767,7 @@ ibmcloud is instance-profile PROFILE_NAME [--output JSON] [-q, --quiet]
 #### Command options
 {: #command-options-instance-profile}
 
-- **PROFILE_NAME**: Name of the profile.
+- **PROFILE_NAME**: Name of the profile. Use the command 'ibmcloud is instance-profiles' to fetch instance profiles.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6985,7 +7103,7 @@ ibmcloud is instance-network-attachment-create INSTANCE [--vni VNI | ((--vni-sub
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
 - **--vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
-- **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
+- **--vni-sgs**: Comma-separated IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7732,7 +7850,7 @@ Create a bare metal server with a secondary network interface with new reserved 
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled. If enabled, the image must support secure boot or the server fails to boot. One of: **false**, **true**. (default: **false**).
@@ -8366,7 +8484,7 @@ ibmcloud is bare-metal-server-network-attachment-create SERVER (--interface-type
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface. The name must not be used by another reserved IP in the subnet. Names that start with ibm- are reserved for provider-owned resources, and are not allowed.
 - **--vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
-- **--vni-sgs**: IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
+- **--vni-sgs**: Comma-separated IDs or Names of the security groups to use for this virtual network interface. If unspecified, the default security group of the VPC for the subnet is used.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -8690,6 +8808,11 @@ Update a cluster network interface.
 ibmcloud is cluster-network-interface-update CLUSTER_NETWORK CLUSTER_NETWORK_INTERFACE [--name NEW_NAME] [--auto-delete true | false] [--output JSON] [-q, --quiet]
 ```
 
+#### Command example
+{: #command-example-cluster-network-interface-update}
+
+Update a cluster network interface.
+
 #### Command options
 {: #command-options-cluster-network-interface-update}
 
@@ -8917,6 +9040,11 @@ Update a cluster network.
 ```
 ibmcloud is cluster-network-subnet-reserved-ip-update CLUSTER_NETWORK CLUSTER_NETWORK_SUBNET CLUSTER_NETWORK_SUBNET_RESERVED_IP [--auto-delete AUTO_DELETE] [--name NEW_NAME] [--output JSON] [-q, --quiet]
 ```
+
+#### Command example
+{: #command-example-cluster-network-subnet-reserved-ip-update}
+
+Update a cluster network subnet reserved IP.
 
 #### Command options
 {: #command-options-cluster-network-subnet-reserved-ip-update}
@@ -9380,10 +9508,10 @@ Create an instance with specific volume bandwidth QoS mode.
 {: #command-options-instance-template-create}
 
 - **INSTANCE_TEMPLATE_NAME**: Name of the instance template.
-- **VPC**: ID or name of the VPC.
-- **ZONE_NAME**: Name of the zone.
-- **PROFILE_NAME**: Name of the profile.
-- **SUBNET**: ID or name of the subnet.
+- **VPC**: ID or name of the VPC. Use the command 'ibmcloud is vpcs' to fetch VPCs.
+- **ZONE_NAME**: Name of the zone. Use the command 'ibmcloud is zones' to fetch available zones.
+- **PROFILE_NAME**: Name of the profile. Use the command 'ibmcloud is instance-profiles' to fetch instance profiles.
+- **SUBNET**: ID or name of the subnet. Use the command 'ibmcloud is subnets' to fetch a subnet ID or name.
 - **--image**: ID or name of the image.
 - **--catalog-offering**: The CRN for the IBM Cloud catalog offering. If specified, the latest version of that offering is used. For more information about creating a catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
 - **--catalog-offering-version**: The CRN for the version of a IBM Cloud catalog offering. For more information about creating a version for the catalog offering, see [Onboarding software to your account](/docs/account?topic=account-create-private-catalog&interface=cli).
@@ -9416,7 +9544,7 @@ Create an instance with specific volume bandwidth QoS mode.
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--sgs**: Comma-separated security group ID or name for primary network interface or primary network attachment.
@@ -9428,7 +9556,7 @@ Create an instance with specific volume bandwidth QoS mode.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
@@ -9489,7 +9617,7 @@ Create an instance template by overriding a source template with allowed use in 
 - **--reservation-affinity-policy, --res-policy**: The reservation affinity policy to use for this virtual server instance. The policy defaults to manual if pool is not empty. The policy defaults to disabled if a placement_target is set. The policy defaults to automatic in all other cases. One of: **disabled**, **manual**, **automatic**.
 - **--reservation-affinity-pool, --res-pool**: ID, name, or CRN of the reservation that is available to use by this virtual server instance.
 - **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
-- **--subnet**: ID or name of the subnet.
+- **--subnet**: ID or name of the subnet. Use the command **ibmcloud is subnets** to fetch a subnet ID or name.
 - **--rip**: ID or name of the existing reserved IP.
 - **--address**: The IP address to reserve, which must not already be reserved on the subnet.
 - **--auto-delete**: If set to **true**, this reserved IP automatically deletes when the target is deleted. One of: **true**, **false**. (default: **true**).
@@ -9509,7 +9637,7 @@ Create an instance template by overriding a source template with allowed use in 
 - **--pnac-vni-rip-address**: The IP address of the reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
 - **--pnac-vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound. One of: **true**, **false**. (default: **true**).
 - **--pnac-vni-rip-name**: The name for this reserved IP to bind to the virtual network interface that is associated with the primary network attachment.
-- **--pnac-vni-sgs**: IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
+- **--pnac-vni-sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface that are associated with the primary network attachment.
 - **--pnac-vni-psfm**: The protocol state filtering mode to use for this virtual network interface. If auto, protocol state packet filtering is enabled or disabled based on the virtual network interface's `target` resource type. One of: **auto**, **enabled**, **disabled**. (default: **auto**).
 - **--network-attachments**: NETWORK_ATTACHMENTS_JSON|@NETWORK_ATTACHMENTS_JSON_FILE. Network attachment configuration is in JSON or JSON file. For the data schema, see the **network_attachments** property in the [API documentation](/apidocs/vpc#create-bare-metal-server). One of: **NETWORK_ATTACHMENTS_JSON**, **@NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--sgs**: Comma-separated security group ID or name for primary network interface or primary network attachment.
@@ -9521,7 +9649,7 @@ Create an instance template by overriding a source template with allowed use in 
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks documentation](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -11447,7 +11575,7 @@ ibmcloud is share-mount-target-create SHARE (--transit-encryption stunnel | ipse
 - **--vni-rip-auto-delete**: Indicates whether this reserved IP automatically deletes when either target is deleted, or if the reserved IP is unbound.
 - **--vni-rip-name**: The name for this reserved IP to bind to the virtual network interface.
 - **--subnet**: The subnet that is associated with this file share mount target.
-- **--vni-sgs**: IDs or names of the security groups to use for the virtual network interface.
+- **--vni-sgs**: Comma-separated IDs or names of the security groups to use for the virtual network interface.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--vpc**: ID or name of the VPC to which this share mount target allows to mount the file share.
@@ -11992,7 +12120,7 @@ ibmcloud is backup-policy-plan-update POLICY PLAN [--name NAME] [--active] [--at
 List all jobs for the backup policy.
 
 ```
-ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshot SNAPSHOT] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
+ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshots SNAPSHOT] [--status failed | running | succeeded] [--plan PLAN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -12000,7 +12128,7 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshot SNAPSHOT] [-
 
 - `ibmcloud is backup-policy-jobs backup-policy-1001`
 - `ibmcloud is backup-policy-jobs r134-7759199b-bc1f-448e-84fa-2aa42bde29af`
-- `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --source r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshot r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status running --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
+- `ibmcloud is backup-policy-jobs r134-0703cdf1-48bb-4af2-9ceb-1edbe8fcb818 --source r134-1a1e25f2-3fc3-4507-8725-e5f1d07256ea --snapshots r143-1a1e25f2-3fc3-4507-8725-e5f1d08956ea --status running --plan r136-3a3e25f2-3fc3-4507-8725-e5f1d08496ea`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots r134-f1d9b974-14e5-4a2e-8e38-c023164be316`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots bkp-plan-do-not-delete-31addff28e2b-422b`
 - `ibmcloud is backup-policy-jobs bkp-policy-do-not-delete --snapshots crn:v1:staging:public:is:us-south:a/efe5afc483594adaa8325e2b4d1290df::snapshot:r134-c4ea5585-0554-40db-bdc8-1ec9fb15098b`
@@ -12011,7 +12139,7 @@ ibmcloud is backup-policy-jobs POLICY [--source SOURCE] [--snapshot SNAPSHOT] [-
 
 - **POLICY**: ID or name of the backup policy.
 - **--source**: ID or name of the source volume. Source name can be used only if the source exists inside the VPC.
-- **--snapshot**: ID, name, or CRN of target snapshot. Combinations of these three types are not supported. Passing is supported by only one of these three types.
+- **--snapshots**: ID, name, or CRN of target snapshot. Combinations of these three types are not supported. Passing is supported by only one of these three types.
 - **--status**: Status of the backup policy job. One of: **failed**, **running**, **succeeded**.
 - **--plan**: ID or name of backup policy plan.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
