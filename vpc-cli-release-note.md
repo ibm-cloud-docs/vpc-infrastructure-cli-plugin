@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-12-12"
+lastupdated: "2025-12-15"
 
 ---
 
@@ -13,6 +13,27 @@ lastupdated: "2025-12-12"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.1.0
+{: #v16.1.0}
+
+Version 16.1.0 was released on 2025-12-12.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* `--vcpu-percentage` flag is introduced in the `instance-create`, `instance-create-from-template`. `instance-update`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v16.0.0
 {: #v16.0.0}
