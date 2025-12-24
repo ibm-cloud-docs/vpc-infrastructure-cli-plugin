@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2025
-lastupdated: "2025-12-15"
+lastupdated: "2025-12-24"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1478,16 +1478,14 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 #### Command examples
 {: #command-examples-network-acl-rule-add}
 
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add my-acl allow inbound any 10.2.2.2 10.2.2.3`
-- `ibmcloud is network-acl-rule-add my-acl allow inbound any 10.2.2.2 10.2.2.3 --vpc my-vpc`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3 --name my-acl-rule`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add my-acl allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --vpc my-vpc`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --name my-acl-rule`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp 10.2.2.2 10.2.2.3 --icmp-type 8 --icmp-code 0`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --source-port-min 555  --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3 --output JSON`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --before-rule-id 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --output JSON`
-- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound number_99 10.2.2.2 10.2.2.3 --output JSON`
 
 #### Command options
 {: #command-options-network-acl-rule-add}
@@ -1495,8 +1493,7 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 - **ACL**: ID or name of the network ACL.
 - **ACTION**: One of: **allow**, **deny**.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: The name of the network protocol. One of: **any**, **icmp_tcp_udp**, **icmp**, **tcp**, **udp**, **ah**, **gre**, **ip_in_ip**, **l2tp**, **rsvp**, **sctp**, **vrrp**. For other protocols, specify a value of number_<N>, where <N> is the protocol number in decimal from 0 to 255 (e.g., number_99).
-- **Note**: A selection of well-known protocols uses their standard names (e.g., tcp for protocol 6). For these, the corresponding number_<N> value must not be used (e.g., number_6 is invalid — use tcp instead). Each protocol has exactly one valid identifier, either a named protocol or a number_<N>.
+- **PROTOCOL**: The name of the network protocol. One of: **icmp_tcp_udp**, **icmp**, **tcp**, **udp**.
 - **SOURCE**: Source IP address or CIDR block.
 - **DESTINATION**: Destination IP address or CIDR block.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
@@ -2115,24 +2112,21 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 #### Command examples
 {: #command-examples-security-group-rule-add}
 
-- `ibmcloud is security-group-rule-add my-sg inbound any`
-- `ibmcloud is security-group-rule-add my-sg inbound any --vpc my-vpc`
-- `ibmcloud is security-group-rule-add my-sg inbound any --remote my-sg`
-- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound any --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
-- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol any --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add my-sg inbound icmp_tcp_udp`
+- `ibmcloud is security-group-rule-add my-sg inbound icmp_tcp_udp --vpc my-vpc`
+- `ibmcloud is security-group-rule-add my-sg inbound icmp_tcp_udp --remote my-sg`
+- `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp_tcp_udp --remote 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol icmp_tcp_udp --local 192.168.3.0`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp --icmp-type 8 --icmp-code 0`
 - `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol icmp_tcp_udp --local 192.168.3.0`
-- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol number_99 --local 192.168.3.0`
-- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol any --local 192.168.3.0`
 
 #### Command options
 {: #command-options-security-group-rule-add}
 
 - **GROUP**: ID or name of the security group.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: The name of the network protocol. One of: **any**, **icmp_tcp_udp**, **icmp**, **tcp**, **udp**, **ah**, **gre**, **ip_in_ip**, **l2tp**, **rsvp**, **sctp**, **vrrp**. For other protocols, specify a value of number_<N>, where <N> is the protocol number in decimal from 0 to 255 (e.g., number_99).
-- **Note**: A selection of well-known protocols uses their standard names (e.g., tcp for protocol 6). For these, the corresponding number_<N> value must not be used (e.g., number_6 is invalid — use tcp instead). Each protocol has exactly one valid identifier, either a named protocol or a number_<N>.
+- **PROTOCOL**: The name of the network protocol. One of: **icmp_tcp_udp**, **icmp**, **tcp**, **udp**.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
@@ -6318,7 +6312,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
-- **--vcpu-percentage**: The percentage of VCPU clock cycles allocated to the instance. Range 1-100.
+- **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -6899,7 +6893,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--confidential-compute-mode**: The confidential compute mode to use for this virtual server instance. If unspecified, the default confidential compute mode from the profile is used. One of: **disabled**, **sgx**, **tdx**.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
-- **--vcpu-percentage**: The percentage of vCPU clock cycles allocated to the instance. Range 1-100.
+- **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -9567,7 +9561,7 @@ Create an instance template with shared core.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
-- **--vcpu-percentage**: The percentage of vCPU clock cycles allocated to the instance. Range 1-100.
+- **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -9663,7 +9657,7 @@ Create an instance template by overriding a source template with shared core.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
-- **--vcpu-percentage**: The percentage of VCPU clock cycles allocated to the instance. Range 1-100.
+- **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
