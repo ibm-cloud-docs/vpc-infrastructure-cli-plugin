@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2025
-lastupdated: "2025-12-15"
+lastupdated: "2025-12-24"
 
 ---
 
@@ -13,6 +13,29 @@ lastupdated: "2025-12-15"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.2.1
+{: #v16.2.1}
+
+Version 16.2.1 was released on 2025-12-21. This is an urgent patch for major versions 16.0.0 and 16.1.0. For detailed instructions and known issues, see [Security groups and network ACLs protocol](https://cloud.ibm.com/docs/vpc?topic=vpc-known-issues#networking-vpc-known-issues)
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* In `network-acl-create` (inline rule for `allow` action), `network-acl-rule-add` (`allow` action), and `security-group-rule-add`, the protocol value `all` was deprecated. Supported protocol values are now: `icmp_tcp_udp`, `icmp`, `tcp`, `udp`.
+
+* In `network-acl-create` (inline rule for `deny` action) and `network-acl-rule-add` (`deny` action), the protocol value `all` was deprecated. Supported protocol values are now: `icmp`, `tcp`, `udp`.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v16.1.0
 {: #v16.1.0}
