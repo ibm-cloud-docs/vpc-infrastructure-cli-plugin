@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2020, 2025
-lastupdated: "2025-12-24"
+  years: 2020, 2026
+lastupdated: "2026-01-20"
 
 ---
 
@@ -13,6 +13,28 @@ lastupdated: "2025-12-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.3.0
+{: #v16.3.0}
+Version 16.3.0 was released on 2026-01-13.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* `--availability-class` and `--preemption-policy` flags are introduced in the `instance-create`, `instance-update`, `instance-create-from-template`, `instance-template-create-override-source-template` and  `instance-template-create` commands.
+
+* `--availability-class` flag is introduced in the `instances` command.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v16.2.1
 {: #v16.2.1}
