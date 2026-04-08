@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-01-20"
+lastupdated: "2026-04-08"
 
 ---
 
@@ -13,6 +13,26 @@ lastupdated: "2026-01-20"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.4.0
+{: #v16.4.0}
+Version 16.4.0 was released on 2026-02-11.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* The response of `instance-profiles` and `instance-profile` was updated to include the `Zones` and `Network Bandwidth Mode` properties.
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* N/A
 
 ## v16.3.0
 {: #v16.3.0}

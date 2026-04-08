@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-01-20"
+lastupdated: "2026-04-08"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4300,7 +4300,7 @@ ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT 
 {: #command-options-public-address-range-create}
 
 - **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources and are not allowed.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources, and are not allowed.
 - **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
 - **--zone**: The zone that you want this public address range to reside in. While specifying flag, --vpc flag is required.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -4329,7 +4329,7 @@ ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--v
 {: #command-options-public-address-range-update}
 
 - **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources and are not allowed.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources, and are not allowed.
 - **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
 - **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
 - **--reset-target**: Remove target from public address range.
