@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-01-20"
+lastupdated: "2026-04-27"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4300,7 +4300,7 @@ ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT 
 {: #command-options-public-address-range-create}
 
 - **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources and are not allowed.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources, and are not allowed.
 - **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
 - **--zone**: The zone that you want this public address range to reside in. While specifying flag, --vpc flag is required.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -4329,7 +4329,7 @@ ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--v
 {: #command-options-public-address-range-update}
 
 - **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
-- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources and are not allowed.
+- **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources, and are not allowed.
 - **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
 - **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
 - **--reset-target**: Remove target from public address range.
@@ -6313,7 +6313,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](/docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
@@ -6433,7 +6433,7 @@ Create an instance from an instance template with shared core.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](/docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
@@ -9571,7 +9571,7 @@ Create an instance template with spot.
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](/docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
@@ -9671,7 +9671,7 @@ Create an instance template by overriding a source template with availability cl
 - **--enable-secure-boot**: Indicates whether secure boot is enabled for this virtual server instance. If unspecified, the default secure boot mode from the profile is used. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
-- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
+- **--cluster-network-attachments**: CLUSTER_NETWORK_ATTACHMENTS_JSON|@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE. Cluster network attachment configuration is in JSON or JSON file. For the data schema, see the **cluster_network_attachments** property in the [API documentation](/apidocs/vpc#create-instance). For more information about cluster networks, see [Cluster networks](/docs/vpc?topic=vpc-about-cluster-network). One of: **CLUSTER_NETWORK_ATTACHMENTS_JSON**, **@CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE**.
 - **--volume-bandwidth-qos-mode**: The volume bandwidth QoS mode to use for this virtual server instance. The specified value must be listed in the instance profile's volume_bandwidth_qos_modes. One of: **pooled**, **weighted**.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
