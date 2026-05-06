@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-05-05"
+lastupdated: "2026-05-06"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -1483,6 +1483,8 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3`
 - `ibmcloud is network-acl-rule-add my-acl allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3`
 - `ibmcloud is network-acl-rule-add my-acl allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --vpc my-vpc`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound number_99 10.2.2.2 10.2.2.3`
+- `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound any 10.2.2.2 10.2.2.3`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp_tcp_udp 10.2.2.2 10.2.2.3 --name my-acl-rule`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound icmp 10.2.2.2 10.2.2.3 --icmp-type 8 --icmp-code 0`
 - `ibmcloud is network-acl-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 allow inbound tcp 10.2.2.2 10.2.2.3 --source-port-min 555  --source-port-max 666 --destination-port-min 11 --destination-port-max 55`
@@ -1495,7 +1497,7 @@ ibmcloud is network-acl-rule-add ACL ACTION DIRECTION PROTOCOL SOURCE DESTINATIO
 - **ACL**: ID or name of the network ACL.
 - **ACTION**: One of: **allow**, **deny**.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: The name of the network protocol. One of: **icmp_tcp_udp**, **icmp**, **tcp**, **udp**.
+- **PROTOCOL**: The name of the network protocol. One of: **any**, **icmp_tcp_udp**, **icmp**, **tcp**, **udp**, **ah**, **gre**, **ip_in_ip**, **l2tp**, **rsvp**, **sctp**, **vrrp**. For other protocols, use number_<N> where <N> is 0-255 (e.g., number_99). Well-known protocols use standard names (e.g., tcp for protocol 6); their number_<N> form is invalid. IPv6-specific protocols are not supported: number_0, number_43, number_44, number_58, number_59, number_60, number_135.
 - **SOURCE**: Source IP address or CIDR block.
 - **DESTINATION**: Destination IP address or CIDR block.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
@@ -2122,13 +2124,15 @@ ibmcloud is security-group-rule-add GROUP DIRECTION PROTOCOL [--vpc VPC] [--loca
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound tcp --port-min 4 --port-max 22 --output JSON`
 - `ibmcloud is security-group-rule-add 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 inbound icmp --icmp-type 8 --icmp-code 0`
 - `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol icmp_tcp_udp --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol number_99 --local 192.168.3.0`
+- `ibmcloud is security-group-rule-add --sg 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --direction inbound --protocol any --local 192.168.3.0`
 
 #### Command options
 {: #command-options-security-group-rule-add}
 
 - **GROUP**: ID or name of the security group.
 - **DIRECTION**: Direction of traffic to enforce. One of: **inbound**, **outbound**.
-- **PROTOCOL**: The name of the network protocol. One of: **icmp_tcp_udp**, **icmp**, **tcp**, **udp**.
+- **PROTOCOL**: The name of the network protocol. One of: **any**, **icmp_tcp_udp**, **icmp**, **tcp**, **udp**, **ah**, **gre**, **ip_in_ip**, **l2tp**, **rsvp**, **sctp**, **vrrp**. For other protocols, use number_<N> where <N> is 0-255 (e.g., number_99). Well-known protocols use standard names (e.g., tcp for protocol 6); their number_<N> form is invalid. IPv6-specific protocols are not supported: number_0, number_43, number_44, number_58, number_59, number_60, number_135.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--local**: The local IP address or range of local IP addresses that this rule allows for inbound and outbound traffic. A CIDR block of 0.0.0.0/0 allows inbound and outbound traffic to all local IP addresses.
 - **--remote**: The set of network interfaces from which this rule allows traffic. It can be specified as either a REMOTE_ADDRESS, CIDR_BLOCK, or SECURITY_GROUP. If unspecified, then traffic is allowed from any source (or to any source, for outbound rules).
@@ -2956,7 +2960,7 @@ ibmcloud is vpc-update VPC --name NEW_NAME [[--dns-enable-hub false | true] [--d
 - **--dns-enable-hub**: Indicates whether this VPC is enabled as a DNS name resolution hub. One of: **false**, **true**.
 - **--dns-resolver-type**: The type of the DNS resolver to use. One of: **manual**, **system**, **delegated**.
 - **--dns-resolver-manual-servers**: MANUAL_SERVERS|@MANUAL_SERVERS, manual servers in JSON or JSON file.
-- **--delegate-to-vpc**: The ID or name of the VPC to provide DNS server addresses for this VPC. Must be set if and only if resolver type is delegated.
+- **--delegate-to-vpc**: The ID, name, or CRN of the VPC to provide DNS server addresses for this VPC. Must be set if and only if resolver type is delegated.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4672,8 +4676,8 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 #### Command examples
 {: #command-examples-ipsec-policy-update}
 
-- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --name my-ipsec-policy`
 - `ibmcloud is ipsec-policy-update my-ipsec-policy --name my-renamed-ipsec-policy`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --name my-ipsec-policy`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm sha256`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --pfs group_14`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithm aes128`
@@ -7014,7 +7018,7 @@ Add an existing volume to a virtual server instance by using resource name.
 - **VOLUME**: ID or name of the volume.
 - **--new-volume-name**: The name of new volume.
 - **--profile**: Name of the profile.
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--iops**: Input and output operations per second for the volume, it is applicable for only custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes.
 - **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
@@ -10590,7 +10594,7 @@ Create a volume from snapshot with capacity
 - **PROFILE_NAME**: Name of the profile.
 - **ZONE_NAME**: Name of the zone.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes. After source snapshot is provided, the capacity value must be at least snapshot's **minimum_capacity**, and the default capacity value is source snapshot's **minimum_capacity**. (default: **100**).
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--iops**: Input and output operations per second for the volume, it is applicable for only custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--snapshot**: ID, name, or CRN of the snapshot.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
@@ -10697,7 +10701,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--name**: New name of the volume.
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
-- **--iops**: Input/output operations per second for the volume, it is only applicable for custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
+- **--iops**: Input and output operations per second for the volume, it is applicable for only custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
 - **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
 - **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume.
