@@ -2,9 +2,11 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-04-27"
+lastupdated: "2026-05-05"
 
 subcollection: vpc-infrastructure-cli-plugin
+
+content-type: cli-docs
 
 ---
 
@@ -3789,10 +3791,11 @@ List all Private Path service gateways.
 ibmcloud is private-path-service-gateways [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
-#### Command example
-{: #command-example-private-path-service-gateways}
+#### Command examples
+{: #command-examples-private-path-service-gateways}
 
 - `ibmcloud is private-path-service-gateways`
+List all Private Path service gateways.
 
 #### Command options
 {: #command-options-private-path-service-gateways}
@@ -3818,7 +3821,9 @@ ibmcloud is private-path-service-gateway PRIVATE_PATH_SERVICE_GATEWAY [--output 
 {: #command-examples-private-path-service-gateway}
 
 - `ibmcloud is ppsg r134-2e671f14-19fc-4089-9ad3-973176711259`
+View details of a Private Path service gateway by using its ID.
 - `ibmcloud is private-path-service-gateway cli-ppsg-0`
+View details of a Private Path service gateway by using its name.
 
 #### Command options
 {: #command-options-private-path-service-gateway}
@@ -3842,7 +3847,9 @@ ibmcloud is private-path-service-gateway-create --load-balancer LOAD_BALANCER --
 {: #command-examples-private-path-service-gateway-create}
 
 - `ibmcloud is private-path-service-gateway-create --load-balancer my-cli-nlb  --service-endpoints cli.domain.com --default-access-policy permit --name cli-ppsg-1 --zonal-affinity true`
+Create a Private Path service gateway by specifying the load balancer name and configuring the default access policy as permit.
 - `ibmcloud is private-path-service-gateway-create --load-balancer r134-d-439744e1-81d7-43fb-95d5-2356774240bb  --service-endpoints clidemo.domain.com --default-access-policy deny --name cli-ppsg-2 --zonal-affinity true`
+Create a Private Path service gateway by specifying the load balancer ID and configuring the default access policy as deny.
 
 #### Command options
 {: #command-options-private-path-service-gateway-create}
@@ -3871,8 +3878,14 @@ ibmcloud is private-path-service-gateway-update PRIVATE_PATH_SERVICE_GATEWAY [--
 #### Command examples
 {: #command-examples-private-path-service-gateway-update}
 
+- `ibmcloud is private-path-service-gateway-update r134-2e671f14-19fc-4089-9ad3-973176711259 --name cli-ppsg-2 --default-access-policy deny --load-balancer r134-d-740be75d-be41-48bd-b6e4-89946ddcac4a  --zonal-affinity false --published true`
+Update a Private Path service gateway by ID, changing its name, access policy, load balancer, zonal affinity, and publishing it.
+- `ibmcloud is private-path-service-gateway-update cli-ppsg-2 --name cli-ppsg-0 --default-access-policy review --load-balancer my-cli-nlb-1  --zonal-affinity false --published true`
+Update a Private Path service gateway by name, changing its name, access policy to review, load balancer, zonal affinity, and publishing it.
 - `ibmcloud is private-path-service-gateway-update r134-2e671f14-19fc-4089-9ad3-973176711259 --name cli-ppsg-2 --default-access-policy deny --load-balancer r134-d-740be75d-be41-48bd-b6e4-89946ddcac4a  --zonal-affinity false`
+Update a Private Path service gateway by ID, changing its name, access policy, load balancer, and zonal affinity.
 - `ibmcloud is private-path-service-gateway-update cli-ppsg-2 --name cli-ppsg-0 --default-access-policy review --load-balancer my-cli-nlb-1  --zonal-affinity false`
+Update a Private Path service gateway by name, changing its name, access policy to review, load balancer, and zonal affinity.
 
 #### Command options
 {: #command-options-private-path-service-gateway-update}
@@ -3900,7 +3913,9 @@ ibmcloud is private-path-service-gateway-delete (PRIVATE_PATH_SERVICE_GATEWAY1 P
 {: #command-examples-private-path-service-gateway-delete}
 
 - `ibmcloud is ppsgd r134-01cd30f7-e6f2-432f-9520-76247b1fbbe1 r134-72940467-a4db-487f-b57e-b7141ac40e32`
+Delete multiple Private Path service gateways by using their IDs.
 - `ibmcloud is private-path-service-gateway-delete cli-ppsg-0 cli-ppsg-1`
+Delete multiple Private Path service gateways by using their names.
 
 #### Command options
 {: #command-options-private-path-service-gateway-delete}
@@ -3926,7 +3941,9 @@ ibmcloud is private-path-service-gateway-publish PRIVATE_PATH_SERVICE_GATEWAY [-
 {: #command-examples-private-path-service-gateway-publish}
 
 - `ibmcloud is ppsgp r134-01cd30f7-e6f2-432f-9520-76247b1fbbe1`
+Publish a Private Path service gateway by using its ID to make it available for any account to request access.
 - `ibmcloud is private-path-service-gateway-publish cli-ppsg-0`
+Publish a Private Path service gateway by using its name to make it available for any account to request access.
 
 #### Command options
 {: #command-options-private-path-service-gateway-publish}
@@ -3950,7 +3967,9 @@ ibmcloud is private-path-service-gateway-unpublish PRIVATE_PATH_SERVICE_GATEWAY 
 {: #command-examples-private-path-service-gateway-unpublish}
 
 - `ibmcloud is ppsgunp r134-01cd30f7-e6f2-432f-9520-76247b1fbbe1`
+Unpublish a Private Path service gateway by using its ID to restrict access requests.
 - `ibmcloud is private-path-service-gateway-unpublish cli-ppsg-0`
+Unpublish a Private Path service gateway by using its name to restrict access requests.
 
 #### Command options
 {: #command-options-private-path-service-gateway-unpublish}
@@ -3974,7 +3993,9 @@ ibmcloud is private-path-service-gateway-account-policies (PRIVATE_PATH_SERVICE_
 {: #command-examples-private-path-service-gateway-account-policies}
 
 - `ibmcloud is ppsg-aps cli-ppsg-0`
+List all account policies for a Private Path service gateway by using its name.
 - `ibmcloud is ppsg-aps r134-f5926633-81d0-429e-bcf8-91151ade00bf`
+List all account policies for a Private Path service gateway by using its ID.
 
 #### Command options
 {: #command-options-private-path-service-gateway-account-policies}
@@ -4003,7 +4024,9 @@ ibmcloud is private-path-service-gateway-account-policy PRIVATE_PATH_SERVICE_GAT
 {: #command-examples-private-path-service-gateway-account-policy}
 
 - `ibmcloud is ppsg-ap cli-ppsg-0 2d1bace7b46e4815a81e52c6ffeba5cf`
+View details of an account policy for a Private Path service gateway by using its gateway name and policy ID.
 - `ibmcloud is private-path-service-gateway-account-policy r134-f5926633-81d0-429e-bcf8-91151ade00bf e13b4574db1743b1b7897bebca551db1`
+View details of an account policy for a Private Path service gateway by using its gateway ID and policy ID.
 
 #### Command options
 {: #command-options-private-path-service-gateway-account-policy}
@@ -4028,7 +4051,9 @@ ibmcloud is private-path-service-gateway-account-policy-create PRIVATE_PATH_SERV
 {: #command-examples-private-path-service-gateway-account-policy-create}
 
 - `ibmcloud is private-path-service-gateway-account-policy-create r134-f5926633-81d0-429e-bcf8-91151ade00bf --account-id e13b4574db1743b1b7897bebca551db1 --access-policy deny`
+Create an account policy for a Private Path service gateway by using its gateway ID with deny access policy.
 - `ibmcloud is private-path-service-gateway-account-policy-create cli-ppsg-0 --account-id 2d1bace7b46e4815a81e52c6ffeba5cf --access-policy review`
+Create an account policy for a Private Path service gateway by using gateway name with review access policy.
 
 #### Command options
 {: #command-options-private-path-service-gateway-account-policy-create}
@@ -4054,7 +4079,9 @@ ibmcloud is private-path-service-gateway-account-policy-update PRIVATE_PATH_SERV
 {: #command-examples-private-path-service-gateway-account-policy-update}
 
 - `ibmcloud is ppsg-apu r134-f5926633-81d0-429e-bcf8-91151ade00bf 2d1bace7b46e4815a81e52c6ffeba5cf --access-policy permit`
+Update an account policy for a Private Path service gateway by using its gateway ID and policy ID, changing access policy to permit.
 - `ibmcloud is ppsg-apu cli-ppsg-0 e13b4574db1743b1b7897bebca551db1 --access-policy review`
+Update an account policy for a Private Path service gateway by using its gateway name and policy ID, changing access policy to review.
 
 #### Command options
 {: #command-options-private-path-service-gateway-account-policy-update}
@@ -4080,7 +4107,9 @@ ibmcloud is private-path-service-gateway-account-policy-delete PRIVATE_PATH_SERV
 {: #command-examples-private-path-service-gateway-account-policy-delete}
 
 - `ibmcloud is ppsg-apd r134-2e671f14-19fc-4089-9ad3-973176711259 efe5afc483594adaa8325e2b4d1290df`
+Delete an account policy for a Private Path service gateway by using its gateway ID and policy ID.
 - `ibmcloud is private-path-service-gateway-account-policy-delete cli-ppsg-0 2d1bace7b46e4815a81e52c6ffeba5cf e13b4574db1743b1b7897bebca551db1`
+Delete multiple account policies for a Private Path service gateway by using its gateway name and policy IDs.
 
 #### Command options
 {: #command-options-private-path-service-gateway-account-policy-delete}
@@ -4107,7 +4136,9 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-bindings (PRIVATE_PATH
 {: #command-examples-private-path-service-gateway-endpoint-gateway-bindings}
 
 - `ibmcloud is ppsg-egbs r134-2e671f14-19fc-4089-9ad3-973176711259`
+List all endpoint gateway bindings for a Private Path service gateway by using its ID.
 - `ibmcloud is ppsg-egbs cli-ppsg-0`
+List all endpoint gateway bindings for a Private Path service gateway by using its name.
 
 #### Command options
 {: #command-options-private-path-service-gateway-endpoint-gateway-bindings}
@@ -4137,7 +4168,9 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-binding PRIVATE_PATH_S
 {: #command-examples-private-path-service-gateway-endpoint-gateway-binding}
 
 - `ibmcloud is private-path-service-gateway-endpoint-gateway-binding r134-2e671f14-19fc-4089-9ad3-973176711259 r134-17635273-0702-4a31-b406-a0014c291fbb`
+View details of an endpoint gateway binding for a Private Path service gateway by using its gateway ID and binding ID.
 - `ibmcloud is private-path-service-gateway-endpoint-gateway-binding cli-ppsg-0 r134-3aabeae6-830c-40d6-b67e-4b08382989e9`
+View details of an endpoint gateway binding for a Private Path service gateway by using its gateway name and binding ID.
 
 #### Command options
 {: #command-options-private-path-service-gateway-endpoint-gateway-binding}
@@ -4162,7 +4195,9 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-binding-deny PRIVATE_P
 {: #command-examples-private-path-service-gateway-endpoint-gateway-binding-deny}
 
 - `ibmcloud is private-path-service-gateway-endpoint-gateway-binding-deny r134-2e671f14-19fc-4089-9ad3-973176711259 r134-17635273-0702-4a31-b406-a0014c291fbb --set-account-policy true`
+Deny an endpoint gateway binding for a Private Path service gateway by using its gateway ID and binding ID, and set this ID as the account policy.
 - `ibmcloud is ppsg-egb-deny cli-ppsg r134-f7e2b651-0d02-46e1-8811-16ea2157b547 --set-account-policy true`
+Deny an endpoint gateway binding for a Private Path service gateway by using its gateway name and binding ID, and set this name as the account policy.
 
 #### Command options
 {: #command-options-private-path-service-gateway-endpoint-gateway-binding-deny}
@@ -4188,7 +4223,9 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-binding-permit PRIVATE
 {: #command-examples-private-path-service-gateway-endpoint-gateway-binding-permit}
 
 - `ibmcloud is ppsg-egb-permit r134-e64dab2d-8fd2-43bd-8390-229ba66e53c4 r134-0dcc2105-14a1-4501-9b43-29632e910e4b --set-account-policy true`
+Permit an endpoint gateway binding for a Private Path service gateway by using its gateway ID and binding ID, and set this ID as the account policy.
 - `ibmcloud is ppsg-egb-permit cli-ppsg r134-3a30c0b3-8c4b-4a64-bb93-3f3e17459363 --set-account-policy true`
+Permit an endpoint gateway binding for a Private Path service gateway by using its gateway name and binding ID, and set this name as the account policy.
 
 #### Command options
 {: #command-options-private-path-service-gateway-endpoint-gateway-binding-permit}
@@ -4214,7 +4251,9 @@ ibmcloud is private-path-service-gateway-endpoint-gateway-binding-revoke (PRIVAT
 {: #command-examples-private-path-service-gateway-endpoint-gateway-binding-revoke}
 
 - `ibmcloud is ppsg-ar r134-e64dab2d-8fd2-43bd-8390-229ba66e53c4 --account-id efe5afc483594adaa8325e2b4d1290df`
+Revoke access to a Private Path service gateway for an account by using its gateway ID.
 - `ibmcloud is ppsg-ar cli-ppsg --account-id efe5afc483594adaa8325e2b4d1290df`
+Revoke access to a Private Path service gateway for an account by using its gateway name.
 
 #### Command options
 {: #command-options-private-path-service-gateway-endpoint-gateway-binding-revoke}
@@ -5679,7 +5718,7 @@ ibmcloud is images [--visibility all | public | private] [--status STATUS] [--us
 {: #command-options-images}
 
 - **--visibility**: List images with given visibility. Valid visibility is: **public** or **private**.
-- **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, pending, unusable, all.
+- **--status**: Filters the collection to images with the comma-separated list of status values. Available values: available, deleting, deprecated, failed, obsolete, partially_available, pending, unusable, all.
 - **--user-data-format**: Filters the collection to images with the comma-separated list of user-data-format values. Available values: cloud_init, esxi_kickstart, ipxe.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -10690,6 +10729,161 @@ ibmcloud is volume-instance-profiles VOLUME [--output JSON] [-q, --quiet]
 {: #command-options-volume-instance-profiles}
 
 - **VOLUME**: ID or name of the volume.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+
+### ibmcloud is volume-job-create
+{: #volume-job-create}
+
+Create a job for a volume.
+
+```
+ibmcloud is volume-job-create VOLUME --profile PROFILE [--name Name] [--bandwidth BANDWIDTH] [--iops IOPS] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-job-create}
+
+- `ibmcloud is volume-job-create r134-4345a81c-6f86-4ae5-863f-92d6afc160a9 --profile sdp --name cli-test --iops 3000 --bandwidth 1000 --output JSON`
+- `ibmcloud is volume-job-create 485080f6-86e8-4fd4-a940-fb0e5bc269e0 --name my-job --profile sdp --bandwidth 1000 --iops 3000`
+
+#### Command options
+{: #command-options-volume-job-create}
+
+- **VOLUME**: ID or name of the volume.
+- **--profile**: Name of the profile.
+- **--name**: Name of the volume job.
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. To specify this property, the volume storage_generation must be 2.
+- **--iops**: Input and output operations per second for the volume, it is applicable for only custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-job-update
+{: #volume-job-update}
+
+Update a volume job.
+
+```
+ibmcloud is volume-job-update VOLUME --job JOB [--name Name] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-job-update}
+
+- `ibmcloud is volume-job-update my-volume --job my-job --name my-job-update --output JSON`
+- `ibmcloud is volume-job-update 485080f6-86e8-4fd4-a940-fb0e5bc269e0 --job 485080f6-86e8-4fd4-a940-fb0e5bc279e2 --name my-job-update`
+
+#### Command options
+{: #command-options-volume-job-update}
+
+- **VOLUME**: ID or name of the volume.
+- **--job**: The volume job identifier.
+- **--name**: Name of the volume job.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-job-delete
+{: #volume-job-delete}
+
+Delete one or more volume jobs.
+
+```
+ibmcloud is volume-job-delete VOLUME --job JOB [--output JSON] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-job-delete}
+
+- `ibmcloud is volume-job-delete my-volume --job my-job --output JSON`
+- `ibmcloud is volume-job-delete 485080f6-86e8-4fd4-a940-fb0e5bc269e0 --job 485080f6-86e8-4fd4-a940-fb0e5bc279e2`
+
+#### Command options
+{: #command-options-volume-job-delete}
+
+- **VOLUME**: ID or name of the volume.
+- **--job**: The volume job identifier.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-job
+{: #volume-job-view}
+
+Retrieve a volume job.
+
+```
+ibmcloud is volume-job VOLUME --job JOB [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-job}
+
+- `ibmcloud is volume-job my-volume --job my-job --output JSON`
+- `ibmcloud is volume-job 485080f6-86e8-4fd4-a940-fb0e5bc269e0 --job 485080f6-86e8-4fd4-a940-fb0e5bc279e2`
+
+#### Command options
+{: #command-options-volume-job}
+
+- **VOLUME**: ID or name of the volume.
+- **--job**: The volume job identifier.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-jobs
+{: #volume-jobs-list}
+
+List jobs for a volume.
+
+```
+ibmcloud is volume-jobs VOLUME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-jobs}
+
+- `ibmcloud is volume-jobs my-volume --output JSON`
+- `ibmcloud is volume-jobs 485080f6-86e8-4fd4-a940-fb0e5bc269e0`
+
+#### Command options
+{: #command-options-volume-jobs}
+
+- **VOLUME**: ID or name of the volume.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-job-cancel
+{: #volume-job-cancel-view}
+
+Cancel a queued or running volume job.
+
+```
+ibmcloud is volume-job-cancel VOLUME --job JOB [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-job-cancel}
+
+- `ibmcloud is volume-job-cancel my-volume --job my-job --output JSON`
+- `ibmcloud is volume-job-cancel 485080f6-86e8-4fd4-a940-fb0e5bc269e0 --job 485080f6-86e8-4fd4-a940-fb0e5bc279e2`
+
+#### Command options
+{: #command-options-volume-job-cancel}
+
+- **VOLUME**: ID or name of the volume.
+- **--job**: The volume job identifier.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 

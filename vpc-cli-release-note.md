@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-04-08"
+lastupdated: "2026-05-05"
 
 ---
 
@@ -13,6 +13,19 @@ lastupdated: "2026-04-08"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.5.0
+{: #v16.5.0}
+Version 16.5.0 was released on 2026-03-24.
+
+### New commands
+
+* New commands `volume-job-create`, `volume-job-update`, `volume-job-delete`, `volume-job-cancel`,`volume-jobs` and `volume-job` were added to support volume migration.
+
+### Updated commands
+
+* The response of `image` was updated to include the `Zones` property.
+* List images `status` filter now supports `partially_available`.
 
 ## v16.4.0
 {: #v16.4.0}
