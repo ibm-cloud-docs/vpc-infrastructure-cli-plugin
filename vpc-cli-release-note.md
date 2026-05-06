@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-05-05"
+lastupdated: "2026-05-06"
 
 ---
 
@@ -13,6 +13,21 @@ lastupdated: "2026-05-05"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.6.0
+{: #v16.6.0}
+Version 16.6.0 was released on 2026-04-30.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* The `--protocol` flag in `network-acl-rule-add` `security-group-rule-add`, and the `protocol` field in the `--rules` JSON flag, now accepts following protocol values: `any`, `icmp_tcp_udp`, `icmp`, `tcp`, `udp`, `ah`, `gre`, `ip_in_ip`, `l2tp`, `rsvp`, `sctp`, `vrrp`. 
+* For other protocols, use the format: `number_<N>` where `<N>` is `0-255` (for example, `number_99`). |
+* Well-known protocols use standard names (for example, `tcp` for protocol 6). The `number_<N>` format is not valid. 
+* IPv6-specific protocols are not supported: `number_0`, `number_43`, `number_44`, `number_58`, `number_59`, `number_60`, `number_135`
 
 ## v16.5.0
 {: #v16.5.0}
