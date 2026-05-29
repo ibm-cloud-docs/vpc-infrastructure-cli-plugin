@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-05-06"
+lastupdated: "2026-05-29"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2026-05-06"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.7.0
+{: #v16.7.0}
+Version 16.7.0 was released on 2026-05-28.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* In `ike-policy-create`, positional arguments now accept one or more comma-separated values instead of only a single value. `AUTHENTICATION_ALGORITHM` to `AUTHENTICATION_ALGORITHMS`, `DH_GROUP` to `DH_GROUPS`, and `ENCRYPTION_ALGORITHM` to `ENCRYPTION_ALGORITHMS`.
+* In `ike-policy-update`, new flags `--authentication-algorithms`, `--dh-groups`, and `--encryption-algorithms` are introduced that accept one or more comma-separated values.
+* In `ipsec-policy-create`, positional arguments now accept one or more comma-separated values instead of only a single value. `AUTHENTICATION_ALGORITHM` to `AUTHENTICATION_ALGORITHMS`, `ENCRYPTION_ALGORITHM` to `ENCRYPTION_ALGORITHMS`, and `PFS` to `PFSGS`.
+* In `ipsec-policy-update`, new flags `--authentication-algorithms`, `--encryption-algorithms`, and `--pfsgs` are introduced that accept one or more comma-separated values.
+* `--backup-policy-job` flag is introduced in the `snapshot-consistency-groups` command.
+
 
 ## v16.6.0
 {: #v16.6.0}
