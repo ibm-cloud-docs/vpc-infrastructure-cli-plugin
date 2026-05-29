@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-05-06"
+lastupdated: "2026-05-29"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -104,7 +104,7 @@ ibmcloud is floating-ip-release (FLOATING_IP1 FLOATING_IP2 ...) [--output JSON] 
 Reserve a floating IP.
 
 ```
-ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI | --reset-target) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -127,6 +127,7 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 - **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--vni**: ID or name of the virtual network interface.
+- **--reset-target**: Resets the target from the floating IP.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -140,7 +141,7 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 Update a floating IP.
 
 ```
-ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI | --reset-target] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -153,6 +154,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 - `ibmcloud is floating-ip-update cli-vni-ip --name cli-vni-ip-2 --vni vni2`
 - `ibmcloud is floating-ip-update cli-vni-ip-1 --name cli-vni-ip-3 --vni 7308-b81c1e13-b3a2-455c-814a-213bc9de4a90`
+- `ibmcloud is floating-ip-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --reset-target`
 
 #### Command options
 {: #command-options-floating-ip-update}
@@ -163,6 +165,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 - **--in**: The ID or name of the instance to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--vni**: ID or name of the virtual network interface.
+- **--reset-target**: Resets the target from the floating IP.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4474,7 +4477,7 @@ ibmcloud is ike-policy-connections IKE_POLICY [--output JSON] [-q, --quiet]
 Create an IKE policy.
 
 ```
-ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP ENCRYPTION_ALGORITHM IKE_VERSION [--key-lifetime KEY_LIFETIME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHMS DH_GROUPS ENCRYPTION_ALGORITHMS IKE_VERSION [--key-lifetime KEY_LIFETIME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4484,14 +4487,15 @@ ibmcloud is ike-policy-create IKE_POLICY_NAME AUTHENTICATION_ALGORITHM DH_GROUP 
 - `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2 --key-lifetime 28000`
 - `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2 --resource-group-name Default`
 - `ibmcloud is ike-policy-create my-ike-policy sha256 14 aes128 2 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is ike-policy-create my-ike-policy sha256,sha384 14,15,16 aes128,aes192 2`
 
 #### Command options
 {: #command-options-ike-policy-create}
 
 - **IKE_POLICY_NAME**: Name of the IKE policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. One of: **sha256**, **sha384**, **sha512**.
-- **DH_GROUP**: The Diffie-Hellman group. One of: **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. One of: **aes128**, **aes192**, **aes256**.
+- **AUTHENTICATION_ALGORITHMS**: The authentication algorithms. Allowed values: sha256, sha384, sha512, or comma separated values in sequence. The order of the algorithms implies their priority for negotiation. Multiple values are allowed only when IKE_VERSION is 2.
+- **DH_GROUPS**: The Diffie-Hellman groups. Allowed values: 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 31, or comma separated values in sequence. The order of the Diffie-Hellman groups implies their priority for negotiation. Multiple values are allowed only when IKE_VERSION is 2.
+- **ENCRYPTION_ALGORITHMS**: The encryption algorithms. Allowed values: aes128, aes192, aes256, or comma separated values in sequence. The order of the algorithms implies their priority for negotiation. Multiple values are allowed only when IKE_VERSION is 2.
 - **IKE_VERSION**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **28800**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -4527,7 +4531,7 @@ ibmcloud is ike-policy-delete (IKE_POLICY1 IKE_POLICY2 ...) [--output JSON] [-f,
 Update an IKE policy.
 
 ```
-ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-algorithm sha256 | sha384 | sha512] [--dh-group 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 31] [--encryption-algorithm aes128 | aes192 | aes256] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-algorithms AUTHENTICATION_ALGORITHMS] [--dh-groups DH_GROUPS] [--encryption-algorithms ENCRYPTION_ALGORITHMS] [--ike-version 1 | 2] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4535,9 +4539,12 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --name my-ike-policy`
 - `ibmcloud is ike-policy-update my-ike-policy --name my-renamed-ike-policy`
-- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm sha256`
-- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --dh-group 14`
-- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithm aes128`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithms sha256`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithms sha256,sha384`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --dh-groups 14`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --dh-groups 14,15,16`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithms aes128`
+- `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithms aes128,aes192`
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --ike-version 2`
 - `ibmcloud is ike-policy-update fee82deba12e4c0fb69c3b09d1f12345 --key-lifetime 28000 --output JSON`
 
@@ -4546,9 +4553,9 @@ ibmcloud is ike-policy-update IKE_POLICY [--name NEW_NAME] [--authentication-alg
 
 - **IKE_POLICY**: ID or name of the IKE policy.
 - **--name**: New name of the IKE policy.
-- **--authentication-algorithm**: The authentication algorithm. One of: **sha256**, **sha384**, **sha512**.
-- **--dh-group**: The Diffie-Hellman group. One of: **14**, **15**, **16**, **17**, **18**, **19**, **20**, **21**, **22**, **23**, **24**, **31**.
-- **--encryption-algorithm**: The encryption algorithm. One of: **aes128**, **aes192**, **aes256**.
+- **--authentication-algorithms**: The authentication algorithms. Allowed values: sha256, sha384, sha512, or comma separated values in sequence. The order of the algorithms implies their priority for negotiation. Multiple values are allowed only when IKE_VERSION is 2.
+- **--dh-groups**: The Diffie-Hellman groups. Allowed values: 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 31, or comma separated values in sequence. The order of the Diffie-Hellman groups implies their priority for negotiation. Multiple values are allowed only when IKE_VERSION is 2.
+- **--encryption-algorithms**: The encryption algorithms. Allowed values: aes128, aes192, aes256, or comma separated values in sequence. The order of the algorithms implies their priority for negotiation. Multiple values are allowed only when IKE_VERSION is 2.
 - **--ike-version**: The IKE protocol version. One of: **1**, **2**.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -4618,7 +4625,7 @@ ibmcloud is ipsec-policy-connections IPSEC_POLICY [--output JSON] [-q, --quiet]
 Create an IPsec policy.
 
 ```
-ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRYPTION_ALGORITHM PFS [--key-lifetime KEY_LIFETIME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHMS ENCRYPTION_ALGORITHMS PFSGS [--key-lifetime KEY_LIFETIME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4628,14 +4635,15 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHM ENCRY
 - `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14 --key-lifetime 3600`
 - `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14 --resource-group-name Default`
 - `ibmcloud is ipsec-policy-create my-ipsec-policy sha256 aes128 group_14 --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is ipsec-policy-create my-ipsec-policy sha256,sha384 aes128,aes192 group_14,group_15`
 
 #### Command options
 {: #command-options-ipsec-policy-create}
 
 - **IPSEC_POLICY_NAME**: Name of the IPsec policy.
-- **AUTHENTICATION_ALGORITHM**: The authentication algorithm. Must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16'. One of: **disabled**, **sha256**, **sha384**, **sha512**.
-- **ENCRYPTION_ALGORITHM**: The encryption algorithm. The authentication algorithm must be disabled only if encryption algorithm is 'aes128gcm16', 'aes192gcm16', or 'aes256gcm16'. One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**.
-- **PFS**: Perfect Forward Secrecy. One of: **disabled**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
+- **AUTHENTICATION_ALGORITHMS**: The authentication algorithms. Must be 'disabled' when only combined-mode encryption algorithms (aes128gcm16, aes192gcm16, aes256gcm16) are used. Must not be 'disabled' when any other encryption algorithms (aes128, aes192, aes256) are used. Allowed values: disabled, sha256, sha384, sha512, or comma separated values in sequence.
+- **ENCRYPTION_ALGORITHMS**: The encryption algorithms. Allowed values: aes128, aes128gcm16, aes192, aes192gcm16, aes256, aes256gcm16 or comma separated values in sequence. The order of the algorithms implies their priority for negotiation.
+- **PFSGS**: Perfect Forward Secrecy Groups. Allowed values: disabled, group_14, group_15, group_16, group_17, group_18, group_19, group_20, group_21, group_22, group_23, group_24, group_31, or comma separated values in sequence.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **3600**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
@@ -4670,7 +4678,7 @@ ibmcloud is ipsec-policy-delete (IPSEC_POLICY1 IPSEC_POLICY2 ...) [--output JSON
 Update an IPsec policy.
 
 ```
-ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication-algorithm disabled | sha256 | sha384 | sha512] [--pfs disabled | group_14 | group_15 | group_16 | group_17 | group_18 | group_19 | group_20 | group_21 | group_22 | group_23 | group_24 | group_31] [--encryption-algorithm aes128 | aes128gcm16 | aes192 | aes192gcm16 | aes256 | aes256gcm16] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
+ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication-algorithms AUTHENTICATION_ALGORITHMS] [--encryption-algorithms ENCRYPTION_ALGORITHMS] [--pfsgs PFSGS] [--key-lifetime KEY_LIFETIME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4678,9 +4686,12 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 
 - `ibmcloud is ipsec-policy-update my-ipsec-policy --name my-renamed-ipsec-policy`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --name my-ipsec-policy`
-- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithm sha256`
-- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --pfs group_14`
-- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithm aes128`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithms sha256`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --authentication-algorithms sha256,sha384`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --pfsgs group_14`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --pfsgs group_14,group_15`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithms aes128`
+- `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --encryption-algorithms aes128,aes192`
 - `ibmcloud is ipsec-policy-update fee82deba12e4c0fb69c3b09d1f12345 --key-lifetime 3600 --output JSON`
 
 #### Command options
@@ -4688,9 +4699,9 @@ ibmcloud is ipsec-policy-update IPSEC_POLICY [--name NEW_NAME] [--authentication
 
 - **IPSEC_POLICY**: ID or name of the IPsec policy.
 - **--name**: New name of the IPsec policy.
-- **--authentication-algorithm**: The authentication algorithm. Must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16**. One of: **disabled**, **sha256**, **sha384**, **sha512**.
-- **--pfs**: Perfect Forward Secrecy. One of: **disabled**, **group_14**, **group_15**, **group_16**, **group_17**, **group_18**, **group_19**, **group_20**, **group_21**, **group_22**, **group_23**, **group_24**, **group_31**.
-- **--encryption-algorithm**: The encryption algorithm. The authentication algorithm must be disabled only if encryption algorithm is **aes128gcm16**, **aes192gcm16**, or **aes256gcm16**. One of: **aes128**, **aes128gcm16**, **aes192**, **aes192gcm16**, **aes256**, **aes256gcm16**.
+- **--authentication-algorithms**: The authentication algorithms. Must be **disabled** when only combined-mode encryption algorithms (aes128gcm16, aes192gcm16, aes256gcm16) are used. Must not be **disabled** when any other encryption algorithms (aes128, aes192, aes256) are used. Allowed values: disabled, sha256, sha384, sha512, or comma separated values in sequence.
+- **--encryption-algorithms**: The encryption algorithms. Allowed values: aes128, aes128gcm16, aes192, aes192gcm16, aes256, aes256gcm16, or comma separated values in sequence. The order of the algorithms implies their priority for negotiation.
+- **--pfsgs**: Perfect Forward Secrecy Groups. Allowed values: disabled, group_14, group_15, group_16, group_17, group_18, group_19, group_20, group_21, group_22, group_23, group_24, group_31, or comma separated values in sequence.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -7021,7 +7032,7 @@ Add an existing volume to a virtual server instance by using resource name.
 - **--iops**: Input and output operations per second for the volume, it is applicable for only custom profile volumes. For the available IOPS ranges, see [Custom IOPS profile] [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom).
 - **--encryption-key**: The CRN of the Key Management Service root key.
 - **--capacity**: The capacity of the volume in gigabytes. Range 10 - 16000 for custom and general-purpose profile volumes, 10 - 9600 for 5iops-tier profile volumes, 10 - 4800 for 10iops-tier profile volumes.
-- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. To specify this property, the volume storage_generation must be 2.
 - **--tags**: Comma-separated tags for the volume.
 - **--source-snapshot**: ID, name, or CRN of the snapshot to clone volume.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
@@ -10603,7 +10614,7 @@ Create a volume from snapshot with capacity
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--tags**: Tags for this resource.
-- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. To specify this property, the volume storage_generation must be 2.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -10702,7 +10713,7 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 - **--capacity**: The capacity of the volume in gigabytes. Capacity can be expanded up to 250 for boot volume, 16000 for custom and general-purpose profile volumes, 9600 for **5iops-tier** profile volumes and 4800 for **10iops-tier** profile volumes. Size can be only increased, not decreased.
 - **--profile**: Name of the profile. The volume must be attached as data volume and be switched between IOPS tiers. Changing predefined IOPS tier prorfile to custom profile is not supported. Changing custom profile to predefined IOPS tier profile is not supported.
 - **--iops**: Input and output operations per second for the volume, it is applicable for only custom profile volumes. For the IOPS range, refer to [Onboarding software to your account](/docs/vpc?topic=vpc-block-storage-profiles#custom). The volume must be attached as a data volume.
-- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. For this property to be specified, the volume storage_generation must be 2.
+- **--bandwidth**: The maximum bandwidth (in megabits per second) for the volume. To specify this property, the volume storage_generation must be 2.
 - **--allowed-use-api-version, --au-api-version**: The API version with which to evaluate the expressions.
 - **--allowed-use-bare-metal-server, --au-bms**: The expression that must be satisfied by the properties of a bare metal server that is provisioned with the image data in this volume.
 - **--allowed-use-instance, --au-ins**: The expression that must be satisfied by the properties of a virtual server instance that is provisioned with this volume.
@@ -11214,7 +11225,7 @@ ibmcloud is snapshot-instance-profiles SNAPSHOT [--output JSON] [-q, --quiet]
 List all snapshot consistency groups.
 
 ```
-ibmcloud is snapshot-consistency-groups [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is snapshot-consistency-groups [--backup-policy-plan BACKUP_POLICY_PLAN --backup-policy BACKUP_POLICY] [--backup-policy-job BACKUP_POLICY_JOB] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11225,12 +11236,14 @@ ibmcloud is snapshot-consistency-groups [--backup-policy-plan BACKUP_POLICY_PLAN
 - `ibmcloud is snapshot-consistency-groups --backup-policy-plan bkp-plan-do-not-delete --backup-policy bkp-policy-do-not-delete`
 - `ibmcloud is snapshot-consistency-groups --backup-policy-plan r134-7d36a9df-9512-496e-8ad0-054cb4dd854c --backup-policy bkp-policy-do-not-delete`
 - `ibmcloud is snapshot-consistency-groups --backup-policy-plan bkp-plan-do-not-delete --backup-policy r134-3f56e0fa-1cfb-4341-9e57-de2a6345e7b3`
+- `ibmcloud is snapshot-consistency-groups --backup-policy-job r134-7d36a9df-9512-496e-8ad0-054cb4dd854c`
 
 #### Command options
 {: #command-options-snapshot-consistency-groups}
 
 - **--backup-policy-plan**: ID or name of the backup policy plan.
 - **--backup-policy**: ID or name of the backup policy.
+- **--backup-policy-job**: Filters the collection to snapshot consistency groups with a backup policy job ID.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
