@@ -47,6 +47,33 @@ Version 16.7.0 was released on 2026-05-28.
 * In `ipsec-policy-update`, new flags `--authentication-algorithms`, `--encryption-algorithms`, and `--pfsgs` are introduced that accept one or more comma-separated values.
 * `--backup-policy-job` flag is introduced in the `snapshot-consistency-groups` command.
 
+## v16.6.2
+{: #v16.6.2}
+Version 16.6.2 was released on 2026-05-22.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Fixed issues
+
+* Golang security and vulnerability fixes
+
+## v16.6.1
+{: #v16.6.1}
+Version 16.6.1 was released on 2026-05-15.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* The `--reset-target` flag in `floating-ip-reserve` and `floating-ip-update`.
 
 ## v16.6.0
 {: #v16.6.0}
