@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-05-29"
+lastupdated: "2026-06-08"
 
 ---
 
@@ -13,6 +13,23 @@ lastupdated: "2026-05-29"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.8.0
+{: #v16.8.0}
+Version 16.8.0 was released on 2026-06-05.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* `--access-control-mode` flag now accepts only `security_group` value in `share-create` and `share-update` command.
+
+### Notes
+
+* From this release, new shares cannot be created with VPC access control mode.
+* Existing shares with VPC access control mode can migrate to security_group mode by using the command share-update.
 
 ## v16.7.0
 {: #v16.7.0}
