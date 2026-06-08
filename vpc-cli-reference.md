@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-05-29"
+lastupdated: "2026-06-08"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -179,6 +179,12 @@ List all floating IPs.
 ```
 ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
+
+#### Command examples
+{: #command-examples-floating-ips}
+
+- `ibmcloud is floating-ips --output JSON`
+- `ibmcloud is floating-ips --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
 
 #### Command options
 {: #command-options-floating-ips}
@@ -4288,7 +4294,7 @@ ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --res
 #### Command examples
 {: #command-examples-public-address-ranges}
 
-- `ibmcloud is public address ranges`
+- `ibmcloud is public-address-ranges`
 - `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
 
 #### Command options
@@ -4340,7 +4346,6 @@ ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT 
 
 - `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
-- `ibmcloud is public-address-range-create --name public-address-range-3 --ipv4-address-count 4 --resource-group-name Default --output JSON`
 
 #### Command options
 {: #command-options-public-address-range-create}
@@ -4642,7 +4647,7 @@ ibmcloud is ipsec-policy-create IPSEC_POLICY_NAME AUTHENTICATION_ALGORITHMS ENCR
 
 - **IPSEC_POLICY_NAME**: Name of the IPsec policy.
 - **AUTHENTICATION_ALGORITHMS**: The authentication algorithms. Must be 'disabled' when only combined-mode encryption algorithms (aes128gcm16, aes192gcm16, aes256gcm16) are used. Must not be 'disabled' when any other encryption algorithms (aes128, aes192, aes256) are used. Allowed values: disabled, sha256, sha384, sha512, or comma separated values in sequence.
-- **ENCRYPTION_ALGORITHMS**: The encryption algorithms. Allowed values: aes128, aes128gcm16, aes192, aes192gcm16, aes256, aes256gcm16 or comma separated values in sequence. The order of the algorithms implies their priority for negotiation.
+- **ENCRYPTION_ALGORITHMS**: The encryption algorithms. Allowed values: aes128, aes128gcm16, aes192, aes192gcm16, aes256, aes256gcm16, or comma separated values in sequence. The order of the algorithms implies their priority for negotiation.
 - **PFSGS**: Perfect Forward Secrecy Groups. Allowed values: disabled, group_14, group_15, group_16, group_17, group_18, group_19, group_20, group_21, group_22, group_23, group_24, group_31, or comma separated values in sequence.
 - **--key-lifetime**: The key lifetime in seconds. Maximum: **86400**, Minimum: **1800**. (default: **3600**).
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
@@ -11403,7 +11408,7 @@ ibmcloud is share SHARE [--output JSON] [-q, --quiet]
 Create a file share with a capacity that ranges from 10 to 32,000 GB. For zonal shares, specify IOPS. For regional shares, specify the bandwidth. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-create&interface=cli).
 
 ```
-ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-control-mode security_group | vpc] | [--snapshot SNAPSHOT --share SHARE]) [--bandwidth BANDWIDTH] [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--allowed-access-protocols, --aacp nfs4] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC [--replica-share-zone ZONE_NAME] [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem stunnel,ipsec,none] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
+ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] | [--snapshot SNAPSHOT --share SHARE]) [--bandwidth BANDWIDTH] [--size SIZE] [--encryption-key ENCRYPTION_KEY] [--initial-owner-gid INITIAL_OWNER_GID] [--initial-owner-uid INITIAL_OWNER_UID] [--iops IOPS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--allowed-access-protocols, --aacp nfs4] [--replica-share-profile REPLICA_SHARE_PROFILE --replica-share-cron-spec REPLICA_SHARE_CRON_SPEC [--replica-share-zone ZONE_NAME] [--replica-share-iops REPLICA_SHARE_IOPS] [--replica-share-user-tags REPLICA_SHARE_USER_TAGS] [--replica-share-allowed-transit-encryption-modes, --rs-atem stunnel,ipsec,none] [--replica-share-mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--replica-share-name REPLICA_SHARE_NAME]] | --origin-share ORIGIN_SHARE) [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--name NAME] [--user-tags USER_TAGS] [--mount-targets MOUNT_TARGETS_JSON | @MOUNT_TARGETS_JSON_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11433,7 +11438,6 @@ ibmcloud is share-create (--profile PROFILE ([--zone ZONE_NAME] [--access-contro
 - **--name**: The user-defined name for this file share.
 - **--user-tags**: Tags for this resource.
 - **--zone**: Name of the zone.
-- **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
 - **--snapshot**: The ID, name, or CRN of the source snapshot for this file share.
 - **--share**: ID or name of the file share.
 - **--bandwidth**: The maximum bandwidth (in megabits per second) for the file share.
@@ -11528,7 +11532,7 @@ ibmcloud is share-profiles [--output JSON] [-q, --quiet]
 Edit a file share’s name, size, profile, IOPS, and more. For more information, see [VPC Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-file-storage-managing&interface=cli#file-storage-manage-cli).
 
 ```
-ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--allowed-access-protocols, --aacp nfs4] [--bandwidth BANDWIDTH] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group | vpc] [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--output JSON] [-q, --quiet]
+ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--allowed-access-protocols, --aacp nfs4] [--bandwidth BANDWIDTH] [--replication-cron-spec REPLICATION_CRON_SPEC] [--iops IOPS] [--profile PROFILE] [--user-tags USER_TAGS] [--access-control-mode security_group] [--allowed-transit-encryption-modes, --atem stunnel,ipsec,none] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -11557,7 +11561,7 @@ ibmcloud is share-update SHARE [--name NEW_NAME] [--size SIZE] [--allowed-access
 - **--iops**: The maximum input/output operation performance bandwidth per second for the file share. This maximum is applicable for only custom profile file shares. For the IOPS range, refer to [Defined performance profile](/docs/vpc?topic=vpc-file-storage-profiles&interface=cli#dp2-profile).
 - **--profile**: The profile that the file share uses.
 - **--user-tags**: Tags for this resource.
-- **--access-control-mode**: The access control mode for the share. One of: **security_group**, **vpc**. (default: **security_group**).
+- **--access-control-mode**: The access control mode for the share. (default: **security_group**).
 - **--allowed-transit-encryption-modes, --atem**: Allowed transit encryption modes. One or more comma separated values of: stunnel, ipsec, none.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
