@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-06-08"
+lastupdated: "2026-06-12"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -398,6 +398,10 @@ Create a Private Path network load balancer with the application load balancer I
 Create a private path network load balancer with the reserved IP ID as the pool member target.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
 Create private DNS support for a load balancer.
+- `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --pools '[{"algorithm": "round_robin", "protocol": "tcp", "health_monitor": {"delay": 2, "max_retries": 2, "request": {"method": "post", "body": "ACTIVE", "headers": [{"field": "Host", "value": "my-host-header-value"}, {"field": "Content-Type", "value": "text/plain"}]}, "response": {"body_regex": "ACTIVE"}, "type": "http", "timeout": 1}}]'`
+Create a load balancer pool with health monitor request and response body regex
+- `ibmcloud is load-balancer-create my-lb public --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --pools '[{"algorithm": "round_robin", "protocol": "tcp", "health_monitor": {"delay": 2, "max_retries": 2, "request": {"method": "get", "headers": [{"field": "Host", "value": "my-host-header-value"}]}, "response": {"codes": ["200", "201"]}, "type": "http", "timeout": 1}}]'`
+Create a load balancer pool with health monitor request and response codes
 
 #### Command options
 {: #command-options-load-balancer-create}
@@ -695,7 +699,7 @@ ibmcloud is load-balancer-listener-policy-rule LOAD_BALANCER LISTENER_ID POLICY 
 Create a load balancer listener policy rule.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID POLICY (--condition contains | equals | matches_regex) (--type header | hostname | path | query | body | sni_hostname) --value VALUE [--vpc VPC] [--field FIELD] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID POLICY (--condition contains | equals | matches_regex | starts_with) (--type header | hostname | path | query | body | sni_hostname) --value VALUE [--vpc VPC] [--field FIELD] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -711,7 +715,7 @@ ibmcloud is load-balancer-listener-policy-rule-create LOAD_BALANCER LISTENER_ID 
 - **LISTENER_ID**: ID of the listener.
 - **POLICY**: ID or name of the policy.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
-- **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
+- **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**, **starts_with**.
 - **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**, **sni_hostname**.
 - **--value**: Value to match the rule condition.
 - **--field**: The HTTP field. This field is applicable to "header", "query", and "body" rule types. For rule type "header", this field is required. For rule types "query" or "body", this field is optional.
@@ -750,7 +754,7 @@ ibmcloud is load-balancer-listener-policy-rule-delete LOAD_BALANCER LISTENER_ID 
 Update a rule of a load balancer listener policy.
 
 ```
-ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID POLICY RULE_ID [--vpc VPC] [--condition contains | equals | matches_regex] [--type header | hostname | path | query | body | sni_hostname] [--value VALUE] [--field FIELD] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID POLICY RULE_ID [--vpc VPC] [--condition contains | equals | matches_regex | starts_with] [--type header | hostname | path | query | body | sni_hostname] [--value VALUE] [--field FIELD] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -767,7 +771,7 @@ ibmcloud is load-balancer-listener-policy-rule-update LOAD_BALANCER LISTENER_ID 
 - **POLICY**: ID or name of the policy.
 - **RULE_ID**: ID of the rule.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
-- **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**.
+- **--condition**: The condition of the rule. One of: **contains**, **equals**, **matches_regex**, **starts_with**.
 - **--type**: The type of the rule. One of: **header**, **hostname**, **path**, **query**, **body**, **sni_hostname**.
 - **--value**: Value to match the rule condition.
 - **--field**: The HTTP field. This field is applicable to "header", "query", and "body" rule types. For rule type "header", this field is required. For rule types "query" or "body", this field is optional.
@@ -944,7 +948,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER POOL [--vpc VPC] [--output JSON] [-
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--vpc VPC] [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip | http_cookie | app_cookie [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-request-method REQUEST_METHOD [--health-monitor-request-body REQUEST_BODY] [--health-monitor-request-headers REQUEST_HEADERS_JSON | @REQUEST_HEADERS_JSON_FILE]] [--vpc VPC] [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip | http_cookie | app_cookie [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -956,25 +960,29 @@ ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER ALGORITHM PROTOCOL
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-url / --health-monitor-port 4001`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type source_ip --output JSON`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --members '[{"port": 80, "target": { "address": "10.10.1.4"}, "weight": 20 }, {"port": 80, "target": { "address": "10.240.0.6"}, "weight": 30 }]'`
-Create a application load balancer pool with members
+Create an application load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin tcp 20 2 5 http --members '[{"port": 80, "target": { "id": "0736_63b9233c-812e-4d65-9ee3-fa61172afa37"}, "weight": 20 }, {"port": 80, "target": { "id": "0716_4b30a833-6f10-46a9-a4b8-13871f3559b8"}, "weight": 30 }]'`
 Create a network load balancer pool with members
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port": 80, "target": { "name": "my-instance"}}, {"port": 80, "target": { "name": "my-instance2"}}]'`
 Create a network load balancer pool with members and supply the member target by name.
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]'`
-Create a Private Path network load balancer with the application load balancer ID as the pool member target.
+Create a private path network load balancer with the application load balancer ID as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"name":"my-lb-name","target_type":"load_balancer"}}]'`
-Create a Private Path network load balancer with the application load balancer name as the pool member target.
+Create a private path network load balancer with the application load balancer name as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool2 my-nlb round_robin tcp 20 2 5 http --members '[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f474"}}]'`
 Create a private path network load balancer with the reserved IP ID as the pool member target.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --proxy-protocol v1`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin udp 20 2 5 http`
-Create a network load balancer pool for the network load balancer listener with UDP protocol.
+Create a network load balancer pool for the network load balancer listener with the UDP protocol.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --failsafe-policy-action forward --failsafe-policy-target my-lb`
 Create a network load balancer pool for the network load balancer listener with a fail-safe policy.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --failsafe-policy-action forward --failsafe-policy-target 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479`
 Create a network load balancer pool for the network load balancer listener with a fail-safe policy.
+- `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-request-method post --health-monitor-request-body ACTIVE --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"},{"field":"Content-Type","value":"text/plain"}]' --health-monitor-response-body-regex ACTIVE`
+Create an application load balancer pool with health monitor request and response body regex.
+- `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-request-method get --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"}]' --health-monitor-response-code 200`
+Create an application load balancer pool with health monitor request and response codes.
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -994,8 +1002,13 @@ Create a network load balancer pool for the network load balancer listener with 
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Proxy protocol is supported only for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--members**: MEMBERS_JSON|@MEMBERS_JSON_FILE, members in JSON or JSON file.
-- **--failsafe-policy-action**: The fail safe policy to use for this pool. If unspecified, the default failsafe policy action from the profile is used. One of: **fail**, **forward**, **drop**, **bypass**.
-- **--failsafe-policy-target**: ID or name of the failsafe target pool to forward to. If specified, failsafe policy action must be forward.
+- **--health-monitor-request-method**: The HTTP request method to use for health checks. One of: **get**, **post**. Applicable when HEALTH_TYPE is only http or https.
+- **--health-monitor-request-body**: The HTTP request body to use for health checks. Applicable when only --health-monitor-request-method is post.
+- **--health-monitor-request-headers**: REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE, request headers in JSON or JSON file.
+- **--health-monitor-response-body-regex**: The PCRE-flavor regular expression that HTTP response bodies are expected to match for successful health checks.
+- **--health-monitor-response-code**: The HTTP response codes that are expected from a successful health check.
+- **--failsafe-policy-action**: The fail-safe policy to use for this pool. If unspecified, the default fail-safe policy action from the profile is used. One of: **fail**, **forward**, **drop**, **bypass**.
+- **--failsafe-policy-target**: ID or name of the fail-safe target pool to forward to. If specified, the fail-safe policy action must be forward.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1064,6 +1077,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-lb --target-type load_balancer`
 - `ibmcloud is load-balancer-pool-member-create my-nlb my-pool 3000 my-reserved-ip --target-type reserved_ip --reserved-ip-subnet my-subnet-name --reserved-ip-vpc my-vpc`
 - `ibmcloud is load-balancer-pool-member-create my-nlb my-pool  3000 my-reserved-ip --target-type reserved_ip --reserved-ip-subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f4`
+- `ibmcloud is load-balancer-pool-member-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 3000 my-service.example.com --weight 100`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-create}
@@ -1071,11 +1085,11 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
 - **PORT**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
-- **TARGET**: The IP address of the pool member for the load balancers that are in the application family, or the ID or name of an ALB or the instance for the load balancers that are in the network family.
+- **TARGET**: The IP address or FQDN of the pool member for the load balancers that are in the application family, or the ID or name of an ALB, or the instance for the load balancers that are in the network family.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
-- **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
+- **--weight**: Weight of the server member. This option is applicable when only the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--target-type**: The type of target for this pool member. One of: **instance**, **load_balancer**, **reserved_ip**.
-- **--reserved-ip-subnet**: This option is applicable only when the target type is reserved IP.
+- **--reserved-ip-subnet**: This option is applicable when the target type is only reserved IP.
 - **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and the reserved IP subnet is specified by name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1088,7 +1102,7 @@ ibmcloud is load-balancer-pool-member-create LOAD_BALANCER POOL PORT TARGET [--v
 Update a member of a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [--target-address TARGET_ADDRESS | --target TARGET] [--port PORT] [--weight WEIGHT] [--target-type instance | load_balancer | reserved_ip [--reserved-ip-subnet RESERVED_IP_SUBNET [--reserved-ip-vpc RESERVED_IP_VPC]]] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc VPC] [--target-address TARGET_ADDRESS | --target-fqdn TARGET_FQDN | --target TARGET] [--port PORT] [--weight WEIGHT] [--target-type instance | load_balancer | reserved_ip [--reserved-ip-subnet RESERVED_IP_SUBNET [--reserved-ip-vpc RESERVED_IP_VPC]]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1105,6 +1119,7 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --port 3001 --target my-instance --target-type instance`
 - `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --port 3001 --target my-reserved-ip --target-type reserved_ip --reserved-ip-subnet my-subnet-name --reserved-ip-vpc my-vpc`
 - `ibmcloud is load-balancer-pool-member-update my-nlb my-pool 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8  --port 3001 --target my-reserved-ip --target-type reserved_ip --reserved-ip-subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f4`
+- `ibmcloud is load-balancer-pool-member-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --target-fqdn my-service.example.com --port 3001`
 
 #### Command options
 {: #command-options-load-balancer-pool-member-update}
@@ -1114,11 +1129,12 @@ ibmcloud is load-balancer-pool-member-update LOAD_BALANCER POOL MEMBER_ID [--vpc
 - **MEMBER_ID**: ID of the member.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--target-address**: The IP address of the pool member.
-- **--target**: The IP address of the pool member for the load balancers that are in the application family, or the ID or name of an ALB or the instance for the load balancers that are in the network family.
+- **--target-fqdn**: The fully qualified domain name (FQDN) to target. The load balancer must have fqdn_pool_members_supported set to true.
+- **--target**: The IP address or FQDN of the pool member for the load balancers that are in the application family, or the ID or name of an ALB, or the instance for the load balancers that are in the network family.
 - **--port**: The port that the member receives load balancer traffic on. Applies only to load balancer traffic that is received on a listener with a single port. If the traffic is received on a listener with a port range, the member receives the traffic on the same port that the listener received it on. This port can also be used for health checks unless the **port** property of **health_monitor** property is specified.
-- **--weight**: Weight of the server member. This option is applicable only when the load balancer algorithm of its pool is **weighted_round_robin**.
+- **--weight**: Weight of the server member. This option is applicable when only the load balancer algorithm of its pool is **weighted_round_robin**.
 - **--target-type**: The type of target for this pool member. One of: **instance**, **load_balancer**, **reserved_ip**.
-- **--reserved-ip-subnet**: This option is applicable only when the target type is reserved IP.
+- **--reserved-ip-subnet**: This option is applicable when the target type is only reserved IP.
 - **--reserved-ip-vpc**: This option is applicable only when the target type is reserved IP and the reserved IP subnet is specified by name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -1174,7 +1190,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER POOL [--vpc VPC] [--output 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--health-monitor-request-method REQUEST_METHOD] [--health-monitor-request-body REQUEST_BODY | --reset-health-monitor-request-body] [--health-monitor-request-headers REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX | --reset-health-monitor-response-body-regex] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1191,6 +1207,9 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --proxy-protocol v2`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --session-persistence-type app_cookie --session-persistence-cookie-name my-cookie-name`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --failsafe-policy-action forward --failsafe-policy-target my-lb`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-request-method post --health-monitor-request-body ACTIVE --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"},{"field":"Content-Type","value":"text/plain"}]' --health-monitor-response-body-regex ACTIVE`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-request-method get --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"}]' --health-monitor-response-code 200`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-request-method post --reset-health-monitor-request-body --reset-health-monitor-response-body-regex`
 
 #### Command options
 {: #command-options-load-balancer-pool-update}
@@ -1211,8 +1230,15 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--session-persistence-cookie-name**: Session persistence cookie name. This option is applicable only to **app_cookie** type.
 - **--proxy-protocol**: The proxy protocol setting for this pool. Proxy protocol is supported only for application load balancers. One of: **disabled**, **v1**, **v2**.
 - **--name**: The new name of the pool.
-- **--failsafe-policy-action**: The fail safe policy to use for this pool. If unspecified, the default failsafe policy action from the profile is used. One of: **fail**, **forward**, **drop**, **bypass**.
-- **--failsafe-policy-target**: ID or name of the failsafe target pool to forward to. If specified, failsafe policy action must be forward.
+- **--failsafe-policy-action**: The fail-safe policy to use for this pool. If unspecified, the default fail-safe policy action from the profile is used. One of: **fail**, **forward**, **drop**, **bypass**.
+- **--failsafe-policy-target**: ID or name of the fail-safe target pool to forward to. If specified, the fail-safe policy action must be forward.
+- **--health-monitor-request-method**: The HTTP request method to use for health checks. One of: **get**, **post**. Applicable when HEALTH_TYPE is only http or https.
+- **--health-monitor-request-body**: The HTTP request body to use for health checks. Applicable when only --health-monitor-request-method is post.
+- **--reset-health-monitor-request-body**: Reset health monitor request body.
+- **--health-monitor-request-headers**: REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE, request headers in JSON or JSON file.
+- **--health-monitor-response-body-regex**: The PCRE-flavor regular expression that HTTP response bodies are expected to match for successful health checks.
+- **--reset-health-monitor-response-body-regex**: Reset health monitor response body.
+- **--health-monitor-response-code**: The HTTP response codes that are expected from a successful health check.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 

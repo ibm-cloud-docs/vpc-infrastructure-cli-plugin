@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-06-08"
+lastupdated: "2026-06-12"
 
 ---
 
@@ -13,6 +13,22 @@ lastupdated: "2026-06-08"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.9.0
+{: #v16.9.0}
+Version 16.9.0 was released on 2026-06-11.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* `--health-monitor-request-method`, `--health-monitor-request-body`, `--health-monitor-request-headers`, `--health-monitor-response-body-regex`, and `--health-monitor-response-code` flags are introduced in the `load-balancer-pool-create` and  `load-balancer-pool-update` commands.
+* `--reset-health-monitor-response-body-regex` and `--health-monitor-response-code` flags are introduced in the `load-balancer-pool-update` command.
+* `TARGET` argument now accepts FQDN in `load-balancer-pool-member-create` command.
+* `--target-fqdn` flag is introduced in the `load-balancer-pool-member-update` command.
+* `--condition` flag now supports `starts_with` value in `load-balancer-listener-policy-rule-create` and `load-balancer-listener-policy-rule-update` commands.
 
 ## v16.8.0
 {: #v16.8.0}
