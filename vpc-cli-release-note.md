@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-06-19"
 
 ---
 
@@ -13,6 +13,21 @@ lastupdated: "2026-06-12"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.10.0
+{: #v16.10.0}
+Version 16.10.0 was released on 2026-06-18.
+
+### New commands
+
+* N/A
+
+### Updated commands
+
+* `--client-auth-ca-crn` and `--client-auth-crl` flags are introduced in the `load-balancer-listener-create` command.
+* `--client-auth-ca-crn`, `--reset-client-auth-ca-crn`, `--client-auth-crl`, `--reset-client-auth-crl`, and `--reset-client-auth` flags are introduced in the `load-balancer-listener-update` command.
+* `--server-auth-verify-cert`, `--server-auth-ca-crn`, and `--client-auth-cert-crn` flags are introduced in the `load-balancer-pool-create` command.
+* `--server-auth-verify-cert`, `--server-auth-ca-crn`, `--reset-server-auth`, `--client-auth-cert-crn`, and `--reset-client-auth` flags are introduced in the `load-balancer-pool-update` command.
 
 ## v16.9.0
 {: #v16.9.0}
