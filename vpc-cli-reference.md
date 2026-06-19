@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-06-19"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -471,7 +471,7 @@ ibmcloud is load-balancer-listener LOAD_BALANCER LISTENER_ID [--vpc VPC] [--outp
 Create a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp | udp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--idle-connection-timeout IDLE_CONNECTION_TIMEOUT] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-create LOAD_BALANCER (--protocol http | https | tcp | udp) [--vpc VPC] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--policies LISTENER_POLICIES_JSON | @LISTENER_POLICIES_JSON_FILE] [--accept-proxy-protocol false | true] [--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI]] [--idle-connection-timeout IDLE_CONNECTION_TIMEOUT] [--client-auth-ca-crn CLIENT_AUTH_CA_CRN] [--client-auth-crl CRL | @CRL_FILE] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -502,6 +502,8 @@ To create a load balancer listener when route mode is enabled in the load balanc
 Create a load balancer listener with UDP protocol.
 - `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol https --port 443 --idle-connection-timeout 30`
 Create an application load balancer listener with idle connection timeout.
+- `ibmcloud is load-balancer-listener-create 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --protocol https --port 443 --certificate-instance-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f510 --client-auth-ca-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f511 --client-auth-crl @crl.pem`
+Create an application load balancer listener with mTLS.
 
 #### Command options
 {: #command-options-load-balancer-listener-create}
@@ -521,6 +523,8 @@ Create an application load balancer listener with idle connection timeout.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
 - **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--idle-connection-timeout**: The idle connection timeout of the listener in seconds. Only load balancers in the **application** family support this option. Minimum: **50**, maximum: **7200**. (default: **50**).
+- **--client-auth-ca-crn**: The client authentication for this listener. This option is not applicable for the load balancers that are in the network family.
+- **--client-auth-crl**: CRL | @CRL_FILE, the certificate revocation list that is used for client certificate revocation verification. The listener must have a protocol of https. The certificate revocation lists content that is encoded in PEM format, or has a file path that contains the CRL. This option is not applicable for the load balancers that are in the network family. One of: **CRL**, **@CRL_FILE**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -854,7 +858,7 @@ When the action is _redirect_, the "url" and "http_status_code" are required. Po
 Update a load balancer listener.
 
 ```
-ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID | --reset-default-pool] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI | --reset-http-redirect-target-uri])] [--idle-connection-timeout IDLE_CONNECTION_TIMEOUT] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-listener-update LOAD_BALANCER LISTENER_ID [--vpc VPC] [--protocol http | https | tcp | udp] [--port PORT | --port-min PORT_MIN --port-max PORT_MAX] [--default-pool DEFAULT_POOL_ID | --reset-default-pool] [--connection-limit LIMIT] [--certificate-instance-crn CERTIFICATE_INSTANCE_CRN] [--accept-proxy-protocol false | true] [--disable-http-redirect | (--http-redirect-listener-id HTTP_REDIRECT_LISTENER_ID --http-redirect-status-code 301 | 302 | 303 | 307 | 308 [--http-redirect-target-uri HTTP_REDIRECT_TARGET_URI | --reset-http-redirect-target-uri])] [--idle-connection-timeout IDLE_CONNECTION_TIMEOUT] [--client-auth-ca-crn CLIENT_AUTH_CA_CRN | --reset-client-auth-ca-crn] [--client-auth-crl CRL | @CRL_FILE | --reset-client-auth-crl] [--reset-client-auth] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -876,6 +880,7 @@ The range of ports that are used by this listener.
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --disable-http-redirect`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --protocol udp`
 - `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --idle-connection-timeout 30`
+- `ibmcloud is load-balancer-listener-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --client-auth-ca-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f511 --client-auth-crl @crl.pem`
 
 #### Command options
 {: #command-options-load-balancer-listener-update}
@@ -898,6 +903,11 @@ The range of ports that are used by this listener.
 - **--http-redirect-target-uri**: Target URI where traffic is redirected. This setting is optional and must start with "/" if you set.
 - **--reset-http-redirect-target-uri**: Reset Target URI.
 - **--idle-connection-timeout**: The idle connection timeout of the listener in seconds. Only load balancers in the **application** family support this option. Minimum: **50**, maximum: **7200**. (default: **50**).
+- **--client-auth-ca-crn**: The client authentication for this listener. This option is not applicable for the load balancers that are in the network family.
+- **--reset-client-auth-ca-crn**: Remove certificate authority from client authentication.
+- **--client-auth-crl**: CRL | @CRL_FILE, the certificate revocation list that is used for client certificate revocation verification. The listener must have a protocol of https. The certificate revocation lists content that is encoded in PEM format, or has a file path that contains the CRL. This option is not applicable for the load balancers that are in the network family. One of: **CRL**, **@CRL_FILE**.
+- **--reset-client-auth-crl**: Remove certificate revocation list from client authentication.
+- **--reset-client-auth**: Remove client authentication configuration from the listener.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -948,7 +958,7 @@ ibmcloud is load-balancer-pool LOAD_BALANCER POOL [--vpc VPC] [--output JSON] [-
 Create a load balancer pool.
 
 ```
-ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-request-method REQUEST_METHOD [--health-monitor-request-body REQUEST_BODY] [--health-monitor-request-headers REQUEST_HEADERS_JSON | @REQUEST_HEADERS_JSON_FILE]] [--vpc VPC] [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip | http_cookie | app_cookie [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-create POOL_NAME LOAD_BALANCER ALGORITHM PROTOCOL HEALTH_DELAY HEALTH_RETRIES HEALTH_TIMEOUT HEALTH_TYPE (--members MEMBERS_JSON | @MEMBERS_JSON_FILE) [--health-monitor-request-method REQUEST_METHOD [--health-monitor-request-body REQUEST_BODY] [--health-monitor-request-headers REQUEST_HEADERS_JSON | @REQUEST_HEADERS_JSON_FILE]] [--vpc VPC] [--health-monitor-url URL] [--health-monitor-port PORT] [--session-persistence-type source_ip | http_cookie | app_cookie [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--server-auth-verify-cert true | false] [--server-auth-ca-crn SERVER_AUTH_CA_CRN] [--client-auth-cert-crn CLIENT_AUTH_CERT_CRN] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -983,6 +993,7 @@ Create a network load balancer pool for the network load balancer listener with 
 Create an application load balancer pool with health monitor request and response body regex.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-request-method get --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"}]' --health-monitor-response-code 200`
 Create an application load balancer pool with health monitor request and response codes.
+- `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --server-auth-verify-cert true --server-auth-ca-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f511 --client-cert-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f512a`
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
@@ -1009,6 +1020,9 @@ Create an application load balancer pool with health monitor request and respons
 - **--health-monitor-response-code**: The HTTP response codes that are expected from a successful health check.
 - **--failsafe-policy-action**: The fail-safe policy to use for this pool. If unspecified, the default fail-safe policy action from the profile is used. One of: **fail**, **forward**, **drop**, **bypass**.
 - **--failsafe-policy-target**: ID or name of the fail-safe target pool to forward to. If specified, the fail-safe policy action must be forward.
+- **--server-auth-verify-cert**: If set to true, the backend server certificate is verified. One of: **true**, **false**.
+- **--server-auth-ca-crn**: The CRN of the certificate instance that is used for server authentication CA. Required when server-auth-verify-cert is true.
+- **--client-auth-cert-crn**: The CRN of the certificate instance that is used for client authentication, which enables mutual TLS (mTLS) between the load balancer and backend servers.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -1190,7 +1204,7 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER POOL [--vpc VPC] [--output 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--health-monitor-request-method REQUEST_METHOD] [--health-monitor-request-body REQUEST_BODY | --reset-health-monitor-request-body] [--health-monitor-request-headers REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX | --reset-health-monitor-response-body-regex] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--health-monitor-request-method REQUEST_METHOD] [--health-monitor-request-body REQUEST_BODY | --reset-health-monitor-request-body] [--health-monitor-request-headers REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX | --reset-health-monitor-response-body-regex] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [[--server-auth-verify-cert true | false] [--server-auth-ca-crn SERVER_AUTH_CA_CRN] | --reset-server-auth] [--client-auth-cert-crn CLIENT_AUTH_CERT_CRN | --reset-client-auth] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -1210,6 +1224,8 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-request-method post --health-monitor-request-body ACTIVE --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"},{"field":"Content-Type","value":"text/plain"}]' --health-monitor-response-body-regex ACTIVE`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-request-method get --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"}]' --health-monitor-response-code 200`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-monitor-request-method post --reset-health-monitor-request-body --reset-health-monitor-response-body-regex`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --server-auth-verify-cert true --server-auth-ca-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f511`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --client-cert-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f512a`
 
 #### Command options
 {: #command-options-load-balancer-pool-update}
@@ -1239,6 +1255,11 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **--health-monitor-response-body-regex**: The PCRE-flavor regular expression that HTTP response bodies are expected to match for successful health checks.
 - **--reset-health-monitor-response-body-regex**: Reset health monitor response body.
 - **--health-monitor-response-code**: The HTTP response codes that are expected from a successful health check.
+- **--server-auth-verify-cert**: If set to true, the backend server certificate is verified. One of: **true**, **false**.
+- **--server-auth-ca-crn**: The CRN of the certificate instance that is used for server authentication CA. Required when server-auth-verify-cert is true.
+- **--reset-server-auth**: Remove server authentication configuration from the pool.
+- **--client-auth-cert-crn**: The CRN of the certificate instance that is used for client authentication, which enables mutual TLS (mTLS) between the load balancer and backend servers.
+- **--reset-client-auth**: Remove client authentication configuration from the pool.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
