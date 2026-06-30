@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-06-19"
+lastupdated: "2026-06-30"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -515,9 +515,9 @@ Create an application load balancer listener with mTLS.
 - **--port-min**: The inclusive lesser bound of the range of ports that are used by this listener. Must not be greater than _port_max_. Currently, only load balancers that are operating with route mode are enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
-- **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
-- **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers in the network family.
+- **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers that are in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN that is used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers that are in the network family.
+- **--policies**: **LISTENER_POLICIES_JSON** | **@LISTENER_POLICIES_JSON_FILE**, listener policies in JSON or JSON file. This option is not applicable for the load balancers that are in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
 - **--http-redirect-status-code**: The HTTP status code that is returned in the redirect response. One of: **301**, **302**, **303**, **307**, **308**.
@@ -894,8 +894,8 @@ The range of ports that are used by this listener.
 - **--port-max**: The inclusive higher bound of the range of ports that are used by this listener. Must not be less than _port_min_. Currently, only load balancers that are operating with route mode enabled and public load balancers in the _network_ family support more than one port per listener. Listeners in the load balancer with the same _protocol_ must have nonoverlapping port ranges. Range 1-65535.
 - **--default-pool**: ID of the default pool.
 - **--reset-default-pool**: Reset default pool.
-- **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers in the network family.
-- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers in the network family.
+- **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers that are in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers that are in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -6261,7 +6261,7 @@ ibmcloud is instance-console INSTANCE [--vnc] [-q, --quiet]
 Create a virtual server instance.
 
 ```
-ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-create INSTANCE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--threads-per-core 1 | 2] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6352,6 +6352,10 @@ Create an instance with specific volume bandwidth QoS mode.
 Create an instance with shared core.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --availability-class spot --preemption-policy stop`
 Create an instance with spot.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 hx4da-8x32 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --threads-per-core 1`
+Create an instance with threads per core.
+- `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 hx4da-8x32 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --threads-per-core 2`
+Create an instance with threads per core.
 - `ibmcloud is instance-create my-instance-name my-vpc us-south-1 bx2-2x8 my-subnet --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "capacity": 150, "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
 Create an instance from a snapshot with boot volume capacity. The capacity value can range from snapshot's minimum capacity to 250.
 - `ibmcloud is instance-create my-instance-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"id": "150847e3-ef0d-4927-9341-6d0a7bae424f"}}}'`
@@ -6424,6 +6428,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
 - **--preemption-policy**: The action to perform if the virtual server instance is preempted. One of: **delete**, **stop**.
+- **--threads-per-core**: The threads per core for this virtual server instance. If unspecified, the profile default is used. One of: **1**, **2**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -6436,7 +6441,7 @@ Create an instance with allowed use in boot-volume and volume-attachment.
 Create a virtual server instance from instance template.
 
 ```
-ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--output JSON] [-q, --quiet]
+ibmcloud is instance-create-from-template --template TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name Name] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--threads-per-core 1 | 2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6544,6 +6549,7 @@ Create an instance from an instance template with shared core.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
 - **--preemption-policy**: The action to perform if the virtual server instance is preempted. One of: **delete**, **stop**.
+- **--threads-per-core**: The threads per core for this virtual server instance. If unspecified, the profile default is used. One of: **1**, **2**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -6970,7 +6976,7 @@ ibmcloud is instance-stop INSTANCE [--no-wait] [-f, --force] [--output JSON] [-q
 Update a virtual server instance.
 
 ```
-ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--metadata-service, --ms true | false] [--metadata-service-protocol, --msp http | https] [--metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--output JSON] [-q, --quiet]
+ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--metadata-service, --ms true | false] [--metadata-service-protocol, --msp http | https] [--metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--threads-per-core 1 | 2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -6988,6 +6994,8 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - `ibmcloud is instance-update my-instance --reservation-affinity-policy manual --reservation-affinity-pool crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b`
 - `ibmcloud is instance-update my-instance --reservation-affinity-policy manual --reservation-affinity-pool r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
 - `ibmcloud is instance-update my-instance --availability-class spot --preemption-policy stop`
+- `ibmcloud is instance-update my-instance --threads-per-core 1`
+- `ibmcloud is instance-update my-instance --threads-per-core 2`
 
 #### Command options
 {: #command-options-instance-update}
@@ -7010,6 +7018,7 @@ ibmcloud is instance-update INSTANCE [--name NEW_NAME] [--profile PROFILE] [--to
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
 - **--preemption-policy**: The action to perform if the virtual server instance is preempted. One of: **delete**, **stop**.
+- **--threads-per-core**: The threads per core for this virtual server instance. If unspecified, the profile default is used. One of: **1**, **2**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -7390,6 +7399,69 @@ ibmcloud is instance-cluster-network-attachment-delete INSTANCE (CNAC1 CNAC2 ...
 - **CNAC1**: ID or name of the cluster network attachment.
 - **CNAC2**: ID or name of the cluster network attachment.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-software-attachments
+{: #instance-software-attachments-list}
+
+List all software attachments of an instance.
+
+```
+ibmcloud is instance-software-attachments INSTANCE [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-software-attachments}
+
+- **INSTANCE**: ID or name of the instance.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-software-attachment
+{: #instance-software-attachment-view}
+
+View details of a software attachment of an instance.
+
+```
+ibmcloud is instance-software-attachment INSTANCE SWAC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-instance-software-attachment}
+
+- **INSTANCE**: ID or name of the instance.
+- **SWAC**: ID or name of the software attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-software-attachment-update
+{: #instance-software-attachment-update}
+
+Update a software attachment of an instance.
+
+```
+ibmcloud is instance-software-attachment-update INSTANCE SWAC --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-software-attachment-update}
+
+- `ibmcloud is instance-software-attachment-update cli-instance-1 empty-ribcage-jiffy-stitch --name cli-instance-swac`
+- `ibmcloud is ins-swacu 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 02h7-a5c765f9-ebcd-41a0-89df-c6512d7f0147 --name ins-sw-attch-1`
+
+#### Command options
+{: #command-options-instance-software-attachment-update}
+
+- **INSTANCE**: ID or name of the instance.
+- **SWAC**: ID or name of the software attachment.
+- **--name**: New name of the software attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
@@ -9535,7 +9607,7 @@ ibmcloud is instance-template TEMPLATE [--output JSON] [-q, --quiet]
 Create an instance template.
 
 ```
-ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--output JSON] [-i, --interactive] [-q, --quiet]
+ibmcloud is instance-template-create INSTANCE_TEMPLATE_NAME VPC ZONE_NAME PROFILE_NAME SUBNET (--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]) (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | (--pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | [([--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE] [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--threads-per-core 1 | 2] [--output JSON] [-i, --interactive] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9624,6 +9696,10 @@ Create an instance with specific volume bandwidth QoS mode.
 Create an instance template with shared core.
 - `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 bx2-2x8 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --availability-class spot --preemption-policy stop`
 Create an instance template with spot.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 hx4da-8x32 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --threads-per-core 1`
+Create an instance template with threads per core.
+- `ibmcloud is instance-template-create my-template-name 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 us-south-1 hx4da-8x32 72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --image r123-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8 --threads-per-core 2`
+Create an instance template with threads per core.
 
 #### Command options
 {: #command-options-instance-template-create}
@@ -9682,6 +9758,7 @@ Create an instance template with spot.
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
 - **--preemption-policy**: The action to perform if the virtual server instance is preempted. One of: **delete**, **stop**.
+- **--threads-per-core**: The threads per core for this virtual server instance. If unspecified, the profile default is used. One of: **1**, **2**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--interactive, -i**:
 - **-q, --quiet**: Suppress verbose output.
@@ -9694,7 +9771,7 @@ Create an instance template with spot.
 Create an instance template by overriding a source template.
 
 ```
-ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--output JSON] [-q, --quiet]
+ibmcloud is instance-template-create-override-source-template --source-template SOURCE_TEMPLATE (([--pnac-name PRIMARY_NAC_NAME] [--pnac-vni PNAC_VNI | ((--pnac-vni-subnet PNAC_VNI_SUBNET [--vpc VPC]) --pnac-vni-ais false | true --pnac-vni-ein true | false --pnac-vni-auto-delete true | false --pnac-vni-ips VNI_RESERVED_IPS_JSON | @VNI_RESERVED_IPS_JSON_FILE --pnac-vni-name PNAC_VNI_NAME [--pnac-vni-rip PNAC_VNI_RIP | (--pnac-vni-rip-address PNAC_VNI_RIP_ADDRESS --pnac-vni-rip-auto-delete true | false --pnac-vni-rip-name PNAC_VNI_RIP_NAME)] --pnac-vni-sgs PNAC_VNI_SGS [--pnac-vni-psfm auto | enabled | disabled])] [--network-attachments NETWORK_ATTACHMENTS_JSON | @NETWORK_ATTACHMENTS_JSON_FILE]) | (--subnet SUBNET [--rip RIP | (--address ADDRESS --auto-delete true | false --ip-name IP_NAME)] [--allow-ip-spoofing false | true]) | --primary-network-interface PRIMARY_NETWORK_INTERFACE_JSON | @PRIMARY_NETWORK_INTERFACE_JSON_FILE [--network-interface NETWORK_INTERFACE_JSON | @NETWORK_INTERFACE_JSON_FILE]) [--name NAME] [--profile PROFILE] [--zone ZONE] [--vpc VPC] [--image IMAGE | (--catalog-offering CATALOG_OFFERING | --catalog-offering-version CATALOG_OFFERING_VERSION) [--catalog-offering-plan CATALOG_OFFERING_PLAN]] [--total-volume-bandwidth TOTAL_VOLUME_BANDWIDTH] [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] [--volume-attach VOLUME_ATTACH_JSON | @VOLUME_ATTACH_JSON_FILE] [--keys KEYS] [--dedicated-host DEDICATED_HOST | --dedicated-host-group DEDICATED_HOST_GROUP | --placement-group PLACEMENT_GROUP] [--reservation-affinity-policy, --res-policy disabled | manual | automatic] [--reservation-affinity-pool, --res-pool RESERVATION_AFFINITY_POOL] [--user-data DATA] [--sgs SGS] [--metadata-service, --ms true | false [--metadata-service-protocol, --msp http | https | --metadata-service-response-hop-limit, --msrhl METADATA_SERVICE_RESPONSE_HOP_LIMIT,MSRHL]] [--host-failure-policy restart | stop] [--confidential-compute-mode disabled | sgx | tdx] [--enable-secure-boot true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [[--cluster-network-attachments CLUSTER_NETWORK_ATTACHMENTS_JSON | @CLUSTER_NETWORK_ATTACHMENTS_JSON_FILE]] [--volume-bandwidth-qos-mode pooled | weighted] [--vcpu-percentage VCPU_PERCENTAGE] [--availability-class spot | standard] [--preemption-policy delete | stop] [--threads-per-core 1 | 2] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -9782,6 +9859,7 @@ Create an instance template by overriding a source template with availability cl
 - **--vcpu-percentage**: The percentage of vCPU clock cycles to allocate to the instance. Range 1-100.
 - **--availability-class**: The availability class for the virtual server instance. One of: **spot**, **standard**.
 - **--preemption-policy**: The action to perform if the virtual server instance is preempted. One of: **delete**, **stop**.
+- **--threads-per-core**: The threads per core for this virtual server instance. If unspecified, the profile default is used. One of: **1**, **2**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
