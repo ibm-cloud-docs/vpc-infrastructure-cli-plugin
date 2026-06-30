@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-06-19"
+lastupdated: "2026-06-30"
 
 ---
 
@@ -13,6 +13,18 @@ lastupdated: "2026-06-19"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.11.0
+{: #v16.11.0}
+Version 16.11.0 was released on 2026-06-25.
+
+### New commands
+
+* `instance-software-attachments`, `instance-software-attachment`, and `instance-software-attachment-update` commands are introduced.
+
+### Updated commands
+
+* `--threads-per-core` flag is introduced in the `instance-create`, `instance-create-from-template`, `instance-update`, `instance-template-create`, and `instance-template-create-override-source-template` commands.
 
 ## v16.10.0
 {: #v16.10.0}
