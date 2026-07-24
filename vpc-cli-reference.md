@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-06-30"
+lastupdated: "2026-07-24"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -19,9 +19,10 @@ Use the following information as a reference for the command-line interface (CLI
 {: shortdesc}
 
 This CLI reference is organized into the following sections:
+
 * [Network commands](#network)
 * [Compute commands](#compute-clis)
-* [Regions and zones commands](#geography)
+* [Region and zone commands](#geography)
 * [Storage commands](#storage)
 
 ## Prerequisites
@@ -393,7 +394,7 @@ Create a load balancer with route mode enabled
 - `ibmcloud is load-balancer-create my-lb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --family network`
 Create a Private Path network load balancer.
 - `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f478"}}]}]'`
-Create a Private Path network load balancer with the application load balancer ID as the pool member target.
+Create a private path network load balancer with the application load balancer ID as the pool member target.
 - `ibmcloud is load-balancer-create my-nlb private-path --subnet 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --subnet 7ec86020-1c6e-4889-b3f0-a15f2e50f87e --family network --pools '[{"algorithm":"round_robin","protocol":"tcp","health_monitor":{"delay":2,"max_retries":2,"type":"tcp","timeout":1},"members":[{"port":8080,"target":{"id":"72251a2e-d6c5-42b4-97b0-b5f8e8d1f474"}}]}]'`
 Create a private path network load balancer with the reserved IP ID as the pool member target.
 - `ibmcloud is load-balancer-create my-lb public --subnet cli-subnet-1 --family network --route-mode true --dns-instance-crn crn:v1:staging:public:dns-svcs:global:a/efe5afc483594adaa8325e2b4d1290df:1bbaacf9-7bc7-4d64-a1d8-a8d1ca9e7662:: --dns-zone-id 5cca0d1c-9c85-4a18-bc07-a9f070949698`
@@ -895,7 +896,7 @@ The range of ports that are used by this listener.
 - **--default-pool**: ID of the default pool.
 - **--reset-default-pool**: Reset default pool.
 - **--connection-limit**: The maximum number of connections of the listener. This option is not applicable for the load balancers that are in the network family.
-- **--certificate-instance-crn**: The certificate instance CRN used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers that are in the network family.
+- **--certificate-instance-crn**: The certificate instance CRN that is used for SSL termination. Required when protocol is **https**. This option is not applicable for the load balancers that are in the network family.
 - **--accept-proxy-protocol**: If set to true, proxy protocol is enabled for this listener. Only supported for application load balancers. One of: **false**, **true**.
 - **--disable-http-redirect**: Enable or disable an HTTP redirect on a listener.
 - **--http-redirect-listener-id**: ID of the listener that is set as the HTTP redirect target.
@@ -6925,6 +6926,42 @@ ibmcloud is instance-reboot INSTANCE [--no-wait] [-f, --force] [--output JSON] [
 - **--no-wait**: Execute the action immediately and drop all queued actions.
 - **--force, -f**: Force the operation without confirmation.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is instance-reinitialize
+{: #instance-reinitialize-view}
+
+Reinitialize a virtual server instance.
+
+```
+ibmcloud is instance-reinitialize INSTANCE (--image IMAGE [--boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE] | --boot-volume BOOT_VOLUME_JSON | @BOOT_VOLUME_JSON_FILE) [--keys KEYS] [--default-trusted-profile DEFAULT_TRUSTED_PROFILE [--default-trusted-profile-auto-link true,false]] [--user-data DATA] [-f, --force] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-instance-reinitialize}
+
+- `ibmcloud is instance-reinitialize 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --image r006-ed3f775f-ad7e-4e37-ae62-7199b4988b00 --keys r006-02a07b78-6e5f-40a2-86a2-99e01916128c`
+Reinitialize an instance from an image with an SSH key.
+- `ibmcloud is instance-reinitialize 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --image r006-ed3f775f-ad7e-4e37-ae62-7199b4988b00 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "my-boot-vol", "capacity": 150, "profile": {"name": "general-purpose"}}}'`
+Reinitialize an instance from an image with a custom boot volume configuration.
+- `ibmcloud is instance-reinitialize 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}'`
+Reinitialize an instance from an existing boot volume.
+- `ibmcloud is instance-reinitialize my-instance --boot-volume '{"name": "boot-vol-attachment-name", "volume": {"name": "boot-vol-name", "profile": {"name": "general-purpose"}, "source_snapshot": {"name": "my-snapshot"}}}' --keys my-key-1,my-key-2`
+Reinitialize an instance from a snapshot with an SSH key by using resource name.
+
+#### Command options
+{: #command-options-instance-reinitialize}
+
+- **INSTANCE**: ID or name of the instance.
+- **--image**: ID or name of the image.
+- **--boot-volume**: BOOT_VOLUME_JSON|@BOOT_VOLUME_JSON_FILE, boot volume attachment in JSON or JSON file. For the data schema, see the **boot_volume_attachment** property in the [API documentation](/apidocs/vpc#create-instance).
+- **--keys**: Comma-separated IDs or names of SSH keys. SSH keys can be either RSA or Ed25519. Ed25519 can be used if only the operating system supports this key type. Ed25519 can't be used with Windows or VMware images.
+- **--default-trusted-profile**: ID or name of the trusted profile.
+- **--default-trusted-profile-auto-link**: If set to true, the system creates a link to the specified target trusted profile during instance creation. Regardless of whether a link is created by the system or manually by using the IAM Identity service, it automatically deletes when the instance is deleted. One of: **true,false**. (default: **true**).
+- **--user-data**: data|@data-file. User data to transfer to the virtual server instance.
+- **--force, -f**: Force the operation without confirmation.
 - **-q, --quiet**: Suppress verbose output.
 
 ---

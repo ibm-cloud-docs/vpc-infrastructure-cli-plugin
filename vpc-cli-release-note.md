@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-06-30"
+lastupdated: "2026-07-24"
 
 ---
 
@@ -14,8 +14,22 @@ lastupdated: "2026-06-30"
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
 
+## v16.12.0
+{: #v16.12.0}
+
+Version 16.12.0 was released on 2026-07-23.
+
+### New command
+
+* `instance-reinitialize` command was introduced to reinitialize an existing instance.
+
+### Updated commands
+
+* N/A
+
 ## v16.11.0
 {: #v16.11.0}
+
 Version 16.11.0 was released on 2026-06-25.
 
 ### New commands
@@ -28,6 +42,7 @@ Version 16.11.0 was released on 2026-06-25.
 
 ## v16.10.0
 {: #v16.10.0}
+
 Version 16.10.0 was released on 2026-06-18.
 
 ### New commands
@@ -43,6 +58,7 @@ Version 16.10.0 was released on 2026-06-18.
 
 ## v16.9.0
 {: #v16.9.0}
+
 Version 16.9.0 was released on 2026-06-11.
 
 ### New commands
@@ -59,6 +75,7 @@ Version 16.9.0 was released on 2026-06-11.
 
 ## v16.8.0
 {: #v16.8.0}
+
 Version 16.8.0 was released on 2026-06-05.
 
 ### New commands
@@ -76,6 +93,7 @@ Version 16.8.0 was released on 2026-06-05.
 
 ## v16.7.0
 {: #v16.7.0}
+
 Version 16.7.0 was released on 2026-05-28.
 
 ### New commands
@@ -92,6 +110,7 @@ Version 16.7.0 was released on 2026-05-28.
 
 ## v16.6.2
 {: #v16.6.2}
+
 Version 16.6.2 was released on 2026-05-22.
 
 ### New commands
@@ -108,6 +127,7 @@ Version 16.6.2 was released on 2026-05-22.
 
 ## v16.6.1
 {: #v16.6.1}
+
 Version 16.6.1 was released on 2026-05-15.
 
 ### New commands
@@ -120,6 +140,7 @@ Version 16.6.1 was released on 2026-05-15.
 
 ## v16.6.0
 {: #v16.6.0}
+
 Version 16.6.0 was released on 2026-04-30.
 
 ### New commands
@@ -135,6 +156,7 @@ Version 16.6.0 was released on 2026-04-30.
 
 ## v16.5.0
 {: #v16.5.0}
+
 Version 16.5.0 was released on 2026-03-24.
 
 ### New commands
@@ -148,6 +170,7 @@ Version 16.5.0 was released on 2026-03-24.
 
 ## v16.4.0
 {: #v16.4.0}
+
 Version 16.4.0 was released on 2026-02-11.
 
 ### New commands
@@ -168,6 +191,7 @@ Version 16.4.0 was released on 2026-02-11.
 
 ## v16.3.0
 {: #v16.3.0}
+
 Version 16.3.0 was released on 2026-01-13.
 
 ### New commands
