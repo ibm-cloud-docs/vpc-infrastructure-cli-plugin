@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-07-24"
+lastupdated: "2026-08-13"
 
 ---
 
@@ -13,6 +13,19 @@ lastupdated: "2026-07-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.13.0
+{: #v16.13.0}
+
+Version 16.13.0 was released on 2026-08-06.
+
+### New command
+
+* `bare-metal-server-capacities` command was introduced to list available bare metal server capacities.
+
+### Updated commands
+
+* N/A
 
 ## v16.12.0
 {: #v16.12.0}
