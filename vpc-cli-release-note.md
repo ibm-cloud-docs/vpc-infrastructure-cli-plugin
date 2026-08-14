@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-08-13"
+lastupdated: "2026-08-14"
 
 ---
 
@@ -13,6 +13,19 @@ lastupdated: "2026-08-13"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v16.14.0
+{: #v16.14.0}
+
+Version 16.14.0 was released on 2026-08-12.
+
+### New command
+
+* N/A
+
+### Updated commands
+
+* The `ALGORITHM` positional argument and the `--algorithm` flag now accept the enum value `weighted_forwarding` in the `load-balancer-pool-create` and `load-balancer-pool-update` commands.
 
 ## v16.13.0
 {: #v16.13.0}
