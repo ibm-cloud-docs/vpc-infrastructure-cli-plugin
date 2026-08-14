@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-08-13"
+lastupdated: "2026-08-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -995,13 +995,15 @@ Create an application load balancer pool with health monitor request and respons
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --health-monitor-request-method get --health-monitor-request-headers '[{"field":"Host","value":"my-host-header-value"}]' --health-monitor-response-code 200`
 Create an application load balancer pool with health monitor request and response codes.
 - `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 round_robin http 20 2 5 http --server-auth-verify-cert true --server-auth-ca-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f511 --client-cert-crn crn:v1:bluemix:public:secrets-manager:us-south:a/aa5a471f75bc456fac416bf02c4ba6de:aace9348-39da-4498-b132-e5ab918237f4:secret:e3bd96ce-1e4c-f642-d1f2-0d0ab025f512a`
+- `ibmcloud is load-balancer-pool-create my-pool 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 weighted_forwarding tcp 20 2 5 tcp`
+Create a network load balancer pool with the weighted_forwarding algorithm.
 
 #### Command options
 {: #command-options-load-balancer-pool-create}
 
 - **POOL_NAME**: Name of the pool.
 - **LOAD_BALANCER**: ID or name of the load balancer.
-- **ALGORITHM**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**.
+- **ALGORITHM**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**, **weighted_forwarding**.
 - **PROTOCOL**: The pool protocol. Load balancers in the application family support `tcp`, `http`, and `https`. Load balancers in the network family support `tcp` and `udp`.
 - **HEALTH_DELAY**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **HEALTH_RETRIES**: The health check maximum retries. Minimum: **1**, maximum: **10**.
@@ -1205,13 +1207,14 @@ ibmcloud is load-balancer-pool-members LOAD_BALANCER POOL [--vpc VPC] [--output 
 Update a pool of a load balancer.
 
 ```
-ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--health-monitor-request-method REQUEST_METHOD] [--health-monitor-request-body REQUEST_BODY | --reset-health-monitor-request-body] [--health-monitor-request-headers REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX | --reset-health-monitor-response-body-regex] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [[--server-auth-verify-cert true | false] [--server-auth-ca-crn SERVER_AUTH_CA_CRN] | --reset-server-auth] [--client-auth-cert-crn CLIENT_AUTH_CERT_CRN | --reset-client-auth] [--output JSON] [-q, --quiet]
+ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorithm round_robin | weighted_round_robin | least_connections | weighted_forwarding] [--health-delay DELAY] [--health-max-retries RETRIES] [--health-timeout TIMEOUT] [--health-type https | http | tcp] [--health-monitor-url URL] [--health-monitor-port PORT | --reset-health-monitor-port] [--protocol https | http | tcp | udp] [[--session-persistence-type source_ip | http_cookie | app_cookie | none] | [--session-persistence-cookie-name SESSION_PERSISTENCE_COOKIE_NAME]] [--proxy-protocol disabled | v1 | v2] [--name NEW_NAME] [--failsafe-policy-action fail | forward | drop | bypass] [--failsafe-policy-target FAILSAFE_POLICY_TARGET] [--health-monitor-request-method REQUEST_METHOD] [--health-monitor-request-body REQUEST_BODY | --reset-health-monitor-request-body] [--health-monitor-request-headers REQUEST_HEADERS_JSON|@REQUEST_HEADERS_JSON_FILE] [--health-monitor-response-body-regex RESPONSE_BODY_REGEX | --reset-health-monitor-response-body-regex] [--health-monitor-response-code RESPONSE_CODE1 --health-monitor-response-code RESPONSE_CODE2 ...] [[--server-auth-verify-cert true | false] [--server-auth-ca-crn SERVER_AUTH_CA_CRN] | --reset-server-auth] [--client-auth-cert-crn CLIENT_AUTH_CERT_CRN | --reset-client-auth] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
 {: #command-examples-load-balancer-pool-update}
 
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --algorithm round_robin`
+- `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --algorithm weighted_forwarding`
 - `ibmcloud is load-balancer-pool-update my-lb my-pool --algorithm round_robin`
 - `ibmcloud is load-balancer-pool-update my-lb my-pool --vpc my-vpc --algorithm round_robin`
 - `ibmcloud is load-balancer-pool-update 72251a2e-d6c5-42b4-97b0-b5f8e8d1f479 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --health-delay 20 --health-max-retries 2 --health-timeout 5 --health-type http`
@@ -1234,7 +1237,7 @@ ibmcloud is load-balancer-pool-update LOAD_BALANCER POOL [--vpc VPC] [--algorith
 - **LOAD_BALANCER**: ID or name of the load balancer.
 - **POOL**: ID or name of the pool.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
-- **--algorithm**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**.
+- **--algorithm**: The load balancing algorithm. One of: **round_robin**, **weighted_round_robin**, **least_connections**, **weighted_forwarding**.
 - **--health-delay**: The health check interval in seconds. The interval must be greater than the timeout value. Minimum: **2**, maximum: **60**.
 - **--health-max-retries**: The health check maximum retries. Minimum: **1**, maximum: **10**.
 - **--health-timeout**: The health check timeout in seconds. Minimum: **1**, maximum: **59**.
@@ -8776,7 +8779,7 @@ ibmcloud is bare-metal-server-capacities [--profile PROFILE] [--zone ZONE] [--ou
 #### Command options
 {: #command-options-bare-metal-server-capacities}
 
-- **--profile**: Filters the collection to resources with a profile property matching the specified name.
+- **--profile**: Filters the collection to resources with a profile property that matches the specified name.
 - **--zone**: Filters the collection to resources in the zone with the exact specified name.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
@@ -12339,11 +12342,11 @@ ibmcloud is backup-policy-update POLICY [--match-tags MATCH_TAGS] [--included-co
 - `ibmcloud is backup-policy-update demo-policy-99 --name demo-policy-100`
 - `ibmcloud is backup-policy-update backup-policy-1001 --match-tags demo:cli`
 - `ibmcloud is backup-policy-update demo-policy-99 --included-content data_volumes,boot_volume`
-Update backup-policy of match resource type instance to include both data and boot volumes as backup
+Update the backup-policy of a match resource type instance to include both data and boot volumes as backup.
 - `ibmcloud is backup-policy-update demo-policy-99 --included-content data_volumes`
-Update backup-policy for match resource type instance to include data volumes as backup
+Update the backup-policy for a match resource type instance to include data volumes as backup.
 - `ibmcloud is backup-policy-update demo-policy-99 --included-content boot_volume`
-Update backup-policy for match resource type instance to include boot volume as backup
+Update the backup-policy for a match resource type instance to include boot volume as backup.
 
 #### Command options
 {: #command-options-backup-policy-update}
