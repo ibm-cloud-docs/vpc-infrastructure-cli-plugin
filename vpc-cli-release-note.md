@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-08-14"
+lastupdated: "2026-09-22"
 
 ---
 
@@ -13,6 +13,28 @@ lastupdated: "2026-08-14"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## v17.0.0
+{: #v17.0.0}
+
+Version 17.0.0 was released on 2026-09-09.
+
+### New command
+
+* N/A
+
+### Updated commands
+
+* N/A
+
+### Removed commands
+
+* N/A
+
+### Breaking changes
+
+* In instance-profiles and instance-profile, the Supported vCPU count field was removed from the command output.
+* Improved error handling for unresolvable resource names. Previously, when a resource name can't be resolved to an ID, the CLI forwarded the unresolved name to the API, which resulted in a `404 Not Found` HTTP error. The CLI now locally validates name-to-ID resolution and fails fast with the following client-side error before any API call is made: No resource found with ID or name: `<resource-name>`.
 
 ## v16.14.0
 {: #v16.14.0}

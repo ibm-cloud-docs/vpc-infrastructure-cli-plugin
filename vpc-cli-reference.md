@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-08-14"
+lastupdated: "2026-09-22"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -4418,7 +4418,7 @@ ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT 
 Update a public address range.
 
 ```
-ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--vpc VPC] [--zone ZONE] | --reset-target] [--output JSON] [-q, --quiet]
+ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [--reset-target | [--vpc VPC] [--zone ZONE]] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4432,9 +4432,9 @@ ibmcloud is public-address-range-update PUBLIC_ADDRESS_RANGE [--name NAME] [[--v
 
 - **PUBLIC_ADDRESS_RANGE**: ID or name of the public address range.
 - **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources, and are not allowed.
+- **--reset-target**: Remove target from public address range.
 - **--vpc**: The VPC that you want to bind this public address range to, replacing any existing VPC.
 - **--zone**: The zone that you want this public address range to reside in, replacing any existing zone.
-- **--reset-target**: Remove target from public address range.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
