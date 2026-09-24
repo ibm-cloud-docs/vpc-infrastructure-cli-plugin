@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-09-22"
+lastupdated: "2026-09-24"
 
 ---
 
@@ -13,6 +13,25 @@ lastupdated: "2026-09-22"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## 17.1.0
+{: #v17.1.0}
+
+Version 17.1.0 was released on 2026-09-24.
+
+### New command
+
+* `volume-software-attachments` is introduced to list all volume software attachments.
+* `volume-software-attachment` is introduced to view details of a volume software attachment.
+* `volume-software-attachment-update` is introduced to update a volume software attachment.
+* `snapshot-software-attachments` is introduced to list all snapshot software attachments.
+* `snapshot-software-attachment` is introduced view details of a snapshot software attachment.
+* `snapshot-software-attachment-update` is introduced to update a snapshot software attachment.
+ 
+
+### Updated commands
+
+* N/A
 
 ## v17.0.0
 {: #v17.0.0}
