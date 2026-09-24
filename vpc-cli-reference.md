@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-09-22"
+lastupdated: "2026-09-24"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -19,7 +19,6 @@ Use the following information as a reference for the command-line interface (CLI
 {: shortdesc}
 
 This CLI reference is organized into the following sections:
-
 * [Network commands](#network)
 * [Compute commands](#compute-clis)
 * [Region and zone commands](#geography)
@@ -207,7 +206,7 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 Create a flow log.
 
 ```
-ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrName [--target-type vpc | subnet | instance | nic | vni | nac] [--vpc VPC] [--in IN] [--name NAME] [--active TRUE | FALSE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrName [--target-type vpc | subnet | instance | nic | vni | nac] [--vpc VPC] [--in IN] [--name NAME] [--active true | false] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -242,7 +241,7 @@ ibmcloud is flow-log-create --bucket STORAGE_BUCKET_NAME --target TARGET_IDOrNam
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--in**: ID or name of the INSTANCE. It is required only to specify the unique resource by name inside this INSTANCE.
 - **--name**: New name for the flow log.
-- **--active**: Indicates whether this collector is active. One of: **TRUE**, **FALSE**.
+- **--active**: Indicates whether this collector is active. One of: **true**, **false**.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -277,7 +276,7 @@ ibmcloud is flow-log-delete (FLOW_LOG1 FLOW_LOG2 ...) [--vpc VPC] [--output JSON
 Update a flow log.
 
 ```
-ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [--output JSON] [-q, --quiet]
+ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active true | false] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -295,7 +294,7 @@ ibmcloud is flow-log-update FLOW_LOG [--name NEW_NAME] [--active TRUE | FALSE] [
 
 - **FLOW_LOG**: ID or name of the flow log.
 - **--name**: New name of the flow log.
-- **--active**: Indicates whether this collector is active. Updating to false deactivates the collector and updating to true activates the collector. One of: **TRUE**, **FALSE**.
+- **--active**: Indicates whether this collector is active. Updating to false deactivates the collector and updating to true activates the collector. One of: **true**, **false**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -10912,6 +10911,69 @@ ibmcloud is volume-update VOLUME [--name NAME | --capacity CAPACITY | --profile 
 
 ---
 
+### ibmcloud is volume-software-attachments
+{: #volume-software-attachments-list}
+
+List all software attachments of a volume.
+
+```
+ibmcloud is volume-software-attachments VOLUME [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-volume-software-attachments}
+
+- **VOLUME**: ID or name of the volume.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-software-attachment
+{: #volume-software-attachment-view}
+
+View details of a volume software attachment.
+
+```
+ibmcloud is volume-software-attachment VOLUME SWAC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-volume-software-attachment}
+
+- **VOLUME**: ID or name of the volume.
+- **SWAC**: ID or name of the software attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is volume-software-attachment-update
+{: #volume-software-attachment-update}
+
+Update a software attachment of a volume.
+
+```
+ibmcloud is volume-software-attachment-update VOLUME SWAC --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-volume-software-attachment-update}
+
+- `ibmcloud is volume-software-attachment-update cli-volume-1 empty-ribcage-jiffy-stitch --name cli-volume-swac`
+- `ibmcloud is vol-swacu 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 02h7-a5c765f9-ebcd-41a0-89df-c6512d7f0147 --name vol-sw-attch-1`
+
+#### Command options
+{: #command-options-volume-software-attachment-update}
+
+- **VOLUME**: ID or name of the volume.
+- **SWAC**: ID or name of the software attachment.
+- **--name**: New name of the software attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
 ### ibmcloud is volume-instance-profiles
 {: #volume-instance-profiles-list}
 
@@ -11553,6 +11615,69 @@ ibmcloud is snapshot-consistency-group-delete (SNAPSHOT_CONSISTENCY_GROUP1 SNAPS
 - **SNAPSHOT_CONSISTENCY_GROUP2**: ID or name of the snapshot consistency group.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **--force, -f**: Force the operation without confirmation.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-software-attachments
+{: #snapshot-software-attachments-list}
+
+List all software attachments of a snapshot.
+
+```
+ibmcloud is snapshot-software-attachments SNAPSHOT [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-snapshot-software-attachments}
+
+- **SNAPSHOT**: ID or name of the snapshot.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-software-attachment
+{: #snapshot-software-attachment-view}
+
+View details of a snapshot software attachment.
+
+```
+ibmcloud is snapshot-software-attachment SNAPSHOT SWAC [--output JSON] [-q, --quiet]
+```
+
+#### Command options
+{: #command-options-snapshot-software-attachment}
+
+- **SNAPSHOT**: ID or name of the snapshot.
+- **SWAC**: ID or name of the software attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is snapshot-software-attachment-update
+{: #snapshot-software-attachment-update}
+
+Update a software attachment of a snapshot.
+
+```
+ibmcloud is snapshot-software-attachment-update SNAPSHOT SWAC --name NEW_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-snapshot-software-attachment-update}
+
+- `ibmcloud is snapshot-software-attachment-update cli-snapshot-1 empty-ribcage-jiffy-stitch --name cli-snapshot-swac`
+- `ibmcloud is snapshot-swacu 02h7_ef1b0428-f138-4d5e-a8e2-e9f35e397cf8 02h7-a5c765f9-ebcd-41a0-89df-c6512d7f0147 --name snapshot-sw-attch-1`
+
+#### Command options
+{: #command-options-snapshot-software-attachment-update}
+
+- **SNAPSHOT**: ID or name of the snapshot.
+- **SWAC**: ID or name of the software attachment.
+- **--name**: New name of the software attachment.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
 ---
