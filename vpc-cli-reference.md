@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-09-24"
+lastupdated: "2026-09-29"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -104,7 +104,7 @@ ibmcloud is floating-ip-release (FLOATING_IP1 FLOATING_IP2 ...) [--output JSON] 
 Reserve a floating IP.
 
 ```
-ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI | --reset-target) [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGET_INTERFACE [--in TARGET_INSTANCE | --bm TARGET_BARE_METAL_SERVER] | --vni VNI | --reset-target) [--address ADDRESS] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -117,6 +117,7 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 - `ibmcloud is floating-ip-reserve my-ip --nic 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3 --output JSON`
 - `ibmcloud is floating-ip-reserve cli-vni-ip --vni vni2`
 - `ibmcloud is floating-ip-reserve cli-vni-ip-1 --vni 7308-b81c1e13-b3a2-455c-814a-213bc9de4a90`
+- `ibmcloud is floating-ip-reserve my-ip --address 10.0.0.5 --zone us-south-2`
 
 #### Command options
 {: #command-options-floating-ip-reserve}
@@ -128,6 +129,7 @@ ibmcloud is floating-ip-reserve FLOATING_IP_NAME (--zone ZONE_NAME | --nic TARGE
 - **--bm**: The ID or name of the bare metal server to be bound, this ID is only required if you use the network interface name instead of ID.
 - **--vni**: ID or name of the virtual network interface.
 - **--reset-target**: Resets the target from the floating IP.
+- **--address**: The IPv4 address for this floating IP. Required if neither target nor zone is specified. Must be an unallocated address in a public address range authorized CIDR.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
@@ -177,7 +179,7 @@ ibmcloud is floating-ip-update FLOATING_IP [--name NEW_NAME] [--nic TARGET_INTER
 List all floating IPs.
 
 ```
-ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is floating-ips [--profile-name PROFILE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -185,13 +187,62 @@ ibmcloud is floating-ips [--resource-group-id RESOURCE_GROUP_ID | --resource-gro
 
 - `ibmcloud is floating-ips --output JSON`
 - `ibmcloud is floating-ips --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
+- `ibmcloud is floating-ips --profile-name byoip-ipv4`
 
 #### Command options
 {: #command-options-floating-ips}
 
+- **--profile-name**: Filter by floating IP profile name.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is floating-ip-profile
+{: #floating-ip-profile-view}
+
+View details of a floating IP profile.
+
+```
+ibmcloud is floating-ip-profile PROFILE_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-floating-ip-profile}
+
+- `ibmcloud is floating-ip-profile floating-ip-user-ipv4`
+- `ibmcloud is floating-ip-profile floating-ip-user-ipv4 --output JSON`
+
+#### Command options
+{: #command-options-floating-ip-profile}
+
+- **PROFILE_NAME**: Name of the floating IP profile.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is floating-ip-profiles
+{: #floating-ip-profiles-list}
+
+List all floating IP profiles.
+
+```
+ibmcloud is floating-ip-profiles [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-floating-ip-profiles}
+
+- `ibmcloud is floating-ip-profiles`
+- `ibmcloud is floating-ip-profiles --output JSON`
+
+#### Command options
+{: #command-options-floating-ip-profiles}
+
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -4338,7 +4389,7 @@ Revoke access to a Private Path service gateway for an account by using its gate
 List all public address ranges.
 
 ```
-ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
+ibmcloud is public-address-ranges [--profile-name PROFILE_NAME] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME | --all-resource-groups] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4346,10 +4397,12 @@ ibmcloud is public-address-ranges [--resource-group-id RESOURCE_GROUP_ID | --res
 
 - `ibmcloud is public-address-ranges`
 - `ibmcloud is public-address-ranges --resource-group-id fee82deba12e4c0fb69c3b09d1f12345`
+- `ibmcloud is public-address-ranges --profile-name provider-ipv4`
 
 #### Command options
 {: #command-options-public-address-ranges}
 
+- **--profile-name**: Filter by public address range profile name.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
 - **--all-resource-groups**: Query all resource groups.
@@ -4388,7 +4441,7 @@ ibmcloud is public-address-range PUBLIC_ADDRESS_RANGE [--output JSON] [-q, --qui
 Create a public address range.
 
 ```
-ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is public-address-range-create (--ipv4-address-count IPV4_ADDRESS_COUNT | --cidr CIDR) [--name NAME] [--vpc VPC --zone ZONE] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -4396,11 +4449,14 @@ ibmcloud is public-address-range-create --ipv4-address-count IPV4_ADDRESS_COUNT 
 
 - `ibmcloud is public-address-range-create --name public-address-range-1 --ipv4-address-count 8 --vpc cli-test-vpc --zone us-south-1 --resource-group-id 72b27b5c-f4b0-48bb-b954-5becc7c1dcb3`
 - `ibmcloud is public-address-range-create --name public-address-range-2 --ipv4-address-count 4 --resource-group-name Default`
+- `ibmcloud is public-address-range-create --name public-address-range-3 --cidr 10.0.0.0/24 --vpc cli-test-vpc --zone us-south-1 --resource-group-name Default`
+- `ibmcloud is public-address-range-create --name public-address-range-4 --cidr 10.0.1.0/24 --resource-group-name Default --output JSON`
 
 #### Command options
 {: #command-options-public-address-range-create}
 
 - **--ipv4-address-count**: The total number of public IPv4 addresses that are required. Must be a power of 2.
+- **--cidr**: The public IPv4 range for this public address range, expressed in CIDR format.
 - **--name**: The name for this public address range. The name must not be used by another public address range in the region. Names that begin with ibm- are reserved for provider-managed resources, and are not allowed.
 - **--vpc**: The VPC that you want to bind this public address range to. While specifying  flag, --zone flag is required.
 - **--zone**: The zone that you want this public address range to reside in. While specifying flag, --vpc flag is required.
@@ -4459,6 +4515,154 @@ ibmcloud is public-address-range-delete (PUBLIC_ADDRESS_RANGE1 PUBLIC_ADDRESS_RA
 - **PUBLIC_ADDRESS_RANGE1**: ID or name of the public address range.
 - **PUBLIC_ADDRESS_RANGE2**: ID or name of the public address range.
 - **--force, -f**: Force the operation without confirmation.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-profiles
+{: #public-address-range-profiles-list}
+
+List all public address range profiles.
+
+```
+ibmcloud is public-address-range-profiles [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-profiles}
+
+- `ibmcloud is public-address-range-profiles`
+- `ibmcloud is public-address-range-profiles --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-profiles}
+
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-profile
+{: #public-address-range-profile-view}
+
+View details of a public address range profile.
+
+```
+ibmcloud is public-address-range-profile PROFILE_NAME [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-profile}
+
+- `ibmcloud is public-address-range-profile public-address-range-user-ipv4`
+- `ibmcloud is public-address-range-profile public-address-range-user-ipv4 --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-profile}
+
+- **PROFILE_NAME**: Name of the public address range profile.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-authorized-cidrs
+{: #public-address-range-authorized-cidrs-list}
+
+List all public address range authorized CIDRs.
+
+```
+ibmcloud is public-address-range-authorized-cidrs [--allocated-profile-family provider | user] [--availability-mode regional | zonal] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-authorized-cidrs}
+
+- `ibmcloud is public-address-range-authorized-cidrs`
+- `ibmcloud is public-address-range-authorized-cidrs --allocated-profile-family provider`
+- `ibmcloud is public-address-range-authorized-cidrs --availability-mode regional --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-authorized-cidrs}
+
+- **--allocated-profile-family**: Filters the collection to resources with an allocation.profile_family property matching the exact specified value. One of: **provider**, **user**.
+- **--availability-mode**: Filters the collection to resources with an availability_mode property matching the exact specified value. One of: **regional**, **zonal**.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-authorized-cidr
+{: #public-address-range-authorized-cidr-view}
+
+View details of a public address range authorized CIDR.
+
+```
+ibmcloud is public-address-range-authorized-cidr AUTHORIZED_CIDR [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-authorized-cidr}
+
+- `ibmcloud is public-address-range-authorized-cidr r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is public-address-range-authorized-cidr my-authorized-cidr-name --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-authorized-cidr}
+
+- **AUTHORIZED_CIDR**: ID or name of the public address range authorized CIDR.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-authorized-cidr-allocations
+{: #public-address-range-authorized-cidr-allocations-list}
+
+List all allocations for a public address range authorized CIDR.
+
+```
+ibmcloud is public-address-range-authorized-cidr-allocations AUTHORIZED_CIDR [--allocations-resource-type ALLOCATIONS_RESOURCE_TYPE] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-authorized-cidr-allocations}
+
+- `ibmcloud is public-address-range-authorized-cidr-allocations r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2`
+- `ibmcloud is public-address-range-authorized-cidr-allocations my-authorized-cidr-name --allocations-resource-type floating_ip`
+- `ibmcloud is public-address-range-authorized-cidr-allocations r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-authorized-cidr-allocations}
+
+- **AUTHORIZED_CIDR**: ID or name of the public address range authorized CIDR.
+- **--allocations-resource-type**: Filters the collection to resources with an item in the allocations property with a resource_type property matching the specified value.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is public-address-range-authorized-cidr-allocation
+{: #public-address-range-authorized-cidr-allocation-view}
+
+View details of a public address range authorized CIDR allocation.
+
+```
+ibmcloud is public-address-range-authorized-cidr-allocation AUTHORIZED_CIDR --allocation ALLOCATION [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-public-address-range-authorized-cidr-allocation}
+
+- `ibmcloud is public-address-range-authorized-cidr-allocation r006-81222eee-b3e0-4dc3-b429-aee9e5c0abf2 --allocation r006-allocation-id`
+- `ibmcloud is public-address-range-authorized-cidr-allocation my-authorized-cidr-name --allocation r006-allocation-id --output JSON`
+
+#### Command options
+{: #command-options-public-address-range-authorized-cidr-allocation}
+
+- **AUTHORIZED_CIDR**: ID or name of the public address range authorized CIDR.
+- **--allocation**: ID of the allocation.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
