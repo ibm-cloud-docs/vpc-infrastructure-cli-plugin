@@ -2,7 +2,7 @@
 
 copyright:
   years: 2020, 2026
-lastupdated: "2026-09-24"
+lastupdated: "2026-10-09"
 
 ---
 
@@ -13,6 +13,21 @@ lastupdated: "2026-09-24"
 
 The following release notes are for the {{site.data.keyword.vpc_full}} (VPC) command line interface (CLI).
 {: shortdesc}
+
+## 17.2.0
+{: #v17.2.0}
+
+Version 17.2.0 was released on 2026-10-07.
+
+### New commands
+
+* `vpn-gateway-members` is introduced to list all members of a VPN gateway.
+* `vpn-gateway-member` is introduced to retrieve a VPN gateway member.
+* `vpn-gateway-member-replace` is introduced to replace a VPN gateway member.
+
+### Updated commands
+
+* `--members-private-ip-subnet` and `--availability-mode` flags are introduced in the `vpn-gateway-create` command.
 
 ## 17.1.0
 {: #v17.1.0}
