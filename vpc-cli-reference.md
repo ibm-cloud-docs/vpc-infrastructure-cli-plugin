@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-09-30"
+lastupdated: "2026-10-09"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -5068,7 +5068,7 @@ ibmcloud is vpn-gateway-connections VPN_GATEWAY [--vpc VPC] [--output JSON] [-q,
 Create a VPN gateway.
 
 ```
-ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route [--advertised-cidrs ADVERTISED_CIDRS1 --advertised-cidrs ADVERTISED_CIDRS2 ...] [--local-asn ASN]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--output JSON] [-q, --quiet]
+ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME (SUBNET | --members-private-ip-subnet SUBNET1,SUBNET2) [--mode policy | route [--advertised-cidrs ADVERTISED_CIDRS1 --advertised-cidrs ADVERTISED_CIDRS2 ...] [--local-asn ASN]] [--resource-group-id RESOURCE_GROUP_ID | --resource-group-name RESOURCE_GROUP_NAME] [--availability-mode zonal | regional] [--output JSON] [-q, --quiet]
 ```
 
 #### Command examples
@@ -5082,17 +5082,22 @@ ibmcloud is vpn-gateway-create VPN_GATEWAY_NAME SUBNET [--mode policy | route [-
 - `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --resource-group-id fee82deba12e4c0fb69c3b09d1f12345 --output JSON`
 - `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --advertised-cidrs 10.45.0.0/24`
 - `ibmcloud is vpn-gateway-create my-vpn-gateway fee82deba12e4c0fb69c3b09d1f12345 --mode route --local-asn 64520`
+- `ibmcloud is vpn-gateway-create my-vpn-gateway --members-private-ip-subnet 0726-590650df-f29d-42bf-b35c-6cd4bbf8ed46,0726-590650df-f29d-42bf-b35c-6cd4bbf8ed48 --availability-mode regional --mode route`
+- `ibmcloud is vpn-gateway-create my-vpn-gateway --members-private-ip-subnet 0726-590650df-f29d-42bf-b35c-6cd4bbf8ed46,0726-590650df-f29d-42bf-b35c-6cd4bbf8ed46 --availability-mode zonal --mode policy`
+- `ibmcloud is vpn-gateway-create my-vpn-gateway --members-private-ip-subnet my-subnet,my-subnet --availability-mode zonal --mode route --vpc my-vpc`
 
 #### Command options
 {: #command-options-vpn-gateway-create}
 
 - **VPN_GATEWAY_NAME**: Name of the VPN gateway.
 - **SUBNET**: ID or name of the subnet.
+- **--members-private-ip-subnet**: The list of subnet IDs for the VPN gateway members. You must provide 2 subnet IDs as a comma-separated list. Zonal: Only the same subnet members are supported. Regional: Subnets can be in the same zone or in different zones.
 - **--mode**: The mode of the VPN gateway, if not specified the default mode of the VPN gateway is policy. One of: **policy**, **route**.
 - **--advertised-cidrs**: The IP address range in CIDR block notation.
 - **--local-asn**: The local autonomous system number (ASN) for this VPN gateway and its connections.
 - **--resource-group-id**: ID of the resource group. This ID is mutually exclusive with **--resource-group-name**.
 - **--resource-group-name**: Name of the resource group. This name is mutually exclusive with **--resource-group-id**.
+- **--availability-mode**: The availability mode of the VPN gateway. One of: **zonal**, **regional**.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
@@ -5264,6 +5269,87 @@ ibmcloud is vpn-gateway-advertised-cidrs VPN_GATEWAY [--vpc VPC] [--output JSON]
 
 #### Command options
 {: #command-options-vpn-gateway-advertised-cidrs}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-member
+{: #vpn-gateway-member-view}
+
+Retrieve a VPN gateway member.
+
+```
+ibmcloud is vpn-gateway-member VPN_GATEWAY --member MEMBER [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-member}
+
+- `ibmcloud is vpn-gateway-member 0726-59be5c84-1dc2-4191-b591-d506514563bf --member 0726-0d642e87-b868-4a22-83f4-a35a19390b5c`
+- `ibmcloud is vpn-gateway-member my-vpn-gateway --member 0726-0d642e87-b868-4a22-83f4-a35a19390b5c --vpc my-vpc`
+- `ibmcloud is vpn-gateway-member 0726-59be5c84-1dc2-4191-b591-d506514563bf --member 0726-0d642e87-b868-4a22-83f4-a35a19390b5c --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-member}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--member**: ID of the VPN gateway member.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-member-replace
+{: #vpn-gateway-member-replace-view}
+
+Replace a VPN gateway member.
+
+```
+ibmcloud is vpn-gateway-member-replace VPN_GATEWAY --member MEMBER --private-ip-subnet SUBNET [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-member-replace}
+
+- `ibmcloud is vpn-gateway-member-replace 0726-59be5c84-1dc2-4191-b591-d506514563bf --member 0726-0d642e87-b868-4a22-83f4-a35a19390b5c --private-ip-subnet 0726-1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p`
+- `ibmcloud is vpn-gateway-member-replace my-vpn-gateway --member 0726-0d642e87-b868-4a22-83f4-a35a19390b5c --private-ip-subnet my-subnet --vpc my-vpc`
+- `ibmcloud is vpn-gateway-member-replace 0726-59be5c84-1dc2-4191-b591-d506514563bf --member 0726-0d642e87-b868-4a22-83f4-a35a19390b5c --private-ip-subnet 0726-1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-member-replace}
+
+- **VPN_GATEWAY**: ID or name of the VPN gateway.
+- **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
+- **--member**: ID of the VPN gateway member.
+- **--private-ip-subnet**: The ID or name of the subnet where the VPN Gateway member is relocated.
+- **--output**: Specify output format, only JSON is supported. One of: **JSON**.
+- **-q, --quiet**: Suppress verbose output.
+
+---
+
+### ibmcloud is vpn-gateway-members
+{: #vpn-gateway-members-list}
+
+List all members of a VPN gateway.
+
+```
+ibmcloud is vpn-gateway-members VPN_GATEWAY [--vpc VPC] [--output JSON] [-q, --quiet]
+```
+
+#### Command examples
+{: #command-examples-vpn-gateway-members}
+
+- `ibmcloud is vpn-gateway-members 0726-59be5c84-1dc2-4191-b591-d506514563bf`
+- `ibmcloud is vpn-gateway-members my-vpn-gateway --vpc my-vpc`
+- `ibmcloud is vpn-gateway-members 0726-59be5c84-1dc2-4191-b591-d506514563bf --output JSON`
+
+#### Command options
+{: #command-options-vpn-gateway-members}
 
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
