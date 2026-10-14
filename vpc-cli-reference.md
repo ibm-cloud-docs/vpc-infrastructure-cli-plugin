@@ -2,7 +2,7 @@
 
 copyright:
   years: 2018, 2026
-lastupdated: "2026-10-09"
+lastupdated: "2026-10-14"
 
 subcollection: vpc-infrastructure-cli-plugin
 
@@ -5326,7 +5326,7 @@ ibmcloud is vpn-gateway-member-replace VPN_GATEWAY --member MEMBER --private-ip-
 - **VPN_GATEWAY**: ID or name of the VPN gateway.
 - **--vpc**: ID or name of the VPC. It is required to specify only the unique resource by name inside this VPC.
 - **--member**: ID of the VPN gateway member.
-- **--private-ip-subnet**: The ID or name of the subnet where the VPN Gateway member is relocated.
+- **--private-ip-subnet**: The ID or name of the subnet where the VPN Gateway member where you want the VPN gateway to be located.
 - **--output**: Specify output format, only JSON is supported. One of: **JSON**.
 - **-q, --quiet**: Suppress verbose output.
 
